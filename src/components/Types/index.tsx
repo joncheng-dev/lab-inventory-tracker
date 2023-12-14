@@ -1,4 +1,4 @@
-import { json } from "react-router-dom";
+import { ReactElement } from "react";
 
 export type eTargetType = {
   email: { value: string };
@@ -53,5 +53,18 @@ export type InventoryEntryProps = {
   checkedOutBy: string | null;
   dateCheckedOut: string | null;
   tags: string[] | null;
-  onClickingDiv: (id: string) => void;
+  whenEntryClicked: (id: string) => void;
+};
+
+// Typing for Inventory Entry Details component
+export type InventoryEntryDetailProps = {
+  entry: InventoryEntry;
+  onClickingCheckoutOrReturn: (id: string, task: string) => void;
+  onClickingEdit: () => void;
+  onClickingDelete: (id: string) => void;
+};
+
+// Typing for Layout component
+export type LayoutProps = {
+  children?: ReactElement;
 };
