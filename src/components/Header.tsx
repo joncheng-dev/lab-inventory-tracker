@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+
+const StyledHeader = styled.header`
+  width: 100%;
+`;
 
 function Header() {
   return (
-    <header>
+    <StyledHeader>
       <div>
         <h1>Inventory Tracker</h1>
         <ul>
@@ -15,7 +20,7 @@ function Header() {
         </ul>
       </div>
       <hr />
-    </header>
+    </StyledHeader>
   );
 }
 

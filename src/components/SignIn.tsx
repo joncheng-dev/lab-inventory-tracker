@@ -1,19 +1,24 @@
 import React, { useState } from "react";
-import { auth, db } from "../firebase";
+import { auth, db } from "../firebase.tsx";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { eTargetType } from "./Types/index.tsx";
 
 function SignIn() {
   // state variables with useState hooks
-  const [createAccountSuccess, setCreateAccountSuccess] = useState(null);
-  const [signInSuccess, setSignInSuccess] = useState(null);
-  const [signOutSuccess, setSignOutSuccess] = useState(null);
+  const [createAccountSuccess, setCreateAccountSuccess] = useState<string | null>(null);
+  const [signInSuccess, setSignInSuccess] = useState<string | null>(null);
+  const [signOutSuccess, setSignOutSuccess] = useState<string | null>(null);
 
   // functions
-  function doCreateAccount(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const email = event.target.email.value;
-    const password = event.target.password.value;
+  function doCreateAccount(e: React.SyntheticEvent) {
+    e.preventDefault();
+
+    // Typing form values
+    const target = e.target as typeof e.target & eTargetType;
+    const email = target.email.value;
+    const password = target.password.value;
+
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         // user successfully creates account
@@ -30,10 +35,14 @@ function SignIn() {
       });
   }
 
-  function doSignIn(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const email = event.target.signinEmail.value;
-    const password = event.target.signinPassword.value;
+  function doSignIn(e: React.SyntheticEvent) {
+    e.preventDefault();
+
+    // Typing form values
+    const target = e.target as typeof e.target & eTargetType;
+    const email = target.email.value;
+    const password = target.password.value;
+
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setSignInSuccess(`You've signed in as: ${userCredential.user.email}`);
@@ -69,8 +78,8 @@ function SignIn() {
       <h1>Sign In</h1>
       {signInSuccess}
       <form onSubmit={doSignIn}>
-        <input type="text" name="signinEmail" placeholder="email" />
-        <input type="password" name="signinPassword" placeholder="password" />
+        <input type="text" name="email" placeholder="email" />
+        <input type="password" name="password" placeholder="password" />
         <button type="submit">Sign In</button>
       </form>
       <h1>Sign Out</h1>

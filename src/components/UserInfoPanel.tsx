@@ -1,7 +1,11 @@
 import React from "react";
 
 function UserInfoPanel(props) {
-  return <></>;
+  return (
+    <>
+      <h1>UserInfoPanel</h1>
+    </>
+  );
 }
 
 export default UserInfoPanel;
