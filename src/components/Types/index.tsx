@@ -5,12 +5,27 @@ export type eTargetType = {
   password: { value: string };
 };
 
-// Typing For Inventory Add Form
+// Typing For Inventory Add Form component
 export interface AddFormProps {
   onFormSubmit: (data: InventoryEntry) => Promise<void>;
   onClickingExit: () => void;
 }
 
+// Typing for Inventory Edit Form component
+export interface InventoryEditFormProps {
+  entry: InventoryEntry;
+  onFormSubmit: (data: InventoryEntry) => Promise<void>;
+  onClickingExit: () => void;
+}
+
+// Typing for Inventory Reusable Form component
+export interface InventoryReusableFormProps {
+  onFormSubmit: (event: React.FormEvent<CustomForm>) => void;
+  handleClickingExit: () => void;
+  buttonText: string;
+}
+
+// Typing in common for multiple components
 export interface InventoryEntry {
   id?: string;
   name: string;
@@ -23,6 +38,7 @@ export interface InventoryEntry {
 }
 
 interface CustomElements extends HTMLFormControlsCollection {
+  id?: string;
   name: HTMLInputElement;
   description: HTMLInputElement;
   location: HTMLInputElement;
