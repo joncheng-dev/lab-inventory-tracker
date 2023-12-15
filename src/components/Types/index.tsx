@@ -34,7 +34,7 @@ export interface InventoryEntry {
   checkedOut: boolean;
   checkedOutBy: string | null;
   dateCheckedOut: string | null;
-  tags?: string[] | null;
+  tags: string[];
 }
 
 interface CustomElements extends HTMLFormControlsCollection {
@@ -68,7 +68,7 @@ export type InventoryEntryProps = {
   checkedOut: boolean;
   checkedOutBy: string | null;
   dateCheckedOut: string | null;
-  tags: string[] | null;
+  tags: string[];
   whenEntryClicked: (id: string) => void;
 };
 

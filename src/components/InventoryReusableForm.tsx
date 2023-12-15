@@ -12,7 +12,7 @@ function InventoryReusableForm(props: InventoryReusableFormProps) {
     checkedOut: false,
     checkedOutBy: null,
     dateCheckedOut: null,
-    tags: [] as string[],
+    tags: [],
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
