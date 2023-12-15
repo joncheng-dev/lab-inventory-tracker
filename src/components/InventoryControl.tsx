@@ -12,7 +12,7 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Layout from "./Layout";
-import { InventoryEntry } from "./Types/";
+import { InventoryEntry, FormDataNoId } from "./Types/";
 
 function InventoryControl() {
   // STYLING

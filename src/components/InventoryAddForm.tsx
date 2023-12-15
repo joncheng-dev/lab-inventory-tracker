@@ -11,7 +11,8 @@ function InventoryAddForm(props: AddFormProps) {
   function handleNewEntryFormSubmission(formData: InventoryEntry) {
     // take the form data, and remove the id, since I want Firestore to assign one for me.
     if (formData.id === null) {
-      const { id, ...formDataNoId } = formData;
+      const { id, ...formDataNoId } = Object.assign({}, formData);
+      // const { id, ...formDataNoId } = formData;
       props.onFormSubmit(formDataNoId);
     }
   }

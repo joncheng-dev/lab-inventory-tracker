@@ -7,7 +7,7 @@ export type eTargetType = {
 
 // Typing in common for multiple components
 export interface InventoryEntry {
-  id: string | null;
+  id?: string | null;
   name: string;
   description: string;
   location: string;
