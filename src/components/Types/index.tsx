@@ -20,7 +20,7 @@ export interface InventoryEditFormProps {
 
 // Typing for Inventory Reusable Form component
 export interface InventoryReusableFormProps {
-  onFormSubmit: (event: React.FormEvent<CustomForm>) => void;
+  handleNewEntryFormSubmission: (data: InventoryEntry) => void;
   handleClickingExit: () => void;
   buttonText: string;
 }

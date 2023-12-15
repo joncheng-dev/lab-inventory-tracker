@@ -12,7 +12,7 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Layout from "./Layout";
-import { InventoryEntry as IEntry } from "./Types/index.js";
+import { InventoryEntry } from "./Types/index.js";
 
 function InventoryControl() {
   // ###############
@@ -31,10 +31,10 @@ function InventoryControl() {
   // ###############
   // For conditional rendering:
   const [addFormVisible, setAddFormVisibility] = useState<boolean>(false);
-  const [selectedEntry, setSelectedEntry] = useState<IEntry | null>(null);
+  const [selectedEntry, setSelectedEntry] = useState<InventoryEntry | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
   // For data:
-  const [inventoryList, setInventoryList] = useState<IEntry[]>([]);
+  const [inventoryList, setInventoryList] = useState<InventoryEntry[]>([]);
   // For error handling:
   const [error, setError] = useState<string | null>(null);
 
@@ -43,7 +43,7 @@ function InventoryControl() {
     const unSubscribe = onSnapshot(
       collection(db, "inventoryEntries"),
       (collectionSnapshot) => {
-        const entries: IEntry[] = [];
+        const entries: InventoryEntry[] = [];
         collectionSnapshot.forEach((entry) => {
           entries.push({
             id: entry.id,
@@ -98,15 +98,15 @@ function InventoryControl() {
 
   //#region functions updating database
   // functions updating database
-  const handleAddingNewEntryToList = async (entry: IEntry) => {
+  const handleAddingNewEntryToList = async (entry: InventoryEntry) => {
     await addDoc(collection(db, "inventoryEntries"), entry);
     setAddFormVisibility(false);
   };
 
-  const handleEditingEntryInList = async (entry: IEntry) => {
+  const handleEditingEntryInList = async (entry: InventoryEntry) => {
     const entryRef = doc(db, "inventoryEntries", entry.id!);
     // Typing for data being updated
-    const data: Partial<IEntry> = {
+    const data: Partial<InventoryEntry> = {
       name: entry.name,
       description: entry.description,
       location: entry.location,
@@ -152,7 +152,7 @@ function InventoryControl() {
               dateCheckedOut: new Date().toDateString(),
             };
             // update both user and item docs
-            const checkOutEntryData: Partial<IEntry> = {
+            const checkOutEntryData: Partial<InventoryEntry> = {
               checkedOut: checkedOutStatus,
               checkedOutBy: auth.currentUser!.email,
               dateCheckedOut: new Date().toDateString(),
@@ -165,7 +165,7 @@ function InventoryControl() {
           case "return":
             if (userCheckedOutItems[id]) {
               delete userCheckedOutItems[id];
-              const returnEntryData: Partial<IEntry> = {
+              const returnEntryData: Partial<InventoryEntry> = {
                 checkedOut: checkedOutStatus,
                 checkedOutBy: null,
                 dateCheckedOut: null,

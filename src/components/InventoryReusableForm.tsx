@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import { InventoryReusableFormProps } from "./Types";
+import { InventoryReusableFormProps, InventoryEntry } from "./Types";
 
 function InventoryReusableForm(props: InventoryReusableFormProps) {
+  const { handleNewEntryFormSubmission } = props;
   const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
   const purposeTagChecklist: string[] = ["Equipment", "Materials", "Models", "Safety"];
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<InventoryEntry>({
     name: "",
     description: "",
+    location: "",
+    checkedOut: false,
+    checkedOutBy: null,
+    dateCheckedOut: null,
     tags: [] as string[],
   });
 
-  // Handles form changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -32,28 +36,24 @@ function InventoryReusableForm(props: InventoryReusableFormProps) {
     });
   };
 
-  // function handleCheck(event: React.ChangeEvent<HTMLInputElement>) {
-  //   setCheckedBoxes((prevCheckedBoxes) => {
-  //     if (event.target.checked) {
-  //       return [...prevCheckedBoxes, event.target.value];
-  //     } else {
-  //       return prevCheckedBoxes.filter((value) => value !== event.target.value);
-  //     }
-  //   });
-  // }
-
-  function tagChecklistGenerator(wordArray: string[]) {
+  const tagChecklistGenerator = (wordArray: string[]) => {
     return wordArray.map((word, index) => (
       <div key={index}>
         <input value={word} type="checkbox" onChange={handleCheckboxChange} />
         <label htmlFor={word}>{word}</label>
       </div>
     ));
-  }
+  };
+
+  // Passes formData in to the function provided by parent component, InventoryControl
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleNewEntryFormSubmission(formData);
+  };
 
   return (
     <React.Fragment>
-      <form onSubmit={props.onFormSubmit}>
+      <form onSubmit={handleSubmit}>
         <input type="text" name="name" placeholder="Name of Item" onChange={handleInputChange} />
         <br />
         <textarea name="description" placeholder="Item description" onChange={handleInputChange} />
