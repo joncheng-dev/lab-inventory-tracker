@@ -4,15 +4,15 @@ import { InventoryEntry } from "./Types";
 // Typing for Inventory Reusable Form component
 interface InventoryReusableFormProps {
   entry: InventoryEntry | null;
+  subjectTagChecklist: string[];
+  purposeTagChecklist: string[];
   handleEntryFormSubmission: (data: InventoryEntry) => void;
   handleClickingExit: () => void;
   buttonText: string;
 }
 
 function InventoryReusableForm(props: InventoryReusableFormProps) {
-  const { entry, handleEntryFormSubmission } = props;
-  const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
-  const purposeTagChecklist: string[] = ["Equipment", "Materials", "Models", "Safety"];
+  const { entry, handleEntryFormSubmission, subjectTagChecklist, purposeTagChecklist, handleClickingExit } = props;
   const [formData, setFormData] = useState<InventoryEntry>({
     id: null,
     name: "",
@@ -85,6 +85,7 @@ function InventoryReusableForm(props: InventoryReusableFormProps) {
         </h4>
         <div>{tagChecklistGenerator(purposeTagChecklist)}</div>
         <button type="submit">{props.buttonText}</button>
+        <button onClick={handleClickingExit}>Exit</button>
       </form>
     </React.Fragment>
   );

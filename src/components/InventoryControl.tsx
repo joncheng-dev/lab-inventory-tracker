@@ -26,7 +26,7 @@ function InventoryControl() {
   }));
   //#endregion styling
 
-  // STATE
+  // STATE & SHARED INFORMATION
   // For conditional rendering:
   const [addFormVisible, setAddFormVisibility] = useState<boolean>(false);
   const [selectedEntry, setSelectedEntry] = useState<InventoryEntry | null>(null);
@@ -35,7 +35,8 @@ function InventoryControl() {
   const [inventoryList, setInventoryList] = useState<InventoryEntry[]>([]);
   // For error handling:
   const [error, setError] = useState<string | null>(null);
-
+  const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
+  const purposeTagChecklist: string[] = ["Equipment", "Materials", "Models", "Safety"];
   //#region useEffect hooks
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -191,26 +192,39 @@ function InventoryControl() {
   let centerPanel = null;
   let rightSidePanel = <UserInfoPanel />;
 
-  if (selectedEntry !== null) {
-    if (!editing) {
-      centerPanel = (
-        <InventoryEntryDetail
-          entry={selectedEntry}
-          onClickingEdit={handleEditEntryButtonClick}
-          onClickingCheckoutOrReturn={handleCheckoutAndReturn}
-          onClickingDelete={handleDeletingEntry}
-          onClickingExit={handleExitButtonClick}
-        />
-      );
-    } else {
-      centerPanel = <InventoryEditForm entry={selectedEntry} onFormSubmit={handleEditingEntryInList} onClickingExit={handleExitButtonClick} />;
-    }
-  } else if (!addFormVisible) {
+  if (selectedEntry !== null && editing) {
+    centerPanel = (
+      <InventoryEditForm
+        entry={selectedEntry}
+        subjectTagChecklist={subjectTagChecklist}
+        purposeTagChecklist={purposeTagChecklist}
+        onFormSubmit={handleEditingEntryInList}
+        onClickingExit={handleExitButtonClick}
+      />
+    );
+  } else if (selectedEntry !== null) {
+    centerPanel = (
+      <InventoryEntryDetail
+        entry={selectedEntry}
+        onClickingEdit={handleEditEntryButtonClick}
+        onClickingCheckoutOrReturn={handleCheckoutAndReturn}
+        onClickingDelete={handleDeletingEntry}
+        onClickingExit={handleExitButtonClick}
+      />
+    );
+  } else if (addFormVisible) {
+    centerPanel = (
+      <InventoryAddForm
+        subjectTagChecklist={subjectTagChecklist}
+        purposeTagChecklist={purposeTagChecklist}
+        onFormSubmit={handleAddingNewEntryToList}
+        onClickingExit={handleExitButtonClick}
+      />
+    );
+  } else {
     centerPanel = (
       <InventoryList listOfEntries={inventoryList} onClickingAddEntry={handleAddEntryButtonClick} onEntrySelection={handleChangingSelectedEntry} />
     );
-  } else {
-    centerPanel = <InventoryAddForm onFormSubmit={handleAddingNewEntryToList} onClickingExit={handleExitButtonClick} />;
   }
   return (
     <Layout>
