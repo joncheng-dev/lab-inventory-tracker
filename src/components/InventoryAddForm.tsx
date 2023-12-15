@@ -1,5 +1,10 @@
 import InventoryReusableForm from "./InventoryReusableForm";
-import { AddFormProps, InventoryEntry } from "./Types/index.tsx";
+import { InventoryEntry } from "./Types";
+
+interface AddFormProps {
+  onFormSubmit: (data: InventoryEntry) => Promise<void>;
+  onClickingExit: () => void;
+}
 
 // Takes input from user to create a new Entry
 function InventoryAddForm(props: AddFormProps) {
@@ -10,7 +15,8 @@ function InventoryAddForm(props: AddFormProps) {
     <>
       <h1>Add New Inventory Entry</h1>
       <InventoryReusableForm
-        handleNewEntryFormSubmission={handleNewEntryFormSubmission}
+        entry={null}
+        handleEntryFormSubmission={handleNewEntryFormSubmission}
         handleClickingExit={props.onClickingExit}
         buttonText="Add Entry"
       />

@@ -1,11 +1,20 @@
-import React, { useState } from "react";
-import { InventoryReusableFormProps, InventoryEntry } from "./Types";
+import React, { useState, useEffect } from "react";
+import { InventoryEntry } from "./Types";
+
+// Typing for Inventory Reusable Form component
+interface InventoryReusableFormProps {
+  entry: InventoryEntry | null;
+  handleEntryFormSubmission: (data: InventoryEntry) => void;
+  handleClickingExit: () => void;
+  buttonText: string;
+}
 
 function InventoryReusableForm(props: InventoryReusableFormProps) {
-  const { handleNewEntryFormSubmission } = props;
+  const { entry, handleEntryFormSubmission } = props;
   const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
   const purposeTagChecklist: string[] = ["Equipment", "Materials", "Models", "Safety"];
   const [formData, setFormData] = useState<InventoryEntry>({
+    id: null,
     name: "",
     description: "",
     location: "",
@@ -14,6 +23,12 @@ function InventoryReusableForm(props: InventoryReusableFormProps) {
     dateCheckedOut: null,
     tags: [],
   });
+
+  useEffect(() => {
+    if (entry) {
+      setFormData(entry);
+    }
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -48,7 +63,7 @@ function InventoryReusableForm(props: InventoryReusableFormProps) {
   // Passes formData in to the function provided by parent component, InventoryControl
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleNewEntryFormSubmission(formData);
+    handleEntryFormSubmission(formData);
   };
 
   return (

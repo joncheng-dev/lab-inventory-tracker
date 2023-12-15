@@ -1,6 +1,12 @@
 import React from "react";
 import InventoryEntry from "./InventoryEntry";
-import { InventoryListProps } from "./Types";
+import { InventoryEntry as IEntry } from "./Types";
+
+type InventoryListProps = {
+  listOfEntries: IEntry[];
+  onEntrySelection: (id: string) => void;
+  onClickingAddEntry: () => void;
+};
 
 function InventoryList(props: InventoryListProps) {
   const { listOfEntries, onEntrySelection, onClickingAddEntry } = props;
@@ -19,7 +25,7 @@ function InventoryList(props: InventoryListProps) {
           checkedOutBy={entry.checkedOutBy}
           dateCheckedOut={entry.dateCheckedOut}
           tags={entry.tags}
-          id={entry.id}
+          id={entry.id!}
           key={entry.id}
         />
       ))}

@@ -1,16 +1,27 @@
-import { InventoryEntryProps } from "./Types";
+type InventoryEntryProps = {
+  id?: string;
+  name: string;
+  description: string;
+  location: string;
+  checkedOut: boolean;
+  checkedOutBy: string | null;
+  dateCheckedOut: string | null;
+  tags: string[];
+  whenEntryClicked: (id: string) => void;
+};
 
 function InventoryEntry(props: InventoryEntryProps) {
   // prettier-ignore
   const {
-    whenEntryClicked,
+    id,
     name,
     description,
     location,
     checkedOut,
     checkedOutBy,
     dateCheckedOut,
-    tags
+    tags,
+    whenEntryClicked,
   } = props;
 
   return (

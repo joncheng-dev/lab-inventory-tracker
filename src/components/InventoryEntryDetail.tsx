@@ -1,5 +1,13 @@
 import React from "react";
-import { InventoryEntryDetailProps } from "./Types/index.jsx";
+import { InventoryEntry } from "./Types";
+
+// Typing for Inventory Entry Details component
+export type InventoryEntryDetailProps = {
+  entry: InventoryEntry;
+  onClickingCheckoutOrReturn: (id: string, task: string) => void;
+  onClickingEdit: () => void;
+  onClickingDelete: (id: string) => void;
+};
 
 function InventoryEntryDetails(props: InventoryEntryDetailProps) {
   const { entry, onClickingDelete, onClickingEdit, onClickingCheckoutOrReturn } = props;

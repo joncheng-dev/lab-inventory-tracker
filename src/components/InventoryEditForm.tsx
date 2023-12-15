@@ -1,28 +1,26 @@
-import React from "react";
 import InventoryReusableForm from "./InventoryReusableForm";
-import { InventoryEditFormProps, CustomForm } from "./Types";
+import { InventoryEntry } from "./Types";
+
+interface InventoryEditFormProps {
+  entry: InventoryEntry;
+  onFormSubmit: (data: InventoryEntry) => Promise<void>;
+  onClickingExit: () => void;
+}
 
 function InventoryEditForm(props: InventoryEditFormProps) {
   const { entry } = props;
 
-  function handleEditEntryFormSubmission(e: React.FormEvent<CustomForm>) {
-    e.preventDefault();
-    const target = e.currentTarget.elements;
-
-    props.onFormSubmit({
-      id: entry.id,
-      name: target.name.value,
-      description: target.description.value,
-      location: target.location.value,
-      checkedOut: entry.checkedOut,
-      checkedOutBy: entry.checkedOutBy,
-      dateCheckedOut: entry.dateCheckedOut,
-      tags: [],
-    });
+  function handleEditEntryFormSubmission(formData: InventoryEntry) {
+    props.onFormSubmit(formData);
   }
   return (
     <>
-      <InventoryReusableForm onFormSubmit={handleEditEntryFormSubmission} handleClickingExit={props.onClickingExit} buttonText="Update" />
+      <InventoryReusableForm
+        entry={entry}
+        handleEntryFormSubmission={handleEditEntryFormSubmission}
+        handleClickingExit={props.onClickingExit}
+        buttonText="Update"
+      />
     </>
   );
 }
