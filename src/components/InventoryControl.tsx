@@ -15,9 +15,8 @@ import Layout from "./Layout";
 import { InventoryEntry } from "./Types/";
 
 function InventoryControl() {
-  // ###############
-  // ### STYLING ###
-  // ###############
+  // STYLING
+  //#region styling
   const FixedWidthItem = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -25,10 +24,9 @@ function InventoryControl() {
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
+  //#endregion styling
 
-  // ###############
-  // #### STATE ####
-  // ###############
+  // STATE
   // For conditional rendering:
   const [addFormVisible, setAddFormVisibility] = useState<boolean>(false);
   const [selectedEntry, setSelectedEntry] = useState<InventoryEntry | null>(null);
@@ -67,7 +65,7 @@ function InventoryControl() {
 
   useEffect(() => {
     if (selectedEntry !== null) {
-      handleChangingSelectedEntry(selectedEntry.id);
+      handleChangingSelectedEntry(selectedEntry.id!);
     }
   }, [inventoryList, selectedEntry]);
   //#endregion useEffect hooks

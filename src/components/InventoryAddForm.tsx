@@ -9,7 +9,16 @@ interface AddFormProps {
 // Takes input from user to create a new Entry
 function InventoryAddForm(props: AddFormProps) {
   function handleNewEntryFormSubmission(formData: InventoryEntry) {
-    props.onFormSubmit(formData);
+    // take the form data, and remove the id, since I want Firestore to assign one for me.
+    if (formData.id === null) {
+      let noIdformData = { ...formData };
+      delete noIdformData.id;
+    }
+
+    // props.onFormSubmit({
+    //   ...formData,
+
+    // });
   }
   return (
     <>
