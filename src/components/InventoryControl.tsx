@@ -96,6 +96,7 @@ function InventoryControl() {
     setEditing(!editing);
   };
 
+  //#region functions updating database
   // functions updating database
   const handleAddingNewEntryToList = async (entry: IEntry) => {
     await addDoc(collection(db, "inventoryEntries"), entry);
@@ -184,6 +185,7 @@ function InventoryControl() {
       console.log("Transaction failed.", e);
     }
   };
+  //#endregion functions updating database
   //#endregion functions
 
   // Constantly renders CategoryPanel, InventoryPanel, UserInfoPanel
