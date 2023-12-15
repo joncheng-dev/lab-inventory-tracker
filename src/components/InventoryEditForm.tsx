@@ -1,11 +1,11 @@
 import InventoryReusableForm from "./InventoryReusableForm";
 import { InventoryEntry } from "./Types";
 
-interface InventoryEditFormProps {
+type InventoryEditFormProps = {
   entry: InventoryEntry;
   onFormSubmit: (data: InventoryEntry) => Promise<void>;
   onClickingExit: () => void;
-}
+};
 
 function InventoryEditForm(props: InventoryEditFormProps) {
   const { entry } = props;

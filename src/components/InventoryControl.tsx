@@ -12,7 +12,7 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Layout from "./Layout";
-import { InventoryEntry, FormDataNoId } from "./Types/";
+import { InventoryEntry } from "./Types/";
 
 function InventoryControl() {
   // STYLING
@@ -186,14 +186,26 @@ function InventoryControl() {
   //#endregion functions updating database
   //#endregion functions
 
-  // Constantly renders CategoryPanel, InventoryPanel, UserInfoPanel
-
-  // Conditional Rendering
+  // Conditional Rendering of Components
   let leftSidePanel = <CategoryPanel />;
   let centerPanel = null;
   let rightSidePanel = <UserInfoPanel />;
 
-  if (!addFormVisible) {
+  if (selectedEntry !== null) {
+    if (!editing) {
+      centerPanel = (
+        <InventoryEntryDetail
+          entry={selectedEntry}
+          onClickingEdit={handleEditEntryButtonClick}
+          onClickingCheckoutOrReturn={handleCheckoutAndReturn}
+          onClickingDelete={handleDeletingEntry}
+          onClickingExit={handleExitButtonClick}
+        />
+      );
+    } else {
+      centerPanel = <InventoryEditForm entry={selectedEntry} onFormSubmit={handleEditingEntryInList} onClickingExit={handleExitButtonClick} />;
+    }
+  } else if (!addFormVisible) {
     centerPanel = (
       <InventoryList listOfEntries={inventoryList} onClickingAddEntry={handleAddEntryButtonClick} onEntrySelection={handleChangingSelectedEntry} />
     );

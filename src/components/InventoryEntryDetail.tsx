@@ -2,15 +2,16 @@ import React from "react";
 import { InventoryEntry } from "./Types";
 
 // Typing for Inventory Entry Details component
-export type InventoryEntryDetailProps = {
+type InventoryEntryDetailProps = {
   entry: InventoryEntry;
   onClickingCheckoutOrReturn: (id: string, task: string) => void;
   onClickingEdit: () => void;
   onClickingDelete: (id: string) => void;
+  onClickingExit: () => void;
 };
 
 function InventoryEntryDetails(props: InventoryEntryDetailProps) {
-  const { entry, onClickingDelete, onClickingEdit, onClickingCheckoutOrReturn } = props;
+  const { entry, onClickingDelete, onClickingEdit, onClickingCheckoutOrReturn, onClickingExit } = props;
 
   return (
     <React.Fragment>
@@ -38,6 +39,7 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
       <button onClick={onClickingEdit}>Edit entry</button>
       <br />
       <button onClick={() => onClickingDelete(entry.id!)}>Delete Entry</button>
+      <button onClick={onClickingExit}>Exit</button>
       <hr />
     </React.Fragment>
   );
