@@ -3,7 +3,7 @@ import React from "react";
 function UserInfoPanel(props) {
   return (
     <>
-      <h1>UserInfoPanel</h1>
+      <h1>User Information</h1>
     </>
   );
 }
