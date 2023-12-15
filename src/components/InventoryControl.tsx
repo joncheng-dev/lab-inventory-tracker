@@ -15,7 +15,9 @@ import Layout from "./Layout";
 import { InventoryEntry as IEntry } from "./Types/index.js";
 
 function InventoryControl() {
-  // Styling
+  // ###############
+  // ### STYLING ###
+  // ###############
   const FixedWidthItem = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -23,12 +25,18 @@ function InventoryControl() {
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
-  // State
-  const [addFormVisible, setAddFormVisibility] = useState(false);
+
+  // ###############
+  // #### STATE ####
+  // ###############
+  // For conditional rendering:
+  const [addFormVisible, setAddFormVisibility] = useState<boolean>(false);
+  const [selectedEntry, setSelectedEntry] = useState<IEntry | null>(null);
+  const [editing, setEditing] = useState<boolean>(false);
+  // For data:
   const [inventoryList, setInventoryList] = useState<IEntry[]>([]);
-  const [selectedEntry, setSelectedEntry] = useState(null);
+  // For error handling:
   const [error, setError] = useState<string | null>(null);
-  const [editing, setEditing] = useState(false);
 
   //#region useEffect hooks
   useEffect(() => {
@@ -65,7 +73,117 @@ function InventoryControl() {
   //#endregion useEffect hooks
 
   //#region functions
+  const handleExitButtonClick = () => {
+    if (selectedEntry) {
+      setAddFormVisibility(false);
+      setSelectedEntry(null);
+      setEditing(false);
+    } else {
+      setAddFormVisibility(!addFormVisible);
+    }
+  };
 
+  const handleAddEntryButtonClick = () => {
+    setAddFormVisibility(!addFormVisible);
+  };
+
+  const handleChangingSelectedEntry = (id: string) => {
+    const selection = inventoryList.filter((entry) => entry.id === id)[0];
+    setSelectedEntry(selection);
+  };
+
+  const handleEditEntryButtonClick = () => {
+    setEditing(!editing);
+  };
+
+  // functions updating database
+  const handleAddingNewEntryToList = async (entry: IEntry) => {
+    await addDoc(collection(db, "inventoryEntries"), entry);
+    setAddFormVisibility(false);
+  };
+
+  const handleEditingEntryInList = async (entry: IEntry) => {
+    const entryRef = doc(db, "inventoryEntries", entry.id!);
+    // Typing for data being updated
+    const data: Partial<IEntry> = {
+      name: entry.name,
+      description: entry.description,
+      location: entry.location,
+      tags: [],
+    };
+    await updateDoc(entryRef, data);
+    setEditing(false);
+    setSelectedEntry(null);
+  };
+
+  const handleDeletingEntry = async (id: string) => {
+    await deleteDoc(doc(db, "inventoryEntries", id));
+    setSelectedEntry(null);
+  };
+
+  const handleCheckoutAndReturn = async (id: string, task: string) => {
+    try {
+      await runTransaction(db, async (transaction) => {
+        // Check to make sure selectedEntry is not null
+        if (!selectedEntry) {
+          throw new Error("Selected entry is null.");
+        }
+        // read both the target item entry AND the current user
+        const entryRef = doc(db, "inventoryEntries", selectedEntry.id!);
+        const userRef = doc(db, "users", auth.currentUser!.uid);
+        // read the information in both docs
+        const entryDoc = await transaction.get(entryRef);
+        if (!entryDoc.exists()) {
+          throw "Item document does not exist";
+        }
+        const userDoc = await transaction.get(userRef);
+        if (!userDoc.exists()) {
+          throw "User document does not exist";
+        }
+        // if both user and item exist, continue with the transaction
+        const checkedOutStatus = !entryDoc.data().checkedOut;
+        const userCheckedOutItems = userDoc.data().itemsCheckedOut || {};
+        // Decide which transaction to carry out
+        switch (task) {
+          case "check out":
+            // update the specific entry identified by "id" in this object first.
+            userCheckedOutItems[id] = {
+              dateCheckedOut: new Date().toDateString(),
+            };
+            // update both user and item docs
+            const checkOutEntryData: Partial<IEntry> = {
+              checkedOut: checkedOutStatus,
+              checkedOutBy: auth.currentUser!.email,
+              dateCheckedOut: new Date().toDateString(),
+            };
+            transaction.update(entryRef, checkOutEntryData);
+            transaction.update(userRef, {
+              itemsCheckedOut: userCheckedOutItems,
+            });
+            break;
+          case "return":
+            if (userCheckedOutItems[id]) {
+              delete userCheckedOutItems[id];
+              const returnEntryData: Partial<IEntry> = {
+                checkedOut: checkedOutStatus,
+                checkedOutBy: null,
+                dateCheckedOut: null,
+              };
+              transaction.update(entryRef, returnEntryData);
+              transaction.update(userRef, { itemsCheckedOut: userCheckedOutItems });
+            } else {
+              throw "Item is not checked out.";
+            }
+            break;
+          default:
+            break;
+        }
+      });
+      console.log("Transaction successful.");
+    } catch (e) {
+      console.log("Transaction failed.", e);
+    }
+  };
   //#endregion functions
 
   // Constantly renders CategoryPanel, InventoryPanel, UserInfoPanel
@@ -75,8 +193,13 @@ function InventoryControl() {
   let centerPanel = null;
   let rightSidePanel = <UserInfoPanel />;
 
-  // ah got it. Since Layout is a apre
-  //if passing multiple components, it needs a fragment
+  if (!addFormVisible) {
+    centerPanel = (
+      <InventoryList listOfEntries={inventoryList} onClickingAddEntry={handleAddEntryButtonClick} onEntrySelection={handleChangingSelectedEntry} />
+    );
+  } else {
+    centerPanel = <InventoryAddForm onFormSubmit={handleAddingNewEntryToList} onClickingExit={handleExitButtonClick} />;
+  }
   return (
     <Layout>
       <>
