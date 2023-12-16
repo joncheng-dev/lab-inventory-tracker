@@ -11,7 +11,7 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Layout from "./Layout";
-import { InventoryEntry } from "./Types/";
+import { InventoryEntry, UserEntry } from "./Types/";
 
 function InventoryControl() {
   // STYLING
@@ -30,7 +30,7 @@ function InventoryControl() {
   const [addFormVisible, setAddFormVisibility] = useState<boolean>(false);
   const [selectedEntry, setSelectedEntry] = useState<InventoryEntry | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
-  // const [currentUser, setCurrentUser] = useState<UserEntry | null>(null);
+  const [currentUser, setCurrentUser] = useState<UserEntry | null>(null);
   // For data:
   const [inventoryList, setInventoryList] = useState<InventoryEntry[]>([]);
   // For error handling:
@@ -73,24 +73,25 @@ function InventoryControl() {
 
   useEffect(() => {
     if (auth.currentUser) {
+      handleGettingCurrentUserInfoFromDb();
     }
   }, []);
   //#endregion useEffect hooks
 
   //#region functions
-  // const handleGettingCurrentUserInfoFromDb = async () => {
-  //   if (auth.currentUser) {
-  //     const userRef = doc(db, "users", auth.currentUser.uid);
-  //     const docSnap = await getDoc(userRef);
+  const handleGettingCurrentUserInfoFromDb = async () => {
+    if (auth.currentUser) {
+      const userRef = doc(db, "users", auth.currentUser.uid);
+      const docSnap = await getDoc(userRef);
 
-  //     if (docSnap.exists()) {
-  //       const userInfo = docSnap.data() as UserEntry;
-  //       setCurrentUser(userInfo);
-  //     } else {
-  //       console.log("No such document");
-  //     }
-  //   }
-  // };
+      if (docSnap.exists()) {
+        const userInfo = docSnap.data() as UserEntry;
+        setCurrentUser(userInfo);
+      } else {
+        console.log("No such user in database. (User collections does not contain a user document with that id.)");
+      }
+    }
+  };
 
   const handleExitButtonClick = () => {
     if (selectedEntry) {
@@ -141,56 +142,35 @@ function InventoryControl() {
     await deleteDoc(doc(db, "inventoryEntries", id));
   };
 
-  // To do in database: delete user entry's itemCheckedOut field
-
-  // Upon clicking checkout,
-  // 1. check if item is available (isCheckedOut = false).
-  // 2. if item !isCheckedOut (not checked out), update value of isCheckedOut to true;
-  // 3. update field checkedOutBy to currentUser.email
-  // 4. update field dateCheckedOut to current date
-
-  // How to do this:
-  // update the document with specified id
-  // isCheckedOut
-  // checkedOutBy
-  // dateCheckedOut
-
-  const handleCheckoutAndReturn = async (task: string) => {
-    // Check to make sure selectedEntry is not null
+  const handleCheckOutItem = async () => {
     if (!selectedEntry) {
       throw new Error("No items are currently selected. (Selected entry is null.)");
     }
     const entryRef = doc(db, "inventoryEntries", selectedEntry.id!);
-    // Swap isCheckedOut to update item doc in database
-    const checkedOutStatus = !selectedEntry.isCheckedOut;
-    // Decide if checking out item or returning item
-    switch (task) {
-      case "check out item":
-        if (selectedEntry.isCheckedOut === false) {
-          const checkOutEntryData: Partial<InventoryEntry> = {
-            isCheckedOut: checkedOutStatus,
-            checkedOutBy: auth.currentUser!.email,
-            dateCheckedOut: new Date().toDateString(),
-          };
-          await updateDoc(entryRef, checkOutEntryData);
-        } else {
-          throw "Item is not available to be checked out.";
-        }
-        break;
-      case "return item":
-        if (selectedEntry.isCheckedOut === true) {
-          const returnEntryData: Partial<InventoryEntry> = {
-            isCheckedOut: checkedOutStatus,
-            checkedOutBy: null,
-            dateCheckedOut: null,
-          };
-          await updateDoc(entryRef, returnEntryData);
-        } else {
-          throw "Item is not checked out, so it cannot be returned.";
-        }
-        break;
-      default:
-        break;
+    if (selectedEntry.isCheckedOut === false) {
+      const checkOutEntryData: Partial<InventoryEntry> = {
+        isCheckedOut: true,
+        checkedOutBy: auth.currentUser!.email,
+        dateCheckedOut: new Date().toDateString(),
+      };
+      await updateDoc(entryRef, checkOutEntryData);
+    } else {
+      throw "Item is not available to be checked out.";
+    }
+  };
+
+  const handleReturnItem = async (itemId: string) => {
+    const entryRef = doc(db, "inventoryEntries", itemId!);
+    const itemToReturn = inventoryList.filter((entry) => entry.id === itemId)[0];
+    if (itemToReturn.isCheckedOut === true) {
+      const returnEntryData: Partial<InventoryEntry> = {
+        isCheckedOut: false,
+        checkedOutBy: null,
+        dateCheckedOut: null,
+      };
+      await updateDoc(entryRef, returnEntryData);
+    } else {
+      throw "Item is not checked out, so it cannot be returned.";
     }
   };
   //#endregion functions updating database
@@ -199,7 +179,7 @@ function InventoryControl() {
   // Conditional Rendering of Components
   let leftSidePanel = <CategoryPanel />;
   let centerPanel = null;
-  let rightSidePanel = <UserInfoPanel />;
+  let rightSidePanel = <UserInfoPanel user={currentUser} />;
 
   if (selectedEntry !== null && editing) {
     centerPanel = (
@@ -216,7 +196,8 @@ function InventoryControl() {
       <InventoryEntryDetail
         entry={selectedEntry}
         onClickingEdit={handleEditEntryButtonClick}
-        onClickingCheckoutOrReturn={handleCheckoutAndReturn}
+        onClickingCheckout={handleCheckOutItem}
+        onClickingReturn={handleReturnItem}
         onClickingDelete={handleDeletingEntry}
         onClickingExit={handleExitButtonClick}
       />
@@ -319,3 +300,22 @@ export default InventoryControl;
 //      console.log("Transaction failed.", e);
 //    }
 //  };
+
+// const handleReturnItem = async () => {
+//   if (!selectedEntry) {
+//     throw new Error("No items are currently selected. (Selected entry is null.)");
+//   }
+//   const entryRef = doc(db, "inventoryEntries", selectedEntry.id!);
+//   const checkedOutStatus = !selectedEntry.isCheckedOut;
+//   // Decide if checking out item or returning item
+//   if (selectedEntry.isCheckedOut === true) {
+//     const returnEntryData: Partial<InventoryEntry> = {
+//       isCheckedOut: checkedOutStatus,
+//       checkedOutBy: null,
+//       dateCheckedOut: null,
+//     };
+//     await updateDoc(entryRef, returnEntryData);
+//   } else {
+//     throw "Item is not checked out, so it cannot be returned.";
+//   }
+// };

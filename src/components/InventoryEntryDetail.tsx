@@ -4,16 +4,18 @@ import { InventoryEntry } from "./Types";
 // Typing for Inventory Entry Details component
 type InventoryEntryDetailProps = {
   entry: InventoryEntry;
-  onClickingCheckoutOrReturn: (task: string) => void;
+  onClickingCheckout: () => void;
+  onClickingReturn: (itemId: string) => void;
   onClickingEdit: () => void;
   onClickingDelete: (id: string) => void;
   onClickingExit: () => void;
 };
 
 function InventoryEntryDetails(props: InventoryEntryDetailProps) {
-  const { entry, onClickingDelete, onClickingEdit, onClickingCheckoutOrReturn, onClickingExit } = props;
+  const { entry, onClickingDelete, onClickingEdit, onClickingCheckout, onClickingReturn, onClickingExit } = props;
   // prettier-ignore
   const {
+    id,
     name,
     description,
     location,
@@ -38,13 +40,13 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
           <li key={index}>{tag}</li>
         ))}
       </ul>
-      <button onClick={() => onClickingCheckoutOrReturn("check out item")}>Check Out Item</button>
-      <button onClick={() => onClickingCheckoutOrReturn("return item")}>Return Item</button>
+      <button onClick={() => onClickingCheckout()}>Check Out Item</button>
+      <button onClick={() => onClickingReturn(id!)}>Return Item</button>
       <br />
       <hr />
       <button onClick={onClickingEdit}>Edit entry</button>
       <br />
-      <button onClick={() => onClickingDelete(entry.id!)}>Delete Entry</button>
+      <button onClick={() => onClickingDelete(id!)}>Delete Entry</button>
       <button onClick={onClickingExit}>Exit</button>
       <hr />
     </React.Fragment>

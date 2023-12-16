@@ -17,10 +17,10 @@ export interface InventoryEntry {
   tags: string[];
 }
 
-// export interface UserEntry {
-//   userId: string;
-//   userEmail: string;
-// }
+export interface UserEntry {
+  userId: string;
+  userEmail: string;
+}
 
 interface CustomElements extends HTMLFormControlsCollection {
   id?: string;
