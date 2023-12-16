@@ -4,7 +4,7 @@ import { InventoryEntry } from "./Types";
 // Typing for Inventory Entry Details component
 type InventoryEntryDetailProps = {
   entry: InventoryEntry;
-  onClickingCheckoutOrReturn: (id: string, task: string) => void;
+  onClickingCheckoutOrReturn: (task: string) => void;
   onClickingEdit: () => void;
   onClickingDelete: (id: string) => void;
   onClickingExit: () => void;
@@ -38,8 +38,8 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
           <li key={index}>{tag}</li>
         ))}
       </ul>
-      <button onClick={() => onClickingCheckoutOrReturn(entry.id!, "check out")}>Check Out Item</button>
-      <button onClick={() => onClickingCheckoutOrReturn(entry.id!, "return")}>Return Item</button>
+      <button onClick={() => onClickingCheckoutOrReturn("check out item")}>Check Out Item</button>
+      <button onClick={() => onClickingCheckoutOrReturn("return item")}>Return Item</button>
       <br />
       <hr />
       <button onClick={onClickingEdit}>Edit entry</button>

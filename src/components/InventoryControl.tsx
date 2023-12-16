@@ -6,7 +6,7 @@ import InventoryAddForm from "./InventoryAddForm";
 import InventoryEntryDetail from "./InventoryEntryDetail";
 import InventoryEditForm from "./InventoryEditForm";
 import { db, auth } from "../firebase.js";
-import { collection, addDoc, doc, onSnapshot, deleteDoc, updateDoc, runTransaction } from "firebase/firestore";
+import { collection, addDoc, doc, onSnapshot, getDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
@@ -30,6 +30,7 @@ function InventoryControl() {
   const [addFormVisible, setAddFormVisibility] = useState<boolean>(false);
   const [selectedEntry, setSelectedEntry] = useState<InventoryEntry | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
+  // const [currentUser, setCurrentUser] = useState<UserEntry | null>(null);
   // For data:
   const [inventoryList, setInventoryList] = useState<InventoryEntry[]>([]);
   // For error handling:
@@ -69,9 +70,28 @@ function InventoryControl() {
     }
     console.log(`useEffect updated selectedEntry`);
   }, [inventoryList, selectedEntry]);
+
+  useEffect(() => {
+    if (auth.currentUser) {
+    }
+  }, []);
   //#endregion useEffect hooks
 
   //#region functions
+  // const handleGettingCurrentUserInfoFromDb = async () => {
+  //   if (auth.currentUser) {
+  //     const userRef = doc(db, "users", auth.currentUser.uid);
+  //     const docSnap = await getDoc(userRef);
+
+  //     if (docSnap.exists()) {
+  //       const userInfo = docSnap.data() as UserEntry;
+  //       setCurrentUser(userInfo);
+  //     } else {
+  //       console.log("No such document");
+  //     }
+  //   }
+  // };
+
   const handleExitButtonClick = () => {
     if (selectedEntry) {
       setAddFormVisibility(false);
@@ -121,67 +141,56 @@ function InventoryControl() {
     await deleteDoc(doc(db, "inventoryEntries", id));
   };
 
-  const handleCheckoutAndReturn = async (id: string, task: string) => {
-    try {
-      await runTransaction(db, async (transaction) => {
-        // Check to make sure selectedEntry is not null
-        if (!selectedEntry) {
-          throw new Error("Selected entry is null.");
+  // To do in database: delete user entry's itemCheckedOut field
+
+  // Upon clicking checkout,
+  // 1. check if item is available (isCheckedOut = false).
+  // 2. if item !isCheckedOut (not checked out), update value of isCheckedOut to true;
+  // 3. update field checkedOutBy to currentUser.email
+  // 4. update field dateCheckedOut to current date
+
+  // How to do this:
+  // update the document with specified id
+  // isCheckedOut
+  // checkedOutBy
+  // dateCheckedOut
+
+  const handleCheckoutAndReturn = async (task: string) => {
+    // Check to make sure selectedEntry is not null
+    if (!selectedEntry) {
+      throw new Error("No items are currently selected. (Selected entry is null.)");
+    }
+    const entryRef = doc(db, "inventoryEntries", selectedEntry.id!);
+    // Swap isCheckedOut to update item doc in database
+    const checkedOutStatus = !selectedEntry.isCheckedOut;
+    // Decide if checking out item or returning item
+    switch (task) {
+      case "check out item":
+        if (selectedEntry.isCheckedOut === false) {
+          const checkOutEntryData: Partial<InventoryEntry> = {
+            isCheckedOut: checkedOutStatus,
+            checkedOutBy: auth.currentUser!.email,
+            dateCheckedOut: new Date().toDateString(),
+          };
+          await updateDoc(entryRef, checkOutEntryData);
+        } else {
+          throw "Item is not available to be checked out.";
         }
-        // read both the target item entry AND the current user
-        const entryRef = doc(db, "inventoryEntries", selectedEntry.id!);
-        const userRef = doc(db, "users", auth.currentUser!.uid);
-        // read the information in both docs
-        const entryDoc = await transaction.get(entryRef);
-        if (!entryDoc.exists()) {
-          throw "Item document does not exist";
+        break;
+      case "return item":
+        if (selectedEntry.isCheckedOut === true) {
+          const returnEntryData: Partial<InventoryEntry> = {
+            isCheckedOut: checkedOutStatus,
+            checkedOutBy: null,
+            dateCheckedOut: null,
+          };
+          await updateDoc(entryRef, returnEntryData);
+        } else {
+          throw "Item is not checked out, so it cannot be returned.";
         }
-        const userDoc = await transaction.get(userRef);
-        if (!userDoc.exists()) {
-          throw "User document does not exist";
-        }
-        // if both user and item exist, continue with the transaction
-        const checkedOutStatus = !entryDoc.data().isCheckedOut;
-        const userCheckedOutItems = userDoc.data().itemsCheckedOut || {};
-        // Decide which transaction to carry out
-        switch (task) {
-          case "check out":
-            // update the specific entry identified by "id" in this object first.
-            userCheckedOutItems[id] = {
-              dateCheckedOut: new Date().toDateString(),
-            };
-            // update both user and item docs
-            const checkOutEntryData: Partial<InventoryEntry> = {
-              isCheckedOut: checkedOutStatus,
-              checkedOutBy: auth.currentUser!.email,
-              dateCheckedOut: new Date().toDateString(),
-            };
-            transaction.update(entryRef, checkOutEntryData);
-            transaction.update(userRef, {
-              itemsCheckedOut: userCheckedOutItems,
-            });
-            break;
-          case "return":
-            if (userCheckedOutItems[id]) {
-              delete userCheckedOutItems[id];
-              const returnEntryData: Partial<InventoryEntry> = {
-                isCheckedOut: checkedOutStatus,
-                checkedOutBy: null,
-                dateCheckedOut: null,
-              };
-              transaction.update(entryRef, returnEntryData);
-              transaction.update(userRef, { itemsCheckedOut: userCheckedOutItems });
-            } else {
-              throw "Item is not checked out.";
-            }
-            break;
-          default:
-            break;
-        }
-      });
-      console.log("Transaction successful.");
-    } catch (e) {
-      console.log("Transaction failed.", e);
+        break;
+      default:
+        break;
     }
   };
   //#endregion functions updating database
@@ -246,3 +255,67 @@ function InventoryControl() {
 }
 
 export default InventoryControl;
+
+//  const handleCheckoutAndReturn = async (id: string, task: string) => {
+//    try {
+//      await runTransaction(db, async (transaction) => {
+//        // Check to make sure selectedEntry is not null
+//        if (!selectedEntry) {
+//          throw new Error("Selected entry is null.");
+//        }
+//        // read both the target item entry AND the current user
+//        const entryRef = doc(db, "inventoryEntries", selectedEntry.id!);
+//        const userRef = doc(db, "users", auth.currentUser!.uid);
+//        // read the information in both docs
+//        const entryDoc = await transaction.get(entryRef);
+//        if (!entryDoc.exists()) {
+//          throw "Item document does not exist";
+//        }
+//        const userDoc = await transaction.get(userRef);
+//        if (!userDoc.exists()) {
+//          throw "User document does not exist";
+//        }
+//        // if both user and item exist, continue with the transaction
+//        const checkedOutStatus = !entryDoc.data().isCheckedOut;
+//        const userCheckedOutItems = userDoc.data().itemsCheckedOut || {};
+//        // Decide which transaction to carry out
+//        switch (task) {
+//          case "check out":
+//            // update the specific entry identified by "id" in this object first.
+//            userCheckedOutItems[id] = {
+//              dateCheckedOut: new Date().toDateString(),
+//            };
+//            // update both user and item docs
+//            const checkOutEntryData: Partial<InventoryEntry> = {
+//              isCheckedOut: checkedOutStatus,
+//              checkedOutBy: auth.currentUser!.email,
+//              dateCheckedOut: new Date().toDateString(),
+//            };
+//            transaction.update(entryRef, checkOutEntryData);
+//            transaction.update(userRef, {
+//              itemsCheckedOut: userCheckedOutItems,
+//            });
+//            break;
+//          case "return":
+//            if (userCheckedOutItems[id]) {
+//              delete userCheckedOutItems[id];
+//              const returnEntryData: Partial<InventoryEntry> = {
+//                isCheckedOut: checkedOutStatus,
+//                checkedOutBy: null,
+//                dateCheckedOut: null,
+//              };
+//              transaction.update(entryRef, returnEntryData);
+//              transaction.update(userRef, { itemsCheckedOut: userCheckedOutItems });
+//            } else {
+//              throw "Item is not checked out.";
+//            }
+//            break;
+//          default:
+//            break;
+//        }
+//      });
+//      console.log("Transaction successful.");
+//    } catch (e) {
+//      console.log("Transaction failed.", e);
+//    }
+//  };
