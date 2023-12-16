@@ -49,7 +49,7 @@ function InventoryControl() {
             name: entry.data().name,
             location: entry.data().location,
             description: entry.data().description,
-            checkedOut: entry.data().available,
+            isCheckedOut: entry.data().isCheckedOut,
             checkedOutBy: entry.data().checkedOutBy,
             dateCheckedOut: entry.data().dateCheckedOut,
             tags: entry.data().tags,
@@ -142,7 +142,7 @@ function InventoryControl() {
           throw "User document does not exist";
         }
         // if both user and item exist, continue with the transaction
-        const checkedOutStatus = !entryDoc.data().checkedOut;
+        const checkedOutStatus = !entryDoc.data().isCheckedOut;
         const userCheckedOutItems = userDoc.data().itemsCheckedOut || {};
         // Decide which transaction to carry out
         switch (task) {
@@ -153,7 +153,7 @@ function InventoryControl() {
             };
             // update both user and item docs
             const checkOutEntryData: Partial<InventoryEntry> = {
-              checkedOut: checkedOutStatus,
+              isCheckedOut: checkedOutStatus,
               checkedOutBy: auth.currentUser!.email,
               dateCheckedOut: new Date().toDateString(),
             };
@@ -166,7 +166,7 @@ function InventoryControl() {
             if (userCheckedOutItems[id]) {
               delete userCheckedOutItems[id];
               const returnEntryData: Partial<InventoryEntry> = {
-                checkedOut: checkedOutStatus,
+                isCheckedOut: checkedOutStatus,
                 checkedOutBy: null,
                 dateCheckedOut: null,
               };

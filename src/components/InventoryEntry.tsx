@@ -3,7 +3,7 @@ type InventoryEntryProps = {
   name: string;
   description: string;
   location: string;
-  checkedOut: boolean;
+  isCheckedOut: boolean;
   checkedOutBy: string | null;
   dateCheckedOut: string | null;
   tags: string[];
@@ -17,7 +17,7 @@ function InventoryEntry(props: InventoryEntryProps) {
     name,
     description,
     location,
-    checkedOut,
+    isCheckedOut,
     checkedOutBy,
     dateCheckedOut,
     tags,
@@ -30,9 +30,9 @@ function InventoryEntry(props: InventoryEntryProps) {
         <h3>Name: {name}</h3>
         <p>Description: {description}</p>
         <p>Location: {location}</p>
-        <p>Checked Out: {!checkedOut ? "No" : "Yes"}</p>
-        <p>Checked Out By: {!checkedOut ? checkedOutBy : null}</p>
-        <p>Date Checked Out: {!checkedOut ? dateCheckedOut : null}</p>
+        <p>Checked Out: {!isCheckedOut ? "No" : "Yes"}</p>
+        <p>Checked Out By: {!isCheckedOut ? checkedOutBy : null}</p>
+        <p>Date Checked Out: {!isCheckedOut ? dateCheckedOut : null}</p>
         <ul>
           {tags.map((tag, index) => (
             <li key={index}>{tag}</li>

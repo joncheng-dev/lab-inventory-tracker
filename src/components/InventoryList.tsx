@@ -21,7 +21,7 @@ function InventoryList(props: InventoryListProps) {
           name={entry.name}
           location={entry.location}
           description={entry.description}
-          checkedOut={entry.checkedOut}
+          isCheckedOut={entry.isCheckedOut}
           checkedOutBy={entry.checkedOutBy}
           dateCheckedOut={entry.dateCheckedOut}
           tags={entry.tags}

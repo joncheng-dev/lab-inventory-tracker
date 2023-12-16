@@ -18,7 +18,7 @@ function InventoryReusableForm(props: InventoryReusableFormProps) {
     name: "",
     description: "",
     location: "",
-    checkedOut: false,
+    isCheckedOut: false,
     checkedOutBy: null,
     dateCheckedOut: null,
     tags: [],
