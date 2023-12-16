@@ -68,6 +68,7 @@ function InventoryControl() {
     if (selectedEntry !== null) {
       handleChangingSelectedEntry(selectedEntry.id!);
     }
+    console.log(`useEffect updated selectedEntry`);
   }, [inventoryList, selectedEntry]);
   //#endregion useEffect hooks
 

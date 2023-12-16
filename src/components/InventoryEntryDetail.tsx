@@ -12,26 +12,32 @@ type InventoryEntryDetailProps = {
 
 function InventoryEntryDetails(props: InventoryEntryDetailProps) {
   const { entry, onClickingDelete, onClickingEdit, onClickingCheckoutOrReturn, onClickingExit } = props;
+  // prettier-ignore
+  const {
+    name,
+    description,
+    location,
+    checkedOut,
+    checkedOutBy,
+    dateCheckedOut,
+    tags,
+  } = entry;
 
   return (
     <React.Fragment>
       <h1>Inventory Entry Detail</h1>
       <hr />
-      <h3>
-        <strong>Name: </strong>
-        {entry.name}
-      </h3>
-      <p>
-        <strong>Location: </strong>
-        {entry.location}
-      </p>
-      <p>
-        <strong>Description: </strong>
-        {entry.description}
-      </p>
-      <p>Checked Out: {entry.checkedOut ? "yes" : "no"}</p>
-      <p>Checked Out By: {entry.checkedOut ? entry.checkedOutBy : null}</p>
-      <p>Date Checked Out: {entry.checkedOut ? entry.dateCheckedOut : null}</p>
+      <h3>Name: {name}</h3>
+      <p>Description: {description}</p>
+      <p>Location: {location}</p>
+      <p>Checked Out: {!checkedOut ? "No" : "Yes"}</p>
+      <p>Checked Out By: {!checkedOut ? checkedOutBy : null}</p>
+      <p>Date Checked Out: {!checkedOut ? dateCheckedOut : null}</p>
+      <ul>
+        {tags.map((tag, index) => (
+          <li key={index}>{tag}</li>
+        ))}
+      </ul>
       <button onClick={() => onClickingCheckoutOrReturn(entry.id!, "check out")}>Check Out Item</button>
       <button onClick={() => onClickingCheckoutOrReturn(entry.id!, "return")}>Return Item</button>
       <br />

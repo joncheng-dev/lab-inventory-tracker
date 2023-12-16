@@ -30,9 +30,9 @@ function InventoryEntry(props: InventoryEntryProps) {
         <h3>Name: {name}</h3>
         <p>Description: {description}</p>
         <p>Location: {location}</p>
-        <p>Checked Out: {checkedOut ? "Yes" : "No"}</p>
-        <p>Checked Out By: {checkedOut ? checkedOutBy : null}</p>
-        <p>Date Checked Out: {checkedOut ? dateCheckedOut : null}</p>
+        <p>Checked Out: {!checkedOut ? "No" : "Yes"}</p>
+        <p>Checked Out By: {!checkedOut ? checkedOutBy : null}</p>
+        <p>Date Checked Out: {!checkedOut ? dateCheckedOut : null}</p>
         <ul>
           {tags.map((tag, index) => (
             <li key={index}>{tag}</li>
