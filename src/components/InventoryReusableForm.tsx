@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { InventoryEntry } from "./Types";
+import { Checkbox } from "@mui/material";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 // Typing for Inventory Reusable Form component
 interface InventoryReusableFormProps {
@@ -43,37 +45,46 @@ function InventoryReusableForm(props: InventoryReusableFormProps) {
     setFormData((prevData) => {
       if (checked) {
         // updates tags array with all checked values
+        console.log("checked", { ...prevData, tags: [...prevData.tags, value] });
         return { ...prevData, tags: [...prevData.tags, value] };
       } else {
         // updates tags array without the unchecked values
+        console.log("checked", { ...prevData, tags: prevData.tags.filter((element) => element !== value) });
         return { ...prevData, tags: prevData.tags.filter((element) => element !== value) };
       }
     });
   };
 
   const tagChecklistGenerator = (wordArray: string[]) => {
-    return wordArray.map((word, index) => (
-      <div key={index}>
-        <input value={word} type="checkbox" onChange={handleCheckboxChange} />
-        <label htmlFor={word}>{word}</label>
-      </div>
-    ));
+    return wordArray.map((word, index) => {
+      const isChecked = formData.tags.includes(word);
+      return (
+        // prettier-ignore
+        <FormControlLabel
+          key={index}
+          value={word}
+          control={<Checkbox onChange={handleCheckboxChange} checked={isChecked} />}
+          label={word}
+        />
+      );
+    });
   };
 
   // Passes formData in to the function provided by parent component, InventoryControl
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("formData", formData);
     handleEntryFormSubmission(formData);
   };
 
   return (
     <React.Fragment>
       <form onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Name of Item" onChange={handleInputChange} />
+        <input type="text" name="name" placeholder="Name of Item" onChange={handleInputChange} value={formData.name} />
         <br />
-        <textarea name="description" placeholder="Item description" onChange={handleInputChange} />
+        <textarea name="description" placeholder="Item description" onChange={handleInputChange} value={formData.description} />
         <br />
-        <input type="text" name="location" placeholder="Where is it normally located?" onChange={handleInputChange} />
+        <input type="text" name="location" placeholder="Where is it normally located?" onChange={handleInputChange} value={formData.location} />
         <br />
         <h2>Categories</h2>
         <h4>

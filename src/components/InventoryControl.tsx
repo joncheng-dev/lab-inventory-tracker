@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import CategoryPanel from "./CategoryPanel";
 import UserInfoPanel from "./UserInfoPanel";
 import InventoryList from "./InventoryList";
@@ -7,7 +7,6 @@ import InventoryEntryDetail from "./InventoryEntryDetail";
 import InventoryEditForm from "./InventoryEditForm";
 import { db, auth } from "../firebase.js";
 import { collection, addDoc, doc, onSnapshot, deleteDoc, updateDoc, runTransaction } from "firebase/firestore";
-import useFireStore from "./useFireStore.js";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
@@ -110,7 +109,7 @@ function InventoryControl() {
       name: entry.name,
       description: entry.description,
       location: entry.location,
-      tags: [],
+      tags: entry.tags,
     };
     await updateDoc(entryRef, data);
     setEditing(false);
