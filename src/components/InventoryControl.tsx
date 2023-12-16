@@ -118,8 +118,8 @@ function InventoryControl() {
   };
 
   const handleDeletingEntry = async (id: string) => {
-    await deleteDoc(doc(db, "inventoryEntries", id));
     setSelectedEntry(null);
+    await deleteDoc(doc(db, "inventoryEntries", id));
   };
 
   const handleCheckoutAndReturn = async (id: string, task: string) => {
