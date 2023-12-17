@@ -76,6 +76,10 @@ function InventoryControl() {
     }
   }, [inventoryList, selectedEntry]);
 
+  useEffect(() => {
+    handleQueryingItemsCheckedOutByUser();
+  }, [inventoryList]);
+
   //#endregion useEffect hooks
 
   //#region functions
