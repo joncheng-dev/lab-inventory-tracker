@@ -58,6 +58,7 @@ function InventoryControl() {
           });
         });
         setInventoryList(entries);
+        console.log(JSON.stringify(inventoryList, null, 2));
       },
       (error) => {
         setError(error.message);
@@ -77,7 +78,8 @@ function InventoryControl() {
   }, [inventoryList, selectedEntry]);
 
   useEffect(() => {
-    handleQueryingItemsCheckedOutByUser();
+    handleFilteringInventoryListToUser();
+    // handleQueryingItemsCheckedOutByUser();
   }, [inventoryList]);
 
   //#endregion useEffect hooks
@@ -180,18 +182,15 @@ function InventoryControl() {
       throw "Item is not checked out, so it cannot be returned.";
     }
   };
-  //#endregion functions updating database
-  //#region queries
-  const handleQueryingItemsCheckedOutByUser = async () => {
-    const entriesRef = collection(db, "inventoryEntries");
-    const q = query(entriesRef, where("checkedOutBy", "==", currentUser!.userEmail));
-    if (q !== null) {
-      const querySnapshot = await getDocs(q);
-      const checkedOutItemList: InventoryEntry[] = querySnapshot.docs.map((doc) => doc.data() as InventoryEntry);
+
+  const handleFilteringInventoryListToUser = () => {
+    if (currentUser) {
+      const checkedOutItemList = inventoryList.filter((entry) => entry.checkedOutBy === currentUser!.userEmail);
       setItemsCheckedOutByUser(checkedOutItemList);
     }
   };
-
+  //#endregion functions updating database
+  //#region queries
   //endregion queries
   //#endregion functions
 
@@ -201,7 +200,9 @@ function InventoryControl() {
   let rightSidePanel = null;
 
   if (currentUser) {
-    rightSidePanel = <UserInfoPanel user={currentUser!} itemsCheckedOutByUser={itemsCheckedOutByUser} />;
+    rightSidePanel = (
+      <UserInfoPanel user={currentUser!} itemsCheckedOutByUser={itemsCheckedOutByUser} onEntrySelection={handleChangingSelectedEntry} />
+    );
   }
 
   if (selectedEntry !== null && editing) {
