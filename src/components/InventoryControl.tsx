@@ -195,7 +195,7 @@ function InventoryControl() {
   //#endregion functions
 
   // Conditional Rendering of Components
-  let leftSidePanel = <CategoryPanel />;
+  let leftSidePanel = <CategoryPanel subjectTagChecklist={subjectTagChecklist} purposeTagChecklist={purposeTagChecklist} />;
   let centerPanel = null;
   let rightSidePanel = null;
 

@@ -45,11 +45,9 @@ function InventoryReusableForm(props: InventoryReusableFormProps) {
     setFormData((prevData) => {
       if (checked) {
         // updates tags array with all checked values
-        console.log("checked", { ...prevData, tags: [...prevData.tags, value] });
         return { ...prevData, tags: [...prevData.tags, value] };
       } else {
         // updates tags array without the unchecked values
-        console.log("checked", { ...prevData, tags: prevData.tags.filter((element) => element !== value) });
         return { ...prevData, tags: prevData.tags.filter((element) => element !== value) };
       }
     });
