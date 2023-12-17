@@ -6,7 +6,7 @@ import InventoryAddForm from "./InventoryAddForm";
 import InventoryEntryDetail from "./InventoryEntryDetail";
 import InventoryEditForm from "./InventoryEditForm";
 import { db, auth } from "../firebase.js";
-import { collection, addDoc, doc, onSnapshot, getDoc, deleteDoc, updateDoc } from "firebase/firestore";
+import { collection, addDoc, doc, onSnapshot, getDoc, deleteDoc, updateDoc, getDocs, query, where } from "firebase/firestore";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
@@ -31,12 +31,14 @@ function InventoryControl() {
   const [selectedEntry, setSelectedEntry] = useState<InventoryEntry | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<UserEntry | null>(null);
+  const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<InventoryEntry[]>([]);
   // For data:
   const [inventoryList, setInventoryList] = useState<InventoryEntry[]>([]);
   // For error handling:
   const [error, setError] = useState<string | null>(null);
   const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
   const purposeTagChecklist: string[] = ["Equipment", "Materials", "Models", "Safety"];
+
   //#region useEffect hooks
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -65,31 +67,32 @@ function InventoryControl() {
   }, []);
 
   useEffect(() => {
+    handleGettingCurrentUserInfoFromDb();
+  }, []);
+
+  useEffect(() => {
     if (selectedEntry !== null) {
       handleChangingSelectedEntry(selectedEntry.id!);
     }
-    console.log(`useEffect updated selectedEntry`);
   }, [inventoryList, selectedEntry]);
 
-  useEffect(() => {
-    if (auth.currentUser) {
-      handleGettingCurrentUserInfoFromDb();
-    }
-  }, []);
   //#endregion useEffect hooks
 
   //#region functions
   const handleGettingCurrentUserInfoFromDb = async () => {
-    if (auth.currentUser) {
-      const userRef = doc(db, "users", auth.currentUser.uid);
-      const docSnap = await getDoc(userRef);
-
-      if (docSnap.exists()) {
-        const userInfo = docSnap.data() as UserEntry;
-        setCurrentUser(userInfo);
-      } else {
-        console.log("No such user in database. (User collections does not contain a user document with that id.)");
+    try {
+      if (auth.currentUser) {
+        const userRef = doc(db, "users", auth.currentUser.uid);
+        const docSnap = await getDoc(userRef);
+        if (docSnap.exists()) {
+          const userInfo = docSnap.data() as UserEntry;
+          setCurrentUser(userInfo);
+        } else {
+          console.log("No such user in database. (User collections does not contain a user document with this id.)");
+        }
       }
+    } catch (error) {
+      console.error("Error retrieving user info:", error);
     }
   };
 
@@ -174,12 +177,28 @@ function InventoryControl() {
     }
   };
   //#endregion functions updating database
+  //#region queries
+  const handleQueryingItemsCheckedOutByUser = async () => {
+    const entriesRef = collection(db, "inventoryEntries");
+    const q = query(entriesRef, where("checkedOutBy", "==", currentUser!.userEmail));
+    if (q !== null) {
+      const querySnapshot = await getDocs(q);
+      const checkedOutItemList: InventoryEntry[] = querySnapshot.docs.map((doc) => doc.data() as InventoryEntry);
+      setItemsCheckedOutByUser(checkedOutItemList);
+    }
+  };
+
+  //endregion queries
   //#endregion functions
 
   // Conditional Rendering of Components
   let leftSidePanel = <CategoryPanel />;
   let centerPanel = null;
-  let rightSidePanel = <UserInfoPanel user={currentUser} />;
+  let rightSidePanel = null;
+
+  if (currentUser) {
+    rightSidePanel = <UserInfoPanel user={currentUser!} itemsCheckedOutByUser={itemsCheckedOutByUser} />;
+  }
 
   if (selectedEntry !== null && editing) {
     centerPanel = (
@@ -236,86 +255,3 @@ function InventoryControl() {
 }
 
 export default InventoryControl;
-
-//  const handleCheckoutAndReturn = async (id: string, task: string) => {
-//    try {
-//      await runTransaction(db, async (transaction) => {
-//        // Check to make sure selectedEntry is not null
-//        if (!selectedEntry) {
-//          throw new Error("Selected entry is null.");
-//        }
-//        // read both the target item entry AND the current user
-//        const entryRef = doc(db, "inventoryEntries", selectedEntry.id!);
-//        const userRef = doc(db, "users", auth.currentUser!.uid);
-//        // read the information in both docs
-//        const entryDoc = await transaction.get(entryRef);
-//        if (!entryDoc.exists()) {
-//          throw "Item document does not exist";
-//        }
-//        const userDoc = await transaction.get(userRef);
-//        if (!userDoc.exists()) {
-//          throw "User document does not exist";
-//        }
-//        // if both user and item exist, continue with the transaction
-//        const checkedOutStatus = !entryDoc.data().isCheckedOut;
-//        const userCheckedOutItems = userDoc.data().itemsCheckedOut || {};
-//        // Decide which transaction to carry out
-//        switch (task) {
-//          case "check out":
-//            // update the specific entry identified by "id" in this object first.
-//            userCheckedOutItems[id] = {
-//              dateCheckedOut: new Date().toDateString(),
-//            };
-//            // update both user and item docs
-//            const checkOutEntryData: Partial<InventoryEntry> = {
-//              isCheckedOut: checkedOutStatus,
-//              checkedOutBy: auth.currentUser!.email,
-//              dateCheckedOut: new Date().toDateString(),
-//            };
-//            transaction.update(entryRef, checkOutEntryData);
-//            transaction.update(userRef, {
-//              itemsCheckedOut: userCheckedOutItems,
-//            });
-//            break;
-//          case "return":
-//            if (userCheckedOutItems[id]) {
-//              delete userCheckedOutItems[id];
-//              const returnEntryData: Partial<InventoryEntry> = {
-//                isCheckedOut: checkedOutStatus,
-//                checkedOutBy: null,
-//                dateCheckedOut: null,
-//              };
-//              transaction.update(entryRef, returnEntryData);
-//              transaction.update(userRef, { itemsCheckedOut: userCheckedOutItems });
-//            } else {
-//              throw "Item is not checked out.";
-//            }
-//            break;
-//          default:
-//            break;
-//        }
-//      });
-//      console.log("Transaction successful.");
-//    } catch (e) {
-//      console.log("Transaction failed.", e);
-//    }
-//  };
-
-// const handleReturnItem = async () => {
-//   if (!selectedEntry) {
-//     throw new Error("No items are currently selected. (Selected entry is null.)");
-//   }
-//   const entryRef = doc(db, "inventoryEntries", selectedEntry.id!);
-//   const checkedOutStatus = !selectedEntry.isCheckedOut;
-//   // Decide if checking out item or returning item
-//   if (selectedEntry.isCheckedOut === true) {
-//     const returnEntryData: Partial<InventoryEntry> = {
-//       isCheckedOut: checkedOutStatus,
-//       checkedOutBy: null,
-//       dateCheckedOut: null,
-//     };
-//     await updateDoc(entryRef, returnEntryData);
-//   } else {
-//     throw "Item is not checked out, so it cannot be returned.";
-//   }
-// };

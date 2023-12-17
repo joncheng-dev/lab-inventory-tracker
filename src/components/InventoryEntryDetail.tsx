@@ -12,7 +12,7 @@ type InventoryEntryDetailProps = {
 };
 
 function InventoryEntryDetails(props: InventoryEntryDetailProps) {
-  const { entry, onClickingDelete, onClickingEdit, onClickingCheckout, onClickingReturn, onClickingExit } = props;
+  const { entry, onClickingCheckout, onClickingReturn, onClickingEdit, onClickingDelete, onClickingExit } = props;
   // prettier-ignore
   const {
     id,
