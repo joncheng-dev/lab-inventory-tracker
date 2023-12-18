@@ -34,6 +34,7 @@ function InventoryControl() {
   const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<InventoryEntry[]>([]);
   // For data:
   const [inventoryList, setInventoryList] = useState<InventoryEntry[]>([]);
+  const [listToDisplay, setListToDisplay] = useState<InventoryEntry[]>([]);
   // For error handling:
   const [error, setError] = useState<string | null>(null);
   const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
@@ -58,7 +59,7 @@ function InventoryControl() {
           });
         });
         setInventoryList(entries);
-        console.log(JSON.stringify(inventoryList, null, 2));
+        console.log(JSON.stringify(inventoryList));
       },
       (error) => {
         setError(error.message);
@@ -78,7 +79,7 @@ function InventoryControl() {
   }, [inventoryList, selectedEntry]);
 
   useEffect(() => {
-    handleFilteringInventoryListToUser();
+    handleMakeUserItemList();
     // handleQueryingItemsCheckedOutByUser();
   }, [inventoryList]);
 
@@ -123,6 +124,25 @@ function InventoryControl() {
 
   const handleEditEntryButtonClick = () => {
     setEditing(!editing);
+  };
+
+  const handleMakeUserItemList = () => {
+    if (currentUser) {
+      setItemsCheckedOutByUser(() => {
+        return inventoryList.filter((entry) => entry.checkedOutBy === currentUser!.userEmail);
+      });
+    }
+  };
+
+  const handleFilterListByCategoryBoxes = (arrayOfTags: string[]) => {
+    //prettier-ignore
+    if (arrayOfTags.length === 0) {
+      setListToDisplay(inventoryList);
+    } else {
+      const filteredList = inventoryList.filter((entry) => arrayOfTags.some((tag) => entry.tags.includes(tag)));
+      console.log(`filteredList: ${JSON.stringify(filteredList, null, 2)}`);
+      setListToDisplay(filteredList);
+    }
   };
 
   //#region functions updating database
@@ -182,20 +202,20 @@ function InventoryControl() {
       throw "Item is not checked out, so it cannot be returned.";
     }
   };
-
-  const handleFilteringInventoryListToUser = () => {
-    if (currentUser) {
-      const checkedOutItemList = inventoryList.filter((entry) => entry.checkedOutBy === currentUser!.userEmail);
-      setItemsCheckedOutByUser(checkedOutItemList);
-    }
-  };
   //#endregion functions updating database
   //#region queries
   //endregion queries
   //#endregion functions
 
   // Conditional Rendering of Components
-  let leftSidePanel = <CategoryPanel subjectTagChecklist={subjectTagChecklist} purposeTagChecklist={purposeTagChecklist} />;
+  let leftSidePanel = (
+    <CategoryPanel
+      listOfEntries={inventoryList}
+      subjectTagChecklist={subjectTagChecklist}
+      purposeTagChecklist={purposeTagChecklist}
+      onCategorySelection={handleFilterListByCategoryBoxes}
+    />
+  );
   let centerPanel = null;
   let rightSidePanel = null;
 
@@ -237,7 +257,7 @@ function InventoryControl() {
     );
   } else {
     centerPanel = (
-      <InventoryList listOfEntries={inventoryList} onClickingAddEntry={handleAddEntryButtonClick} onEntrySelection={handleChangingSelectedEntry} />
+      <InventoryList listOfEntries={listToDisplay} onClickingAddEntry={handleAddEntryButtonClick} onEntrySelection={handleChangingSelectedEntry} />
     );
   }
   return (
