@@ -4,6 +4,8 @@ import { auth, db } from "../firebase.tsx";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { eTargetType } from "./Types/index.tsx";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 
 function SignIn() {
   // state variables with useState hooks
@@ -69,11 +71,22 @@ function SignIn() {
     <React.Fragment>
       <h1>Create an Account</h1>
       {createAccountSuccess}
-      <form onSubmit={doCreateAccount}>
-        <input type="text" name="email" placeholder="email" />
-        <input type="password" name="password" placeholder="password" />
-        <button type="submit">Create Account</button>
-      </form>
+      <Box
+        component="form"
+        // prettier-ignore
+        sx={{ "& .MuiTextField-root": { m: 1, width: "30ch" }, }}
+        noValidate
+        autoComplete="off"
+      >
+        <form onSubmit={doCreateAccount}>
+          <div>
+            <TextField required id="filled-required" name="email" label="email" defaultValue="" variant="filled" />
+            <br />
+            <TextField required id="filled-required" name="password" label="password" type="password" defaultValue="" />
+          </div>
+          <button type="submit">Create Account</button>
+        </form>
+      </Box>
       <h1>Sign In</h1>
       {signInSuccess}
       <form onSubmit={doSignIn}>
@@ -90,3 +103,18 @@ function SignIn() {
 }
 
 export default SignIn;
+
+// <Box
+//   component="form"
+//   sx={{
+//     "& .MuiTextField-root": { m: 1, width: "30ch" },
+//   }}
+//   noValidate
+//   autoComplete="off"
+// >
+//   <div>
+//     <TextField required id="filled-required" label="Email" defaultValue="" variant="filled" />
+//     <br />
+//     <TextField required id="filled-required" label="Password" type="password" defaultValue="" />
+//   </div>
+// </Box>;
