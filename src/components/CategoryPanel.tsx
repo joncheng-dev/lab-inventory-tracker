@@ -61,7 +61,7 @@ function CategoryPanel(props: CategoryPanelProps) {
   useEffect(() => {
     onCategorySelection(tagsToFilter);
     console.log("useEffect tagsToFilter", tagsToFilter);
-  }, [tagsToFilter, onCategorySelection]);
+  }, [tagsToFilter]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
