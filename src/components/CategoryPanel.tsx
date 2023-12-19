@@ -39,13 +39,15 @@ function CategoryPanel(props: CategoryPanelProps) {
   };
 
   const tagChecklistGenerator = (wordArray: string[]) => {
+    console.log("tagChecklistGenerator", wordArray);
     return wordArray.map((word, index) => {
+      const isChecked = tagsToFilter.includes(word);
       return (
         // prettier-ignore
         <FormControlLabel
         key={index}
         value={word}
-          control={<Checkbox id={`checkbox-${word}`} onChange={handleCheckedboxChange}/>}
+          control={<Checkbox id={`checkbox-${word}`} checked={isChecked} value={word} onChange={handleCheckedboxChange}/>}
         label={word}
       />
       );
@@ -55,7 +57,7 @@ function CategoryPanel(props: CategoryPanelProps) {
   useEffect(() => {
     onCategorySelection(tagsToFilter);
     console.log("useEffect tagsToFilter", tagsToFilter);
-  }, [tagsToFilter, onCategorySelection]);
+  }, [tagsToFilter]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
