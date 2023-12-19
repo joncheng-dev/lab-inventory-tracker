@@ -1,8 +1,13 @@
-import React from "react";
 import { InventoryEntry } from "./Types";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Stack from "@mui/material/Stack";
+import styled from "styled-components";
+import Chip from "@mui/material/Chip";
+
+const EntryDetailContainer = styled.div`
+  background-color: #404040;
+`;
 
 // Typing for Inventory Entry Details component
 type InventoryEntryDetailProps = {
@@ -29,7 +34,7 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
   } = entry;
 
   return (
-    <React.Fragment>
+    <EntryDetailContainer>
       <h1>Inventory Entry Detail</h1>
       <hr />
       <h3>Name: {name}</h3>
@@ -38,11 +43,12 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
       <p>Is Checked Out: {isCheckedOut ? "Yes" : "No"}</p>
       <p>Checked Out By: {isCheckedOut ? checkedOutBy : null}</p>
       <p>Date Checked Out: {isCheckedOut ? dateCheckedOut : null}</p>
-      <ul>
+      <p>Categories:</p>
+      <Stack>
         {tags.map((tag, index) => (
-          <li key={index}>{tag}</li>
+          <Chip key={index} label={tag} />
         ))}
-      </ul>
+      </Stack>
       <button onClick={() => onClickingCheckout()}>Check Out Item</button>
       <button onClick={() => onClickingReturn(id!)}>Return Item</button>
       <br />
@@ -57,8 +63,14 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
       {/* <button onClick={() => onClickingDelete(id!)}>Delete Entry</button> */}
       <button onClick={onClickingExit}>Exit</button>
       <hr />
-    </React.Fragment>
+    </EntryDetailContainer>
   );
 }
 
 export default InventoryEntryDetails;
+
+// <ul>
+//   {tags.map((tag, index) => (
+//     <li key={index}>{tag}</li>
+//   ))}
+// </ul>;

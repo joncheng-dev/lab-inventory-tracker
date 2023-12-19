@@ -269,13 +269,13 @@ function InventoryControl() {
     <Layout>
       <>
         <Grid container spacing={1}>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <FixedWidthItem>{leftSidePanel}</FixedWidthItem>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={8}>
             <FixedWidthItem>{centerPanel}</FixedWidthItem>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <FixedWidthItem>{rightSidePanel}</FixedWidthItem>
           </Grid>
         </Grid>

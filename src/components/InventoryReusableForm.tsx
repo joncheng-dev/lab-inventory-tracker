@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import { InventoryEntry } from "./Types";
 import { Checkbox } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import styled from "styled-components";
+
+const ReusableFormContainer = styled.div`
+  background-color: #282828;
+`;
 
 // Typing for Inventory Reusable Form component
 interface InventoryReusableFormProps {
@@ -76,7 +81,7 @@ function InventoryReusableForm(props: InventoryReusableFormProps) {
   };
 
   return (
-    <React.Fragment>
+    <ReusableFormContainer>
       <form onSubmit={handleSubmit}>
         <input type="text" name="name" placeholder="Name of Item" onChange={handleInputChange} value={formData.name} />
         <br />
@@ -96,7 +101,7 @@ function InventoryReusableForm(props: InventoryReusableFormProps) {
         <button type="submit">{props.buttonText}</button>
         <button onClick={handleClickingExit}>Exit</button>
       </form>
-    </React.Fragment>
+    </ReusableFormContainer>
   );
 }
 

@@ -5,6 +5,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { eTargetType } from "./Types/index.tsx";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -82,13 +83,19 @@ function SignIn() {
         autoComplete="off"
         onSubmit={doCreateAccount}
       >
-        <TextField type="text" name="email" id="filled-required" label="Email" variant="filled" required />
-        <TextField type="password" name="password" id="filled-required" label="Password" required />
-        <Stack spacing={2} direction="row">
-          <Button variant="outlined" type="submit">
-            Create Account
-          </Button>
-        </Stack>
+        <Grid container spacing={2}>
+          <Grid>
+            <TextField type="text" name="email" label="Email" variant="filled" required />
+            <TextField type="password" name="password" label="Password" required />
+          </Grid>
+          <Grid item xs={4}>
+            <Stack spacing={2} direction="row">
+              <Button variant="outlined" type="submit">
+                Create Account
+              </Button>
+            </Stack>
+          </Grid>
+        </Grid>
       </Box>
       <h1>Sign In</h1>
       {signInSuccess}
@@ -101,13 +108,19 @@ function SignIn() {
         autoComplete="off"
         onSubmit={doSignIn}
       >
-        <TextField type="text" name="email" id="filled-required" label="Email" variant="filled" required />
-        <TextField type="password" name="password" id="filled-required" label="Password" required />
-        <Stack spacing={2} direction="row">
-          <Button variant="contained" type="submit">
-            Sign In
-          </Button>
-        </Stack>
+        <Grid container spacing={2}>
+          <Grid>
+            <TextField type="text" name="email" label="Email" variant="filled" required />
+            <TextField type="password" name="password" label="Password" required />
+          </Grid>
+          <Grid item xs={4}>
+            <Stack spacing={2} direction="row">
+              <Button variant="contained" type="submit">
+                Sign In
+              </Button>
+            </Stack>
+          </Grid>
+        </Grid>
       </Box>
       <h1>Sign Out</h1>
       {signOutSuccess}

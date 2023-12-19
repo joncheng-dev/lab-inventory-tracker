@@ -4,7 +4,10 @@ import { Checkbox } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { InventoryEntry } from "./Types";
 
-const CategoryPanelContainer = styled.div``;
+const CategoryPanelContainer = styled.div`
+  text-align: left;
+`;
+
 const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -63,13 +66,13 @@ function CategoryPanel(props: CategoryPanelProps) {
     <CategoryPanelContainer>
       <h1>Category Panel</h1>
       <form onSubmit={handleSubmit}>
-        <h4>
+        <h3>
           <strong>Subjects</strong>
-        </h4>
+        </h3>
         <ListContainer>{tagChecklistGenerator(subjectTagChecklist)}</ListContainer>
-        <h4>
+        <h3>
           <strong>Purpose</strong>
-        </h4>
+        </h3>
         <ListContainer>{tagChecklistGenerator(purposeTagChecklist)}</ListContainer>
         <button type="submit">Show Matching Results</button>
       </form>
