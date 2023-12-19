@@ -6,6 +6,8 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } f
 import { eTargetType } from "./Types/index.tsx";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 
 function SignIn() {
   // state variables with useState hooks
@@ -82,7 +84,11 @@ function SignIn() {
       >
         <TextField type="text" name="email" id="filled-required" label="Email" variant="filled" required />
         <TextField type="password" name="password" id="filled-required" label="Password" required />
-        <button type="submit">Create Account</button>
+        <Stack spacing={2} direction="row">
+          <Button variant="outlined" type="submit">
+            Create Account
+          </Button>
+        </Stack>
       </Box>
       <h1>Sign In</h1>
       {signInSuccess}
@@ -97,12 +103,20 @@ function SignIn() {
       >
         <TextField type="text" name="email" id="filled-required" label="Email" variant="filled" required />
         <TextField type="password" name="password" id="filled-required" label="Password" required />
-        <button type="submit">Sign In</button>
+        <Stack spacing={2} direction="row">
+          <Button variant="contained" type="submit">
+            Sign In
+          </Button>
+        </Stack>
       </Box>
       <h1>Sign Out</h1>
       {signOutSuccess}
       <br />
-      <button onClick={doSignOut}>Sign Out</button>
+      <Stack spacing={2} direction="row">
+        <Button variant="contained" onClick={doSignOut}>
+          Sign Out
+        </Button>
+      </Stack>
     </React.Fragment>
   );
 }
