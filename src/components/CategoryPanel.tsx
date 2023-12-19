@@ -21,6 +21,7 @@ interface CategoryPanelProps {
 }
 
 function CategoryPanel(props: CategoryPanelProps) {
+  console.log("CategoryPanel rendered");
   const { subjectTagChecklist, purposeTagChecklist, onCategorySelection } = props;
   const [tagsToFilter, setTags] = useState<string[]>([]);
 
@@ -29,6 +30,7 @@ function CategoryPanel(props: CategoryPanelProps) {
 
   const handleCheckedboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
+    console.log("a box was changed:", value);
     console.log("Checkbox changed:", value, checked);
     setTags((prevData) => {
       console.log("Previous tags:", prevData);
@@ -43,13 +45,13 @@ function CategoryPanel(props: CategoryPanelProps) {
   const tagChecklistGenerator = (wordArray: string[]) => {
     console.log("tagChecklistGenerator", wordArray);
     return wordArray.map((word, index) => {
-      // const isChecked = tagsToFilter.includes(word);
+      const isChecked = tagsToFilter.includes(word);
       return (
         // prettier-ignore
         <FormControlLabel
         key={index}
         value={word}
-          control={<Checkbox id={`checkbox-${word}`} checked={tagsToFilter.includes(word)} value={word} onChange={handleCheckedboxChange}/>}
+          control={<Checkbox id={`checkbox-${word}`} checked={isChecked} value={word} onChange={handleCheckedboxChange}/>}
         label={word}
       />
       );
@@ -70,7 +72,8 @@ function CategoryPanel(props: CategoryPanelProps) {
   return (
     <CategoryPanelContainer>
       <h1>Category Panel</h1>
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}> */}
+      <form>
         <h3>
           <strong>Subjects</strong>
         </h3>
@@ -79,7 +82,7 @@ function CategoryPanel(props: CategoryPanelProps) {
           <strong>Purpose</strong>
         </h3>
         <ListContainer>{tagChecklistGenerator(purposeTagChecklist)}</ListContainer>
-        <button type="submit">Show Matching Results</button>
+        {/* <button type="submit">Show Matching Results</button> */}
       </form>
     </CategoryPanelContainer>
   );
