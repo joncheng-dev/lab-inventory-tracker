@@ -29,7 +29,9 @@ function CategoryPanel(props: CategoryPanelProps) {
 
   const handleCheckedboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
+    console.log("Checkbox changed:", value, checked);
     setTags((prevData) => {
+      console.log("Previous tags:", prevData);
       if (checked) {
         return [...prevData, value];
       } else {
@@ -41,13 +43,13 @@ function CategoryPanel(props: CategoryPanelProps) {
   const tagChecklistGenerator = (wordArray: string[]) => {
     console.log("tagChecklistGenerator", wordArray);
     return wordArray.map((word, index) => {
-      const isChecked = tagsToFilter.includes(word);
+      // const isChecked = tagsToFilter.includes(word);
       return (
         // prettier-ignore
         <FormControlLabel
         key={index}
         value={word}
-          control={<Checkbox id={`checkbox-${word}`} checked={isChecked} value={word} onChange={handleCheckedboxChange}/>}
+          control={<Checkbox id={`checkbox-${word}`} checked={tagsToFilter.includes(word)} value={word} onChange={handleCheckedboxChange}/>}
         label={word}
       />
       );
@@ -57,11 +59,11 @@ function CategoryPanel(props: CategoryPanelProps) {
   useEffect(() => {
     onCategorySelection(tagsToFilter);
     console.log("useEffect tagsToFilter", tagsToFilter);
-  }, [tagsToFilter]);
+  }, [tagsToFilter, onCategorySelection]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(`handleSubmit: ${tagsToFilter}`);
+    console.log("handleSubmit:", tagsToFilter);
     onCategorySelection(tagsToFilter);
   };
 
