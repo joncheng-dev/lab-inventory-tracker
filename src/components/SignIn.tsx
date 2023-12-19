@@ -71,29 +71,26 @@ function SignIn() {
     <React.Fragment>
       <h1>Create an Account</h1>
       {createAccountSuccess}
-      <Box
-        component="form"
-        // prettier-ignore
-        sx={{ "& .MuiTextField-root": { m: 1, width: "30ch" }, }}
-        noValidate
-        autoComplete="off"
-      >
-        <form onSubmit={doCreateAccount}>
-          <div>
-            <TextField required id="filled-required" name="email" label="email" defaultValue="" variant="filled" />
-            <br />
-            <TextField required id="filled-required" name="password" label="password" type="password" defaultValue="" />
-          </div>
-          <button type="submit">Create Account</button>
-        </form>
-      </Box>
-      <h1>Sign In</h1>
-      {signInSuccess}
-      <form onSubmit={doSignIn}>
+      <form onSubmit={doCreateAccount}>
         <input type="text" name="email" placeholder="email" />
         <input type="password" name="password" placeholder="password" />
-        <button type="submit">Sign In</button>
+        <button type="submit">Create Account</button>
       </form>
+      <h1>Sign In</h1>
+      {signInSuccess}
+      <Box
+        component="form"
+        sx={{
+          "& .MuiTextField-root": { m: 1, width: "25ch" },
+        }}
+        noValidate
+        autoComplete="off"
+        onSubmit={doSignIn}
+      >
+        <TextField type="text" name="email" id="filled-required" label="Email" variant="filled" required />
+        <TextField type="password" name="password" id="filled-required" label="Password" required />
+        <button type="submit">Sign In</button>
+      </Box>
       <h1>Sign Out</h1>
       {signOutSuccess}
       <br />
@@ -104,17 +101,23 @@ function SignIn() {
 
 export default SignIn;
 
+// <form onSubmit={doSignIn}>
+//   <input type="text" name="email" placeholder="email" />
+//   <input type="password" name="password" placeholder="password" />
+//   <button type="submit">Sign In</button>
+// </form>;
+
 // <Box
 //   component="form"
 //   sx={{
-//     "& .MuiTextField-root": { m: 1, width: "30ch" },
+//     "& .MuiTextField-root": { m: 1, width: "25ch" },
 //   }}
 //   noValidate
 //   autoComplete="off"
 // >
 //   <div>
 //     <TextField required id="filled-required" label="Email" defaultValue="" variant="filled" />
-//     <br />
 //     <TextField required id="filled-required" label="Password" type="password" defaultValue="" />
+//     <TextField id="filled-password-input" label="Password" type="password" />
 //   </div>
 // </Box>;
