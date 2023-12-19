@@ -1,7 +1,14 @@
+import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { Checkbox } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { InventoryEntry } from "./Types";
+
+const CategoryPanelContainer = styled.div``;
+const ListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 interface CategoryPanelProps {
   listOfEntries: InventoryEntry[];
@@ -53,20 +60,20 @@ function CategoryPanel(props: CategoryPanelProps) {
   };
 
   return (
-    <>
+    <CategoryPanelContainer>
       <h1>Category Panel</h1>
       <form onSubmit={handleSubmit}>
         <h4>
           <strong>Subjects</strong>
         </h4>
-        <div>{tagChecklistGenerator(subjectTagChecklist)}</div>
+        <ListContainer>{tagChecklistGenerator(subjectTagChecklist)}</ListContainer>
         <h4>
           <strong>Purpose</strong>
         </h4>
-        <div>{tagChecklistGenerator(purposeTagChecklist)}</div>
+        <ListContainer>{tagChecklistGenerator(purposeTagChecklist)}</ListContainer>
         <button type="submit">Show Matching Results</button>
       </form>
-    </>
+    </CategoryPanelContainer>
   );
 }
 
