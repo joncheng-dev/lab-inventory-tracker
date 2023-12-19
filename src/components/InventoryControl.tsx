@@ -12,6 +12,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Layout from "./Layout";
 import { InventoryEntry, UserEntry } from "./Types/";
+import { useNavigate } from "react-router-dom";
 
 function InventoryControl() {
   // STYLING
@@ -35,10 +36,16 @@ function InventoryControl() {
   // For data:
   const [inventoryList, setInventoryList] = useState<InventoryEntry[]>([]);
   const [listToDisplay, setListToDisplay] = useState<InventoryEntry[]>([]);
-  // For error handling:
+  // Miscellaneous:
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
   const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
   const purposeTagChecklist: string[] = ["Equipment", "Materials", "Models", "Safety"];
+
+  // Redirect user to sign-in if not signed in.
+  if (!currentUser) {
+    navigate("/signin");
+  }
 
   //#region useEffect hooks
   useEffect(() => {
