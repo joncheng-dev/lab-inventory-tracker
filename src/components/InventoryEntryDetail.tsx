@@ -1,5 +1,8 @@
 import React from "react";
 import { InventoryEntry } from "./Types";
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Stack from "@mui/material/Stack";
 
 // Typing for Inventory Entry Details component
 type InventoryEntryDetailProps = {
@@ -46,7 +49,12 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
       <hr />
       <button onClick={onClickingEdit}>Edit entry</button>
       <br />
-      <button onClick={() => onClickingDelete(id!)}>Delete Entry</button>
+      <Stack direction="row" spacing={2}>
+        <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => onClickingDelete(id!)} color="error">
+          Delete
+        </Button>
+      </Stack>
+      {/* <button onClick={() => onClickingDelete(id!)}>Delete Entry</button> */}
       <button onClick={onClickingExit}>Exit</button>
       <hr />
     </React.Fragment>
