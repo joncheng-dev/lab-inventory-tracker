@@ -1,3 +1,16 @@
+import styled from "styled-components";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
+
+const StyledCard = styled(Card)`
+  width: 300px;
+`;
+
 type InventoryEntryProps = {
   id?: string;
   name: string;
@@ -26,7 +39,36 @@ function InventoryEntry(props: InventoryEntryProps) {
 
   return (
     <>
-      <div onClick={() => whenEntryClicked(id!)}>
+      <StyledCard onClick={() => whenEntryClicked(id!)}>
+        <CardContent>
+          {/* <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            Name: {name}
+          </Typography> */}
+          <Typography variant="h5" component="div">
+            Name: {name}
+          </Typography>
+          {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            adjective
+          </Typography> */}
+          <Typography variant="body2">
+            Description: {description}
+            <br />
+            Location: {location}
+            <br />
+            Is Checked Out: {isCheckedOut ? "Yes" : "No"}
+            <br />
+            <Stack>
+              {tags.map((tag, index) => (
+                <Chip key={index} label={tag} />
+              ))}
+            </Stack>
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small">Button</Button>
+        </CardActions>
+      </StyledCard>
+      {/* <div onClick={() => whenEntryClicked(id!)}>
         <h3>Name: {name}</h3>
         <p>Description: {description}</p>
         <p>Location: {location}</p>
@@ -38,7 +80,7 @@ function InventoryEntry(props: InventoryEntryProps) {
             <li key={index}>{tag}</li>
           ))}
         </ul>
-      </div>
+      </div> */}
     </>
   );
 }

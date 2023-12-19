@@ -9,7 +9,7 @@ type UserInfoPanelProps = {
 
 function UserInfoPanel(props: UserInfoPanelProps) {
   const { user, itemsCheckedOutByUser, onEntrySelection } = props;
-  const { userId, userEmail } = user || null;
+  const { userEmail } = user || null;
 
   // Use the ids passed in by itemsCheckedOutByUser --> list
   // Use it to query against the database.
@@ -20,8 +20,8 @@ function UserInfoPanel(props: UserInfoPanelProps) {
   return (
     <>
       <h1>User Information</h1>
-      <h3>User Id: {userId}</h3>
       <h3>User Email: {userEmail}</h3>
+      <hr />
       {itemsCheckedOutByUser.map((entry) => (
         <UserItem itemEntry={entry} whenEntryClicked={onEntrySelection} key={entry.id} />
       ))}
