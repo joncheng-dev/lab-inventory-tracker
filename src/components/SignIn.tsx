@@ -71,11 +71,19 @@ function SignIn() {
     <React.Fragment>
       <h1>Create an Account</h1>
       {createAccountSuccess}
-      <form onSubmit={doCreateAccount}>
-        <input type="text" name="email" placeholder="email" />
-        <input type="password" name="password" placeholder="password" />
+      <Box
+        component="form"
+        sx={{
+          "& .MuiTextField-root": { m: 1, width: "25ch" },
+        }}
+        noValidate
+        autoComplete="off"
+        onSubmit={doCreateAccount}
+      >
+        <TextField type="text" name="email" id="filled-required" label="Email" variant="filled" required />
+        <TextField type="password" name="password" id="filled-required" label="Password" required />
         <button type="submit">Create Account</button>
-      </form>
+      </Box>
       <h1>Sign In</h1>
       {signInSuccess}
       <Box
@@ -100,6 +108,12 @@ function SignIn() {
 }
 
 export default SignIn;
+
+// <form onSubmit={doCreateAccount}>
+//   <input type="text" name="email" placeholder="email" />
+//   <input type="password" name="password" placeholder="password" />
+//   <button type="submit">Create Account</button>
+// </form>;
 
 // <form onSubmit={doSignIn}>
 //   <input type="text" name="email" placeholder="email" />
