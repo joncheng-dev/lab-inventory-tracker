@@ -52,13 +52,14 @@ function CategoryPanel(props: CategoryPanelProps) {
     });
   };
 
-  // useEffect(() => {
-  //   onCategorySelection(tagsToFilter);
-  // }, [tagsToFilter, onCategorySelection]);
+  useEffect(() => {
+    onCategorySelection(tagsToFilter);
+    console.log("useEffect tagsToFilter", tagsToFilter);
+  }, [tagsToFilter, onCategorySelection]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(`tagsToFilter: ${tagsToFilter}`);
+    console.log(`handleSubmit: ${tagsToFilter}`);
     onCategorySelection(tagsToFilter);
   };
 

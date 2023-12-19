@@ -142,10 +142,11 @@ function InventoryControl() {
   const handleFilterListByCategoryBoxes = (arrayOfTags: string[]) => {
     //prettier-ignore
     if (arrayOfTags.length === 0) {
+      console.log("handleFilterListByCategoryBoxes - (if)", inventoryList);
       setListToDisplay(inventoryList);
     } else {
       const filteredList = inventoryList.filter((entry) => arrayOfTags.some((tag) => entry.tags.includes(tag)));
-      console.log(`filteredList: ${JSON.stringify(filteredList, null, 2)}`);
+      console.log("handleFilterListByCategoryBoxes - (else)", filteredList);
       setListToDisplay(filteredList);
     }
   };
