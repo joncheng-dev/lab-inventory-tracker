@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase.tsx";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
@@ -9,7 +10,8 @@ function SignIn() {
   const [createAccountSuccess, setCreateAccountSuccess] = useState<string | null>(null);
   const [signInSuccess, setSignInSuccess] = useState<string | null>(null);
   const [signOutSuccess, setSignOutSuccess] = useState<string | null>(null);
-
+  // redirects
+  const navigate = useNavigate();
   // functions
   function doCreateAccount(e: React.SyntheticEvent) {
     e.preventDefault();
@@ -45,9 +47,7 @@ function SignIn() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setSignInSuccess(`You've signed in as: ${userCredential.user.email}`);
-        console.log(`Signed in.`);
-        console.log(`Current user is: ${userCredential.user.email}`);
-        console.log(`Current user Id is: ${userCredential.user.uid}`);
+        navigate("/");
       })
       .catch((error) => {
         setSignInSuccess(`There was an error with sign-in: ${error.message}`);

@@ -42,11 +42,6 @@ function InventoryControl() {
   const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
   const purposeTagChecklist: string[] = ["Equipment", "Materials", "Models", "Safety"];
 
-  // Redirect user to sign-in if not signed in.
-  if (!currentUser) {
-    navigate("/signin");
-  }
-
   //#region useEffect hooks
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -101,9 +96,12 @@ function InventoryControl() {
         if (docSnap.exists()) {
           const userInfo = docSnap.data() as UserEntry;
           setCurrentUser(userInfo);
+          // Redirect user to sign-in if not signed in.
         } else {
           console.log("No such user in database. (User collections does not contain a user document with this id.)");
         }
+      } else {
+        navigate("/signin");
       }
     } catch (error) {
       console.error("Error retrieving user info:", error);
