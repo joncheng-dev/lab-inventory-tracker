@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
-import BasicModal from "./Modal";
 
 const StyledCard = styled(Card)`
   width: 300px;
@@ -40,7 +39,7 @@ function InventoryEntry(props: InventoryEntryProps) {
 
   return (
     <>
-      <StyledCard onClick={() => whenEntryClicked(id!)}>
+      <StyledCard>
         <CardContent>
           {/* <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             Name: {name}
@@ -67,7 +66,9 @@ function InventoryEntry(props: InventoryEntryProps) {
           </Stack>
         </CardContent>
         <CardActions>
-          <Button size="small">Button</Button>
+          <Button onClick={() => whenEntryClicked(id!)} size="small">
+            Details
+          </Button>
         </CardActions>
       </StyledCard>
       {/* <div onClick={() => whenEntryClicked(id!)}>

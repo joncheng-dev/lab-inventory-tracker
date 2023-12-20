@@ -4,7 +4,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Stack from "@mui/material/Stack";
 import styled from "styled-components";
 import Chip from "@mui/material/Chip";
-import BasicModal from "./Modal";
 
 const EntryDetailContainer = styled.div`
   background-color: #404040;
@@ -35,7 +34,7 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
   } = entry;
 
   return (
-    <BasicModal>
+    <EntryDetailContainer>
       <>
         <h1>Inventory Entry Detail</h1>
         <hr />
@@ -66,7 +65,7 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
         <button onClick={onClickingExit}>Exit</button>
         <hr />
       </>
-    </BasicModal>
+    </EntryDetailContainer>
   );
 }
 
