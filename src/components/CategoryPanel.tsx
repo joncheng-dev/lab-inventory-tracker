@@ -19,7 +19,7 @@ interface CategoryPanelProps {
 }
 
 function CategoryPanel(props: CategoryPanelProps) {
-  console.log("CategoryPanel rendered");
+  console.log("CategoryPanel: rendered");
   const { subjectTagChecklist, purposeTagChecklist, onCategorySelection } = props;
   const [tagsToFilter, setTags] = useState<string[]>([]);
 
@@ -41,7 +41,7 @@ function CategoryPanel(props: CategoryPanelProps) {
   };
 
   const tagChecklistGenerator = (wordArray: string[]) => {
-    console.log("tagChecklistGenerator", wordArray);
+    console.log("CategoryPanel: tagChecklistGenerator", wordArray);
     return wordArray.map((word, index) => {
       const isChecked = tagsToFilter.includes(word);
       return (

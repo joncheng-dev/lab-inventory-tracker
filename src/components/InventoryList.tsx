@@ -21,7 +21,7 @@ type InventoryListProps = {
 
 function InventoryList(props: InventoryListProps) {
   const { listOfEntries, onEntrySelection, onClickingAddEntry } = props;
-  console.log("Inventory List rendered; listOfEntries", listOfEntries);
+  console.log("InventoryList: listOfEntries", listOfEntries);
 
   return (
     <ListContainer>

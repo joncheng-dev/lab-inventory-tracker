@@ -15,7 +15,7 @@ import { InventoryEntry, UserEntry } from "./Types/";
 import { useNavigate } from "react-router-dom";
 
 function InventoryControl() {
-  console.log("InventoryControl has rendered");
+  console.log("InventoryControl: rendered");
   // STYLING
   //#region styling
   const FixedWidthItem = styled(Paper)(({ theme }) => ({
@@ -62,7 +62,7 @@ function InventoryControl() {
           });
         });
         setInventoryList(entries);
-        console.log("inventoryList:", inventoryList);
+        console.log("InventoryControl useEffect: inventoryList", inventoryList);
         // console.log(JSON.stringify(inventoryList));
       },
       (error) => {
@@ -74,19 +74,19 @@ function InventoryControl() {
 
   useEffect(() => {
     handleGettingCurrentUserInfoFromDb();
-    console.log("useEffect user info received from db");
+    console.log("useEffect: user info received from db");
   }, []);
 
   useEffect(() => {
     if (selectedEntry !== null) {
       handleChangingSelectedEntry(selectedEntry.id!);
-      console.log("useEffect handleChangingSelectedEntry: updated selectedEntry");
+      console.log("useEffect: handleChangingSelectedEntry updated selectedEntry");
     }
   }, [inventoryList, selectedEntry]);
 
   useEffect(() => {
     handleMakeUserItemList();
-    console.log("useEffect handleMakeUserItemList just triggered");
+    console.log("useEffect: handleMakeUserItemList triggered");
     // handleQueryingItemsCheckedOutByUser();
   }, [inventoryList]);
 
