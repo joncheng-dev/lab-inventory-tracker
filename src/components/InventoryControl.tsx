@@ -36,6 +36,7 @@ function InventoryControl() {
   const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<InventoryEntry[]>([]);
   // For data:
   const [inventoryList, setInventoryList] = useState<InventoryEntry[]>([]);
+  const [tagsToFilter, setTags] = useState<string[]>([]);
   const [listToDisplay, setListToDisplay] = useState<InventoryEntry[]>([]);
   // Miscellaneous:
   const [error, setError] = useState<string | null>(null);
@@ -144,8 +145,14 @@ function InventoryControl() {
     }
   };
 
+  // setTags takes in an array of strings to update the tagsToFilter state
+
+  // handleFilterListByCategoryBoxes - gets sent into CategoryPanel
+  // takes in an array of strings. (called tagsToFilter)
+  // uses the strings to filter the inventory list
   const handleFilterListByCategoryBoxes = (arrayOfTags: string[]) => {
     //prettier-ignore
+    setTags(arrayOfTags);
     if (arrayOfTags.length === 0) {
       console.log("handleFilterListByCategoryBoxes - (if)", inventoryList);
       setListToDisplay(inventoryList);
@@ -221,6 +228,7 @@ function InventoryControl() {
   // Conditional Rendering of Components
   let leftSidePanel = (
     <CategoryPanel
+      tags={tagsToFilter}
       subjectTagChecklist={subjectTagChecklist}
       purposeTagChecklist={purposeTagChecklist}
       onCategorySelection={handleFilterListByCategoryBoxes}

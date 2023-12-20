@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
 import { Checkbox } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
@@ -13,6 +12,7 @@ const ListContainer = styled.div`
 `;
 
 interface CategoryPanelProps {
+  tags: string[];
   subjectTagChecklist: string[];
   purposeTagChecklist: string[];
   onCategorySelection: (arrayOfWords: string[]) => void;
@@ -20,8 +20,7 @@ interface CategoryPanelProps {
 
 function CategoryPanel(props: CategoryPanelProps) {
   console.log("CategoryPanel: rendered");
-  const { subjectTagChecklist, purposeTagChecklist, onCategorySelection } = props;
-  const [tagsToFilter, setTags] = useState<string[]>([]);
+  const { tags, subjectTagChecklist, purposeTagChecklist, onCategorySelection } = props;
 
   // Next step, filter results to show to center panel
   // It will instantly filter out all the results and only show the items that have that tag.
@@ -30,20 +29,18 @@ function CategoryPanel(props: CategoryPanelProps) {
     const { value, checked } = e.target;
     console.log("a box was changed:", value);
     console.log("Checkbox changed:", value, checked);
-    setTags((prevData) => {
-      console.log("Previous tags:", prevData);
-      if (checked) {
-        return [...prevData, value];
-      } else {
-        return prevData.filter((entry) => entry !== value);
-      }
-    });
+    const updatedTags = [...tags];
+    if (checked) {
+      onCategorySelection([...updatedTags, value]);
+    } else {
+      onCategorySelection(updatedTags.filter((entry) => entry !== value));
+    }
   };
 
   const tagChecklistGenerator = (wordArray: string[]) => {
     console.log("CategoryPanel: tagChecklistGenerator", wordArray);
     return wordArray.map((word, index) => {
-      const isChecked = tagsToFilter.includes(word);
+      const isChecked = tags.includes(word);
       return (
         // prettier-ignore
         <FormControlLabel
@@ -55,14 +52,6 @@ function CategoryPanel(props: CategoryPanelProps) {
       );
     });
   };
-
-  useEffect(() => {
-    const prevTagsToFilter: string[] = tagsToFilter;
-    if (prevTagsToFilter !== tagsToFilter) {
-      onCategorySelection(tagsToFilter);
-      console.log("useEffect tagsToFilter", tagsToFilter);
-    }
-  }, [tagsToFilter]);
 
   // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
   //   e.preventDefault();
