@@ -91,6 +91,10 @@ function InventoryControl() {
     // handleQueryingItemsCheckedOutByUser();
   }, [inventoryList]);
 
+  useEffect(() => {
+    handleFilterListByCategoryBoxes(tagsToFilter);
+  }, [inventoryList]);
+
   //#endregion useEffect hooks
 
   //#region functions
