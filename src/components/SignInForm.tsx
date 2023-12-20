@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export default function SignInForm({ children }) {
+type SignInFormProps = {
+  children: JSX.Element;
+};
+
+export default function SignInForm(props: SignInFormProps) {
   //#region style
   const FormContainer = styled.div`
     body {
@@ -289,7 +293,7 @@ export default function SignInForm({ children }) {
   //#endregion style
   return (
     <FormContainer>
-      {children}
+      {props.children}
       <div className="section">
         <div className="container">
           <div className="row full-height justify-content-center">
@@ -318,22 +322,13 @@ export default function SignInForm({ children }) {
                           <a href="#" className="btn mt-4">
                             submit
                           </a>
-                          <p className="mb-0 mt-4 text-center">
-                            <a href="#0" className="link">
-                              Forgot your password?
-                            </a>
-                          </p>
                         </div>
                       </div>
                     </div>
                     <div className="card-back">
                       <div className="center-wrap">
                         <div className="section text-center">
-                          <h4 className="mb-4 pb-3">Sign Up</h4>
-                          <div className="form-group">
-                            <input type="text" name="logname" className="form-style" placeholder="Your Full Name" id="logname" />
-                            <i className="input-icon uil uil-user"></i>
-                          </div>
+                          <h4 className="mb-4 pb-3">Create Account</h4>
                           <div className="form-group mt-2">
                             <input type="email" name="logemail" className="form-style" placeholder="Your Email" id="logemail" />
                             <i className="input-icon uil uil-at"></i>
