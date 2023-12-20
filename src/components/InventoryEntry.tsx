@@ -9,6 +9,10 @@ import Stack from "@mui/material/Stack";
 
 const StyledCard = styled(Card)`
   width: 300px;
+  min-width: 33%;
+  max-width: 33%;
+  border: 1px black solid;
+  background: #369;
 `;
 
 type InventoryEntryProps = {
