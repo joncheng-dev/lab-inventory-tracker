@@ -61,7 +61,7 @@ function CategoryPanel(props: CategoryPanelProps) {
 
   return (
     <CategoryPanelContainer>
-      <h1>Category Panel</h1>
+      <h1>Categories</h1>
       {/* <form onSubmit={handleSubmit}> */}
       <form>
         <h3>

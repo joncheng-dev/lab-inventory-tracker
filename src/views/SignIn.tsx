@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase.tsx";
 import { doc, setDoc } from "firebase/firestore";
@@ -9,6 +10,12 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+
+const FormContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 function SignIn() {
   // state variables with useState hooks
@@ -71,66 +78,33 @@ function SignIn() {
 
   // conditional rendering
   return (
-    <React.Fragment>
+    <FormContainer>
       <h1>Create an Account</h1>
       {createAccountSuccess}
-      <Box
-        component="form"
-        sx={{
-          "& .MuiTextField-root": { m: 1, width: "25ch" },
-        }}
-        noValidate
-        autoComplete="off"
-        onSubmit={doCreateAccount}
-      >
-        <Grid container spacing={2}>
-          <Grid>
-            <TextField type="text" name="email" label="Email" variant="filled" required />
-            <TextField type="password" name="password" label="Password" required />
-          </Grid>
-          <Grid item xs={4}>
-            <Stack spacing={2} direction="row">
-              <Button variant="outlined" type="submit">
-                Create Account
-              </Button>
-            </Stack>
-          </Grid>
-        </Grid>
-      </Box>
+
+      <TextField type="text" name="email" label="Email" variant="filled" required />
+      <TextField type="password" name="password" label="Password" required />
+
+      <Button variant="outlined" type="submit">
+        Create Account
+      </Button>
+
       <h1>Sign In</h1>
       {signInSuccess}
-      <Box
-        component="form"
-        sx={{
-          "& .MuiTextField-root": { m: 1, width: "25ch" },
-        }}
-        noValidate
-        autoComplete="off"
-        onSubmit={doSignIn}
-      >
-        <Grid container spacing={2}>
-          <Grid>
-            <TextField type="text" name="email" label="Email" variant="filled" required />
-            <TextField type="password" name="password" label="Password" required />
-          </Grid>
-          <Grid item xs={4}>
-            <Stack spacing={2} direction="row">
-              <Button variant="contained" type="submit">
-                Sign In
-              </Button>
-            </Stack>
-          </Grid>
-        </Grid>
-      </Box>
+      <TextField type="text" name="email" label="Email" variant="filled" required />
+      <TextField type="password" name="password" label="Password" required />
+
+      <Button variant="contained" type="submit">
+        Sign In
+      </Button>
+
       <h1>Sign Out</h1>
       {signOutSuccess}
       <br />
-      <Stack spacing={2} direction="row">
-        <Button variant="contained" onClick={doSignOut}>
-          Sign Out
-        </Button>
-      </Stack>
-    </React.Fragment>
+      <Button variant="contained" onClick={doSignOut}>
+        Sign Out
+      </Button>
+    </FormContainer>
   );
 }
 

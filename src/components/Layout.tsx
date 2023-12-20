@@ -3,7 +3,7 @@ import Header from "./Header";
 import { LayoutProps } from "../types";
 
 const StyledLayout = styled.div`
-  min-width: 100vw;
+  max-width: 100vw;
   min-height: 100vw;
 `;
 

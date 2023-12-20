@@ -13,7 +13,7 @@ const ItemContainer = styled.div`
   /* flex-direction: row; */
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 2.5em;
+  gap: 2.25em;
 `;
 
 type InventoryListProps = {
