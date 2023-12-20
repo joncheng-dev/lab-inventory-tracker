@@ -62,8 +62,8 @@ function SignIn() {
       position: relative;
       display: block;
       text-align: center;
-      width: 60px;
-      height: 16px;
+      width: 50px;
+      height: 12px;
       border-radius: 8px;
       padding: 0;
       margin: 10px auto;
@@ -74,13 +74,13 @@ function SignIn() {
     .checkbox:not(:checked) + label:before {
       position: absolute;
       display: block;
-      width: 36px;
-      height: 36px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       color: #ffeba7;
       background-color: #102770;
       font-family: "unicons";
-      content: "\eb4f";
+      content: " ";
       z-index: 20;
       top: -10px;
       left: -10px;
@@ -118,7 +118,6 @@ function SignIn() {
       width: 100%;
       height: 100%;
       background-color: #2a2b38;
-      background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg");
       background-position: bottom center;
       background-repeat: no-repeat;
       background-size: 300%;
@@ -297,9 +296,15 @@ function SignIn() {
   const [createAccountSuccess, setCreateAccountSuccess] = useState<string | null>(null);
   const [signInSuccess, setSignInSuccess] = useState<string | null>(null);
   const [signOutSuccess, setSignOutSuccess] = useState<string | null>(null);
+  const [isCreateAccount, setIsCreateAccount] = useState<boolean>(false);
   // redirects
   const navigate = useNavigate();
+
   // functions
+  function handleCheckboxChange() {
+    setIsCreateAccount((prevState) => !prevState);
+  }
+
   function doCreateAccount(e: React.SyntheticEvent) {
     e.preventDefault();
 
@@ -308,10 +313,13 @@ function SignIn() {
     const email = target.email.value;
     const password = target.password.value;
 
+    console.log("Account made with email:", email);
+
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
         // user successfully creates account
         setCreateAccountSuccess(`Account creation successful: ${userCredential.user.email}.`);
+        console.log("Account creation successful:", userCredential.user.email);
         await setDoc(doc(db, "users", userCredential.user.uid), {
           userEmail: email,
           userId: userCredential.user.uid,
@@ -320,6 +328,7 @@ function SignIn() {
       .catch((error) => {
         // error with creating account
         setCreateAccountSuccess(`Error creating account: ${error.message}`);
+        console.error("Error creating account:", error.message);
       });
   }
 
@@ -363,7 +372,7 @@ function SignIn() {
                   <span>Log In </span>
                   <span>Create Account</span>
                 </h6>
-                <input className="checkbox" type="checkbox" id="reg-log" name="reg-log" />
+                <input className="checkbox" type="checkbox" id="reg-log" name="reg-log" checked={isCreateAccount} onChange={handleCheckboxChange} />
                 <label htmlFor="reg-log"></label>
                 <div className="card-3d-wrap mx-auto">
                   <div className="card-3d-wrapper">
@@ -371,17 +380,19 @@ function SignIn() {
                       <div className="center-wrap">
                         <div className="section text-center">
                           <h4 className="mb-4 pb-3">Log In</h4>
-                          <div className="form-group">
-                            <input type="email" name="email" className="form-style" placeholder="Email" />
-                            <i className="input-icon uil uil-at"></i>
-                          </div>
-                          <div className="form-group mt-2">
-                            <input type="password" name="logpass" className="form-style" placeholder="Password" />
-                            <i className="input-icon uil uil-lock-alt"></i>
-                          </div>
-                          <button onSubmit={doSignIn} className="btn mt-4">
-                            Sign In
-                          </button>
+                          <form onSubmit={doSignIn}>
+                            <div className="form-group">
+                              <input type="email" name="email" className="form-style" placeholder="Email" />
+                              <i className="input-icon uil uil-at"></i>
+                            </div>
+                            <div className="form-group mt-2">
+                              <input type="password" name="password" className="form-style" placeholder="Password" />
+                              <i className="input-icon uil uil-lock-alt"></i>
+                            </div>
+                            <button type="submit" className="btn mt-4">
+                              Sign In
+                            </button>
+                          </form>
                         </div>
                       </div>
                     </div>
@@ -389,17 +400,19 @@ function SignIn() {
                       <div className="center-wrap">
                         <div className="section text-center">
                           <h4 className="mb-4 pb-3">Create Account</h4>
-                          <div className="form-group mt-2">
-                            <input type="email" name="email" className="form-style" placeholder="Email" />
-                            <i className="input-icon uil uil-at"></i>
-                          </div>
-                          <div className="form-group mt-2">
-                            <input type="password" name="logpass" className="form-style" placeholder="Password" />
-                            <i className="input-icon uil uil-lock-alt"></i>
-                          </div>
-                          <button onSubmit={doCreateAccount} className="btn mt-4">
-                            Create Account
-                          </button>
+                          <form onSubmit={doCreateAccount}>
+                            <div className="form-group mt-2">
+                              <input type="email" name="email" className="form-style" placeholder="Email" />
+                              <i className="input-icon uil uil-at"></i>
+                            </div>
+                            <div className="form-group mt-2">
+                              <input type="password" name="password" className="form-style" placeholder="Password" />
+                              <i className="input-icon uil uil-lock-alt"></i>
+                            </div>
+                            <button type="submit" className="btn mt-4">
+                              Create Account
+                            </button>
+                          </form>
                         </div>
                       </div>
                     </div>
