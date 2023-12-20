@@ -8,11 +8,15 @@ import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 
 const StyledCard = styled(Card)`
-  width: 300px;
-  min-width: 33%;
-  max-width: 33%;
+  flex: 0 1 auto;
+  width: 250px;
+  max-width: 30%;
   border: 1px black solid;
   background: #369;
+`;
+
+const StyledButtonDiv = styled(Button)`
+  text-align: center;
 `;
 
 type InventoryEntryProps = {
@@ -69,11 +73,12 @@ function InventoryEntry(props: InventoryEntryProps) {
             ))}
           </Stack>
         </CardContent>
-        <CardActions>
-          <Button onClick={() => whenEntryClicked(id!)} size="small">
-            Details
-          </Button>
-        </CardActions>
+        {/* <CardActions> */}
+        <Button onClick={() => whenEntryClicked(id!)} size="small">
+          Details
+        </Button>
+
+        {/* </CardActions> */}
       </StyledCard>
       {/* <div onClick={() => whenEntryClicked(id!)}>
         <h3>Name: {name}</h3>

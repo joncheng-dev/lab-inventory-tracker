@@ -3,15 +3,16 @@ import InventoryEntry from "./InventoryEntry";
 import { InventoryEntry as IEntry } from "../types";
 
 const ListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
 `;
 
 const ItemContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 500px;
+  /* flex-direction: row; */
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 2.5em;
 `;
 
 type InventoryListProps = {
