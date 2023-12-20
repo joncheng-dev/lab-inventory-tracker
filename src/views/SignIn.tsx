@@ -372,16 +372,16 @@ function SignIn() {
                         <div className="section text-center">
                           <h4 className="mb-4 pb-3">Log In</h4>
                           <div className="form-group">
-                            <input type="email" name="logemail" className="form-style" placeholder="Your Email" id="logemail" />
+                            <input type="email" name="email" className="form-style" placeholder="Email" />
                             <i className="input-icon uil uil-at"></i>
                           </div>
                           <div className="form-group mt-2">
-                            <input type="password" name="logpass" className="form-style" placeholder="Your Password" id="logpass" />
+                            <input type="password" name="logpass" className="form-style" placeholder="Password" />
                             <i className="input-icon uil uil-lock-alt"></i>
                           </div>
-                          <a href="#" className="btn mt-4">
-                            submit
-                          </a>
+                          <button onSubmit={doSignIn} className="btn mt-4">
+                            Sign In
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -390,16 +390,16 @@ function SignIn() {
                         <div className="section text-center">
                           <h4 className="mb-4 pb-3">Create Account</h4>
                           <div className="form-group mt-2">
-                            <input type="email" name="logemail" className="form-style" placeholder="Your Email" id="logemail" />
+                            <input type="email" name="email" className="form-style" placeholder="Email" />
                             <i className="input-icon uil uil-at"></i>
                           </div>
                           <div className="form-group mt-2">
-                            <input type="password" name="logpass" className="form-style" placeholder="Your Password" id="logpass" />
+                            <input type="password" name="logpass" className="form-style" placeholder="Password" />
                             <i className="input-icon uil uil-lock-alt"></i>
                           </div>
-                          <a href="#" className="btn mt-4">
-                            submit
-                          </a>
+                          <button onSubmit={doCreateAccount} className="btn mt-4">
+                            Create Account
+                          </button>
                         </div>
                       </div>
                     </div>
