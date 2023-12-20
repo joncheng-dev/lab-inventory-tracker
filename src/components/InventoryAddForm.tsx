@@ -1,5 +1,5 @@
 import InventoryReusableForm from "./InventoryReusableForm";
-import { InventoryEntry } from "./Types";
+import { InventoryEntry } from "../types";
 
 interface AddFormProps {
   subjectTagChecklist: string[];

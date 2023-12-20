@@ -1,9 +1,10 @@
-import { InventoryEntry } from "./Types";
+import { InventoryEntry } from "../types";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Stack from "@mui/material/Stack";
 import styled from "styled-components";
 import Chip from "@mui/material/Chip";
+import BasicModal from "./Modal";
 
 const EntryDetailContainer = styled.div`
   background-color: #404040;
@@ -34,43 +35,39 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
   } = entry;
 
   return (
-    <EntryDetailContainer>
-      <h1>Inventory Entry Detail</h1>
-      <hr />
-      <h3>Name: {name}</h3>
-      <p>Description: {description}</p>
-      <p>Location: {location}</p>
-      <p>Is Checked Out: {isCheckedOut ? "Yes" : "No"}</p>
-      <p>Checked Out By: {isCheckedOut ? checkedOutBy : null}</p>
-      <p>Date Checked Out: {isCheckedOut ? dateCheckedOut : null}</p>
-      <p>Categories:</p>
-      <Stack>
-        {tags.map((tag, index) => (
-          <Chip key={index} label={tag} />
-        ))}
-      </Stack>
-      <button onClick={() => onClickingCheckout()}>Check Out Item</button>
-      <button onClick={() => onClickingReturn(id!)}>Return Item</button>
-      <br />
-      <hr />
-      <button onClick={onClickingEdit}>Edit entry</button>
-      <br />
-      <Stack direction="row" spacing={2}>
-        <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => onClickingDelete(id!)} color="error">
-          Delete
-        </Button>
-      </Stack>
-      {/* <button onClick={() => onClickingDelete(id!)}>Delete Entry</button> */}
-      <button onClick={onClickingExit}>Exit</button>
-      <hr />
-    </EntryDetailContainer>
+    <BasicModal>
+      <>
+        <h1>Inventory Entry Detail</h1>
+        <hr />
+        <h3>Name: {name}</h3>
+        <p>Description: {description}</p>
+        <p>Location: {location}</p>
+        <p>Is Checked Out: {isCheckedOut ? "Yes" : "No"}</p>
+        <p>Checked Out By: {isCheckedOut ? checkedOutBy : null}</p>
+        <p>Date Checked Out: {isCheckedOut ? dateCheckedOut : null}</p>
+        <p>Categories:</p>
+        <Stack>
+          {tags.map((tag, index) => (
+            <Chip key={index} label={tag} />
+          ))}
+        </Stack>
+        <button onClick={() => onClickingCheckout()}>Check Out Item</button>
+        <button onClick={() => onClickingReturn(id!)}>Return Item</button>
+        <br />
+        <hr />
+        <button onClick={onClickingEdit}>Edit entry</button>
+        <br />
+        <Stack direction="row" spacing={2}>
+          <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => onClickingDelete(id!)} color="error">
+            Delete
+          </Button>
+        </Stack>
+        {/* <button onClick={() => onClickingDelete(id!)}>Delete Entry</button> */}
+        <button onClick={onClickingExit}>Exit</button>
+        <hr />
+      </>
+    </BasicModal>
   );
 }
 
 export default InventoryEntryDetails;
-
-// <ul>
-//   {tags.map((tag, index) => (
-//     <li key={index}>{tag}</li>
-//   ))}
-// </ul>;

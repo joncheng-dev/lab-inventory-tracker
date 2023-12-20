@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
-import CategoryPanel from "./CategoryPanel";
-import UserInfoPanel from "./UserInfoPanel";
-import InventoryList from "./InventoryList";
-import InventoryAddForm from "./InventoryAddForm";
-import InventoryEntryDetail from "./InventoryEntryDetail";
-import InventoryEditForm from "./InventoryEditForm";
+import CategoryPanel from "../components/CategoryPanel.js";
+import UserInfoPanel from "../components/UserInfoPanel.js";
+import InventoryList from "../components/InventoryList.js";
+import InventoryAddForm from "../components/InventoryAddForm.js";
+import InventoryEntryDetail from "../components/InventoryEntryDetail.js";
+import InventoryEditForm from "../components/InventoryEditForm.js";
 import { db, auth } from "../firebase.js";
 import { collection, addDoc, doc, onSnapshot, getDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import Layout from "./Layout";
-import { InventoryEntry, UserEntry } from "./Types/";
+import Layout from "../components/Layout.js";
+import { InventoryEntry, UserEntry } from "../types/index.js";
 import { useNavigate } from "react-router-dom";
 
 function InventoryControl() {

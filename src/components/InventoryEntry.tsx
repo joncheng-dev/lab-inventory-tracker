@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
+import BasicModal from "./Modal";
 
 const StyledCard = styled(Card)`
   width: 300px;

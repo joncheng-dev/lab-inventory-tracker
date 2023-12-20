@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { InventoryEntry } from "./Types";
+import { InventoryEntry } from "../types";
 import { Checkbox } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import styled from "styled-components";

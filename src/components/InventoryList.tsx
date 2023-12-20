@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import InventoryEntry from "./InventoryEntry";
-import { InventoryEntry as IEntry } from "./Types";
+import { InventoryEntry as IEntry } from "../types";
 
 const ListContainer = styled.div`
   display: flex;

@@ -1,4 +1,4 @@
-import { InventoryEntry } from "./Types";
+import { InventoryEntry } from "../types";
 
 type UserItemProps = {
   itemEntry: InventoryEntry;

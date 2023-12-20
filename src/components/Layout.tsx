@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Header from "./Header";
-import { LayoutProps } from "./Types";
+import { LayoutProps } from "../types";
 
 const StyledLayout = styled.div`
   min-width: 100vw;

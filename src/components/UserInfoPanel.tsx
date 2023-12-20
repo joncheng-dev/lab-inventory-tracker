@@ -1,4 +1,4 @@
-import { UserEntry, InventoryEntry } from "./Types";
+import { UserEntry, InventoryEntry } from "../types";
 import UserItem from "./UserItem";
 
 type UserInfoPanelProps = {

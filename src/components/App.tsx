@@ -1,5 +1,5 @@
-import InventoryControl from "./InventoryControl";
-import SignIn from "./SignIn";
+import InventoryControl from "../views/InventoryControl";
+import SignIn from "../views/SignIn";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
