@@ -3,6 +3,7 @@ import InventoryEntry from "./InventoryEntry";
 import { InventoryEntry as IEntry } from "../types";
 
 const ListContainer = styled.div`
+  text-align: left;
   /* display: flex;
   flex-direction: column; */
 `;
@@ -29,6 +30,8 @@ function InventoryList(props: InventoryListProps) {
     <ListContainer>
       <h1>Inventory List</h1>
       {<button onClick={onClickingAddEntry}>Add Entry</button>}
+      <br />
+      <br />
       <ItemContainer>
         {listOfEntries.map((entry) => (
           <InventoryEntry

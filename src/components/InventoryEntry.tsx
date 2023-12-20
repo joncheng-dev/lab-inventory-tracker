@@ -13,10 +13,15 @@ const StyledCard = styled(Card)`
   max-width: 30%;
   border: 1px black solid;
   background: #369;
+  position: relative;
 `;
 
-const StyledButtonDiv = styled(Button)`
-  text-align: center;
+const ButtonContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 type InventoryEntryProps = {
@@ -74,10 +79,11 @@ function InventoryEntry(props: InventoryEntryProps) {
           </Stack>
         </CardContent>
         {/* <CardActions> */}
-        <Button onClick={() => whenEntryClicked(id!)} size="small">
-          Details
-        </Button>
-
+        <ButtonContainer>
+          <Button onClick={() => whenEntryClicked(id!)} size="small">
+            Details
+          </Button>
+        </ButtonContainer>
         {/* </CardActions> */}
       </StyledCard>
       {/* <div onClick={() => whenEntryClicked(id!)}>
