@@ -45,7 +45,7 @@ function InventoryEntry(props: InventoryEntryProps) {
             Name: {name}
           </Typography> */}
           <Typography variant="h5" component="div">
-            Name: {name}
+            {name}
           </Typography>
           {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
             adjective
