@@ -6,7 +6,7 @@ import InventoryAddForm from "./InventoryAddForm";
 import InventoryEntryDetail from "./InventoryEntryDetail";
 import InventoryEditForm from "./InventoryEditForm";
 import { db, auth } from "../firebase.js";
-import { collection, addDoc, doc, onSnapshot, getDoc, deleteDoc, updateDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, addDoc, doc, onSnapshot, getDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
@@ -15,6 +15,7 @@ import { InventoryEntry, UserEntry } from "./Types/";
 import { useNavigate } from "react-router-dom";
 
 function InventoryControl() {
+  console.log("InventoryControl has rendered");
   // STYLING
   //#region styling
   const FixedWidthItem = styled(Paper)(({ theme }) => ({
@@ -61,7 +62,8 @@ function InventoryControl() {
           });
         });
         setInventoryList(entries);
-        console.log(JSON.stringify(inventoryList));
+        console.log("inventoryList:", inventoryList);
+        // console.log(JSON.stringify(inventoryList));
       },
       (error) => {
         setError(error.message);
@@ -72,16 +74,19 @@ function InventoryControl() {
 
   useEffect(() => {
     handleGettingCurrentUserInfoFromDb();
+    console.log("useEffect user info received from db");
   }, []);
 
   useEffect(() => {
     if (selectedEntry !== null) {
       handleChangingSelectedEntry(selectedEntry.id!);
+      console.log("useEffect handleChangingSelectedEntry: updated selectedEntry");
     }
   }, [inventoryList, selectedEntry]);
 
   useEffect(() => {
     handleMakeUserItemList();
+    console.log("useEffect handleMakeUserItemList just triggered");
     // handleQueryingItemsCheckedOutByUser();
   }, [inventoryList]);
 
@@ -216,7 +221,6 @@ function InventoryControl() {
   // Conditional Rendering of Components
   let leftSidePanel = (
     <CategoryPanel
-      listOfEntries={inventoryList}
       subjectTagChecklist={subjectTagChecklist}
       purposeTagChecklist={purposeTagChecklist}
       onCategorySelection={handleFilterListByCategoryBoxes}

@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { Checkbox } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { InventoryEntry } from "./Types";
 
 const CategoryPanelContainer = styled.div`
   text-align: left;
@@ -14,7 +13,6 @@ const ListContainer = styled.div`
 `;
 
 interface CategoryPanelProps {
-  listOfEntries: InventoryEntry[];
   subjectTagChecklist: string[];
   purposeTagChecklist: string[];
   onCategorySelection: (arrayOfWords: string[]) => void;
@@ -59,15 +57,18 @@ function CategoryPanel(props: CategoryPanelProps) {
   };
 
   useEffect(() => {
-    onCategorySelection(tagsToFilter);
-    console.log("useEffect tagsToFilter", tagsToFilter);
+    const prevTagsToFilter: string[] = tagsToFilter;
+    if (prevTagsToFilter !== tagsToFilter) {
+      onCategorySelection(tagsToFilter);
+      console.log("useEffect tagsToFilter", tagsToFilter);
+    }
   }, [tagsToFilter]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("handleSubmit:", tagsToFilter);
-    onCategorySelection(tagsToFilter);
-  };
+  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   console.log("handleSubmit:", tagsToFilter);
+  //   onCategorySelection(tagsToFilter);
+  // };
 
   return (
     <CategoryPanelContainer>
