@@ -7,6 +7,8 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 
 const ReusableFormContainer = styled.div`
   padding-left: 50px;
@@ -115,7 +117,7 @@ function InventoryReusableForm(props: InventoryReusableFormProps) {
               <Box
                 component="form"
                 sx={{
-                  "& .MuiTextField-root": { m: 1.25, width: "50ch" },
+                  "& .MuiTextField-root": { m: 1.5, width: "50ch" },
                 }}
                 noValidate
                 autoComplete="off"
@@ -150,6 +152,7 @@ function InventoryReusableForm(props: InventoryReusableFormProps) {
             <Grid xs={5} pt={1}>
               <h2>Tags</h2>
               <Divider />
+              <br />
               <div className="row">
                 <SubjectBoxContainer>
                   <h4>
@@ -166,10 +169,15 @@ function InventoryReusableForm(props: InventoryReusableFormProps) {
               </div>
             </Grid>
           </Grid>
-          <div>
-            <button type="submit">{props.buttonText}</button>
-            <button onClick={handleClickingExit}>Exit</button>
-          </div>
+          <Stack spacing={2} direction="row">
+            <Button type="submit" variant="outlined">
+              {props.buttonText}
+            </Button>
+            <Button onClick={handleClickingExit} variant="outlined">
+              Exit
+            </Button>
+          </Stack>
+          <br />
         </Box>
       </form>
     </ReusableFormContainer>

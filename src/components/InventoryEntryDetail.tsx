@@ -4,9 +4,53 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Stack from "@mui/material/Stack";
 import styled from "styled-components";
 import Chip from "@mui/material/Chip";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Unstable_Grid2";
+import Divider from "@mui/material/Divider";
 
 const EntryDetailContainer = styled.div`
-  background-color: #404040;
+  padding-left: 50px;
+  background-color: #282828;
+  padding-top: 25px;
+`;
+
+const InputColumnContainer = styled.div`
+  float: left;
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 1rem;
+  row-gap: 0.25rem;
+`;
+
+const StyledInfoItem = styled.div`
+  display: grid;
+  grid-template-columns: auto;
+  font-size: 1rem;
+  text-align: left;
+`;
+
+const StyledItemHeader = styled.p`
+  font-size: 1rem;
+  color: rgb(83, 167, 235);
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 0;
+`;
+
+const StyledItemValue = styled.p`
+  font-size: 1rem;
+  color: #ffffff;
+`;
+
+const StyledStack = styled(Stack)`
+  display: block;
+  justify-content: "left";
+`;
+
+const TextAlignLeftContainer = styled.div`
+  text-align: left;
 `;
 
 // Typing for Inventory Entry Details component
@@ -34,38 +78,81 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
   } = entry;
 
   return (
-    <EntryDetailContainer>
-      <>
-        <h1>Inventory Entry Detail</h1>
-        <hr />
-        <h3>Name: {name}</h3>
-        <p>Description: {description}</p>
-        <p>Location: {location}</p>
-        <p>Is Checked Out: {isCheckedOut ? "Yes" : "No"}</p>
-        <p>Checked Out By: {isCheckedOut ? checkedOutBy : null}</p>
-        <p>Date Checked Out: {isCheckedOut ? dateCheckedOut : null}</p>
-        <p>Tags:</p>
-        <Stack>
-          {tags.map((tag, index) => (
-            <Chip key={index} label={tag} />
-          ))}
-        </Stack>
-        <button onClick={() => onClickingCheckout()}>Check Out Item</button>
-        <button onClick={() => onClickingReturn(id!)}>Return Item</button>
-        <br />
-        <hr />
-        <button onClick={onClickingEdit}>Edit entry</button>
-        <br />
-        <Stack direction="row" spacing={2}>
-          <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => onClickingDelete(id!)} color="error">
-            Delete
-          </Button>
-        </Stack>
-        {/* <button onClick={() => onClickingDelete(id!)}>Delete Entry</button> */}
-        <button onClick={onClickingExit}>Exit</button>
-        <hr />
-      </>
-    </EntryDetailContainer>
+    <TextAlignLeftContainer>
+      <h1>Inventory Entry Detail</h1>
+      <EntryDetailContainer>
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={2}>
+            <Grid xs={7}>
+              <Box
+                sx={{
+                  "& .MuiTextField-root": { m: 1.5, width: "50ch" },
+                }}
+              >
+                <h2>{name}</h2>
+                <Divider />
+                <br />
+                <InputColumnContainer>
+                  <StyledInfoItem>
+                    <StyledItemHeader>Description</StyledItemHeader>
+                    <StyledItemValue>{description}</StyledItemValue>
+                  </StyledInfoItem>
+                  <StyledInfoItem>
+                    <StyledItemHeader>Is Checked Out</StyledItemHeader>
+                    <StyledItemValue>{isCheckedOut ? "Yes" : "No"}</StyledItemValue>
+                  </StyledInfoItem>
+                  <StyledInfoItem>
+                    <StyledItemHeader>Checked Out By</StyledItemHeader>
+                    <StyledItemValue>{isCheckedOut ? checkedOutBy : null}</StyledItemValue>
+                  </StyledInfoItem>
+                  <StyledInfoItem>
+                    <StyledItemHeader>Date Checked Out</StyledItemHeader>
+                    <StyledItemValue>{isCheckedOut ? dateCheckedOut : null}</StyledItemValue>
+                  </StyledInfoItem>
+                </InputColumnContainer>
+              </Box>
+            </Grid>
+            <Grid xs={5} pt={1}>
+              <h2>Tags</h2>
+              <Divider />
+              <br />
+              <StyledStack>
+                {tags.map((tag, index) => (
+                  <Chip key={index} label={tag} size="medium" />
+                ))}
+              </StyledStack>
+            </Grid>
+          </Grid>
+          <Box display="flex" justifyContent="space-between" p={1}>
+            <Box display="flex" borderRadius="3px" p={2}>
+              <Stack spacing={2} direction="row">
+                <Button onClick={() => onClickingCheckout()} variant="outlined">
+                  Check Out
+                </Button>
+                <Button onClick={() => onClickingReturn(id!)} variant="outlined">
+                  Return
+                </Button>
+              </Stack>
+            </Box>
+            <Box display="flex" borderRadius="3px" p={2}>
+              <Stack spacing={2} direction="row">
+                <Button onClick={onClickingEdit} variant="outlined">
+                  Edit entry
+                </Button>
+                <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => onClickingDelete(id!)} color="error">
+                  Delete
+                </Button>
+                <Button onClick={onClickingExit} variant="outlined">
+                  Exit
+                </Button>
+              </Stack>
+            </Box>
+          </Box>
+
+          <br />
+        </Box>
+      </EntryDetailContainer>
+    </TextAlignLeftContainer>
   );
 }
 
