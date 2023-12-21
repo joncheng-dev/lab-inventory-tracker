@@ -5,7 +5,6 @@ import styled from "styled-components";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import { Box } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 
 const StyledHeader = styled.header`
   width: 100%;
@@ -29,7 +28,7 @@ function Header() {
     <StyledHeader>
       <Box display="flex" justifyContent="space-between" p={1}>
         <Box display="flex" borderRadius="3px">
-          <h1>Lab Inventory Management</h1>
+          <h1>Lab Inventory Manager</h1>
         </Box>
         <Box display="flex" borderRadius="3px" p={2}>
           <Stack direction="row" spacing={1}>

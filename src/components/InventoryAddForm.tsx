@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import InventoryReusableForm from "./InventoryReusableForm";
 import { InventoryEntry } from "../types";
 
@@ -7,6 +8,11 @@ interface AddFormProps {
   onFormSubmit: (data: InventoryEntry) => Promise<void>;
   onClickingExit: () => void;
 }
+
+const AddFormContainer = styled.div`
+  text-align: left;
+  margin-left: 50px;
+`;
 
 // Takes input from user to create a new Entry
 function InventoryAddForm(props: AddFormProps) {
@@ -19,8 +25,8 @@ function InventoryAddForm(props: AddFormProps) {
     }
   }
   return (
-    <>
-      <h1>Add New Inventory Entry</h1>
+    <AddFormContainer>
+      <h2>Add New Item</h2>
       <InventoryReusableForm
         entry={null}
         subjectTagChecklist={subjectTagChecklist}
@@ -29,7 +35,7 @@ function InventoryAddForm(props: AddFormProps) {
         handleClickingExit={props.onClickingExit}
         buttonText="Add Entry"
       />
-    </>
+    </AddFormContainer>
   );
 }
 

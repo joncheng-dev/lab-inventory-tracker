@@ -44,7 +44,7 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
         <p>Is Checked Out: {isCheckedOut ? "Yes" : "No"}</p>
         <p>Checked Out By: {isCheckedOut ? checkedOutBy : null}</p>
         <p>Date Checked Out: {isCheckedOut ? dateCheckedOut : null}</p>
-        <p>Categories:</p>
+        <p>Tags:</p>
         <Stack>
           {tags.map((tag, index) => (
             <Chip key={index} label={tag} />

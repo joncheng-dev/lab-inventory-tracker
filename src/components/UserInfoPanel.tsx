@@ -19,7 +19,7 @@ function UserInfoPanel(props: UserInfoPanelProps) {
 
   return (
     <>
-      <h1>User Information</h1>
+      <h2>User Information</h2>
       <h3>User Email: {userEmail}</h3>
       <hr />
       {itemsCheckedOutByUser.map((entry) => (

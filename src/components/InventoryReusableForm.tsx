@@ -3,9 +3,32 @@ import { InventoryEntry } from "../types";
 import { Checkbox } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import styled from "styled-components";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Unstable_Grid2";
+import Divider from "@mui/material/Divider";
+import TextField from "@mui/material/TextField";
 
 const ReusableFormContainer = styled.div`
+  padding-left: 50px;
   background-color: #282828;
+  padding-top: 25px;
+`;
+
+const InputColumnContainer = styled.div`
+  float: left;
+  width: 100%;
+`;
+
+const SubjectBoxContainer = styled.div`
+  float: left;
+  width: 50%;
+  text-align: left;
+`;
+
+const PurposeBoxContainer = styled.div`
+  float: right;
+  width: 50%;
+  text-align: left;
 `;
 
 // Typing for Inventory Reusable Form component
@@ -63,12 +86,15 @@ function InventoryReusableForm(props: InventoryReusableFormProps) {
       const isChecked = formData.tags.includes(word);
       return (
         // prettier-ignore
-        <FormControlLabel
-          key={index}
-          value={word}
-          control={<Checkbox onChange={handleCheckboxChange} checked={isChecked} />}
-          label={word}
-        />
+        <div>
+          <FormControlLabel
+            key={index}
+            value={word}
+            control={<Checkbox onChange={handleCheckboxChange} checked={isChecked} />}
+            label={word}
+          />
+          <br/>
+        </div>
       );
     });
   };
@@ -83,23 +109,68 @@ function InventoryReusableForm(props: InventoryReusableFormProps) {
   return (
     <ReusableFormContainer>
       <form onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Name of Item" onChange={handleInputChange} value={formData.name} />
-        <br />
-        <textarea name="description" placeholder="Item description" onChange={handleInputChange} value={formData.description} />
-        <br />
-        <input type="text" name="location" placeholder="Where is it normally located?" onChange={handleInputChange} value={formData.location} />
-        <br />
-        <h2>Categories</h2>
-        <h4>
-          <strong>Subjects</strong>
-        </h4>
-        <div>{tagChecklistGenerator(subjectTagChecklist)}</div>
-        <h4>
-          <strong>Purpose</strong>
-        </h4>
-        <div>{tagChecklistGenerator(purposeTagChecklist)}</div>
-        <button type="submit">{props.buttonText}</button>
-        <button onClick={handleClickingExit}>Exit</button>
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={2}>
+            <Grid xs={7}>
+              <Box
+                component="form"
+                sx={{
+                  "& .MuiTextField-root": { m: 1.25, width: "50ch" },
+                }}
+                noValidate
+                autoComplete="off"
+              >
+                <h2>Item Form</h2>
+                <Divider />
+                <br />
+                <InputColumnContainer>
+                  <TextField name="name" label="Item Name" defaultValue="Entry Name" required onChange={handleInputChange} value={formData.name} />
+                  <br />
+                  <TextField
+                    name="description"
+                    label="Item Description"
+                    defaultValue="Item description"
+                    required
+                    onChange={handleInputChange}
+                    value={formData.description}
+                  />
+                  <br />
+                  <TextField
+                    name="location"
+                    label="Item Location"
+                    defaultValue="Location of item"
+                    required
+                    onChange={handleInputChange}
+                    value={formData.location}
+                  />
+                  <br />
+                </InputColumnContainer>
+              </Box>
+            </Grid>
+            <Grid xs={5} pt={1}>
+              <h2>Tags</h2>
+              <Divider />
+              <div className="row">
+                <SubjectBoxContainer>
+                  <h4>
+                    <strong>Subjects</strong>
+                  </h4>
+                  <div>{tagChecklistGenerator(subjectTagChecklist)}</div>
+                </SubjectBoxContainer>
+                <PurposeBoxContainer>
+                  <h4>
+                    <strong>Purpose</strong>
+                  </h4>
+                  <div>{tagChecklistGenerator(purposeTagChecklist)}</div>
+                </PurposeBoxContainer>
+              </div>
+            </Grid>
+          </Grid>
+          <div>
+            <button type="submit">{props.buttonText}</button>
+            <button onClick={handleClickingExit}>Exit</button>
+          </div>
+        </Box>
       </form>
     </ReusableFormContainer>
   );

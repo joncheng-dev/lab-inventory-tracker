@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { Checkbox } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import * as React from "react";
+import Divider from "@mui/material/Divider";
 
 const CategoryPanelContainer = styled.div`
   text-align: left;
@@ -53,26 +55,23 @@ function CategoryPanel(props: CategoryPanelProps) {
     });
   };
 
-  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   console.log("handleSubmit:", tagsToFilter);
-  //   onCategorySelection(tagsToFilter);
-  // };
-
   return (
     <CategoryPanelContainer>
-      <h1>Categories</h1>
-      {/* <form onSubmit={handleSubmit}> */}
+      <h2>Tags</h2>
+      <Divider />
+      <br />
       <form>
-        <h3>
+        <h4>
           <strong>Subjects</strong>
-        </h3>
+        </h4>
+        <Divider />
         <ListContainer>{tagChecklistGenerator(subjectTagChecklist)}</ListContainer>
-        <h3>
+        <br />
+        <h4>
           <strong>Purpose</strong>
-        </h3>
+        </h4>
+        <Divider />
         <ListContainer>{tagChecklistGenerator(purposeTagChecklist)}</ListContainer>
-        {/* <button type="submit">Show Matching Results</button> */}
       </form>
     </CategoryPanelContainer>
   );

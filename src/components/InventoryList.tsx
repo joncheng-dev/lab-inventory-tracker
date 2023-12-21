@@ -32,7 +32,7 @@ function InventoryList(props: InventoryListProps) {
     <ListContainer>
       <Box display="flex" justifyContent="space-between">
         <Box display="flex" borderRadius="3px">
-          <h1>Inventory List</h1>
+          <h2>Inventory List</h2>
         </Box>
         <Box display="flex">
           <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />

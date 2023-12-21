@@ -71,7 +71,7 @@ function InventoryEntry(props: InventoryEntryProps) {
             Is Checked Out: {isCheckedOut ? "Yes" : "No"}
             <br />
           </Typography>
-          <Typography variant="body2">Categories:</Typography>
+          <Typography variant="body2">Tags:</Typography>
           <Stack>
             {tags.map((tag, index) => (
               <Chip key={index} label={tag} />
