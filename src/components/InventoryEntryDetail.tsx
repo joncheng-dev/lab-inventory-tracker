@@ -79,7 +79,7 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
 
   return (
     <TextAlignLeftContainer>
-      <h1>Inventory Entry Detail</h1>
+      <h2>Inventory Entry Detail</h2>
       <EntryDetailContainer>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
@@ -89,13 +89,17 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
                   "& .MuiTextField-root": { m: 1.5, width: "50ch" },
                 }}
               >
-                <h2>{name}</h2>
+                <h3>{name}</h3>
                 <Divider />
                 <br />
                 <InputColumnContainer>
                   <StyledInfoItem>
                     <StyledItemHeader>Description</StyledItemHeader>
                     <StyledItemValue>{description}</StyledItemValue>
+                  </StyledInfoItem>
+                  <StyledInfoItem>
+                    <StyledItemHeader>Location</StyledItemHeader>
+                    <StyledItemValue>{location}</StyledItemValue>
                   </StyledInfoItem>
                   <StyledInfoItem>
                     <StyledItemHeader>Is Checked Out</StyledItemHeader>

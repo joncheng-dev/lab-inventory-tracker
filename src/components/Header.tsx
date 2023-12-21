@@ -28,7 +28,7 @@ function Header() {
     <StyledHeader>
       <Box display="flex" justifyContent="space-between" p={1}>
         <Box display="flex" borderRadius="3px">
-          <h1>Lab Inventory Manager</h1>
+          <h1>Lab Manager</h1>
         </Box>
         <Box display="flex" borderRadius="3px" p={2}>
           <Stack direction="row" spacing={1}>

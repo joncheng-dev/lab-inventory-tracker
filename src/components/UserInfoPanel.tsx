@@ -1,5 +1,6 @@
 import { UserEntry, InventoryEntry } from "../types";
 import UserItem from "./UserItem";
+import Divider from "@mui/material/Divider";
 
 type UserInfoPanelProps = {
   user: UserEntry;
@@ -19,9 +20,11 @@ function UserInfoPanel(props: UserInfoPanelProps) {
 
   return (
     <>
-      <h2>User Information</h2>
-      <h3>User Email: {userEmail}</h3>
-      <hr />
+      <h2>User Info. Panel</h2>
+      <Divider />
+      <br />
+      <h4>Email: {userEmail}</h4>
+      <Divider />
       {itemsCheckedOutByUser.map((entry) => (
         <UserItem itemEntry={entry} whenEntryClicked={onEntrySelection} key={entry.id} />
       ))}
