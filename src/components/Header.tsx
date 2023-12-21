@@ -4,6 +4,8 @@ import { signOut } from "firebase/auth";
 import styled from "styled-components";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
+import { Box } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 const StyledHeader = styled.header`
   width: 100%;
@@ -25,13 +27,17 @@ function Header() {
 
   return (
     <StyledHeader>
-      <div>
-        <h1>Lab Inventory Management</h1>
-        <Stack direction="row" spacing={1}>
-          <Chip label="Home" component="a" href="/" variant="outlined" clickable />
-          <Chip label="Sign Out" onClick={doSignOut} component="a" href="/signin" variant="outlined" clickable />
-        </Stack>
-      </div>
+      <Box display="flex" justifyContent="space-between" p={1}>
+        <Box display="flex" borderRadius="3px">
+          <h1>Lab Inventory Management</h1>
+        </Box>
+        <Box display="flex" borderRadius="3px" p={2}>
+          <Stack direction="row" spacing={1}>
+            <Chip label="Home" component="a" href="/" variant="outlined" clickable />
+            <Chip label="Sign Out" onClick={doSignOut} component="a" href="/signin" variant="outlined" clickable />
+          </Stack>
+        </Box>
+      </Box>
       <hr />
     </StyledHeader>
   );

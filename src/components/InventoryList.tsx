@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import InventoryEntry from "./InventoryEntry";
 import { InventoryEntry as IEntry } from "../types";
+import { Box, IconButton, InputBase } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 const ListContainer = styled.div`
   text-align: left;
@@ -13,7 +15,7 @@ const ItemContainer = styled.div`
   /* flex-direction: row; */
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 2.25em;
+  gap: 2.6em;
 `;
 
 type InventoryListProps = {
@@ -28,7 +30,17 @@ function InventoryList(props: InventoryListProps) {
 
   return (
     <ListContainer>
-      <h1>Inventory List</h1>
+      <Box display="flex" justifyContent="space-between">
+        <Box display="flex" borderRadius="3px">
+          <h1>Inventory List</h1>
+        </Box>
+        <Box display="flex">
+          <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
+          <IconButton type="button" sx={{ p: 1 }}>
+            <SearchIcon />
+          </IconButton>
+        </Box>
+      </Box>
       {<button onClick={onClickingAddEntry}>Add Entry</button>}
       <br />
       <br />

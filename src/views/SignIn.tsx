@@ -350,16 +350,6 @@ function SignIn() {
       });
   }
 
-  function doSignOut() {
-    signOut(auth)
-      .then(() => {
-        setSignInSuccess("You've signed out.");
-      })
-      .catch((error) => {
-        setSignOutSuccess(`There was an error with sign-out: ${error.message}`);
-      });
-  }
-
   // conditional rendering
   return (
     <FormContainer>
