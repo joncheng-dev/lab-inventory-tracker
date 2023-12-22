@@ -17,7 +17,6 @@ const EntryDetailContainer = styled.div`
 const InputColumnContainer = styled.div`
   float: left;
   width: 100%;
-
   display: grid;
   grid-template-columns: auto auto;
   column-gap: 1rem;
