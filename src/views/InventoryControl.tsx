@@ -213,7 +213,7 @@ function InventoryControl() {
   const handleReturnItem = async (itemId: string) => {
     const entryRef = doc(db, "inventoryEntries", itemId!);
     const itemToReturn = inventoryList.filter((entry) => entry.id === itemId)[0];
-    if (itemToReturn.isCheckedOut === true) {
+    if (itemToReturn.isCheckedOut === true && itemToReturn.checkedOutBy === currentUser!.userEmail) {
       const returnEntryData: Partial<InventoryEntry> = {
         isCheckedOut: false,
         checkedOutBy: null,
