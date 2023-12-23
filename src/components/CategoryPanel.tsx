@@ -21,7 +21,6 @@ interface CategoryPanelProps {
 }
 
 function CategoryPanel(props: CategoryPanelProps) {
-  console.log("CategoryPanel: rendered");
   const { tags, subjectTagChecklist, purposeTagChecklist, onCategorySelection } = props;
 
   // Next step, filter results to show to center panel
@@ -29,8 +28,6 @@ function CategoryPanel(props: CategoryPanelProps) {
 
   const handleCheckedboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
-    console.log("a box was changed:", value);
-    console.log("Checkbox changed:", value, checked);
     const updatedTags = [...tags];
     if (checked) {
       onCategorySelection([...updatedTags, value]);
@@ -40,7 +37,6 @@ function CategoryPanel(props: CategoryPanelProps) {
   };
 
   const tagChecklistGenerator = (wordArray: string[]) => {
-    console.log("CategoryPanel: tagChecklistGenerator", wordArray);
     return wordArray.map((word, index) => {
       const isChecked = tags.includes(word);
       return (

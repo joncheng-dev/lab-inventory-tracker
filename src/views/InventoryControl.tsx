@@ -15,7 +15,6 @@ import { InventoryEntry, UserEntry } from "../types/index.js";
 import { useNavigate } from "react-router-dom";
 
 function InventoryControl() {
-  console.log("InventoryControl: rendered");
   // STYLING
   //#region styling
   const FixedWidthItem = styled(Paper)(({ theme }) => ({
@@ -38,6 +37,7 @@ function InventoryControl() {
   const [inventoryList, setInventoryList] = useState<InventoryEntry[]>([]);
   const [tagsToFilter, setTags] = useState<string[]>([]);
   const [listToDisplay, setListToDisplay] = useState<InventoryEntry[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   // Miscellaneous:
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -149,22 +149,19 @@ function InventoryControl() {
     }
   };
 
-  // setTags takes in an array of strings to update the tagsToFilter state
-
-  // handleFilterListByCategoryBoxes - gets sent into CategoryPanel
-  // takes in an array of strings. (called tagsToFilter)
-  // uses the strings to filter the inventory list
   const handleFilterListByCategoryBoxes = (arrayOfTags: string[]) => {
     //prettier-ignore
     setTags(arrayOfTags);
     if (arrayOfTags.length === 0) {
-      console.log("handleFilterListByCategoryBoxes - (if)", inventoryList);
       setListToDisplay(inventoryList);
     } else {
       const filteredList = inventoryList.filter((entry) => arrayOfTags.some((tag) => entry.tags.includes(tag)));
-      console.log("handleFilterListByCategoryBoxes - (else)", filteredList);
       setListToDisplay(filteredList);
     }
+  };
+
+  const onSearchBarChange = (queryString: string) => {
+    setSearchQuery(queryString);
   };
 
   //#region functions updating database
@@ -279,7 +276,12 @@ function InventoryControl() {
     );
   } else {
     centerPanel = (
-      <InventoryList listOfEntries={listToDisplay} onClickingAddEntry={handleAddEntryButtonClick} onEntrySelection={handleChangingSelectedEntry} />
+      <InventoryList
+        listOfEntries={listToDisplay}
+        onSearchBarChange={onSearchBarChange}
+        onClickingAddEntry={handleAddEntryButtonClick}
+        onEntrySelection={handleChangingSelectedEntry}
+      />
     );
   }
   return (
