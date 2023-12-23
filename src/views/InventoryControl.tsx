@@ -160,8 +160,9 @@ function InventoryControl() {
     }
   };
 
-  const onSearchBarChange = (queryString: string) => {
+  const onSearchSubmit = (queryString: string) => {
     setSearchQuery(queryString);
+    console.log("onSearchSubmit in parent component: ", searchQuery);
   };
 
   //#region functions updating database
@@ -278,7 +279,7 @@ function InventoryControl() {
     centerPanel = (
       <InventoryList
         listOfEntries={listToDisplay}
-        onSearchBarChange={onSearchBarChange}
+        onSearchSubmit={onSearchSubmit}
         onClickingAddEntry={handleAddEntryButtonClick}
         onEntrySelection={handleChangingSelectedEntry}
       />

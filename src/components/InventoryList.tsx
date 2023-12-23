@@ -1,3 +1,4 @@
+import { FormEvent } from "react";
 import styled from "styled-components";
 import InventoryEntry from "./InventoryEntry";
 import { InventoryEntry as IEntry } from "../types";
@@ -23,16 +24,30 @@ type InventoryListProps = {
   listOfEntries: IEntry[];
   onEntrySelection: (id: string) => void;
   onClickingAddEntry: () => void;
-  onSearchBarChange: (queryString: string) => void;
+  onSearchSubmit: (queryString: string) => void;
 };
 
+interface CustomElements extends HTMLFormControlsCollection {
+  searchString: HTMLInputElement;
+}
+
+interface CustomForm extends HTMLFormElement {
+  readonly elements: CustomElements;
+}
+
 function InventoryList(props: InventoryListProps) {
-  const { listOfEntries, onEntrySelection, onClickingAddEntry, onSearchBarChange } = props;
+  const { listOfEntries, onEntrySelection, onClickingAddEntry, onSearchSubmit } = props;
   console.log("InventoryList: listOfEntries", listOfEntries);
 
-  function handleSearchBarChange(event: React.ChangeEvent<HTMLInputElement>) {
-    onSearchBarChange(event.target.value.toString());
-    console.log("Search query sent to parent: ", event.target.value.toString());
+  function handleSearchBarSubmit(e: FormEvent<CustomForm>) {
+    e.preventDefault();
+    const target = e.currentTarget.elements;
+
+    const searchQuery = target.searchString.value.toString();
+    if (searchQuery !== "") {
+      onSearchSubmit(searchQuery);
+    }
+    console.log("Search query sent to parent: ", searchQuery);
   }
 
   return (
@@ -41,8 +56,8 @@ function InventoryList(props: InventoryListProps) {
         <Box display="flex" borderRadius="3px">
           <h2>Inventory List</h2>
         </Box>
-        <Box display="flex" component="form">
-          <TextField sx={{ ml: 2, flex: 1 }} onSubmit={handleSearchBarChange} />
+        <Box display="flex" component="form" onSubmit={handleSearchBarSubmit} noValidate autoComplete="off">
+          <TextField name="searchString" sx={{ ml: 2, flex: 1 }} />
           {/* <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" /> */}
           <IconButton type="submit" sx={{ p: 1 }}>
             <SearchIcon />
