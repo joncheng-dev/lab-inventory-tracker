@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react";
+import { useState } from "react";
 import { auth } from "../firebase.tsx";
 import { signOut } from "firebase/auth";
 import styled from "styled-components";
@@ -17,24 +17,10 @@ type HeaderProps = {
   onSearchInputChange: (queryString: string) => void;
 };
 
-// interface CustomElements extends HTMLFormControlsCollection {
-//   searchString: HTMLInputElement;
-// }
-
-// interface CustomForm extends HTMLFormElement {
-//   readonly elements: CustomElements;
-// }
-
 function Header(props: HeaderProps) {
   const { onSearchInputChange } = props;
   const [signOutSuccess, setSignOutSuccess] = useState<string | null>(null);
-  // function handleSearchBarChange(e: FormEvent<CustomForm>) {
-  //   e.preventDefault();
-  //   const target = e.currentTarget.elements;
-  //   const searchQuery = target.searchString.value.toString();
-  //   console.log("Search query sent to parent: ", searchQuery);
-  //   onSearchInputChange(searchQuery);
-  // }
+
   function handleSearchBarChange(e: { target: { value: string } }) {
     onSearchInputChange(e.target.value.toString());
     console.log("Search query sent to parent: ", e.target.value.toString());

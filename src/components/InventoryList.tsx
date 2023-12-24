@@ -1,20 +1,14 @@
-import { FormEvent } from "react";
 import styled from "styled-components";
 import InventoryEntry from "./InventoryEntry";
 import { InventoryEntry as IEntry } from "../types";
-import { Box, IconButton, InputBase } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import TextField from "@mui/material/TextField";
+import { Box } from "@mui/material";
 
 const ListContainer = styled.div`
   text-align: left;
-  /* display: flex;
-  flex-direction: column; */
 `;
 
 const ItemContainer = styled.div`
   display: flex;
-  /* flex-direction: row; */
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: 2.6em;
@@ -24,29 +18,11 @@ type InventoryListProps = {
   listOfEntries: IEntry[];
   onEntrySelection: (id: string) => void;
   onClickingAddEntry: () => void;
-  // onSearchSubmit: (queryString: string) => void;
 };
-
-// interface CustomElements extends HTMLFormControlsCollection {
-//   searchString: HTMLInputElement;
-// }
-
-// interface CustomForm extends HTMLFormElement {
-//   readonly elements: CustomElements;
-// }
 
 function InventoryList(props: InventoryListProps) {
   const { listOfEntries, onEntrySelection, onClickingAddEntry } = props;
-  // const { listOfEntries, onEntrySelection, onClickingAddEntry, onSearchSubmit } = props;
   console.log("InventoryList: listOfEntries", listOfEntries);
-
-  // function handleSearchBarSubmit(e: FormEvent<CustomForm>) {
-  //   e.preventDefault();
-  //   const target = e.currentTarget.elements;
-  //   const searchQuery = target.searchString.value.toString();
-  //   console.log("Search query sent to parent: ", searchQuery);
-  //   // onSearchSubmit(searchQuery);
-  // }
 
   return (
     <ListContainer>
@@ -54,13 +30,6 @@ function InventoryList(props: InventoryListProps) {
         <Box display="flex" borderRadius="3px">
           <h2>Inventory List</h2>
         </Box>
-        {/* <Box display="flex" component="form" onSubmit={handleSearchBarSubmit} noValidate autoComplete="off">
-          <TextField name="searchString" sx={{ ml: 2, flex: 1 }} /> */}
-        {/* <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" /> */}
-        {/* <IconButton type="submit" sx={{ p: 1 }}>
-            <SearchIcon />
-          </IconButton>
-        </Box> */}
       </Box>
       {<button onClick={onClickingAddEntry}>Add Entry</button>}
       <br />

@@ -69,7 +69,6 @@ function InventoryControl() {
           });
         });
         setInventoryList(entries);
-        // console.log(JSON.stringify(inventoryList));
       },
       (error) => {
         setError(error.message);
@@ -80,31 +79,25 @@ function InventoryControl() {
 
   useEffect(() => {
     handleGettingCurrentUserInfoFromDb();
-    console.log("useEffect: user info received from db");
   }, []);
 
   useEffect(() => {
     if (selectedEntry !== null) {
       handleChangingSelectedEntry(selectedEntry.id!);
-      console.log("useEffect: handleChangingSelectedEntry updated selectedEntry");
     }
   }, [inventoryList, selectedEntry]);
 
   useEffect(() => {
     handleMakeUserItemList();
-    console.log("useEffect: handleMakeUserItemList triggered");
-    // handleQueryingItemsCheckedOutByUser();
   }, [inventoryList]);
 
   useEffect(() => {
     handleFilterListByCategoryBoxes(tagsToFilter);
-    // handleFilterListBySearchString();
     // handleFilterListCombined();
-  }, [inventoryList]);
+  }, [inventoryList, searchQuery]);
 
   useEffect(() => {
     handleFilterListBySearchString();
-    console.log("onSearchSubmit in parent component: ", searchQuery);
   }, [inventoryList, searchQuery]);
 
   //#endregion useEffect hooks
@@ -219,6 +212,7 @@ function InventoryControl() {
   //     console.log("handleFilteredListCombined(if 4) - have search", filteredList);
   //   }
   // };
+  //#endregion functions
 
   //#region functions updating database
   // functions updating database
@@ -280,9 +274,8 @@ function InventoryControl() {
   //#endregion functions updating database
   //#region queries
   //endregion queries
-  //#endregion functions
 
-  // Conditional Rendering of Components
+  //#region Conditional Rendering of Components
   let headerPanel = <Header onSearchInputChange={onSearchInputChange} />;
   let leftSidePanel = (
     <CategoryPanel
@@ -333,14 +326,10 @@ function InventoryControl() {
     );
   } else {
     centerPanel = (
-      <InventoryList
-        listOfEntries={filteredList}
-        // onSearchSubmit={onSearchSubmit}
-        onClickingAddEntry={handleAddEntryButtonClick}
-        onEntrySelection={handleChangingSelectedEntry}
-      />
+      <InventoryList listOfEntries={filteredList} onClickingAddEntry={handleAddEntryButtonClick} onEntrySelection={handleChangingSelectedEntry} />
     );
   }
+  //#endregion Conditional Rendering of Components
   return (
     <Layout>
       <>
