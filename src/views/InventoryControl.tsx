@@ -46,6 +46,11 @@ function InventoryControl() {
   const purposeTagChecklist: string[] = ["Equipment", "Materials", "Models", "Safety"];
 
   //#region useEffect hooks
+  // useEffect(() => {
+  //   console.log(JSON.stringify(inventoryList));
+  //   console.log("InventoryControl useEffect: inventoryList", inventoryList);
+  // }, [inventoryList]);
+
   useEffect(() => {
     const unSubscribe = onSnapshot(
       collection(db, "inventoryEntries"),
@@ -64,7 +69,6 @@ function InventoryControl() {
           });
         });
         setInventoryList(entries);
-        console.log("InventoryControl useEffect: inventoryList", inventoryList);
         // console.log(JSON.stringify(inventoryList));
       },
       (error) => {
@@ -96,12 +100,12 @@ function InventoryControl() {
     handleFilterListByCategoryBoxes(tagsToFilter);
     // handleFilterListBySearchString();
     // handleFilterListCombined();
-  }, [inventoryList, searchQuery]);
+  }, [inventoryList]);
 
   useEffect(() => {
     handleFilterListBySearchString();
     console.log("onSearchSubmit in parent component: ", searchQuery);
-  }, [searchQuery]);
+  }, [inventoryList, searchQuery]);
 
   //#endregion useEffect hooks
 
@@ -173,16 +177,23 @@ function InventoryControl() {
       setFilteredList(inventoryList);
       console.log("handleFilterListByCategoryBoxes (if): ", filteredList);
     } else {
-      const filteredList = inventoryList.filter((entry) => arrayOfTags.some((tag) => entry.tags.includes(tag)));
-      setFilteredList(filteredList);
+      // const filteredList = inventoryList.filter((entry) => arrayOfTags.some((tag) => entry.tags.includes(tag)));
+      // setFilteredList(filteredList);
+      // console.log("handleFilterListByCategoryBoxes (else): ", filteredList);
+      setFilteredList((prevfilteredList) => {
+        return prevfilteredList.filter((entry) => arrayOfTags.some((tag) => entry.tags.includes(tag)));
+      });
       console.log("handleFilterListByCategoryBoxes (else): ", filteredList);
     }
   };
 
   const handleFilterListBySearchString = () => {
     if (searchQuery !== "") {
-      const filteredResultsByQuery = filteredList.filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
-      setFilteredList(filteredResultsByQuery);
+      setFilteredList((prevfilteredList) => {
+        return prevfilteredList.filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
+      });
+      // const filteredResultsByQuery = filteredList.filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
+      // setFilteredList(filteredResultsByQuery);
     } else {
       setFilteredList(inventoryList);
     }

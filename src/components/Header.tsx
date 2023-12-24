@@ -59,7 +59,7 @@ function Header(props: HeaderProps) {
         <Box display="flex" component="form" noValidate autoComplete="off">
           <TextField name="searchString" sx={{ ml: 2, flex: 1 }} onChange={handleSearchBarChange} />
           {/* <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" /> */}
-          <IconButton type="submit" sx={{ p: 1 }}>
+          <IconButton type="button" sx={{ p: 1 }}>
             <SearchIcon />
           </IconButton>
         </Box>
