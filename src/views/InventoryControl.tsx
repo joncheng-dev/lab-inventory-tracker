@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Header from "../components/Header.js";
 import CategoryPanel from "../components/CategoryPanel.js";
 import UserInfoPanel from "../components/UserInfoPanel.js";
 import InventoryList from "../components/InventoryList.js";
@@ -36,8 +37,8 @@ function InventoryControl() {
   // For data:
   const [inventoryList, setInventoryList] = useState<InventoryEntry[]>([]);
   const [tagsToFilter, setTags] = useState<string[]>([]);
-  const [listToDisplay, setListToDisplay] = useState<InventoryEntry[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [filteredList, setFilteredList] = useState<InventoryEntry[]>([]);
   // Miscellaneous:
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -93,7 +94,14 @@ function InventoryControl() {
 
   useEffect(() => {
     handleFilterListByCategoryBoxes(tagsToFilter);
-  }, [inventoryList]);
+    // handleFilterListBySearchString();
+    // handleFilterListCombined();
+  }, [inventoryList, searchQuery]);
+
+  useEffect(() => {
+    handleFilterListBySearchString();
+    console.log("onSearchSubmit in parent component: ", searchQuery);
+  }, [searchQuery]);
 
   //#endregion useEffect hooks
 
@@ -149,21 +157,57 @@ function InventoryControl() {
     }
   };
 
+  const onSearchInputChange = (queryString: string) => {
+    console.log("Parent: onSearchInputChange", queryString);
+    setSearchQuery(queryString);
+  };
+
+  // const onFilterByCategory = (arrayOfTags: string[]) => {
+  //   setTags(arrayOfTags);
+  // };
+
   const handleFilterListByCategoryBoxes = (arrayOfTags: string[]) => {
     //prettier-ignore
     setTags(arrayOfTags);
     if (arrayOfTags.length === 0) {
-      setListToDisplay(inventoryList);
+      setFilteredList(inventoryList);
+      console.log("handleFilterListByCategoryBoxes (if): ", filteredList);
     } else {
       const filteredList = inventoryList.filter((entry) => arrayOfTags.some((tag) => entry.tags.includes(tag)));
-      setListToDisplay(filteredList);
+      setFilteredList(filteredList);
+      console.log("handleFilterListByCategoryBoxes (else): ", filteredList);
     }
   };
 
-  const onSearchSubmit = (queryString: string) => {
-    setSearchQuery(queryString);
-    console.log("onSearchSubmit in parent component: ", searchQuery);
+  const handleFilterListBySearchString = () => {
+    if (searchQuery !== "") {
+      const filteredResultsByQuery = filteredList.filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
+      setFilteredList(filteredResultsByQuery);
+    } else {
+      setFilteredList(inventoryList);
+    }
   };
+
+  // const handleFilterListCombined = () => {
+  //   if (tagsToFilter.length === 0) {
+  //     setFilteredList(inventoryList);
+  //     console.log("handleFilteredListCombined(if 1) - no tags", filteredList);
+  //   }
+  //   if (tagsToFilter.length > 0) {
+  //     const tempFilteredList = filteredList.filter((entry) => tagsToFilter.some((tag) => entry.tags.includes(tag)));
+  //     setFilteredList(tempFilteredList);
+  //     console.log("handleFilteredListCombined(if 3) - have tags", filteredList);
+  //   }
+  //   if (searchQuery === "") {
+  //     setFilteredList(inventoryList);
+  //     console.log("handleFilteredListCombined(if 2) - no search", filteredList);
+  //   }
+  //   if (searchQuery !== "") {
+  //     const filteredResultsByQuery = filteredList.filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  //     setFilteredList(filteredResultsByQuery);
+  //     console.log("handleFilteredListCombined(if 4) - have search", filteredList);
+  //   }
+  // };
 
   //#region functions updating database
   // functions updating database
@@ -228,6 +272,7 @@ function InventoryControl() {
   //#endregion functions
 
   // Conditional Rendering of Components
+  let headerPanel = <Header onSearchInputChange={onSearchInputChange} />;
   let leftSidePanel = (
     <CategoryPanel
       tags={tagsToFilter}
@@ -278,8 +323,8 @@ function InventoryControl() {
   } else {
     centerPanel = (
       <InventoryList
-        listOfEntries={listToDisplay}
-        onSearchSubmit={onSearchSubmit}
+        listOfEntries={filteredList}
+        // onSearchSubmit={onSearchSubmit}
         onClickingAddEntry={handleAddEntryButtonClick}
         onEntrySelection={handleChangingSelectedEntry}
       />
@@ -288,6 +333,7 @@ function InventoryControl() {
   return (
     <Layout>
       <>
+        {headerPanel}
         <Grid container spacing={1}>
           <Grid item xs={1.5}>
             <FixedWidthItem>{leftSidePanel}</FixedWidthItem>

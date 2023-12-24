@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Header from "./Header";
 import { LayoutProps } from "../types";
 
 const StyledLayout = styled.div`
@@ -8,12 +7,7 @@ const StyledLayout = styled.div`
 `;
 
 function Layout({ children }: LayoutProps) {
-  return (
-    <StyledLayout>
-      <Header />
-      {children}
-    </StyledLayout>
-  );
+  return <StyledLayout>{children}</StyledLayout>;
 }
 
 export default Layout;
