@@ -39,6 +39,7 @@ function InventoryControl() {
   const [tagsToFilter, setTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filteredList, setFilteredList] = useState<InventoryEntry[]>([]);
+
   // Miscellaneous:
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -46,11 +47,6 @@ function InventoryControl() {
   const purposeTagChecklist: string[] = ["Equipment", "Materials", "Models", "Safety"];
 
   //#region useEffect hooks
-  // useEffect(() => {
-  //   console.log(JSON.stringify(inventoryList));
-  //   console.log("InventoryControl useEffect: inventoryList", inventoryList);
-  // }, [inventoryList]);
-
   useEffect(() => {
     const unSubscribe = onSnapshot(
       collection(db, "inventoryEntries"),
@@ -92,13 +88,8 @@ function InventoryControl() {
   }, [inventoryList]);
 
   useEffect(() => {
-    handleFilterListByCategoryBoxes(tagsToFilter);
-    // handleFilterListCombined();
-  }, [inventoryList, searchQuery]);
-
-  useEffect(() => {
-    handleFilterListBySearchString();
-  }, [inventoryList, searchQuery]);
+    handleFilterList();
+  }, [inventoryList, searchQuery, tagsToFilter]);
 
   //#endregion useEffect hooks
 
@@ -159,59 +150,24 @@ function InventoryControl() {
     setSearchQuery(queryString);
   };
 
-  // const onFilterByCategory = (arrayOfTags: string[]) => {
-  //   setTags(arrayOfTags);
-  // };
-
-  const handleFilterListByCategoryBoxes = (arrayOfTags: string[]) => {
-    //prettier-ignore
+  const onFilterByCategory = (arrayOfTags: string[]) => {
     setTags(arrayOfTags);
-    if (arrayOfTags.length === 0) {
-      setFilteredList(inventoryList);
-      console.log("handleFilterListByCategoryBoxes (if): ", filteredList);
-    } else {
-      // const filteredList = inventoryList.filter((entry) => arrayOfTags.some((tag) => entry.tags.includes(tag)));
-      // setFilteredList(filteredList);
-      // console.log("handleFilterListByCategoryBoxes (else): ", filteredList);
-      setFilteredList((prevfilteredList) => {
-        return prevfilteredList.filter((entry) => arrayOfTags.some((tag) => entry.tags.includes(tag)));
-      });
-      console.log("handleFilterListByCategoryBoxes (else): ", filteredList);
-    }
   };
 
-  const handleFilterListBySearchString = () => {
+  const handleFilterList = () => {
+    let filteredListCopy = [...inventoryList];
+
+    if (tagsToFilter.length > 0) {
+      filteredListCopy = filteredListCopy.filter((entry) => tagsToFilter.some((tag) => entry.tags.includes(tag)));
+    }
+
     if (searchQuery !== "") {
-      setFilteredList((prevfilteredList) => {
-        return prevfilteredList.filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
-      });
-      // const filteredResultsByQuery = filteredList.filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
-      // setFilteredList(filteredResultsByQuery);
-    } else {
-      setFilteredList(inventoryList);
+      filteredListCopy = filteredListCopy.filter((entry) => entry.name.toLowerCase().includes(searchQuery.toLowerCase()));
     }
+
+    setFilteredList(filteredListCopy);
   };
 
-  // const handleFilterListCombined = () => {
-  //   if (tagsToFilter.length === 0) {
-  //     setFilteredList(inventoryList);
-  //     console.log("handleFilteredListCombined(if 1) - no tags", filteredList);
-  //   }
-  //   if (tagsToFilter.length > 0) {
-  //     const tempFilteredList = filteredList.filter((entry) => tagsToFilter.some((tag) => entry.tags.includes(tag)));
-  //     setFilteredList(tempFilteredList);
-  //     console.log("handleFilteredListCombined(if 3) - have tags", filteredList);
-  //   }
-  //   if (searchQuery === "") {
-  //     setFilteredList(inventoryList);
-  //     console.log("handleFilteredListCombined(if 2) - no search", filteredList);
-  //   }
-  //   if (searchQuery !== "") {
-  //     const filteredResultsByQuery = filteredList.filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase()));
-  //     setFilteredList(filteredResultsByQuery);
-  //     console.log("handleFilteredListCombined(if 4) - have search", filteredList);
-  //   }
-  // };
   //#endregion functions
 
   //#region functions updating database
@@ -282,7 +238,7 @@ function InventoryControl() {
       tags={tagsToFilter}
       subjectTagChecklist={subjectTagChecklist}
       purposeTagChecklist={purposeTagChecklist}
-      onCategorySelection={handleFilterListByCategoryBoxes}
+      onCategorySelection={onFilterByCategory}
     />
   );
   let centerPanel = null;
