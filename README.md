@@ -24,7 +24,7 @@ _This app is a capstone project for my time at Epicodus. It's a work in progress
 
 ### Technology Choices / Rationale
 
-_I chose to write the front end using React.js to improve my fluency with React. I used TypeScript, Vite, and Materials UI to push myself to learn new tools. For the database, I used NoSQL Firestore for two main reasons. NoSQL does not require a schema. From my current understanding, as I add complexity to the database, it will be easier to make updates without rebuilding the database from scratch -- as may be true with SQL. The other reason, for practical purposes, is that if my former workplace were to use this application, Firestore will be reliably accessible around the clock without cost._
+_I chose to write the front end using React.js to improve my fluency with React. I used TypeScript, Vite, and Materials UI to push myself to learn new tools. For the database, I used NoSQL Firestore for two main reasons. NoSQL does not require a schema. From my current understanding, as I add complexity to the database, it will be easier to make updates without rebuilding the database from scratch -- as could be the case with SQL. The other reason, for practical purposes, is that if my former workplace were to use this application, Firestore will be reliably accessible around the clock without cost._
 
 ## Component Diagram
 
