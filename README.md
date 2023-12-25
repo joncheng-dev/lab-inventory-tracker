@@ -1,8 +1,8 @@
 # Lab (Inventory) Manager
 
-#### By Jonathan Cheng
+#### By Jon Cheng
 
-#### I've created this inventory management system to help my former workplace and co-workers keep track of shared equipment and materials in the science laboratory. Users must log in. They can search for items, log that they have taken it, and log that they have returned it. Item entries can be created, read, updated, and deleted. Tags help keep track of categories to aid in finding items.
+#### This app is an inventory management system for tracking shared equipment and materials in the science laboratory. Users can search for items, log that they have taken it, and log that they have returned it. Tags can be added as categories to aid in finding items.
 
 ## Technologies Used
 
@@ -20,11 +20,11 @@
 
 ## Description
 
-_This app is a capstone project for Epicodus. It features a front end app which communicates with a Cloud database._
+_This app is a capstone project for my time at Epicodus. It's currently a work in progress. Its user interface is written with React.js and stores information with a Firebase/Firestore cloud database. This inventory management system was created to help my former workplace and co-workers keep track of shared equipment and materials in the science laboratory. Users must log in. The inventory list can be populated by adding individual entries, _
 
 ## Component Diagram
 
-<img src="./src/img/component diagram.jpg" width="90%">
+<img src="./src/images/component-diagram.jpg" width="100%">
 
 ## Setup/Installation Requirements
 
@@ -35,19 +35,19 @@ _2. Navigate to where you want to place the cloned directory._
 _3. Clone the repository from the GitHub link by entering in this command:_
 
 > ```bash
-> $ git clone https://github.com/joncheng-dev/inventory-tracker
+> $ git clone https://github.com/joncheng-dev/lab-inventory-tracker
 > ```
 
-- _In the command line, while in the project's root directory `inventory-tracker`, run this command to install all packages and dependenies:_
+- _In the command line, while in the project's root directory `lab-inventory-tracker`, run this command to install all packages and dependenies:_
 
 > ```bash
 > $ npm install
 > ```
 
-- _In the command line, while in the project's root directory `inventory-tracker`, run this command to compile and execute the web application. A new browser window should open, allowing you to interact with it._
+- _In the command line, while in the project's root directory `lab-inventory-tracker`, run this command to compile and execute the web application. This will host the application locally._
 
 > ```bash
-> $ npm run start
+> $ npm run dev
 > ```
 
 - _Optionally, to compile this web app without running it, enter:_
