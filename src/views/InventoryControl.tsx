@@ -8,7 +8,7 @@ import InventoryEntryDetail from "../components/InventoryEntryDetail.js";
 import InventoryEditForm from "../components/InventoryEditForm.js";
 import { db, auth } from "../firebase.js";
 import { collection, addDoc, doc, onSnapshot, getDoc, deleteDoc, updateDoc } from "firebase/firestore";
-import { styled } from "@mui/material/styles";
+import { styled as styledMui } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Layout from "../components/Layout.js";
@@ -19,13 +19,14 @@ import Sidebar from "../components/SideBar";
 function InventoryControl() {
   // STYLING
   //#region styling
-  const FixedWidthItem = styled(Paper)(({ theme }) => ({
+  const FixedWidthItem = styledMui(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
     padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
+
   //#endregion styling
 
   // STATE & SHARED INFORMATION
@@ -298,10 +299,10 @@ function InventoryControl() {
     <Layout>
       <>
         <Grid container spacing={1}>
-          <Grid item xs={sidebarWidth}>
+          <Grid item xs={sidebarWidth} style={{ transition: "all 0.5s" }}>
             <Sidebar onToggle={handleSidebarToggle} />
           </Grid>
-          <Grid item xs={mainContentWidth}>
+          <Grid item xs={mainContentWidth} style={{ transition: "all 0.5s" }}>
             {headerPanel}
             <Grid container spacing={1}>
               <Grid item xs={1.5}>
