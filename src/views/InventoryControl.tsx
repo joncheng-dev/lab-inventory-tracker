@@ -14,6 +14,7 @@ import Grid from "@mui/material/Grid";
 import Layout from "../components/Layout.js";
 import { InventoryEntry, UserEntry } from "../types/index.js";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../components/SideBar";
 
 function InventoryControl() {
   // STYLING
@@ -34,6 +35,7 @@ function InventoryControl() {
   const [editing, setEditing] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<UserEntry | null>(null);
   const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<InventoryEntry[]>([]);
+  const [isSidebarExpanded, setSidebarExpanded] = useState<boolean>(true);
   // For data:
   const [inventoryList, setInventoryList] = useState<InventoryEntry[]>([]);
   const [tagsToFilter, setTags] = useState<string[]>([]);
@@ -45,6 +47,8 @@ function InventoryControl() {
   const navigate = useNavigate();
   const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
   const purposeTagChecklist: string[] = ["Equipment", "Materials", "Models", "Safety"];
+  const sidebarWidth = isSidebarExpanded ? 3 : 1;
+  const mainContentWidth = isSidebarExpanded ? 9 : 11;
 
   //#region useEffect hooks
   useEffect(() => {
@@ -168,6 +172,10 @@ function InventoryControl() {
     setFilteredList(filteredListCopy);
   };
 
+  const handleSidebarToggle = () => {
+    setSidebarExpanded((prev) => !prev);
+  };
+
   //#endregion functions
 
   //#region functions updating database
@@ -289,16 +297,23 @@ function InventoryControl() {
   return (
     <Layout>
       <>
-        {headerPanel}
         <Grid container spacing={1}>
-          <Grid item xs={1.5}>
-            <FixedWidthItem>{leftSidePanel}</FixedWidthItem>
+          <Grid item xs={sidebarWidth}>
+            <Sidebar onToggle={handleSidebarToggle} />
           </Grid>
-          <Grid item xs={8}>
-            <FixedWidthItem>{centerPanel}</FixedWidthItem>
-          </Grid>
-          <Grid item xs={2.5}>
-            <FixedWidthItem>{rightSidePanel}</FixedWidthItem>
+          <Grid item xs={mainContentWidth}>
+            {headerPanel}
+            <Grid container spacing={1}>
+              <Grid item xs={1.5}>
+                <FixedWidthItem>{leftSidePanel}</FixedWidthItem>
+              </Grid>
+              <Grid item xs={8}>
+                <FixedWidthItem>{centerPanel}</FixedWidthItem>
+              </Grid>
+              <Grid item xs={2.5}>
+                <FixedWidthItem>{rightSidePanel}</FixedWidthItem>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </>
