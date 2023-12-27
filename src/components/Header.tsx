@@ -1,23 +1,23 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { auth } from "../firebase.tsx";
 import { signOut } from "firebase/auth";
-import styled from "styled-components";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, useTheme } from "@mui/material";
+import { ColorModeContext, tokens } from "../themes.tsx";
+import { InputBase } from "@mui/material";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import SearchIcon from "@mui/icons-material/Search";
-import TextField from "@mui/material/TextField";
-
-const StyledHeader = styled.header`
-  width: 100%;
-  max-width: 100vw;
-`;
 
 type HeaderProps = {
   onSearchInputChange: (queryString: string) => void;
 };
 
 function Header(props: HeaderProps) {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const colorMode = useContext(ColorModeContext);
   const { onSearchInputChange } = props;
   const [signOutSuccess, setSignOutSuccess] = useState<string | null>(null);
 
@@ -37,19 +37,18 @@ function Header(props: HeaderProps) {
   }
 
   return (
-    <StyledHeader>
-      <Box display="flex" justifyContent="space-between" p={1}>
-        <Box display="flex" borderRadius="3px">
-          <h1>Lab Manager</h1>
-        </Box>
-        <Box display="flex" component="form" noValidate autoComplete="off">
-          <TextField name="searchString" sx={{ ml: 2, flex: 1 }} onChange={handleSearchBarChange} />
-          {/* <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" /> */}
+    <>
+      <Box display="flex" justifyContent="space-between" p={2}>
+        <Box display="flex" sx={{ backgroundColor: colors.primary[400], borderRadius: "3px" }} component="form" noValidate autoComplete="off">
+          <InputBase sx={{ ml: 2, flex: 1 }} name="searchString" onChange={handleSearchBarChange} placeholder="Search" />
           <IconButton type="button" sx={{ p: 1 }}>
             <SearchIcon />
           </IconButton>
         </Box>
-        <Box display="flex" borderRadius="3px" p={2}>
+        <Box display="flex">
+          <IconButton onClick={colorMode.toggleColorMode}>
+            {theme.palette.mode === "dark" ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
+          </IconButton>
           <Stack direction="row" spacing={1}>
             <Chip label="Home" component="a" href="/" variant="outlined" clickable />
             <Chip label="Sign Out" onClick={doSignOut} component="a" href="/signin" variant="outlined" clickable />
@@ -57,7 +56,7 @@ function Header(props: HeaderProps) {
         </Box>
       </Box>
       <hr />
-    </StyledHeader>
+    </>
   );
 }
 
