@@ -37,7 +37,7 @@ function InventoryControl() {
   const [editing, setEditing] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<UserEntry | null>(null);
   const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<InventoryEntry[]>([]);
-  // const [isSidebarExpanded, setSidebarExpanded] = useState<boolean>(true);
+
   // For data:
   const [inventoryList, setInventoryList] = useState<InventoryEntry[]>([]);
   const [tagsToFilter, setTags] = useState<string[]>([]);
@@ -49,8 +49,6 @@ function InventoryControl() {
   const navigate = useNavigate();
   const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
   const purposeTagChecklist: string[] = ["Equipment", "Materials", "Models", "Safety"];
-  // const sidebarWidth = isSidebarExpanded ? 2 : 1;
-  // const mainContentWidth = isSidebarExpanded ? 10 : 11;
 
   //#region useEffect hooks
   useEffect(() => {
@@ -171,10 +169,6 @@ function InventoryControl() {
     setFilteredList(filteredListCopy);
   };
 
-  // const handleSidebarToggle = () => {
-  //   setSidebarExpanded((prev) => !prev);
-  // };
-
   //#endregion functions
 
   //#region functions updating database
@@ -294,11 +288,6 @@ function InventoryControl() {
   //#endregion Conditional Rendering of Components
   return (
     <>
-      {/* <Grid container spacing={1}>
-        <Grid item xs={sidebarWidth} style={{ transition: "all 0.5s" }}>
-          <Sidebar onToggle={handleSidebarToggle} />
-        </Grid>
-        <Grid item xs={mainContentWidth} style={{ transition: "all 0.5s" }}> */}
       {/* Conditional rendering */}
       <Header onSearchInputChange={onSearchInputChange} />
       <Grid container spacing={1}>
@@ -312,8 +301,6 @@ function InventoryControl() {
           <FixedWidthItem>{rightSidePanel}</FixedWidthItem>
         </Grid>
       </Grid>
-      {/* </Grid>
-      </Grid> */}
     </>
   );
 }

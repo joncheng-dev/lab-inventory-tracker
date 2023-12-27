@@ -7,8 +7,6 @@ import { doc, getDoc } from "firebase/firestore";
 import Layout from "./Layout.js";
 import Grid from "@mui/material/Grid";
 import Sidebar from "../components/SideBar";
-import InventoryControl from "../views/InventoryControl.js";
-import ManageUsers from "../views/ManageUsers.js";
 // Types
 import { UserEntry } from "../types/index.js";
 

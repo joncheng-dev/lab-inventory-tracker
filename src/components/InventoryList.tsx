@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import InventoryEntry from "./InventoryEntry";
 import { InventoryEntry as IEntry } from "../types";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 const ListContainer = styled.div`
   text-align: left;
@@ -31,7 +31,9 @@ function InventoryList(props: InventoryListProps) {
           <h2>Inventory List</h2>
         </Box>
       </Box>
-      {<button onClick={onClickingAddEntry}>Add Entry</button>}
+      <Button onClick={onClickingAddEntry} variant="contained">
+        Add Entry
+      </Button>
       <br />
       <br />
       <ItemContainer>

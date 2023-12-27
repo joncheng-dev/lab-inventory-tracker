@@ -4,9 +4,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Stack from "@mui/material/Stack";
 import styled from "styled-components";
 import Chip from "@mui/material/Chip";
-import Box from "@mui/material/Box";
+import { Box, useTheme } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import Divider from "@mui/material/Divider";
+import { tokens } from "../themes";
 
 const EntryDetailContainer = styled.div`
   padding-left: 50px;
@@ -63,6 +64,8 @@ type InventoryEntryDetailProps = {
 };
 
 function InventoryEntryDetails(props: InventoryEntryDetailProps) {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const { entry, onClickingCheckout, onClickingReturn, onClickingEdit, onClickingDelete, onClickingExit } = props;
   // prettier-ignore
   const {
@@ -80,7 +83,7 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
     <TextAlignLeftContainer>
       <h2>Inventory Entry Detail</h2>
       <EntryDetailContainer>
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
           <Grid container spacing={2}>
             <Grid xs={7}>
               <Box
@@ -129,23 +132,23 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
           <Box display="flex" justifyContent="space-between" p={1}>
             <Box display="flex" borderRadius="3px" p={2}>
               <Stack spacing={2} direction="row">
-                <Button onClick={() => onClickingCheckout()} variant="outlined">
+                <Button onClick={() => onClickingCheckout()} variant="contained">
                   Check Out
                 </Button>
-                <Button onClick={() => onClickingReturn(id!)} variant="outlined">
+                <Button onClick={() => onClickingReturn(id!)} variant="contained">
                   Return
                 </Button>
               </Stack>
             </Box>
             <Box display="flex" borderRadius="3px" p={2}>
               <Stack spacing={2} direction="row">
-                <Button onClick={onClickingEdit} variant="outlined">
+                <Button onClick={onClickingEdit} variant="contained">
                   Edit entry
                 </Button>
-                <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => onClickingDelete(id!)} color="error">
+                <Button variant="contained" startIcon={<DeleteIcon />} onClick={() => onClickingDelete(id!)} color="error">
                   Delete
                 </Button>
-                <Button onClick={onClickingExit} variant="outlined">
+                <Button onClick={onClickingExit} variant="contained">
                   Exit
                 </Button>
               </Stack>

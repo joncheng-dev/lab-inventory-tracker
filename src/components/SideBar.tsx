@@ -21,9 +21,6 @@ type ItemProps = {
   title: string;
   to: string;
   icon: React.ReactElement<SvgIconTypeMap<{}, "svg">>;
-  // icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & {
-  //   muiName: string;
-  // };
   selected: string;
   setSelected: React.Dispatch<React.SetStateAction<string>>;
 };
@@ -31,8 +28,6 @@ type ItemProps = {
 type SidebarProps = {
   onToggle: () => void;
 };
-
-// <Item title="Dashboard" to="/" icon={<HomeOutlinedIcon />} selected={selected} setSelected={setSelected} />;
 
 function Item(props: ItemProps) {
   const { title, to, icon, selected, setSelected } = props;

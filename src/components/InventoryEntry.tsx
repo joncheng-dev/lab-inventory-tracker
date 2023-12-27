@@ -69,7 +69,7 @@ function InventoryEntry(props: InventoryEntryProps) {
         ))}
       </Stack> */}
       <CardActions>
-        <Button size="small" onClick={() => whenEntryClicked(id!)}>
+        <Button size="small" variant="contained" onClick={() => whenEntryClicked(id!)}>
           Details
         </Button>
         {/* <Button size="small">{isCheckedOut ? "Return" : "Check Out"}</Button> */}
