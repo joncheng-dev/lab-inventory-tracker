@@ -14,7 +14,8 @@ import Grid from "@mui/material/Grid";
 import Layout from "../components/Layout.js";
 import { InventoryEntry, UserEntry } from "../types/index.js";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../components/SideBar";
+// import Sidebar from "../components/SideBar";
+import ManageUsers from "./ManageUsers.js";
 
 function InventoryControl() {
   // STYLING
@@ -36,7 +37,7 @@ function InventoryControl() {
   const [editing, setEditing] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<UserEntry | null>(null);
   const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<InventoryEntry[]>([]);
-  const [isSidebarExpanded, setSidebarExpanded] = useState<boolean>(true);
+  // const [isSidebarExpanded, setSidebarExpanded] = useState<boolean>(true);
   // For data:
   const [inventoryList, setInventoryList] = useState<InventoryEntry[]>([]);
   const [tagsToFilter, setTags] = useState<string[]>([]);
@@ -48,8 +49,8 @@ function InventoryControl() {
   const navigate = useNavigate();
   const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
   const purposeTagChecklist: string[] = ["Equipment", "Materials", "Models", "Safety"];
-  const sidebarWidth = isSidebarExpanded ? 3 : 1;
-  const mainContentWidth = isSidebarExpanded ? 9 : 11;
+  // const sidebarWidth = isSidebarExpanded ? 2 : 1;
+  // const mainContentWidth = isSidebarExpanded ? 10 : 11;
 
   //#region useEffect hooks
   useEffect(() => {
@@ -161,21 +162,18 @@ function InventoryControl() {
 
   const handleFilterList = () => {
     let filteredListCopy = [...inventoryList];
-
     if (tagsToFilter.length > 0) {
       filteredListCopy = filteredListCopy.filter((entry) => tagsToFilter.some((tag) => entry.tags.includes(tag)));
     }
-
     if (searchQuery !== "") {
       filteredListCopy = filteredListCopy.filter((entry) => entry.name.toLowerCase().includes(searchQuery.toLowerCase()));
     }
-
     setFilteredList(filteredListCopy);
   };
 
-  const handleSidebarToggle = () => {
-    setSidebarExpanded((prev) => !prev);
-  };
+  // const handleSidebarToggle = () => {
+  //   setSidebarExpanded((prev) => !prev);
+  // };
 
   //#endregion functions
 
@@ -241,7 +239,6 @@ function InventoryControl() {
   //endregion queries
 
   //#region Conditional Rendering of Components
-  let headerPanel = <Header onSearchInputChange={onSearchInputChange} />;
   let leftSidePanel = (
     <CategoryPanel
       tags={tagsToFilter}
@@ -296,29 +293,28 @@ function InventoryControl() {
   }
   //#endregion Conditional Rendering of Components
   return (
-    <Layout>
-      <>
-        <Grid container spacing={1}>
-          <Grid item xs={sidebarWidth} style={{ transition: "all 0.5s" }}>
-            <Sidebar onToggle={handleSidebarToggle} />
-          </Grid>
-          <Grid item xs={mainContentWidth} style={{ transition: "all 0.5s" }}>
-            {headerPanel}
-            <Grid container spacing={1}>
-              <Grid item xs={1.5}>
-                <FixedWidthItem>{leftSidePanel}</FixedWidthItem>
-              </Grid>
-              <Grid item xs={8}>
-                <FixedWidthItem>{centerPanel}</FixedWidthItem>
-              </Grid>
-              <Grid item xs={2.5}>
-                <FixedWidthItem>{rightSidePanel}</FixedWidthItem>
-              </Grid>
-            </Grid>
-          </Grid>
+    <>
+      {/* <Grid container spacing={1}>
+        <Grid item xs={sidebarWidth} style={{ transition: "all 0.5s" }}>
+          <Sidebar onToggle={handleSidebarToggle} />
         </Grid>
-      </>
-    </Layout>
+        <Grid item xs={mainContentWidth} style={{ transition: "all 0.5s" }}> */}
+      {/* Conditional rendering */}
+      <Header onSearchInputChange={onSearchInputChange} />
+      <Grid container spacing={1}>
+        <Grid item xs={1.5}>
+          <FixedWidthItem>{leftSidePanel}</FixedWidthItem>
+        </Grid>
+        <Grid item xs={8}>
+          <FixedWidthItem>{centerPanel}</FixedWidthItem>
+        </Grid>
+        <Grid item xs={2.5}>
+          <FixedWidthItem>{rightSidePanel}</FixedWidthItem>
+        </Grid>
+      </Grid>
+      {/* </Grid>
+      </Grid> */}
+    </>
   );
 }
 

@@ -344,7 +344,7 @@ function SignIn() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setSignInSuccess(`You've signed in as: ${userCredential.user.email}`);
-        navigate("/");
+        navigate("/inventory");
       })
       .catch((error) => {
         setSignInSuccess(`There was an error with sign-in: ${error.message}`);
