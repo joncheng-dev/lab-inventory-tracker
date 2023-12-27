@@ -1,32 +1,7 @@
 import { createContext, useState, useMemo } from "react";
 import { PaletteMode } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
-
-// interface PaletteOptions {
-//   primary?: PaletteColorOptions;
-//   secondary?: PaletteColorOptions;
-//   error?: PaletteColorOptions;
-//   warning?: PaletteColorOptions;
-//   info?: PaletteColorOptions;
-//   success?: PaletteColorOptions;
-//   mode?: PaletteMode;
-//   tonalOffset?: PaletteTonalOffset;
-//   contrastThreshold?: number;
-//   common?: Partial<CommonColors>;
-//   grey?: ColorPartial;
-//   text?: Partial<TypeText>;
-//   divider?: string;
-//   action?: Partial<TypeAction>;
-//   background?: Partial<TypeBackground>;
-//   getContrastText?: (background: string) => string;
-// }
-
-// interface PaletteColor {
-//   light?: string;
-//   main: string;
-//   dark?: string;
-//   contrastText?: string;
-// }
+import { Theme } from "@mui/system";
 
 // color design tokens export
 export const tokens = (mode: string) => ({
@@ -225,8 +200,8 @@ export const ColorModeContext = createContext({
   toggleColorMode: () => {},
 });
 
-export const useMode = () => {
-  const [mode, setMode] = useState("dark");
+export const useMode = (): [theme: Theme, colorMode: { toggleColorMode: () => void }] => {
+  const [mode, setMode] = useState<PaletteMode>("dark");
 
   const colorMode = useMemo(
     () => ({
@@ -235,33 +210,6 @@ export const useMode = () => {
     []
   );
 
-  const theme = useMemo(() => createTheme(themeSettings(mode as PaletteMode)), [mode]);
+  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   return [theme, colorMode];
 };
-
-// const themeSettings: (mode: string) => {
-//     palette: {
-//         primary: {
-//             main: string;
-//         };
-//         secondary: {
-//             main: string;
-//         };
-//         neutral: {
-//             dark: string;
-//             main: string;
-//             light: string;
-//         };
-//         background: {
-//             default: string;
-//         };
-//         mode: string;
-//     };
-//     typography: {
-//         fontFamily: string;
-//         ... 6 more ...;
-//         h6: {
-//             ...;
-//         };
-//     };
-// }
