@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import styled from "styled-components";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -79,6 +79,11 @@ function InventoryEntry(props: InventoryEntryProps) {
 }
 
 export default InventoryEntry;
+
+// <Button size="small" variant="contained" onClick={() => whenEntryClicked(id!)}>
+//   Details
+// </Button>;
+
 // <>
 //   <StyledCard>
 //     <CardContent>

@@ -11,11 +11,10 @@ import { collection, addDoc, doc, onSnapshot, getDoc, deleteDoc, updateDoc } fro
 import { styled as styledMui } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import Layout from "../components/Layout.js";
 import { InventoryEntry, UserEntry } from "../types/index.js";
 import { useNavigate } from "react-router-dom";
-// import Sidebar from "../components/SideBar";
-import ManageUsers from "./ManageUsers.js";
+// import useLocalStorage, { useLocalStorageProps } from "../hooks/useLocalStorage.js";
+import { useUser } from "../components/Home.js";
 
 function InventoryControl() {
   // STYLING
@@ -35,7 +34,8 @@ function InventoryControl() {
   const [addFormVisible, setAddFormVisibility] = useState<boolean>(false);
   const [selectedEntry, setSelectedEntry] = useState<InventoryEntry | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
-  const [currentUser, setCurrentUser] = useState<UserEntry | null>(null);
+  // const [currentUser, setCurrentUser] = useState<useLocalStorageProps | null>(null);
+  const { currentUser } = useUser();
   const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<InventoryEntry[]>([]);
 
   // For data:
@@ -43,6 +43,7 @@ function InventoryControl() {
   const [tagsToFilter, setTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filteredList, setFilteredList] = useState<InventoryEntry[]>([]);
+  // const localUser = useLocalStorage({ key: "currentUser", objectToStore: currentUser });
 
   // Miscellaneous:
   const [error, setError] = useState<string | null>(null);
@@ -77,9 +78,9 @@ function InventoryControl() {
     return () => unSubscribe();
   }, []);
 
-  useEffect(() => {
-    handleGettingCurrentUserInfoFromDb();
-  }, []);
+  // useEffect(() => {
+  //   handleGettingCurrentUserInfoFromDb();
+  // }, []);
 
   useEffect(() => {
     if (selectedEntry !== null) {
@@ -95,28 +96,35 @@ function InventoryControl() {
     handleFilterList();
   }, [inventoryList, searchQuery, tagsToFilter]);
 
+  // useEffect(() => {
+  //   if (localUser !== null) {
+  //     setCurrentUser(localUser);
+  //   }
+  //   console.log("useEffect setCurrentUser, user to UserInfoPanel is: ", currentUser!.objectToStore);
+  // }, [localUser]);
+
   //#endregion useEffect hooks
 
   //#region functions
-  const handleGettingCurrentUserInfoFromDb = async () => {
-    try {
-      if (auth.currentUser) {
-        const userRef = doc(db, "users", auth.currentUser.uid);
-        const docSnap = await getDoc(userRef);
-        if (docSnap.exists()) {
-          const userInfo = docSnap.data() as UserEntry;
-          setCurrentUser(userInfo);
-          // Redirect user to sign-in if not signed in.
-        } else {
-          console.log("No such user in database. (User collections does not contain a user document with this id.)");
-        }
-      } else {
-        navigate("/signin");
-      }
-    } catch (error) {
-      console.error("Error retrieving user info:", error);
-    }
-  };
+  // const handleGettingCurrentUserInfoFromDb = async () => {
+  //   try {
+  //     if (auth.currentUser) {
+  //       const userRef = doc(db, "users", auth.currentUser.uid);
+  //       const docSnap = await getDoc(userRef);
+  //       if (docSnap.exists()) {
+  //         const userInfo = docSnap.data() as UserEntry;
+  //         setCurrentUser({ key: "currentUser", objectToStore: userInfo });
+  //         // Redirect user to sign-in if not signed in.
+  //       } else {
+  //         console.log("No such user in database. (User collections does not contain a user document with this id.)");
+  //       }
+  //     } else {
+  //       console.log("Please sign in before proceeding.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error retrieving user info:", error);
+  //   }
+  // };
 
   const handleExitButtonClick = () => {
     if (selectedEntry) {
@@ -144,7 +152,7 @@ function InventoryControl() {
   const handleMakeUserItemList = () => {
     if (currentUser) {
       setItemsCheckedOutByUser(() => {
-        return inventoryList.filter((entry) => entry.checkedOutBy === currentUser!.userEmail);
+        return inventoryList.filter((entry) => entry.checkedOutBy === currentUser!.objectToStore.userEmail);
       });
     }
   };
@@ -217,7 +225,7 @@ function InventoryControl() {
   const handleReturnItem = async (itemId: string) => {
     const entryRef = doc(db, "inventoryEntries", itemId!);
     const itemToReturn = inventoryList.filter((entry) => entry.id === itemId)[0];
-    if (itemToReturn.isCheckedOut === true && itemToReturn.checkedOutBy === currentUser!.userEmail) {
+    if (itemToReturn.isCheckedOut === true && itemToReturn.checkedOutBy === currentUser!.objectToStore.userEmail) {
       const returnEntryData: Partial<InventoryEntry> = {
         isCheckedOut: false,
         checkedOutBy: null,
@@ -246,7 +254,7 @@ function InventoryControl() {
 
   if (currentUser) {
     rightSidePanel = (
-      <UserInfoPanel user={currentUser!} itemsCheckedOutByUser={itemsCheckedOutByUser} onEntrySelection={handleChangingSelectedEntry} />
+      <UserInfoPanel user={currentUser!.objectToStore} itemsCheckedOutByUser={itemsCheckedOutByUser} onEntrySelection={handleChangingSelectedEntry} />
     );
   }
 

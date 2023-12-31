@@ -5,6 +5,9 @@ import { auth, db } from "../firebase.tsx";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { eTargetType } from "../types/index.tsx";
+import { tokens } from "../themes";
+import { useTheme } from "@mui/material";
+import { Button } from "@mui/material";
 
 //#region style
 const FormContainer = styled.div`
@@ -293,6 +296,8 @@ const FormContainer = styled.div`
 //#endregion style
 
 function SignIn() {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   // state variables with useState hooks
   const [createAccountSuccess, setCreateAccountSuccess] = useState<string | null>(null);
   const [signInSuccess, setSignInSuccess] = useState<string | null>(null);
@@ -380,9 +385,9 @@ function SignIn() {
                               <input type="password" name="password" className="form-style" placeholder="Password" />
                               <i className="input-icon uil uil-lock-alt"></i>
                             </div>
-                            <button type="submit" className="btn mt-4">
+                            <Button type="submit" variant="contained" className="btn mt-4">
                               Sign In
-                            </button>
+                            </Button>
                           </form>
                         </div>
                       </div>
@@ -400,9 +405,9 @@ function SignIn() {
                               <input type="password" name="password" className="form-style" placeholder="Password" />
                               <i className="input-icon uil uil-lock-alt"></i>
                             </div>
-                            <button type="submit" className="btn mt-4">
+                            <Button type="submit" variant="contained" className="btn mt-4">
                               Create Account
-                            </button>
+                            </Button>
                           </form>
                         </div>
                       </div>

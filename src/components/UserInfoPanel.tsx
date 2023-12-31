@@ -1,6 +1,7 @@
 import { UserEntry, InventoryEntry } from "../types";
 import UserItem from "./UserItem";
 import Divider from "@mui/material/Divider";
+import { useUser } from "./Home";
 
 type UserInfoPanelProps = {
   user: UserEntry;
@@ -9,9 +10,16 @@ type UserInfoPanelProps = {
 };
 
 function UserInfoPanel(props: UserInfoPanelProps) {
-  const { user, itemsCheckedOutByUser, onEntrySelection } = props;
-  const { userEmail } = user || null;
+  // const { user, itemsCheckedOutByUser, onEntrySelection } = props;
+  const { itemsCheckedOutByUser, onEntrySelection } = props;
+  const { currentUser } = useUser();
 
+  // const { userEmail } = user || null;
+
+  if (!currentUser || !currentUser.objectToStore) {
+    return <div>Loading...</div>;
+  }
+  const { userEmail } = currentUser!.objectToStore;
   // Use the ids passed in by itemsCheckedOutByUser --> list
   // Use it to query against the database.
   // Populate a list of items with full detail.
