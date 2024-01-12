@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase.tsx";
@@ -295,7 +295,7 @@ const FormContainer = styled.div`
 `;
 //#endregion style
 
-function SignIn() {
+export default function SignIn() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   // state variables with useState hooks
@@ -305,6 +305,10 @@ function SignIn() {
   const [isCreateAccount, setIsCreateAccount] = useState<boolean>(false);
   // redirects
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("SignIn.tsx, signInSuccess: ", signInSuccess);
+  }, [signInSuccess]);
 
   // functions
   function handleCheckboxChange() {
@@ -422,8 +426,6 @@ function SignIn() {
     </FormContainer>
   );
 }
-
-export default SignIn;
 
 // <form onSubmit={doCreateAccount}>
 //   <input type="text" name="email" placeholder="email" />

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Header from "../components/Header.js";
 import CategoryPanel from "../components/CategoryPanel.js";
 import UserInfoPanel from "../components/UserInfoPanel.js";
@@ -6,15 +6,16 @@ import InventoryList from "../components/InventoryList.js";
 import InventoryAddForm from "../components/InventoryAddForm.js";
 import InventoryEntryDetail from "../components/InventoryEntryDetail.js";
 import InventoryEditForm from "../components/InventoryEditForm.js";
-import { db, auth } from "../firebase.js";
-import { collection, addDoc, doc, onSnapshot, getDoc, deleteDoc, updateDoc } from "firebase/firestore";
+import { db, auth } from "../firebase";
+import { collection, addDoc, doc, onSnapshot, deleteDoc, updateDoc } from "firebase/firestore";
 import { styled as styledMui } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { InventoryEntry, UserEntry } from "../types/index.js";
 import { useNavigate } from "react-router-dom";
 // import useLocalStorage, { useLocalStorageProps } from "../hooks/useLocalStorage.js";
-import { useUser } from "../components/Home.js";
+// import { useUser } from "../components/Home.js";
+import { UserContext } from "../helpers/UserContext.js";
 
 function InventoryControl() {
   // STYLING
@@ -35,7 +36,8 @@ function InventoryControl() {
   const [selectedEntry, setSelectedEntry] = useState<InventoryEntry | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
   // const [currentUser, setCurrentUser] = useState<useLocalStorageProps | null>(null);
-  const { currentUser } = useUser();
+  const currentUser = useContext(UserContext);
+  // const { currentUser } = useUser();
   const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<InventoryEntry[]>([]);
 
   // For data:
@@ -89,7 +91,9 @@ function InventoryControl() {
   }, [inventoryList, selectedEntry]);
 
   useEffect(() => {
-    handleMakeUserItemList();
+    if (currentUser !== null) {
+      handleMakeUserItemList();
+    }
   }, [inventoryList]);
 
   useEffect(() => {
@@ -152,7 +156,7 @@ function InventoryControl() {
   const handleMakeUserItemList = () => {
     if (currentUser) {
       setItemsCheckedOutByUser(() => {
-        return inventoryList.filter((entry) => entry.checkedOutBy === currentUser!.objectToStore.userEmail);
+        return inventoryList.filter((entry) => entry.checkedOutBy === currentUser.email);
       });
     }
   };
@@ -225,7 +229,7 @@ function InventoryControl() {
   const handleReturnItem = async (itemId: string) => {
     const entryRef = doc(db, "inventoryEntries", itemId!);
     const itemToReturn = inventoryList.filter((entry) => entry.id === itemId)[0];
-    if (itemToReturn.isCheckedOut === true && itemToReturn.checkedOutBy === currentUser!.objectToStore.userEmail) {
+    if (itemToReturn.isCheckedOut === true && itemToReturn.checkedOutBy === currentUser!.email) {
       const returnEntryData: Partial<InventoryEntry> = {
         isCheckedOut: false,
         checkedOutBy: null,
@@ -253,9 +257,7 @@ function InventoryControl() {
   let rightSidePanel = null;
 
   if (currentUser) {
-    rightSidePanel = (
-      <UserInfoPanel user={currentUser!.objectToStore} itemsCheckedOutByUser={itemsCheckedOutByUser} onEntrySelection={handleChangingSelectedEntry} />
-    );
+    rightSidePanel = <UserInfoPanel itemsCheckedOutByUser={itemsCheckedOutByUser} onEntrySelection={handleChangingSelectedEntry} />;
   }
 
   if (selectedEntry !== null && editing) {
