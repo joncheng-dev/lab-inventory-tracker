@@ -51,13 +51,13 @@ export default function Home() {
   //   checkAuth();
   // }, []);
 
-  useEffect(() => {
-    if (currentUser) {
-      navigate("/inventory");
-    } else {
-      navigate("/signin");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     navigate("/inventory");
+  //   } else {
+  //     navigate("/signin");
+  //   }
+  // }, []);
 
   // useEffect(() => {
   //   console.log("localUser: ", localUser);

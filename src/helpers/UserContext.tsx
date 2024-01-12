@@ -7,15 +7,15 @@ import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 interface UserInfo {
-  name: string;
-  email: string;
+  userName: string;
+  userEmail: string;
 }
 
 export const UserContext = React.createContext<UserInfo | null>(null);
 
 export const UserProvider = ({ children }: any) => {
   const [currentUser, setCurrentUser] = useState<UserInfo | null>(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [user] = useAuthState(auth);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export const UserProvider = ({ children }: any) => {
         if (docSnap.exists()) {
           const userInfo = docSnap.data() as UserInfo;
           setCurrentUser(userInfo);
-          navigate("/inventory");
+          // navigate("/inventory");
         } else {
           console.log("No such user in database.");
         }
@@ -35,7 +35,8 @@ export const UserProvider = ({ children }: any) => {
     } else {
       console.log("User not authenticated.");
     }
-  }, [user, navigate]);
+  }, [user]);
+  // }, [user, navigate]);
 
   useEffect(() => {
     console.log("UserProvider, currentUser: ", currentUser);

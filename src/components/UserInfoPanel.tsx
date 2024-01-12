@@ -12,6 +12,7 @@ type UserInfoPanelProps = {
 
 function UserInfoPanel(props: UserInfoPanelProps) {
   const currentUser = useContext(UserContext);
+  console.log("UserInfoPanel, currentUser exists: ", currentUser!);
   // const { user, itemsCheckedOutByUser, onEntrySelection } = props;
   const { itemsCheckedOutByUser, onEntrySelection } = props;
 
@@ -20,7 +21,7 @@ function UserInfoPanel(props: UserInfoPanelProps) {
       <h2>User Info. Panel</h2>
       <Divider />
       <br />
-      <h4>Email: {currentUser ? currentUser.email : ""}</h4>
+      <h4>Email: {currentUser ? currentUser.userEmail : ""}</h4>
       <Divider />
       {itemsCheckedOutByUser.map((entry) => (
         <UserItem itemEntry={entry} whenEntryClicked={onEntrySelection} key={entry.id} />

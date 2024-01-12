@@ -306,10 +306,6 @@ export default function SignIn() {
   // redirects
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log("SignIn.tsx, signInSuccess: ", signInSuccess);
-  }, [signInSuccess]);
-
   // functions
   function handleCheckboxChange() {
     setIsCreateAccount((prevState) => !prevState);
@@ -352,10 +348,13 @@ export default function SignIn() {
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+        console.log("User credential: ", userCredential);
+        console.log("signInWithEmailAndPassword, userCredential.user.email: ", userCredential.user.email);
         setSignInSuccess(`You've signed in as: ${userCredential.user.email}`);
         navigate("/inventory");
       })
       .catch((error) => {
+        console.error("Sign-in error: ", error);
         setSignInSuccess(`There was an error with sign-in: ${error.message}`);
       });
   }
