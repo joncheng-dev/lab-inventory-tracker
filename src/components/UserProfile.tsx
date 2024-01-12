@@ -1,7 +1,5 @@
 import React from "react";
 
-function UserProfile(props) {
+export default function UserProfile(props) {
   return <></>;
 }
-
-export default UserProfile;

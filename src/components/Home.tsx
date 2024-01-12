@@ -9,15 +9,11 @@ import { doc, getDoc } from "firebase/firestore";
 import Layout from "./Layout.js";
 import Grid from "@mui/material/Grid";
 import Sidebar from "../components/SideBar";
-// Types
-import { UserEntry } from "../types/index.js";
 
 // type ContextType = { currentUser: useLocalStorageProps | null };
 
 export default function Home() {
   const navigate = useNavigate();
-  // const [currentUser, setCurrentUser] = useState<UserEntry | null>(null);
-  // const [currentUser, setCurrentUser] = useState<useLocalStorageProps | null>(null);
   const currentUser = useContext(UserContext);
   const [isSidebarExpanded, setSidebarExpanded] = useState<boolean>(true);
   const sidebarWidth = isSidebarExpanded ? 2 : 1;
@@ -90,9 +86,3 @@ export default function Home() {
     </Layout>
   );
 }
-
-// export default Home;
-
-// export function useUser() {
-//   return useOutletContext<ContextType>();
-// }

@@ -37,7 +37,6 @@ function InventoryControl() {
   const [editing, setEditing] = useState<boolean>(false);
   // const [currentUser, setCurrentUser] = useState<useLocalStorageProps | null>(null);
   const currentUser = useContext(UserContext);
-  // const { currentUser } = useUser();
   const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<InventoryEntry[]>([]);
 
   // For data:

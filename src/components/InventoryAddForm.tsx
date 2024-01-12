@@ -15,7 +15,7 @@ const AddFormContainer = styled.div`
 `;
 
 // Takes input from user to create a new Entry
-function InventoryAddForm(props: AddFormProps) {
+export default function InventoryAddForm(props: AddFormProps) {
   const { onFormSubmit, subjectTagChecklist, purposeTagChecklist } = props;
   function handleNewEntryFormSubmission(formData: InventoryEntry) {
     // take the form data, and remove the id, since I want Firestore to assign one for me.
@@ -38,5 +38,3 @@ function InventoryAddForm(props: AddFormProps) {
     </AddFormContainer>
   );
 }
-
-export default InventoryAddForm;

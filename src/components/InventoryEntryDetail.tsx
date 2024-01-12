@@ -9,6 +9,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import Divider from "@mui/material/Divider";
 import { tokens } from "../themes";
 
+//#region styles
 const EntryDetailContainer = styled.div`
   padding-left: 50px;
   background-color: #282828;
@@ -52,6 +53,7 @@ const StyledStack = styled(Stack)`
 const TextAlignLeftContainer = styled.div`
   text-align: left;
 `;
+//#endregion styles
 
 // Typing for Inventory Entry Details component
 type InventoryEntryDetailProps = {
@@ -63,7 +65,7 @@ type InventoryEntryDetailProps = {
   onClickingExit: () => void;
 };
 
-function InventoryEntryDetails(props: InventoryEntryDetailProps) {
+export default function InventoryEntryDetails(props: InventoryEntryDetailProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { entry, onClickingCheckout, onClickingReturn, onClickingEdit, onClickingDelete, onClickingExit } = props;
@@ -161,5 +163,3 @@ function InventoryEntryDetails(props: InventoryEntryDetailProps) {
     </TextAlignLeftContainer>
   );
 }
-
-export default InventoryEntryDetails;

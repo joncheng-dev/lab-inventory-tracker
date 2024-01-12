@@ -7,7 +7,7 @@ import { ColorModeContext, useMode } from "../themes";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Theme } from "@mui/system";
 
-function App() {
+export default function App() {
   const [theme, colorMode] = useMode();
 
   return (
@@ -27,5 +27,3 @@ function App() {
     </ColorModeContext.Provider>
   );
 }
-
-export default App;

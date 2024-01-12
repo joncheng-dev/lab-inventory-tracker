@@ -14,7 +14,7 @@ type HeaderProps = {
   onSearchInputChange: (queryString: string) => void;
 };
 
-function Header(props: HeaderProps) {
+export default function Header(props: HeaderProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
@@ -59,5 +59,3 @@ function Header(props: HeaderProps) {
     </>
   );
 }
-
-export default Header;

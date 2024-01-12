@@ -20,7 +20,7 @@ interface CategoryPanelProps {
   onCategorySelection: (arrayOfWords: string[]) => void;
 }
 
-function CategoryPanel(props: CategoryPanelProps) {
+export default function CategoryPanel(props: CategoryPanelProps) {
   const { tags, subjectTagChecklist, purposeTagChecklist, onCategorySelection } = props;
 
   // Next step, filter results to show to center panel
@@ -72,5 +72,3 @@ function CategoryPanel(props: CategoryPanelProps) {
     </CategoryPanelContainer>
   );
 }
-
-export default CategoryPanel;

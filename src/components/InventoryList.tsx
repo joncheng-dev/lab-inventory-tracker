@@ -22,7 +22,7 @@ type InventoryListProps = {
   onClickingAddEntry: () => void;
 };
 
-function InventoryList(props: InventoryListProps) {
+export default function InventoryList(props: InventoryListProps) {
   const { listOfEntries, onEntrySelection, onClickingAddEntry } = props;
   console.log("InventoryList: listOfEntries", listOfEntries);
 
@@ -57,8 +57,6 @@ function InventoryList(props: InventoryListProps) {
     </ListContainer>
   );
 }
-
-export default InventoryList;
 
 // {
 //   listOfEntries.map((entry) => (

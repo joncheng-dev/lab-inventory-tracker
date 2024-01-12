@@ -11,6 +11,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { tokens } from "../themes";
 
+//#region styles
 const ReusableFormContainer = styled.div`
   padding-left: 50px;
   padding-top: 25px;
@@ -32,6 +33,7 @@ const PurposeBoxContainer = styled.div`
   width: 50%;
   text-align: left;
 `;
+//#endregion styles
 
 // Typing for Inventory Reusable Form component
 interface InventoryReusableFormProps {
@@ -43,7 +45,7 @@ interface InventoryReusableFormProps {
   buttonText: string;
 }
 
-function InventoryReusableForm(props: InventoryReusableFormProps) {
+export default function InventoryReusableForm(props: InventoryReusableFormProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -188,5 +190,3 @@ function InventoryReusableForm(props: InventoryReusableFormProps) {
     </Box>
   );
 }
-
-export default InventoryReusableForm;

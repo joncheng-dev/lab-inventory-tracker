@@ -38,7 +38,7 @@ type InventoryEntryProps = {
   whenEntryClicked: (id: string) => void;
 };
 
-function InventoryEntry(props: InventoryEntryProps) {
+export default function InventoryEntry(props: InventoryEntryProps) {
   // prettier-ignore
   const {
     id,
@@ -77,8 +77,6 @@ function InventoryEntry(props: InventoryEntryProps) {
     </StyledCard>
   );
 }
-
-export default InventoryEntry;
 
 // <Button size="small" variant="contained" onClick={() => whenEntryClicked(id!)}>
 //   Details

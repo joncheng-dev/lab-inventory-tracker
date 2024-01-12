@@ -10,7 +10,7 @@ type UserInfoPanelProps = {
   onEntrySelection: (id: string) => void;
 };
 
-function UserInfoPanel(props: UserInfoPanelProps) {
+export default function UserInfoPanel(props: UserInfoPanelProps) {
   const currentUser = useContext(UserContext);
   console.log("UserInfoPanel, currentUser exists: ", currentUser!);
   // const { user, itemsCheckedOutByUser, onEntrySelection } = props;
@@ -29,5 +29,3 @@ function UserInfoPanel(props: UserInfoPanelProps) {
     </>
   );
 }
-
-export default UserInfoPanel;

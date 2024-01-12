@@ -15,7 +15,7 @@ const EditFormContainer = styled.div`
   margin-left: 50px;
 `;
 
-function InventoryEditForm(props: InventoryEditFormProps) {
+export default function InventoryEditForm(props: InventoryEditFormProps) {
   const { entry, onFormSubmit, subjectTagChecklist, purposeTagChecklist } = props;
   function handleEditEntryFormSubmission(formData: InventoryEntry) {
     onFormSubmit(formData);
@@ -34,5 +34,3 @@ function InventoryEditForm(props: InventoryEditFormProps) {
     </EditFormContainer>
   );
 }
-
-export default InventoryEditForm;

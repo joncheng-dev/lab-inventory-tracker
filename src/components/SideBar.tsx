@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
 import { Box, IconButton, Typography, useTheme, SvgIconTypeMap } from "@mui/material";
@@ -16,6 +16,7 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import { UserContext } from "../helpers/UserContext";
 
 type ItemProps = {
   title: string;
@@ -48,7 +49,8 @@ function Item(props: ItemProps) {
   );
 }
 
-function Sidebar(props: SidebarProps) {
+export default function Sidebar(props: SidebarProps) {
+  const currentUser = useContext(UserContext);
   const { onToggle } = props;
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -92,7 +94,7 @@ function Sidebar(props: SidebarProps) {
             {!isCollapsed && (
               <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
                 <Typography variant="h3" color={colors.grey[100]}>
-                  User
+                  {currentUser!.userEmail}
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -148,5 +150,3 @@ function Sidebar(props: SidebarProps) {
     </Box>
   );
 }
-
-export default Sidebar;

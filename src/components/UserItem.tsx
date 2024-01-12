@@ -18,7 +18,7 @@ const StyledCard = styled(Card)`
   text-align: left;
 `;
 
-function UserItem(props: UserItemProps) {
+export default function UserItem(props: UserItemProps) {
   const { itemEntry, whenEntryClicked } = props;
   const { id, name, dateCheckedOut } = itemEntry;
 
@@ -35,5 +35,3 @@ function UserItem(props: UserItemProps) {
     </>
   );
 }
-
-export default UserItem;
