@@ -11,7 +11,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 800,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -20,24 +20,31 @@ const style = {
 
 type BasicModalProps = {
   children: ReactNode;
+  open: boolean;
+  onClose: () => void;
 };
 
 export default function BasicModal(props: BasicModalProps) {
-  // const { entry, onEntryClick } = props;
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    onEntryClick();
-    setOpen(true);
-  };
-  const handleClose = () => setOpen(false);
+  const { children, open, onClose } = props;
+  // const [open, setOpen] = React.useState(false);
+  // const handleOpen = () => {
+  //   setOpen(true);
+  // };
+  // const handleClose = () => setOpen(false);
+  if (!open) {
+    return null;
+  }
 
   return (
     <div>
-      <Button size="small" variant="contained" onClick={handleOpen}>
+      {/* <Button size="small" variant="contained" onClick={handleOpen}>
         Details
-      </Button>
-      <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-        <Box sx={style}>{props.children}</Box>
+      </Button> */}
+      <Modal open={open} onClose={onClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+        <Box sx={style}>
+          {children}
+          <Button onClick={onClose}>Close Modal</Button>
+        </Box>
       </Modal>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -8,7 +8,11 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
+import BasicModal from "./BasicModal.js";
+import InventoryEntryDetail from "../components/InventoryEntryDetail.js";
+import { InventoryEntry as IEntry } from "../types";
 
+//#region styles
 const StyledCard = styled(Card)`
   flex: 0 1 auto;
   width: 250px;
@@ -25,20 +29,44 @@ const ButtonContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
+//#endregion
 
 type InventoryEntryProps = {
-  id?: string;
-  name: string;
-  description: string;
-  location: string;
-  isCheckedOut: boolean;
-  checkedOutBy: string | null;
-  dateCheckedOut: string | null;
-  tags: string[];
-  whenEntryClicked: (id: string) => void;
+  entry: IEntry;
+  // id?: string;
+  // name: string;
+  // description: string;
+  // location: string;
+  // isCheckedOut: boolean;
+  // checkedOutBy: string | null;
+  // dateCheckedOut: string | null;
+  // tags: string[];
+  onClickingEdit: () => void;
+  onClickingCheckout: () => void;
+  onClickingReturn: (itemId: string) => void;
+  onClickingDelete: (id: string) => void;
+  onClickingExit: () => void;
+  onEntryClick: (id: string) => void;
 };
 
+// onClickingEdit={handleEditEntryButtonClick}
+// onClickingCheckout={handleCheckOutItem}
+// onClickingReturn={handleReturnItem}
+// onClickingDelete={handleDeletingEntry}
+// onClickingExit={handleExitButtonClick}
+
 export default function InventoryEntry(props: InventoryEntryProps) {
+  // prettier-ignore
+  const {
+    entry,
+    onClickingEdit,
+    onClickingCheckout,
+    onClickingReturn,
+    onClickingDelete,
+    onClickingExit,
+    onEntryClick,
+  } = props;
+
   // prettier-ignore
   const {
     id,
@@ -49,8 +77,14 @@ export default function InventoryEntry(props: InventoryEntryProps) {
     checkedOutBy,
     dateCheckedOut,
     tags,
-    whenEntryClicked,
-  } = props;
+  } = entry;
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  function openSpecifiedItemModal(entryId: string) {
+    onEntryClick(entryId);
+    setIsOpen(true);
+  }
 
   return (
     <StyledCard sx={{ maxWidth: 345 }}>
@@ -69,9 +103,20 @@ export default function InventoryEntry(props: InventoryEntryProps) {
         ))}
       </Stack> */}
       <CardActions>
-        <Button size="small" variant="contained" onClick={() => whenEntryClicked(id!)}>
+        <Button size="small" variant="contained" onClick={() => onEntryClick(id!)}>
           Details
         </Button>
+        <Button onClick={() => openSpecifiedItemModal(id!)}>Open Modal</Button>
+        <BasicModal open={isOpen} onClose={() => setIsOpen(false)}>
+          <InventoryEntryDetail
+            entry={entry}
+            onClickingEdit={onClickingEdit}
+            onClickingCheckout={onClickingCheckout}
+            onClickingReturn={onClickingReturn}
+            onClickingDelete={onClickingDelete}
+            onClickingExit={onClickingExit}
+          />
+        </BasicModal>
         {/* <Button size="small">{isCheckedOut ? "Return" : "Check Out"}</Button> */}
       </CardActions>
     </StyledCard>

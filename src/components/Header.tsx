@@ -23,7 +23,6 @@ export default function Header(props: HeaderProps) {
 
   function handleSearchBarChange(e: { target: { value: string } }) {
     onSearchInputChange(e.target.value.toString());
-    console.log("Search query sent to parent: ", e.target.value.toString());
   }
 
   function doSignOut() {

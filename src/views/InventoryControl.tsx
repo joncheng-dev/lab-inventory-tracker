@@ -6,15 +6,14 @@ import InventoryList from "../components/InventoryList.js";
 import InventoryAddForm from "../components/InventoryAddForm.js";
 import InventoryEntryDetail from "../components/InventoryEntryDetail.js";
 import InventoryEditForm from "../components/InventoryEditForm.js";
-import { db, auth } from "../firebase";
+import { db } from "../firebase";
 import { collection, addDoc, doc, onSnapshot, deleteDoc, updateDoc } from "firebase/firestore";
 import { styled as styledMui } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import { InventoryEntry, UserEntry } from "../types/index.js";
+import { InventoryEntry } from "../types/index.js";
 import { useNavigate } from "react-router-dom";
 // import useLocalStorage, { useLocalStorageProps } from "../hooks/useLocalStorage.js";
-// import { useUser } from "../components/Home.js";
 import { UserContext } from "../helpers/UserContext.js";
 
 function InventoryControl() {
@@ -35,6 +34,7 @@ function InventoryControl() {
   const [addFormVisible, setAddFormVisibility] = useState<boolean>(false);
   const [selectedEntry, setSelectedEntry] = useState<InventoryEntry | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
+
   // const [currentUser, setCurrentUser] = useState<useLocalStorageProps | null>(null);
   const currentUser = useContext(UserContext);
   const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<InventoryEntry[]>([]);
@@ -78,10 +78,6 @@ function InventoryControl() {
     );
     return () => unSubscribe();
   }, []);
-
-  // useEffect(() => {
-  //   handleGettingCurrentUserInfoFromDb();
-  // }, []);
 
   useEffect(() => {
     if (selectedEntry !== null) {
@@ -155,7 +151,7 @@ function InventoryControl() {
   const handleMakeUserItemList = () => {
     if (currentUser) {
       setItemsCheckedOutByUser(() => {
-        return inventoryList.filter((entry) => entry.checkedOutBy === currentUser.email);
+        return inventoryList.filter((entry) => entry.checkedOutBy === currentUser.userEmail);
       });
     }
   };
@@ -216,7 +212,7 @@ function InventoryControl() {
     if (selectedEntry.isCheckedOut === false) {
       const checkOutEntryData: Partial<InventoryEntry> = {
         isCheckedOut: true,
-        checkedOutBy: auth.currentUser!.email,
+        checkedOutBy: currentUser?.userEmail,
         dateCheckedOut: new Date().toDateString(),
       };
       await updateDoc(entryRef, checkOutEntryData);
@@ -228,7 +224,7 @@ function InventoryControl() {
   const handleReturnItem = async (itemId: string) => {
     const entryRef = doc(db, "inventoryEntries", itemId!);
     const itemToReturn = inventoryList.filter((entry) => entry.id === itemId)[0];
-    if (itemToReturn.isCheckedOut === true && itemToReturn.checkedOutBy === currentUser!.email) {
+    if (itemToReturn.isCheckedOut === true && itemToReturn.checkedOutBy === currentUser!.userEmail) {
       const returnEntryData: Partial<InventoryEntry> = {
         isCheckedOut: false,
         checkedOutBy: null,
@@ -269,18 +265,20 @@ function InventoryControl() {
         onClickingExit={handleExitButtonClick}
       />
     );
-  } else if (selectedEntry !== null) {
-    centerPanel = (
-      <InventoryEntryDetail
-        entry={selectedEntry}
-        onClickingEdit={handleEditEntryButtonClick}
-        onClickingCheckout={handleCheckOutItem}
-        onClickingReturn={handleReturnItem}
-        onClickingDelete={handleDeletingEntry}
-        onClickingExit={handleExitButtonClick}
-      />
-    );
-  } else if (addFormVisible) {
+  }
+  // else if (selectedEntry !== null) {
+  //   centerPanel = (
+  //     <InventoryEntryDetail
+  //       entry={selectedEntry}
+  //       onClickingEdit={handleEditEntryButtonClick}
+  //       onClickingCheckout={handleCheckOutItem}
+  //       onClickingReturn={handleReturnItem}
+  //       onClickingDelete={handleDeletingEntry}
+  //       onClickingExit={handleExitButtonClick}
+  //     />
+  //   );
+  // }
+  else if (addFormVisible) {
     centerPanel = (
       <InventoryAddForm
         subjectTagChecklist={subjectTagChecklist}
@@ -291,7 +289,17 @@ function InventoryControl() {
     );
   } else {
     centerPanel = (
-      <InventoryList listOfEntries={filteredList} onClickingAddEntry={handleAddEntryButtonClick} onEntrySelection={handleChangingSelectedEntry} />
+      <InventoryList
+        listOfEntries={filteredList}
+        onEntryClick={handleChangingSelectedEntry}
+        onClickingAddEntry={handleAddEntryButtonClick}
+        // InventoryEntryDetail
+        onClickingEdit={handleEditEntryButtonClick}
+        onClickingCheckout={handleCheckOutItem}
+        onClickingReturn={handleReturnItem}
+        onClickingDelete={handleDeletingEntry}
+        onClickingExit={handleExitButtonClick}
+      />
     );
   }
   //#endregion Conditional Rendering of Components

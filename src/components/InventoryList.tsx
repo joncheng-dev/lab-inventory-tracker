@@ -3,8 +3,8 @@ import InventoryEntry from "./InventoryEntry";
 import { InventoryEntry as IEntry } from "../types";
 import { Box, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import BasicModal from "./ModalCopy";
 
+//#region styles
 const ListContainer = styled.div`
   text-align: left;
 `;
@@ -15,15 +15,34 @@ const ItemContainer = styled.div`
   flex-wrap: wrap;
   gap: 2.6em;
 `;
+//#endregion styles
 
 type InventoryListProps = {
   listOfEntries: IEntry[];
-  onEntrySelection: (id: string) => void;
+  onEntryClick: (id: string) => void;
   onClickingAddEntry: () => void;
+  // InventoryEntryDetail
+  onClickingEdit: () => void;
+  onClickingCheckout: () => void;
+  onClickingReturn: (itemId: string) => void;
+  onClickingDelete: (id: string) => void;
+  onClickingExit: () => void;
 };
 
 export default function InventoryList(props: InventoryListProps) {
-  const { listOfEntries, onEntrySelection, onClickingAddEntry } = props;
+  // prettier-ignore
+  const {
+    listOfEntries,
+    onEntryClick,
+    onClickingAddEntry,
+    // For InventoryEntryDetail:
+    onClickingEdit,
+    onClickingCheckout,
+    onClickingReturn,
+    onClickingDelete,
+    onClickingExit,
+  } = props;
+
   console.log("InventoryList: listOfEntries", listOfEntries);
 
   return (
@@ -40,16 +59,22 @@ export default function InventoryList(props: InventoryListProps) {
       <br />
       <ItemContainer>
         {listOfEntries.map((entry) => (
-          <BasicModal
-            onEntryClick={onEntrySelection}
-            name={entry.name}
-            location={entry.location}
-            description={entry.description}
-            isCheckedOut={entry.isCheckedOut}
-            checkedOutBy={entry.checkedOutBy}
-            dateCheckedOut={entry.dateCheckedOut}
-            tags={entry.tags}
-            id={entry.id!}
+          <InventoryEntry
+            onEntryClick={onEntryClick}
+            entry={entry}
+            onClickingEdit={onClickingEdit}
+            onClickingCheckout={onClickingCheckout}
+            onClickingReturn={onClickingReturn}
+            onClickingDelete={onClickingDelete}
+            onClickingExit={onClickingExit}
+            // name={entry.name}
+            // location={entry.location}
+            // description={entry.description}
+            // isCheckedOut={entry.isCheckedOut}
+            // checkedOutBy={entry.checkedOutBy}
+            // dateCheckedOut={entry.dateCheckedOut}
+            // tags={entry.tags}
+            // id={entry.id!}
             key={entry.id}
           />
         ))}

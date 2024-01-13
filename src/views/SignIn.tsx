@@ -5,7 +5,7 @@ import { auth, db } from "../firebase.tsx";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { eTargetType } from "../types/index.tsx";
-import { tokens } from "../themes";
+import { tokens } from "../themes.tsx";
 import { useTheme } from "@mui/material";
 import { Button } from "@mui/material";
 

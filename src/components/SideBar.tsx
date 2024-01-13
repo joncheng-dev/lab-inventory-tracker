@@ -94,7 +94,7 @@ export default function Sidebar(props: SidebarProps) {
             {!isCollapsed && (
               <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
                 <Typography variant="h3" color={colors.grey[100]}>
-                  {currentUser!.userEmail}
+                  {currentUser ? currentUser.userEmail : "User"}
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
