@@ -105,26 +105,6 @@ function InventoryControl() {
   //#endregion useEffect hooks
 
   //#region functions
-  // const handleGettingCurrentUserInfoFromDb = async () => {
-  //   try {
-  //     if (auth.currentUser) {
-  //       const userRef = doc(db, "users", auth.currentUser.uid);
-  //       const docSnap = await getDoc(userRef);
-  //       if (docSnap.exists()) {
-  //         const userInfo = docSnap.data() as UserEntry;
-  //         setCurrentUser({ key: "currentUser", objectToStore: userInfo });
-  //         // Redirect user to sign-in if not signed in.
-  //       } else {
-  //         console.log("No such user in database. (User collections does not contain a user document with this id.)");
-  //       }
-  //     } else {
-  //       console.log("Please sign in before proceeding.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error retrieving user info:", error);
-  //   }
-  // };
-
   const handleExitButtonClick = () => {
     if (selectedEntry) {
       setAddFormVisibility(false);
@@ -249,11 +229,6 @@ function InventoryControl() {
     />
   );
   let centerPanel = null;
-  let rightSidePanel = null;
-
-  if (currentUser) {
-    rightSidePanel = <UserInfoPanel itemsCheckedOutByUser={itemsCheckedOutByUser} onEntrySelection={handleChangingSelectedEntry} />;
-  }
 
   if (selectedEntry !== null && editing) {
     centerPanel = (
@@ -315,7 +290,22 @@ function InventoryControl() {
           <FixedWidthItem>{centerPanel}</FixedWidthItem>
         </Grid>
         <Grid item xs={2.5}>
-          <FixedWidthItem>{rightSidePanel}</FixedWidthItem>
+          <FixedWidthItem>
+            {currentUser ? (
+              <UserInfoPanel
+                itemsCheckedOutByUser={itemsCheckedOutByUser}
+                onEntryClick={handleChangingSelectedEntry}
+                // InventoryEntryDetail
+                onClickingEdit={handleEditEntryButtonClick}
+                onClickingCheckout={handleCheckOutItem}
+                onClickingReturn={handleReturnItem}
+                onClickingDelete={handleDeletingEntry}
+                onClickingExit={handleExitButtonClick}
+              />
+            ) : (
+              ""
+            )}
+          </FixedWidthItem>
         </Grid>
       </Grid>
     </>

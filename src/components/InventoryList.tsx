@@ -67,14 +67,6 @@ export default function InventoryList(props: InventoryListProps) {
             onClickingReturn={onClickingReturn}
             onClickingDelete={onClickingDelete}
             onClickingExit={onClickingExit}
-            // name={entry.name}
-            // location={entry.location}
-            // description={entry.description}
-            // isCheckedOut={entry.isCheckedOut}
-            // checkedOutBy={entry.checkedOutBy}
-            // dateCheckedOut={entry.dateCheckedOut}
-            // tags={entry.tags}
-            // id={entry.id!}
             key={entry.id}
           />
         ))}

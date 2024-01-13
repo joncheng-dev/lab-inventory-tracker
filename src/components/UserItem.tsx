@@ -1,12 +1,21 @@
+import React, { useState } from "react";
 import { InventoryEntry } from "../types";
 import styled from "styled-components";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import BasicModal from "./BasicModal.js";
+import InventoryEntryDetail from "../components/InventoryEntryDetail.js";
 
 type UserItemProps = {
-  itemEntry: InventoryEntry;
-  whenEntryClicked: (id: string) => void;
+  entry: InventoryEntry;
+  onEntryClick: (id: string) => void;
+  // InventoryEntryDetail
+  onClickingEdit: () => void;
+  onClickingCheckout: () => void;
+  onClickingReturn: (itemId: string) => void;
+  onClickingDelete: (id: string) => void;
+  onClickingExit: () => void;
 };
 
 const StyledCard = styled(Card)`
@@ -19,12 +28,29 @@ const StyledCard = styled(Card)`
 `;
 
 export default function UserItem(props: UserItemProps) {
-  const { itemEntry, whenEntryClicked } = props;
-  const { id, name, dateCheckedOut } = itemEntry;
+  // prettier-ignore
+  const {
+    entry,
+    onEntryClick,
+    onClickingEdit,
+    onClickingCheckout,
+    onClickingReturn,
+    onClickingDelete,
+    onClickingExit,
+  } = props;
+  const { id, name, dateCheckedOut } = entry;
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <StyledCard onClick={() => whenEntryClicked(id!)}>
+      {/* <StyledCard onClick={() => openSpecifiedEntryModal(id!)}> */}
+      <StyledCard
+        onClick={() => {
+          console.log("UserItem, Div clicked");
+          setIsOpen(true);
+          onEntryClick(id!);
+        }}
+      >
         <CardContent>
           <Typography variant="h5" component="div">
             {name}
@@ -32,6 +58,21 @@ export default function UserItem(props: UserItemProps) {
           <Typography variant="body2">Checkout Date: {dateCheckedOut}</Typography>
         </CardContent>
       </StyledCard>
+      <BasicModal
+        open={isOpen}
+        onClose={() => {
+          onClickingExit();
+          setIsOpen(false);
+        }}
+      >
+        <InventoryEntryDetail
+          entry={entry}
+          onClickingEdit={onClickingEdit}
+          onClickingCheckout={onClickingCheckout}
+          onClickingReturn={onClickingReturn}
+          onClickingDelete={onClickingDelete}
+        />
+      </BasicModal>
     </>
   );
 }

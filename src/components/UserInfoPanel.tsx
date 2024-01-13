@@ -7,14 +7,30 @@ import { UserContext } from "../helpers/UserContext";
 type UserInfoPanelProps = {
   // user: UserEntry;
   itemsCheckedOutByUser: InventoryEntry[];
-  onEntrySelection: (id: string) => void;
+  onEntryClick: (id: string) => void;
+  // InventoryEntryDetail
+  onClickingEdit: () => void;
+  onClickingCheckout: () => void;
+  onClickingReturn: (itemId: string) => void;
+  onClickingDelete: (id: string) => void;
+  onClickingExit: () => void;
 };
 
 export default function UserInfoPanel(props: UserInfoPanelProps) {
   const currentUser = useContext(UserContext);
   console.log("UserInfoPanel, currentUser exists: ", currentUser!);
   // const { user, itemsCheckedOutByUser, onEntrySelection } = props;
-  const { itemsCheckedOutByUser, onEntrySelection } = props;
+  // prettier-ignore
+  const {
+    itemsCheckedOutByUser,
+    onEntryClick,
+    // For InventoryEntryDetail
+    onClickingEdit,
+    onClickingCheckout,
+    onClickingReturn,
+    onClickingDelete,
+    onClickingExit,
+  } = props;
 
   return (
     <>
@@ -24,7 +40,16 @@ export default function UserInfoPanel(props: UserInfoPanelProps) {
       <h4>Email: {currentUser ? currentUser.userEmail : ""}</h4>
       <Divider />
       {itemsCheckedOutByUser.map((entry) => (
-        <UserItem itemEntry={entry} whenEntryClicked={onEntrySelection} key={entry.id} />
+        <UserItem
+          entry={entry}
+          onEntryClick={onEntryClick}
+          onClickingEdit={onClickingEdit}
+          onClickingCheckout={onClickingCheckout}
+          onClickingReturn={onClickingReturn}
+          onClickingDelete={onClickingDelete}
+          onClickingExit={onClickingExit}
+          key={entry.id}
+        />
       ))}
     </>
   );

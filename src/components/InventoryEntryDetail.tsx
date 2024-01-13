@@ -62,13 +62,13 @@ type InventoryEntryDetailProps = {
   onClickingReturn: (itemId: string) => void;
   onClickingEdit: () => void;
   onClickingDelete: (id: string) => void;
-  onClickingExit: () => void;
+  // onClickingExit: () => void;
 };
 
 export default function InventoryEntryDetails(props: InventoryEntryDetailProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { entry, onClickingCheckout, onClickingReturn, onClickingEdit, onClickingDelete, onClickingExit } = props;
+  const { entry, onClickingCheckout, onClickingReturn, onClickingEdit, onClickingDelete } = props;
   // prettier-ignore
   const {
     id,
@@ -150,9 +150,9 @@ export default function InventoryEntryDetails(props: InventoryEntryDetailProps) 
                 <Button variant="contained" startIcon={<DeleteIcon />} onClick={() => onClickingDelete(id!)} color="error">
                   Delete
                 </Button>
-                <Button onClick={onClickingExit} variant="contained">
+                {/* <Button onClick={onClickingExit} variant="contained">
                   Exit
-                </Button>
+                </Button> */}
               </Stack>
             </Box>
           </Box>

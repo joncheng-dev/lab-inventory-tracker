@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -33,14 +33,6 @@ const ButtonContainer = styled.div`
 
 type InventoryEntryProps = {
   entry: IEntry;
-  // id?: string;
-  // name: string;
-  // description: string;
-  // location: string;
-  // isCheckedOut: boolean;
-  // checkedOutBy: string | null;
-  // dateCheckedOut: string | null;
-  // tags: string[];
   onClickingEdit: () => void;
   onClickingCheckout: () => void;
   onClickingReturn: (itemId: string) => void;
@@ -49,13 +41,8 @@ type InventoryEntryProps = {
   onEntryClick: (id: string) => void;
 };
 
-// onClickingEdit={handleEditEntryButtonClick}
-// onClickingCheckout={handleCheckOutItem}
-// onClickingReturn={handleReturnItem}
-// onClickingDelete={handleDeletingEntry}
-// onClickingExit={handleExitButtonClick}
-
 export default function InventoryEntry(props: InventoryEntryProps) {
+  console.log("InventoryEntry component renders");
   // prettier-ignore
   const {
     entry,
@@ -72,19 +59,13 @@ export default function InventoryEntry(props: InventoryEntryProps) {
     id,
     name,
     description,
-    location,
-    isCheckedOut,
-    checkedOutBy,
-    dateCheckedOut,
-    tags,
   } = entry;
 
   const [isOpen, setIsOpen] = useState(false);
 
-  function openSpecifiedItemModal(entryId: string) {
-    onEntryClick(entryId);
-    setIsOpen(true);
-  }
+  // useEffect(() => {
+  //   console.log("InventoryEntry, useEffect, isOpen: ", isOpen);
+  // }, [isOpen]);
 
   return (
     <StyledCard sx={{ maxWidth: 345 }}>
@@ -103,21 +84,34 @@ export default function InventoryEntry(props: InventoryEntryProps) {
         ))}
       </Stack> */}
       <CardActions>
-        <Button size="small" variant="contained" onClick={() => onEntryClick(id!)}>
+        <Button
+          size="small"
+          variant="contained"
+          onClick={() => {
+            console.log("InventoryEntry, Details button clicked");
+            setIsOpen(true);
+            onEntryClick(id!);
+            console.log("isOpen state changed. isOpen should be 'true': ", isOpen);
+          }}
+        >
           Details
         </Button>
-        <Button onClick={() => openSpecifiedItemModal(id!)}>Open Modal</Button>
-        <BasicModal open={isOpen} onClose={() => setIsOpen(false)}>
+        {/* <Button size="small">{isCheckedOut ? "Return" : "Check Out"}</Button> */}
+        <BasicModal
+          open={isOpen}
+          onClose={() => {
+            onClickingExit();
+            setIsOpen(false);
+          }}
+        >
           <InventoryEntryDetail
             entry={entry}
             onClickingEdit={onClickingEdit}
             onClickingCheckout={onClickingCheckout}
             onClickingReturn={onClickingReturn}
             onClickingDelete={onClickingDelete}
-            onClickingExit={onClickingExit}
           />
         </BasicModal>
-        {/* <Button size="small">{isCheckedOut ? "Return" : "Check Out"}</Button> */}
       </CardActions>
     </StyledCard>
   );
