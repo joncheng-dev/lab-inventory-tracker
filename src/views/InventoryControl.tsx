@@ -168,6 +168,7 @@ function InventoryControl() {
   const handleAddingNewEntryToList = async (entry: InventoryEntry) => {
     await addDoc(collection(db, "inventoryEntries"), entry);
     setAddFormVisibility(false);
+    setIsOpen(false);
   };
 
   const handleEditingEntryInList = async (entry: InventoryEntry) => {
@@ -181,10 +182,10 @@ function InventoryControl() {
     };
     await updateDoc(entryRef, data);
     setEditing(false);
-    setSelectedEntry(null);
   };
 
   const handleDeletingEntry = async (id: string) => {
+    setIsOpen(false);
     setSelectedEntry(null);
     await deleteDoc(doc(db, "inventoryEntries", id));
   };
@@ -224,76 +225,20 @@ function InventoryControl() {
   //#region queries
   //endregion queries
 
-  //#region Conditional Rendering of Components
-  let leftSidePanel = (
-    <CategoryPanel
-      tags={tagsToFilter}
-      subjectTagChecklist={subjectTagChecklist}
-      purposeTagChecklist={purposeTagChecklist}
-      onCategorySelection={onFilterByCategory}
-    />
-  );
-  let modal = null;
-  if (selectedEntry !== null && editing && isOpen) {
-    modal = (
-      <BasicModal
-        open={isOpen}
-        onClose={() => {
-          handleExitButtonClick();
-        }}
-      >
-        <InventoryEditForm
-          entry={selectedEntry}
-          subjectTagChecklist={subjectTagChecklist}
-          purposeTagChecklist={purposeTagChecklist}
-          onFormSubmit={handleEditingEntryInList}
-          onClickingExit={handleExitButtonClick}
-        />
-      </BasicModal>
-    );
-  } else if (addFormVisible && isOpen) {
-    modal = (
-      <BasicModal
-        open={isOpen}
-        onClose={() => {
-          handleExitButtonClick();
-        }}
-      >
-        <InventoryAddForm
-          subjectTagChecklist={subjectTagChecklist}
-          purposeTagChecklist={purposeTagChecklist}
-          onFormSubmit={handleAddingNewEntryToList}
-          onClickingExit={handleExitButtonClick}
-        />
-      </BasicModal>
-    );
-  } else if (isOpen && selectedEntry !== null) {
-    modal = (
-      <BasicModal
-        open={isOpen}
-        onClose={() => {
-          handleExitButtonClick();
-        }}
-      >
-        <InventoryEntryDetail
-          entry={selectedEntry}
-          onClickingEdit={handleEditEntryButtonClick}
-          onClickingCheckout={handleCheckOutItem}
-          onClickingReturn={handleReturnItem}
-          onClickingDelete={handleDeletingEntry}
-        />
-      </BasicModal>
-    );
-  }
-  //#endregion Conditional Rendering of Components
   return (
     <>
       {/* Conditional rendering */}
       <Header onSearchInputChange={onSearchInputChange} />
-      {isOpen ? modal : ""}
       <Grid container spacing={1}>
         <Grid item xs={1.5}>
-          <FixedWidthItem>{leftSidePanel}</FixedWidthItem>
+          <FixedWidthItem>
+            <CategoryPanel
+              tags={tagsToFilter}
+              subjectTagChecklist={subjectTagChecklist}
+              purposeTagChecklist={purposeTagChecklist}
+              onCategorySelection={onFilterByCategory}
+            />
+          </FixedWidthItem>
         </Grid>
         <Grid item xs={8}>
           <FixedWidthItem>
@@ -306,6 +251,37 @@ function InventoryControl() {
           </FixedWidthItem>
         </Grid>
       </Grid>
+      <BasicModal
+        open={isOpen}
+        onClose={() => {
+          handleExitButtonClick();
+        }}
+      >
+        {isOpen && selectedEntry && editing && (
+          <InventoryEditForm
+            entry={selectedEntry}
+            subjectTagChecklist={subjectTagChecklist}
+            purposeTagChecklist={purposeTagChecklist}
+            onFormSubmit={handleEditingEntryInList}
+          />
+        )}
+        {isOpen && addFormVisible && (
+          <InventoryAddForm
+            subjectTagChecklist={subjectTagChecklist}
+            purposeTagChecklist={purposeTagChecklist}
+            onFormSubmit={handleAddingNewEntryToList}
+          />
+        )}
+        {isOpen && selectedEntry && !editing && (
+          <InventoryEntryDetail
+            entry={selectedEntry}
+            onClickingEdit={handleEditEntryButtonClick}
+            onClickingCheckout={handleCheckOutItem}
+            onClickingReturn={handleReturnItem}
+            onClickingDelete={handleDeletingEntry}
+          />
+        )}
+      </BasicModal>
     </>
   );
 }

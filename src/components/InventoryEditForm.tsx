@@ -7,7 +7,7 @@ type InventoryEditFormProps = {
   subjectTagChecklist: string[];
   purposeTagChecklist: string[];
   onFormSubmit: (data: InventoryEntry) => Promise<void>;
-  onClickingExit: () => void;
+  // onClickingExit: () => void;
 };
 
 const EditFormContainer = styled.div`
@@ -28,7 +28,7 @@ export default function InventoryEditForm(props: InventoryEditFormProps) {
         subjectTagChecklist={subjectTagChecklist}
         purposeTagChecklist={purposeTagChecklist}
         handleEntryFormSubmission={handleEditEntryFormSubmission}
-        handleClickingExit={props.onClickingExit}
+        // handleClickingExit={props.onClickingExit}
         buttonText="Update"
       />
     </EditFormContainer>

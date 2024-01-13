@@ -41,7 +41,7 @@ interface InventoryReusableFormProps {
   subjectTagChecklist: string[];
   purposeTagChecklist: string[];
   handleEntryFormSubmission: (data: InventoryEntry) => void;
-  handleClickingExit: () => void;
+  // handleClickingExit: () => void;
   buttonText: string;
 }
 
@@ -49,7 +49,8 @@ export default function InventoryReusableForm(props: InventoryReusableFormProps)
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const { entry, handleEntryFormSubmission, subjectTagChecklist, purposeTagChecklist, handleClickingExit, buttonText } = props;
+  // const { entry, handleEntryFormSubmission, subjectTagChecklist, purposeTagChecklist, handleClickingExit, buttonText } = props;
+  const { entry, handleEntryFormSubmission, subjectTagChecklist, purposeTagChecklist, buttonText } = props;
   const [formData, setFormData] = useState<InventoryEntry>({
     id: null,
     name: "",
@@ -179,9 +180,9 @@ export default function InventoryReusableForm(props: InventoryReusableFormProps)
               <Button type="submit" variant="contained">
                 {buttonText}
               </Button>
-              <Button onClick={handleClickingExit} variant="contained">
+              {/* <Button onClick={handleClickingExit} variant="contained">
                 Exit
-              </Button>
+              </Button> */}
             </Stack>
             <br />
           </Box>

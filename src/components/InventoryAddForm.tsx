@@ -6,7 +6,7 @@ interface AddFormProps {
   subjectTagChecklist: string[];
   purposeTagChecklist: string[];
   onFormSubmit: (data: InventoryEntry) => Promise<void>;
-  onClickingExit: () => void;
+  // onClickingExit: () => void;
 }
 
 const AddFormContainer = styled.div`
@@ -32,7 +32,7 @@ export default function InventoryAddForm(props: AddFormProps) {
         subjectTagChecklist={subjectTagChecklist}
         purposeTagChecklist={purposeTagChecklist}
         handleEntryFormSubmission={handleNewEntryFormSubmission}
-        handleClickingExit={props.onClickingExit}
+        // handleClickingExit={props.onClickingExit}
         buttonText="Add Entry"
       />
     </AddFormContainer>
