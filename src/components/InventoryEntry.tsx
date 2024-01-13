@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -8,8 +7,6 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
-import BasicModal from "./BasicModal.js";
-import InventoryEntryDetail from "../components/InventoryEntryDetail.js";
 import { InventoryEntry as IEntry } from "../types";
 
 //#region styles
@@ -33,39 +30,13 @@ const ButtonContainer = styled.div`
 
 type InventoryEntryProps = {
   entry: IEntry;
-  onClickingEdit: () => void;
-  onClickingCheckout: () => void;
-  onClickingReturn: (itemId: string) => void;
-  onClickingDelete: (id: string) => void;
-  onClickingExit: () => void;
   onEntryClick: (id: string) => void;
 };
 
 export default function InventoryEntry(props: InventoryEntryProps) {
   console.log("InventoryEntry component renders");
-  // prettier-ignore
-  const {
-    entry,
-    onClickingEdit,
-    onClickingCheckout,
-    onClickingReturn,
-    onClickingDelete,
-    onClickingExit,
-    onEntryClick,
-  } = props;
-
-  // prettier-ignore
-  const {
-    id,
-    name,
-    description,
-  } = entry;
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  // useEffect(() => {
-  //   console.log("InventoryEntry, useEffect, isOpen: ", isOpen);
-  // }, [isOpen]);
+  const { entry, onEntryClick } = props;
+  const { id, name, description } = entry;
 
   return (
     <StyledCard sx={{ maxWidth: 345 }}>
@@ -88,114 +59,13 @@ export default function InventoryEntry(props: InventoryEntryProps) {
           size="small"
           variant="contained"
           onClick={() => {
-            console.log("InventoryEntry, Details button clicked");
-            setIsOpen(true);
             onEntryClick(id!);
-            console.log("isOpen state changed. isOpen should be 'true': ", isOpen);
           }}
         >
           Details
         </Button>
         {/* <Button size="small">{isCheckedOut ? "Return" : "Check Out"}</Button> */}
-        <BasicModal
-          open={isOpen}
-          onClose={() => {
-            onClickingExit();
-            setIsOpen(false);
-          }}
-        >
-          <InventoryEntryDetail
-            entry={entry}
-            onClickingEdit={onClickingEdit}
-            onClickingCheckout={onClickingCheckout}
-            onClickingReturn={onClickingReturn}
-            onClickingDelete={onClickingDelete}
-          />
-        </BasicModal>
       </CardActions>
     </StyledCard>
   );
 }
-
-// <Button size="small" variant="contained" onClick={() => whenEntryClicked(id!)}>
-//   Details
-// </Button>;
-
-// <>
-//   <StyledCard>
-//     <CardContent>
-//       <Typography variant="h5" component="div">
-//         {name}
-//       </Typography>
-//       <Typography variant="body2">
-//         Description: {description}
-//         <br />
-//         Location: {location}
-//         <br />
-//         Is Checked Out: {isCheckedOut ? "Yes" : "No"}
-//         <br />
-//       </Typography>
-//       <Typography variant="body2">Tags:</Typography>
-//       <Stack>
-//         {tags.map((tag, index) => (
-//           <Chip key={index} label={tag} />
-//         ))}
-//       </Stack>
-//     </CardContent>
-//     <ButtonContainer>
-//       <Button onClick={() => whenEntryClicked(id!)} size="small">
-//         Details
-//       </Button>
-//     </ButtonContainer>
-//   </StyledCard>
-// </>;
-
-// <>
-//   <StyledCard>
-//     <CardContent>
-//       {/* <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-//         Name: {name}
-//       </Typography> */}
-//       <Typography variant="h5" component="div">
-//         {name}
-//       </Typography>
-//       {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
-//         adjective
-//       </Typography> */}
-//       <Typography variant="body2">
-//         Description: {description}
-//         <br />
-//         Location: {location}
-//         <br />
-//         Is Checked Out: {isCheckedOut ? "Yes" : "No"}
-//         <br />
-//       </Typography>
-//       <Typography variant="body2">Tags:</Typography>
-//       <Stack>
-//         {tags.map((tag, index) => (
-//           <Chip key={index} label={tag} />
-//         ))}
-//       </Stack>
-//     </CardContent>
-//     {/* <CardActions> */}
-//     <ButtonContainer>
-//       <Button onClick={() => whenEntryClicked(id!)} size="small">
-//         Details
-//       </Button>
-//     </ButtonContainer>
-//     {/* </CardActions> */}
-//   </StyledCard>
-//   {/* <div onClick={() => whenEntryClicked(id!)}>
-//     <h3>Name: {name}</h3>
-//     <p>Description: {description}</p>
-//     <p>Location: {location}</p>
-//     <p>Is Checked Out: {isCheckedOut ? "Yes" : "No"}</p>
-//     <p>Checked Out By: {isCheckedOut ? checkedOutBy : null}</p>
-//     <p>Date Checked Out: {isCheckedOut ? dateCheckedOut : null}</p>
-//     <ul>
-//       {tags.map((tag, index) => (
-//         <li key={index}>{tag}</li>
-//       ))}
-//     </ul>
-//   </div> */}
-// </>;

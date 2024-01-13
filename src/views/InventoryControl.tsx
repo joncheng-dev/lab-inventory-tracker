@@ -15,6 +15,7 @@ import { InventoryEntry } from "../types/index.js";
 import { useNavigate } from "react-router-dom";
 // import useLocalStorage, { useLocalStorageProps } from "../hooks/useLocalStorage.js";
 import { UserContext } from "../helpers/UserContext.js";
+import BasicModal from "../components/BasicModal.js";
 
 function InventoryControl() {
   // STYLING
@@ -34,6 +35,7 @@ function InventoryControl() {
   const [addFormVisible, setAddFormVisibility] = useState<boolean>(false);
   const [selectedEntry, setSelectedEntry] = useState<InventoryEntry | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false); // For modal
 
   // const [currentUser, setCurrentUser] = useState<useLocalStorageProps | null>(null);
   const currentUser = useContext(UserContext);
@@ -122,6 +124,7 @@ function InventoryControl() {
   const handleChangingSelectedEntry = (id: string) => {
     const selection = inventoryList.filter((entry) => entry.id === id)[0];
     setSelectedEntry(selection);
+    setIsOpen(true);
   };
 
   const handleEditEntryButtonClick = () => {
@@ -264,17 +267,7 @@ function InventoryControl() {
     );
   } else {
     centerPanel = (
-      <InventoryList
-        listOfEntries={filteredList}
-        onEntryClick={handleChangingSelectedEntry}
-        onClickingAddEntry={handleAddEntryButtonClick}
-        // InventoryEntryDetail
-        onClickingEdit={handleEditEntryButtonClick}
-        onClickingCheckout={handleCheckOutItem}
-        onClickingReturn={handleReturnItem}
-        onClickingDelete={handleDeletingEntry}
-        onClickingExit={handleExitButtonClick}
-      />
+      <InventoryList listOfEntries={filteredList} onEntryClick={handleChangingSelectedEntry} onClickingAddEntry={handleAddEntryButtonClick} />
     );
   }
   //#endregion Conditional Rendering of Components
@@ -282,6 +275,25 @@ function InventoryControl() {
     <>
       {/* Conditional rendering */}
       <Header onSearchInputChange={onSearchInputChange} />
+      {isOpen && selectedEntry !== null ? (
+        <BasicModal
+          open={isOpen}
+          onClose={() => {
+            handleExitButtonClick();
+            setIsOpen(false);
+          }}
+        >
+          <InventoryEntryDetail
+            entry={selectedEntry}
+            onClickingEdit={handleEditEntryButtonClick}
+            onClickingCheckout={handleCheckOutItem}
+            onClickingReturn={handleReturnItem}
+            onClickingDelete={handleDeletingEntry}
+          />
+        </BasicModal>
+      ) : (
+        ""
+      )}
       <Grid container spacing={1}>
         <Grid item xs={1.5}>
           <FixedWidthItem>{leftSidePanel}</FixedWidthItem>
@@ -291,20 +303,7 @@ function InventoryControl() {
         </Grid>
         <Grid item xs={2.5}>
           <FixedWidthItem>
-            {currentUser ? (
-              <UserInfoPanel
-                itemsCheckedOutByUser={itemsCheckedOutByUser}
-                onEntryClick={handleChangingSelectedEntry}
-                // InventoryEntryDetail
-                onClickingEdit={handleEditEntryButtonClick}
-                onClickingCheckout={handleCheckOutItem}
-                onClickingReturn={handleReturnItem}
-                onClickingDelete={handleDeletingEntry}
-                onClickingExit={handleExitButtonClick}
-              />
-            ) : (
-              ""
-            )}
+            {currentUser ? <UserInfoPanel itemsCheckedOutByUser={itemsCheckedOutByUser} onEntryClick={handleChangingSelectedEntry} /> : ""}
           </FixedWidthItem>
         </Grid>
       </Grid>
