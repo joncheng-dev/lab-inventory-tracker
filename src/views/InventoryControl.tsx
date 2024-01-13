@@ -115,10 +115,12 @@ function InventoryControl() {
     } else {
       setAddFormVisibility(!addFormVisible);
     }
+    setIsOpen(false);
   };
 
   const handleAddEntryButtonClick = () => {
     setAddFormVisibility(!addFormVisible);
+    setIsOpen(true);
   };
 
   const handleChangingSelectedEntry = (id: string) => {
@@ -231,43 +233,56 @@ function InventoryControl() {
       onCategorySelection={onFilterByCategory}
     />
   );
-  let centerPanel = null;
-
-  if (selectedEntry !== null && editing) {
-    centerPanel = (
-      <InventoryEditForm
-        entry={selectedEntry}
-        subjectTagChecklist={subjectTagChecklist}
-        purposeTagChecklist={purposeTagChecklist}
-        onFormSubmit={handleEditingEntryInList}
-        onClickingExit={handleExitButtonClick}
-      />
+  let modal = null;
+  if (selectedEntry !== null && editing && isOpen) {
+    modal = (
+      <BasicModal
+        open={isOpen}
+        onClose={() => {
+          handleExitButtonClick();
+        }}
+      >
+        <InventoryEditForm
+          entry={selectedEntry}
+          subjectTagChecklist={subjectTagChecklist}
+          purposeTagChecklist={purposeTagChecklist}
+          onFormSubmit={handleEditingEntryInList}
+          onClickingExit={handleExitButtonClick}
+        />
+      </BasicModal>
     );
-  }
-  // else if (selectedEntry !== null) {
-  //   centerPanel = (
-  //     <InventoryEntryDetail
-  //       entry={selectedEntry}
-  //       onClickingEdit={handleEditEntryButtonClick}
-  //       onClickingCheckout={handleCheckOutItem}
-  //       onClickingReturn={handleReturnItem}
-  //       onClickingDelete={handleDeletingEntry}
-  //       onClickingExit={handleExitButtonClick}
-  //     />
-  //   );
-  // }
-  else if (addFormVisible) {
-    centerPanel = (
-      <InventoryAddForm
-        subjectTagChecklist={subjectTagChecklist}
-        purposeTagChecklist={purposeTagChecklist}
-        onFormSubmit={handleAddingNewEntryToList}
-        onClickingExit={handleExitButtonClick}
-      />
+  } else if (addFormVisible && isOpen) {
+    modal = (
+      <BasicModal
+        open={isOpen}
+        onClose={() => {
+          handleExitButtonClick();
+        }}
+      >
+        <InventoryAddForm
+          subjectTagChecklist={subjectTagChecklist}
+          purposeTagChecklist={purposeTagChecklist}
+          onFormSubmit={handleAddingNewEntryToList}
+          onClickingExit={handleExitButtonClick}
+        />
+      </BasicModal>
     );
-  } else {
-    centerPanel = (
-      <InventoryList listOfEntries={filteredList} onEntryClick={handleChangingSelectedEntry} onClickingAddEntry={handleAddEntryButtonClick} />
+  } else if (isOpen && selectedEntry !== null) {
+    modal = (
+      <BasicModal
+        open={isOpen}
+        onClose={() => {
+          handleExitButtonClick();
+        }}
+      >
+        <InventoryEntryDetail
+          entry={selectedEntry}
+          onClickingEdit={handleEditEntryButtonClick}
+          onClickingCheckout={handleCheckOutItem}
+          onClickingReturn={handleReturnItem}
+          onClickingDelete={handleDeletingEntry}
+        />
+      </BasicModal>
     );
   }
   //#endregion Conditional Rendering of Components
@@ -275,31 +290,15 @@ function InventoryControl() {
     <>
       {/* Conditional rendering */}
       <Header onSearchInputChange={onSearchInputChange} />
-      {isOpen && selectedEntry !== null ? (
-        <BasicModal
-          open={isOpen}
-          onClose={() => {
-            handleExitButtonClick();
-            setIsOpen(false);
-          }}
-        >
-          <InventoryEntryDetail
-            entry={selectedEntry}
-            onClickingEdit={handleEditEntryButtonClick}
-            onClickingCheckout={handleCheckOutItem}
-            onClickingReturn={handleReturnItem}
-            onClickingDelete={handleDeletingEntry}
-          />
-        </BasicModal>
-      ) : (
-        ""
-      )}
+      {isOpen ? modal : ""}
       <Grid container spacing={1}>
         <Grid item xs={1.5}>
           <FixedWidthItem>{leftSidePanel}</FixedWidthItem>
         </Grid>
         <Grid item xs={8}>
-          <FixedWidthItem>{centerPanel}</FixedWidthItem>
+          <FixedWidthItem>
+            <InventoryList listOfEntries={filteredList} onEntryClick={handleChangingSelectedEntry} onClickingAddEntry={handleAddEntryButtonClick} />
+          </FixedWidthItem>
         </Grid>
         <Grid item xs={2.5}>
           <FixedWidthItem>
