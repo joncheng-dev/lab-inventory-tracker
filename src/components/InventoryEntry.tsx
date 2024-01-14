@@ -33,7 +33,7 @@ type InventoryEntryProps = {
   onEntryClick: (id: string) => void;
 };
 
-export default function InventoryEntry(props: InventoryEntryProps) {
+function InventoryEntry(props: InventoryEntryProps) {
   console.log("InventoryEntry component renders");
   const { entry, onEntryClick } = props;
   const { id, name, description } = entry;
@@ -69,3 +69,5 @@ export default function InventoryEntry(props: InventoryEntryProps) {
     </StyledCard>
   );
 }
+
+export default InventoryEntry;

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import styled from "styled-components";
 import InventoryEntry from "./InventoryEntry";
 import { InventoryEntry as IEntry } from "../types";
@@ -23,7 +24,7 @@ type InventoryListProps = {
   onClickingAddEntry: () => void;
 };
 
-export default function InventoryList(props: InventoryListProps) {
+function InventoryList(props: InventoryListProps) {
   const { listOfEntries, onEntryClick, onClickingAddEntry } = props;
   console.log("InventoryList: listOfEntries", listOfEntries);
 
@@ -47,3 +48,5 @@ export default function InventoryList(props: InventoryListProps) {
     </ListContainer>
   );
 }
+
+export default InventoryList;

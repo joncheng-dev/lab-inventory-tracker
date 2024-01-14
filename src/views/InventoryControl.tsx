@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useMemo } from "react";
 import Header from "../components/Header.js";
 import CategoryPanel from "../components/CategoryPanel.js";
 import UserInfoPanel from "../components/UserInfoPanel.js";
@@ -16,10 +16,10 @@ import { useNavigate } from "react-router-dom";
 // import useLocalStorage, { useLocalStorageProps } from "../hooks/useLocalStorage.js";
 import { UserContext } from "../helpers/UserContext.js";
 import BasicModal from "../components/BasicModal.js";
+import InventoryForm from "../components/InventoryForm.js";
 
 function InventoryControl() {
-  // STYLING
-  //#region styling
+  //#region STYLING
   const FixedWidthItem = styledMui(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -82,13 +82,13 @@ function InventoryControl() {
   }, []);
 
   useEffect(() => {
-    if (selectedEntry !== null) {
+    if (selectedEntry) {
       handleChangingSelectedEntry(selectedEntry.id!);
     }
   }, [inventoryList, selectedEntry]);
 
   useEffect(() => {
-    if (currentUser !== null) {
+    if (currentUser) {
       handleMakeUserItemList();
     }
   }, [inventoryList]);
@@ -258,7 +258,7 @@ function InventoryControl() {
         }}
       >
         {isOpen && selectedEntry && editing && (
-          <InventoryEditForm
+          <InventoryForm
             entry={selectedEntry}
             subjectTagChecklist={subjectTagChecklist}
             purposeTagChecklist={purposeTagChecklist}
@@ -266,7 +266,7 @@ function InventoryControl() {
           />
         )}
         {isOpen && addFormVisible && (
-          <InventoryAddForm
+          <InventoryForm
             subjectTagChecklist={subjectTagChecklist}
             purposeTagChecklist={purposeTagChecklist}
             onFormSubmit={handleAddingNewEntryToList}
