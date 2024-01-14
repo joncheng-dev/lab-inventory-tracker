@@ -1,22 +1,24 @@
-import { useState, useEffect, useContext, useMemo } from "react";
+// Outside
+import { useState, useEffect, useContext } from "react";
+import { db } from "../firebase";
+import { collection, addDoc, doc, onSnapshot, deleteDoc, updateDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+// Styling
+import { styled as styledMui } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import BasicModal from "../components/BasicModal.js";
+// Components
 import Header from "../components/Header.js";
 import CategoryPanel from "../components/CategoryPanel.js";
 import UserInfoPanel from "../components/UserInfoPanel.js";
 import InventoryList from "../components/InventoryList.js";
-import InventoryAddForm from "../components/InventoryAddForm.js";
+import InventoryForm from "../components/InventoryForm";
 import InventoryEntryDetail from "../components/InventoryEntryDetail.js";
-import InventoryEditForm from "../components/InventoryEditForm.js";
-import { db } from "../firebase";
-import { collection, addDoc, doc, onSnapshot, deleteDoc, updateDoc } from "firebase/firestore";
-import { styled as styledMui } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
+// Types & Context
 import { InventoryEntry } from "../types/index.js";
-import { useNavigate } from "react-router-dom";
-// import useLocalStorage, { useLocalStorageProps } from "../hooks/useLocalStorage.js";
 import { UserContext } from "../helpers/UserContext.js";
-import BasicModal from "../components/BasicModal.js";
-import InventoryForm from "../components/InventoryForm.js";
+// import useLocalStorage, { useLocalStorageProps } from "../hooks/useLocalStorage.js";
 
 function InventoryControl() {
   //#region STYLING
