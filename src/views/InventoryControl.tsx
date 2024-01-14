@@ -180,7 +180,7 @@ function InventoryControl() {
       name: entry.name,
       description: entry.description,
       location: entry.location,
-      tags: entry.tags,
+      tags: entry.tags || [],
     };
     await updateDoc(entryRef, data);
     setEditing(false);

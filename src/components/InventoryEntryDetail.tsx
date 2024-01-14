@@ -124,11 +124,7 @@ export default function InventoryEntryDetails(props: InventoryEntryDetailProps) 
               <h2>Tags</h2>
               <Divider />
               <br />
-              <StyledStack>
-                {tags.map((tag, index) => (
-                  <Chip key={index} label={tag} size="medium" />
-                ))}
-              </StyledStack>
+              <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" />)}</StyledStack>
             </Grid>
           </Grid>
           <Box display="flex" justifyContent="space-between" p={1}>
