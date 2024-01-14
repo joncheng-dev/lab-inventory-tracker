@@ -50,6 +50,7 @@ export default function InventoryReusableForm(props: FormProps) {
 
   //prettier-ignore
   const {
+    id = null,
     name = "",
     description = "",
     location = "",
@@ -62,6 +63,9 @@ export default function InventoryReusableForm(props: FormProps) {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     setFormData((prevData) => ({
       ...prevData,
+      isCheckedOut,
+      checkedOutBy,
+      dateCheckedOut,
       [e.target.name]: e.target.value,
     }));
   };
@@ -100,7 +104,7 @@ export default function InventoryReusableForm(props: FormProps) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("formData", formData);
-    if (formData.id === null) {
+    if (!id) {
       const { id, ...formDataNoId } = Object.assign({}, formData);
       onFormSubmit(formDataNoId);
     } else {
@@ -375,3 +379,24 @@ export default function InventoryReusableForm(props: FormProps) {
 //     </Box>
 //   );
 // }
+
+// //prettier-ignore
+// const {
+//   name = "",
+//   description = "",
+//   location = "",
+//   isCheckedOut = false,
+//   checkedOutBy = null,
+//   dateCheckedOut = null,
+//   tags = [],
+// } = formData ||
+// {
+//   id: null,
+//   name: "",
+//   description: "",
+//   location: "",
+//   isCheckedOut: false,
+//   checkedOutBy: null,
+//   dateCheckedOut: null,
+//   tags: [],
+// };
