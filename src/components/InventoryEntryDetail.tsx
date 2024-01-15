@@ -1,13 +1,10 @@
-import { InventoryEntry } from "../types";
-import Button from "@mui/material/Button";
+import { Box, Button, Chip, Divider, Stack, useTheme } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Stack from "@mui/material/Stack";
-import styled from "styled-components";
-import Chip from "@mui/material/Chip";
-import { Box, useTheme } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import Divider from "@mui/material/Divider";
+import styled from "styled-components";
 import { tokens } from "../themes";
+import { InventoryEntry } from "../types";
+import ChildModal from "./ChildModal";
 
 //#region styles
 const EntryDetailContainer = styled.div`
@@ -143,9 +140,7 @@ export default function InventoryEntryDetails(props: InventoryEntryDetailProps) 
                 <Button onClick={onClickingEdit} variant="contained">
                   Edit entry
                 </Button>
-                <Button variant="contained" startIcon={<DeleteIcon />} onClick={() => onClickingDelete(id!)} color="error">
-                  Delete
-                </Button>
+                <ChildModal entryId={id!} onClickingDelete={onClickingDelete} />
                 {/* <Button onClick={onClickingExit} variant="contained">
                   Exit
                 </Button> */}
