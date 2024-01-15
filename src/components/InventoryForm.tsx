@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { InventoryEntry } from "../types";
 import { Checkbox } from "@mui/material";
+import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Box, useTheme } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -42,46 +43,79 @@ type FormProps = {
   onFormSubmit: (data: InventoryEntry) => Promise<void>;
 };
 
-export default function InventoryReusableForm(props: FormProps) {
+export default function InventoryForm(props: FormProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { entry, onFormSubmit, subjectTagChecklist, purposeTagChecklist } = props;
-  const [formData, setFormData] = useState<InventoryEntry>(entry!);
+  const [formData, setFormData] = useState<InventoryEntry>(
+    entry || {
+      name: "",
+      description: "",
+      location: "",
+      isCheckedOut: false,
+      checkedOutBy: null,
+      dateCheckedOut: null,
+      tags: [],
+    }
+  );
 
+  console.log("InventoryForm, entry: ", entry);
   //prettier-ignore
   const {
-    id = null,
-    name = "",
-    description = "",
-    location = "",
-    isCheckedOut = false,
-    checkedOutBy = null,
-    dateCheckedOut = null,
-    tags = [],
-  } = formData || {};
+    name,
+    description,
+    location,
+    tags,
+  } = formData;
+
+  console.log("InventoryForm, formData: ", formData);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     setFormData((prevData) => ({
       ...prevData,
-      isCheckedOut,
-      checkedOutBy,
-      dateCheckedOut,
       [e.target.name]: e.target.value,
     }));
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevData) => {
-      const currentTags = prevData.tags ?? [];
       if (e.target.checked) {
         // updates tags array with all checked values
-        return { ...prevData, tags: [...currentTags, e.target.value] };
+        return { ...prevData, tags: [...prevData.tags, e.target.value] };
       } else {
         // updates tags array without the unchecked values
-        return { ...prevData, tags: currentTags.filter((element) => element !== e.target.value) };
+        return { ...prevData, tags: prevData.tags.filter((element) => element !== e.target.value) };
       }
     });
   };
+  // const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setFormData((prevData) => {
+  //     const currentTags = prevData.tags ?? [];
+  //     if (e.target.checked) {
+  //       // updates tags array with all checked values
+  //       return { ...prevData, tags: [...currentTags, e.target.value] };
+  //     } else {
+  //       // updates tags array without the unchecked values
+  //       return { ...prevData, tags: currentTags.filter((element) => element !== e.target.value) };
+  //     }
+  //   });
+  // };
+
+  // const tagChecklistGenerator = (wordArray: string[]) => {
+  //   return wordArray.map((word, index) => {
+  //     const isChecked = tags.includes(word);
+  //     console.log("tagChecklistGenerator, isChecked: ", isChecked);
+  //     return (
+  //       // prettier-ignore
+  //       <FormControlLabel
+  //             key={index}
+  //             value={word}
+  //             control={<Checkbox key={index} onChange={handleCheckboxChange} checked={isChecked} />}
+  //             label={word}
+  //         />
+  //     );
+  //   });
+  // };
 
   const tagChecklistGenerator = (wordArray: string[]) => {
     return wordArray.map((word, index) => {
@@ -104,7 +138,7 @@ export default function InventoryReusableForm(props: FormProps) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("formData", formData);
-    if (!id) {
+    if (!formData.id) {
       const { id, ...formDataNoId } = Object.assign({}, formData);
       onFormSubmit(formDataNoId);
     } else {
