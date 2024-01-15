@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { InventoryEntry } from "../types";
 import { Checkbox } from "@mui/material";
-import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Box, useTheme } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -11,6 +10,7 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { tokens } from "../themes";
+import { v4 as uuidv4 } from "uuid";
 
 //#region styles
 const ReusableFormContainer = styled.div`
@@ -60,14 +60,7 @@ export default function InventoryForm(props: FormProps) {
   );
 
   console.log("InventoryForm, entry: ", entry);
-  //prettier-ignore
-  const {
-    name,
-    description,
-    location,
-    tags,
-  } = formData;
-
+  const { name, description, location, tags } = formData;
   console.log("InventoryForm, formData: ", formData);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -88,43 +81,15 @@ export default function InventoryForm(props: FormProps) {
       }
     });
   };
-  // const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setFormData((prevData) => {
-  //     const currentTags = prevData.tags ?? [];
-  //     if (e.target.checked) {
-  //       // updates tags array with all checked values
-  //       return { ...prevData, tags: [...currentTags, e.target.value] };
-  //     } else {
-  //       // updates tags array without the unchecked values
-  //       return { ...prevData, tags: currentTags.filter((element) => element !== e.target.value) };
-  //     }
-  //   });
-  // };
-
-  // const tagChecklistGenerator = (wordArray: string[]) => {
-  //   return wordArray.map((word, index) => {
-  //     const isChecked = tags.includes(word);
-  //     console.log("tagChecklistGenerator, isChecked: ", isChecked);
-  //     return (
-  //       // prettier-ignore
-  //       <FormControlLabel
-  //             key={index}
-  //             value={word}
-  //             control={<Checkbox key={index} onChange={handleCheckboxChange} checked={isChecked} />}
-  //             label={word}
-  //         />
-  //     );
-  //   });
-  // };
 
   const tagChecklistGenerator = (wordArray: string[]) => {
-    return wordArray.map((word, index) => {
+    return wordArray.map((word) => {
       const isChecked = tags.includes(word);
+      const key = uuidv4();
       return (
         // prettier-ignore
-        <div>
+        <div key={key}>
           <FormControlLabel
-            key={index}
             value={word}
             control={<Checkbox onChange={handleCheckboxChange} checked={isChecked} />}
             label={word}
