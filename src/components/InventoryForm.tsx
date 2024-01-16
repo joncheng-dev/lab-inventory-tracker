@@ -91,7 +91,7 @@ export default function InventoryForm(props: FormProps) {
         <div key={key}>
           <FormControlLabel
             value={word}
-            control={<Checkbox onChange={handleCheckboxChange} checked={isChecked} />}
+            control={<Checkbox onChange={handleCheckboxChange} checked={isChecked} id={key} />}
             label={word}
           />
           <br/>
@@ -134,7 +134,9 @@ export default function InventoryForm(props: FormProps) {
                       label="Item Name"
                       required
                       onChange={handleInputChange}
-                      value={name} />
+                      value={name}
+                      autoComplete="off"
+                    />
                     <br />
                     {/* prettier-ignore */}
                     <TextField
@@ -143,6 +145,7 @@ export default function InventoryForm(props: FormProps) {
                       required
                       onChange={handleInputChange}
                       value={description}
+                      autoComplete="off"
                     />
                     <br />
                     {/* prettier-ignore */}
@@ -151,7 +154,9 @@ export default function InventoryForm(props: FormProps) {
                       label="Item Location"
                       required
                       onChange={handleInputChange}
-                      value={location} />
+                      value={location}
+                      autoComplete="off"
+                    />
                     <br />
                   </InputColumnContainer>
                 </Box>
