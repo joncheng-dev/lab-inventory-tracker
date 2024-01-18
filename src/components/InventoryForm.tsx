@@ -11,6 +11,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { tokens } from "../themes";
 import { v4 as uuidv4 } from "uuid";
+import { formSchema } from "../validations/InventoryFormValidation";
 
 //#region styles
 const ReusableFormContainer = styled.div`
