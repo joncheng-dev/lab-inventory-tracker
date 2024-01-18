@@ -11,6 +11,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { tokens } from "../themes";
 import { v4 as uuidv4 } from "uuid";
+import { Formik } from "formik";
 import { formSchema } from "../validations/InventoryFormValidation";
 
 //#region styles
@@ -59,6 +60,20 @@ export default function InventoryForm(props: FormProps) {
       tags: [],
     }
   );
+
+  // Formik
+  // handleSubmit will prevent window from reloading
+  <Formik
+    initialValues={{
+      name: "",
+      description: "",
+      location: "",
+      isCheckedOut: false,
+      checkedOutBy: null,
+      dateCheckedOut: null,
+      tags: [],
+    }}
+  ></Formik>;
 
   console.log("InventoryForm, entry: ", entry);
   const { name, description, location, tags } = formData;
