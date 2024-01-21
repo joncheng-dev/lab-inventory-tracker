@@ -63,17 +63,17 @@ export default function InventoryForm(props: FormProps) {
 
   // Formik
   // handleSubmit will prevent window from reloading
-  <Formik
-    initialValues={{
-      name: "",
-      description: "",
-      location: "",
-      isCheckedOut: false,
-      checkedOutBy: null,
-      dateCheckedOut: null,
-      tags: [],
-    }}
-  ></Formik>;
+  // <Formik
+  //   initialValues={{
+  //     name: "",
+  //     description: "",
+  //     location: "",
+  //     isCheckedOut: false,
+  //     checkedOutBy: null,
+  //     dateCheckedOut: null,
+  //     tags: [],
+  //   }}
+  // ></Formik>;
 
   console.log("InventoryForm, entry: ", entry);
   const { name, description, location, tags } = formData;
