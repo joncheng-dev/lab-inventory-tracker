@@ -1,4 +1,24 @@
 import { useField, FieldInputProps } from "formik";
+import "../../style/styles-custom.css";
+import styled from "styled-components";
+
+const StyledLabel = styled.label`
+  margin-top: 1rem;
+`;
+
+const StyledErrorMessage = styled.div`
+  font-size: 12px;
+  color: var(--red-600);
+  width: 400px;
+  margin-top: 0.25rem;
+  &:before {
+    content: "❌ ";
+    font-size: 10px;
+  }
+  @media (prefers-color-scheme: dark) {
+    color: var(--red-300);
+  }
+`;
 
 interface TextInputType {
   label: string;
@@ -14,7 +34,7 @@ const TextInput = ({ label, ...props }: TextInputType) => {
   const [field, meta] = useField(props);
   return (
     <>
-      <label htmlFor={props.name}>{label}</label>
+      <StyledLabel htmlFor={props.name}>{label}</StyledLabel>
       <input className="text-input" {...field} {...props} />
       {meta.touched && meta.error ? <div className="error">{meta.error}</div> : null}
     </>
