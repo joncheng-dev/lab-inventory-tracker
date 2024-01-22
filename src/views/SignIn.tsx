@@ -9,7 +9,8 @@ import { tokens } from "../themes.tsx";
 import { useTheme } from "@mui/material";
 import { Button } from "@mui/material";
 import * as yup from "yup";
-import { Formik, Field, Form, ErrorMessage, useField } from "formik";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import TextInput from "../components/Forms/TextInput.tsx";
 
 //#region style
 const FormContainer = styled.div`
@@ -404,9 +405,14 @@ export default function SignIn() {
         email: "",
         password: "",
       }}
+      // prettier-ignore
       validationSchema={yup.object({
-        email: yup.string().email("Invalid email address").required("Email input required"),
-        password: yup.string().min(3, "Must be more than 3 characters").required("Password input required"),
+        email: yup.string()
+          .email("Invalid email address")
+          .required("Email input required"),
+        password: yup.string()
+          .min(6, "Must be more than 6 characters")
+          .required("Password input required"),
       })}
       onSubmit={(values) => {
         doSignIn(values);
@@ -414,17 +420,17 @@ export default function SignIn() {
       }}
     >
       <Form>
-        <label htmlFor="email">Email</label>
-        <Field name="email" type="text" />
-        <ErrorMessage name="email" />
-        <label htmlFor="password">Password</label>
-        <Field name="password" type="text" />
-        <ErrorMessage name="password" />
+        <TextInput label="Email" name="email" type="text" placeholder="Email Address" />
+        <TextInput label="Password" name="password" type="password" placeholder="Password" />
         <button type="submit">Submit</button>
       </Form>
     </Formik>
   );
 }
+
+/* <label htmlFor="password">Password</label>
+        <Field name="password" type="text" />
+        <ErrorMessage name="password" /> */
 
 //   // conditional rendering
 //   return (
