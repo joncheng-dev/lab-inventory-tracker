@@ -7,7 +7,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } f
 import { eTargetType } from "../types/index.tsx";
 import { tokens } from "../themes.tsx";
 import { useTheme } from "@mui/material";
-import { Button } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import * as yup from "yup";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import TextInput from "../components/Forms/TextInput.tsx";
@@ -395,24 +395,76 @@ export default function SignIn() {
       validationSchema={yup.object({
         email: yup.string()
           .email("Invalid email address")
-          .required("Email input required"),
+          .required("Required"),
         password: yup.string()
           .min(6, "Must be more than 6 characters")
-          .required("Password input required"),
+          .required("Required"),
       })}
       onSubmit={(values) => {
         doSignIn(values);
         console.log("SignIn.tsx, form values: ", values);
       }}
     >
-      <Form>
-        <TextInput label="Email" name="email" type="text" placeholder="Email Address" />
-        <TextInput label="Password" name="password" type="password" placeholder="Password" />
-        <button type="submit">Submit</button>
-      </Form>
+      {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+        <form onSubmit={handleSubmit}>
+          <Box display="grid" gap="30px" gridTemplateColumns="repeat(4, minmax(0, 1fr))">
+            <TextField
+              fullWidth
+              variant="filled"
+              type="text"
+              label="Email"
+              onBlur={handleBlur}
+              onChange={handleChange}
+              value={values.email}
+              name="email"
+              error={!!touched.email && !!errors.email}
+              helperText={touched.email && errors.email}
+              sx={{ gridColumn: "span 4" }}
+            />
+            <TextField
+              fullWidth
+              variant="filled"
+              type="text"
+              label="Password"
+              onBlur={handleBlur}
+              onChange={handleChange}
+              value={values.password}
+              name="password"
+              error={!!touched.password && !!errors.password}
+              helperText={touched.password && errors.password}
+              sx={{ gridColumn: "span 4" }}
+            />
+          </Box>
+          <Box display="flex" justifyContent="end" mt="20px">
+            <Button type="submit" color="secondary" variant="contained">
+              Sign In
+            </Button>
+          </Box>
+        </form>
+      )}
     </Formik>
   );
 }
+
+// <Form>
+//   <h3>Sign In</h3>
+//   <TextField
+//     fullWidth
+//     variant="filled"
+//     type="text"
+//     label="Email"
+//     onBlur={handleBlur}
+//     onChange={handleChange}
+//     value={values.email}
+//     name="email"
+//     error={!!touched.email && !!errors.email}
+//     helperText={touched.email && errors.email}
+//     sx={{ gridColumn: "span 4" }}
+//   />
+//   {/* <TextInput label="Email" name="email" type="text" placeholder="Email Address" /> */}
+//   <TextInput label="Password" name="password" type="password" placeholder="Password" />
+//   <button type="submit">Submit</button>
+// </Form>;
 
 /* <label htmlFor="password">Password</label>
         <Field name="password" type="text" />

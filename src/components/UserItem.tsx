@@ -13,7 +13,7 @@ const StyledCard = styled(Card)`
   flex: 0 1 auto;
   max-width: 100%;
   border: 1px rgba(232, 230, 227, 0.87);
-  background: #369;
+  /* background: #369; */
   position: relative;
   text-align: left;
 `;
