@@ -1,4 +1,3 @@
-import { memo } from "react";
 import styled from "styled-components";
 import InventoryEntry from "./InventoryEntry";
 import { InventoryEntry as IEntry } from "../types";
