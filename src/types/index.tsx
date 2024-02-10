@@ -13,7 +13,7 @@ export interface InventoryEntry {
   location: string;
   isCheckedOut: boolean;
   checkedOutBy: string | null;
-  dateCheckedOut: string | null;
+  dateCheckedOut: Date | string | null;
   tags: string[];
 }
 

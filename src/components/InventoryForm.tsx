@@ -1,18 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { InventoryEntry } from "../types";
-import { Checkbox } from "@mui/material";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import { Box, useTheme } from "@mui/material";
+import { Box, Button, Checkbox, Divider, FormControlLabel, Stack, TextField, useTheme } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import Divider from "@mui/material/Divider";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 import { tokens } from "../themes";
 import { v4 as uuidv4 } from "uuid";
-import { Formik } from "formik";
-import { formSchema } from "../validations/InventoryFormValidation";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as yup from "yup";
 
 //#region styles
 const ReusableFormContainer = styled.div`
@@ -61,19 +55,12 @@ export default function InventoryForm(props: FormProps) {
     }
   );
 
-  // Formik
-  // handleSubmit will prevent window from reloading
-  // <Formik
-  //   initialValues={{
-  //     name: "",
-  //     description: "",
-  //     location: "",
-  //     isCheckedOut: false,
-  //     checkedOutBy: null,
-  //     dateCheckedOut: null,
-  //     tags: [],
-  //   }}
-  // ></Formik>;
+  const validationSchema = yup.object().shape({
+    name: yup.string().required("Required"),
+    description: yup.string().required("Required"),
+    location: yup.string().required("Required"),
+    tags: yup.array(),
+  });
 
   console.log("InventoryForm, entry: ", entry);
   const { name, description, location, tags } = formData;
@@ -116,21 +103,22 @@ export default function InventoryForm(props: FormProps) {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("formData", formData);
-    if (!formData.id) {
-      const { id, ...formDataNoId } = Object.assign({}, formData);
-      onFormSubmit(formDataNoId);
-    } else {
-      onFormSubmit(formData);
-    }
+  const handleSubmit = (values: InventoryEntry) => {
+    console.log("handleSubmit, values: ", values);
+    onFormSubmit(values);
   };
 
   return (
     <Box sx={{ backgroundColor: colors.primary[400] }}>
       <ReusableFormContainer>
-        <Box component="form" onSubmit={handleSubmit}>
+        {/* prettier-ignore */}
+        <Formik
+          initialValues={formData}
+          enableReinitialize
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          <Form>
           <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
             <Grid container spacing={2}>
               <Grid xs={7}>
@@ -145,34 +133,34 @@ export default function InventoryForm(props: FormProps) {
                   <br />
                   <InputColumnContainer>
                     {/* prettier-ignore */}
-                    <TextField
+                    <Field 
+                      as={TextField}
                       name="name"
                       label="Item Name"
-                      required
+                      helperText={<ErrorMessage name="name" />}
                       onChange={handleInputChange}
                       value={name}
-                      autoComplete="off"
                     />
                     <br />
                     {/* prettier-ignore */}
-                    <TextField
+                    <Field
+                      as={TextField}
                       name="description"
                       label="Item Description"
-                      required
+                      helperText={<ErrorMessage name="description" />}
                       onChange={handleInputChange}
                       value={description}
-                      autoComplete="off"
                     />
                     <br />
                     {/* prettier-ignore */}
-                    <TextField
+                    <Field
+                      as={TextField}
                       name="location"
                       label="Item Location"
-                      required
+                      helperText={<ErrorMessage name="location" />}
                       onChange={handleInputChange}
                       value={location}
-                      autoComplete="off"
-                    />
+                    />                    
                     <br />
                   </InputColumnContainer>
                 </Box>
@@ -186,25 +174,26 @@ export default function InventoryForm(props: FormProps) {
                     <h4>
                       <strong>Subjects</strong>
                     </h4>
-                    <div>{tagChecklistGenerator(subjectTagChecklist)}</div>
+                    {tagChecklistGenerator(subjectTagChecklist)}
                   </SubjectBoxContainer>
                   <PurposeBoxContainer>
                     <h4>
                       <strong>Purpose</strong>
                     </h4>
-                    <div>{tagChecklistGenerator(purposeTagChecklist)}</div>
+                    {tagChecklistGenerator(purposeTagChecklist)}
                   </PurposeBoxContainer>
                 </div>
               </Grid>
             </Grid>
             <Stack spacing={2} direction="row">
-              <Button type="submit" variant="contained">
-                {!entry ? "Add Entry" : "Update"}
-              </Button>
+            <Button type="submit" variant="contained">
+              {!entry ? "Add Entry" : "Update"}
+            </Button>
             </Stack>
             <br />
-          </Box>
-        </Box>
+            </Box>
+          </Form>
+        </Formik>
       </ReusableFormContainer>
     </Box>
   );
@@ -399,24 +388,3 @@ export default function InventoryForm(props: FormProps) {
 //     </Box>
 //   );
 // }
-
-// //prettier-ignore
-// const {
-//   name = "",
-//   description = "",
-//   location = "",
-//   isCheckedOut = false,
-//   checkedOutBy = null,
-//   dateCheckedOut = null,
-//   tags = [],
-// } = formData ||
-// {
-//   id: null,
-//   name: "",
-//   description: "",
-//   location: "",
-//   isCheckedOut: false,
-//   checkedOutBy: null,
-//   dateCheckedOut: null,
-//   tags: [],
-// };
