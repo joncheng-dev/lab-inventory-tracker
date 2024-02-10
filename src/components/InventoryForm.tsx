@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { InventoryEntry } from "../types";
-import { Box, Button, Checkbox, Divider, FormControlLabel, Stack, TextField, useTheme } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
+import { Box, Button, Checkbox, Divider, FormControlLabel, Grid, Stack, TextField, useTheme } from "@mui/material";
 import { tokens } from "../themes";
 import { v4 as uuidv4 } from "uuid";
 import { Formik, Field, Form, ErrorMessage } from "formik";

@@ -5,8 +5,7 @@ import { collection, addDoc, doc, onSnapshot, deleteDoc, updateDoc } from "fireb
 import { useNavigate } from "react-router-dom";
 // Styling
 import { styled as styledMui } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
+import { Grid, Paper } from "@mui/material";
 import BasicModal from "../components/BasicModal.js";
 // Components
 import Header from "../components/Header.js";
@@ -18,6 +17,8 @@ import InventoryEntryDetail from "../components/InventoryEntryDetail.js";
 // Types & Context
 import { InventoryEntry } from "../types/index.js";
 import { UserContext } from "../helpers/UserContext.js";
+// import { Box } from "@mui/system";
+
 // import useLocalStorage, { useLocalStorageProps } from "../hooks/useLocalStorage.js";
 
 function InventoryControl() {
@@ -243,9 +244,11 @@ function InventoryControl() {
           </FixedWidthItem>
         </Grid>
         <Grid item xs={8}>
-          <FixedWidthItem>
-            <InventoryList listOfEntries={filteredList} onEntryClick={handleChangingSelectedEntry} onClickingAddEntry={handleAddEntryButtonClick} />
-          </FixedWidthItem>
+          <Grid container justifyContent="space-between" alignItems="center">
+            <FixedWidthItem>
+              <InventoryList listOfEntries={filteredList} onEntryClick={handleChangingSelectedEntry} onClickingAddEntry={handleAddEntryButtonClick} />
+            </FixedWidthItem>
+          </Grid>
         </Grid>
         <Grid item xs={2.5}>
           <FixedWidthItem>
