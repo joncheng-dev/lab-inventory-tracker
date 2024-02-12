@@ -1,10 +1,17 @@
 import { InventoryEntry as IEntry } from "../types";
 import { DataGrid, GridRowParams } from "@mui/x-data-grid";
+import styled from "styled-components";
 
 type InventoryTableProps = {
   data: IEntry[];
   onEntryClick: (id: string) => void;
 };
+
+const StyledDataGrid = styled(DataGrid)`
+  .MuiDataGrid-row:hover {
+    background-color: #777777;
+  }
+`;
 
 export default function InventoryTable(props: InventoryTableProps) {
   const { data, onEntryClick } = props;
@@ -33,7 +40,7 @@ export default function InventoryTable(props: InventoryTableProps) {
   };
 
   return (
-    <DataGrid
+    <StyledDataGrid
       rows={tableRows}
       columns={tableColumns}
       onRowClick={handleRowClick}
@@ -42,7 +49,7 @@ export default function InventoryTable(props: InventoryTableProps) {
           paginationModel: { page: 0, pageSize: 20 },
         },
       }}
-      pageSizeOptions={[10, 20]}
+      pageSizeOptions={[5, 10, 20]}
     />
   );
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { styled as styledMui } from "@mui/material/styles";
 import InventoryEntry from "./InventoryEntry";
 import { InventoryEntry as IEntry } from "../types";
 import { Button, Grid, IconButton, Stack } from "@mui/material";
@@ -17,6 +18,15 @@ const ItemContainer = styled.div`
   flex-wrap: wrap;
   gap: 2.6em;
 `;
+
+// const StyledButton = styledMui(Button)(({ theme }) => ({
+//   color: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+//   backgroundColor: theme.palette.mode === "dark" ? "#141b2d" : "#1A2027",
+// }));
+
+const StyledIconButton = styledMui(IconButton)(({ theme }) => ({
+  color: theme.palette.mode === "dark" ? "#fff" : "#1A2027",
+}));
 
 const ResponsiveDataGridContainer = styled("div")`
   width: 100%;
@@ -59,7 +69,7 @@ function InventoryList(props: InventoryListProps) {
         </Grid>
         <Grid item xs={2} borderRadius="3px">
           <Stack direction="row">
-            <IconButton color="primary" onClick={activateCardView}>
+            <StyledIconButton onClick={activateCardView}>
               <Apps
                 sx={{
                   fontSize: 25,
@@ -67,8 +77,8 @@ function InventoryList(props: InventoryListProps) {
                   mb: 1,
                 }}
               />
-            </IconButton>
-            <IconButton color="primary" onClick={activateTableView}>
+            </StyledIconButton>
+            <StyledIconButton onClick={activateTableView}>
               <ViewHeadline
                 sx={{
                   fontSize: 25,
@@ -76,7 +86,7 @@ function InventoryList(props: InventoryListProps) {
                   mb: 1,
                 }}
               />
-            </IconButton>
+            </StyledIconButton>
           </Stack>
         </Grid>
         <Grid item xs={12}>
