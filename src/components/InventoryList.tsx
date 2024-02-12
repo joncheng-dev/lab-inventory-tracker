@@ -1,10 +1,9 @@
+import { useState } from "react";
 import styled from "styled-components";
 import InventoryEntry from "./InventoryEntry";
 import { InventoryEntry as IEntry } from "../types";
 import { Box, Button, IconButton } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import AppsIcon from "@mui/icons-material/Apps";
-import ViewHeadlineIcon from "@mui/icons-material/ViewHeadline";
+import { Add, Apps, ViewHeadline } from "@mui/icons-material";
 import Stack from "@mui/material/Stack";
 
 //#region styles
@@ -28,7 +27,18 @@ type InventoryListProps = {
 
 function InventoryList(props: InventoryListProps) {
   const { listOfEntries, onEntryClick, onClickingAddEntry } = props;
-  console.log("InventoryList: listOfEntries", listOfEntries);
+  const [cardView, setCardView] = useState(true);
+  const [tableView, setTableView] = useState(false);
+
+  const activateCardView = () => {
+    setCardView(true);
+    setTableView(false);
+  };
+
+  const activateTableView = () => {
+    setCardView(false);
+    setTableView(true);
+  };
 
   return (
     <>
@@ -38,23 +48,21 @@ function InventoryList(props: InventoryListProps) {
         </Box>
         <Box display="flex" borderRadius="3px">
           <Stack direction="row">
-            <IconButton color="primary">
-              <AppsIcon
+            <IconButton color="primary" onClick={activateCardView}>
+              <Apps
                 sx={{
-                  fontSize: 28,
-                  mr: 0.5,
+                  fontSize: 25,
                   ml: 1,
-                  mt: 1,
+                  mb: 1,
                 }}
               />
             </IconButton>
-            <IconButton color="primary">
-              <ViewHeadlineIcon
+            <IconButton color="primary" onClick={activateTableView}>
+              <ViewHeadline
                 sx={{
-                  fontSize: 28,
+                  fontSize: 25,
                   mr: 1,
-                  ml: 0.5,
-                  mt: 1,
+                  mb: 1,
                 }}
               />
             </IconButton>
@@ -62,16 +70,22 @@ function InventoryList(props: InventoryListProps) {
         </Box>
       </Box>
       <ListContainer>
-        <Button onClick={onClickingAddEntry} variant="contained" startIcon={<AddIcon />}>
+        <Button onClick={onClickingAddEntry} variant="contained" startIcon={<Add />}>
           Add Entry
         </Button>
         <br />
         <br />
-        <ItemContainer>
-          {listOfEntries.map((entry) => (
-            <InventoryEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
-          ))}
-        </ItemContainer>
+        {cardView && (
+          <ItemContainer>
+            {listOfEntries.map((entry) => (
+              <InventoryEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
+            ))}
+          </ItemContainer>
+        )}
+        {tableView && (
+          // /*prettier-ignore*/
+          <h3>Table View</h3>
+        )}
       </ListContainer>
     </>
   );
