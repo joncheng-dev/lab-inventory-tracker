@@ -2,9 +2,9 @@ import { useState } from "react";
 import styled from "styled-components";
 import InventoryEntry from "./InventoryEntry";
 import { InventoryEntry as IEntry } from "../types";
-import { Box, Button, IconButton } from "@mui/material";
+import { Button, Grid, IconButton, Stack } from "@mui/material";
 import { Add, Apps, ViewHeadline } from "@mui/icons-material";
-import Stack from "@mui/material/Stack";
+import InventoryTable from "./InventoryTable";
 
 //#region styles
 const ListContainer = styled.div`
@@ -16,6 +16,17 @@ const ItemContainer = styled.div`
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: 2.6em;
+`;
+
+const ResponsiveDataGridContainer = styled("div")`
+  width: 100%;
+
+  .MuiDataGrid-root {
+    width: 100%;
+    /* .MuiDataGrid-colCell {
+
+    } */
+  }
 `;
 //#endregion styles
 
@@ -42,11 +53,11 @@ function InventoryList(props: InventoryListProps) {
 
   return (
     <>
-      <Box display="flex" justifyContent="space-between">
-        <Box display="flex" borderRadius="3px">
+      <Grid container xs={12} justifyContent="space-between">
+        <Grid item xs={10} borderRadius="3px">
           <h2>Inventory List</h2>
-        </Box>
-        <Box display="flex" borderRadius="3px">
+        </Grid>
+        <Grid item xs={2} borderRadius="3px">
           <Stack direction="row">
             <IconButton color="primary" onClick={activateCardView}>
               <Apps
@@ -67,26 +78,32 @@ function InventoryList(props: InventoryListProps) {
               />
             </IconButton>
           </Stack>
-        </Box>
-      </Box>
-      <ListContainer>
-        <Button onClick={onClickingAddEntry} variant="contained" startIcon={<Add />}>
-          Add Entry
-        </Button>
-        <br />
-        <br />
-        {cardView && (
-          <ItemContainer>
-            {listOfEntries.map((entry) => (
-              <InventoryEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
-            ))}
-          </ItemContainer>
-        )}
-        {tableView && (
-          // /*prettier-ignore*/
-          <h3>Table View</h3>
-        )}
-      </ListContainer>
+        </Grid>
+        <Grid item xs={12}>
+          <ListContainer>
+            <Grid item xs={12}>
+              <Button onClick={onClickingAddEntry} variant="contained" startIcon={<Add />}>
+                Add Entry
+              </Button>
+            </Grid>
+            <br />
+            <Grid item xs={12}>
+              {cardView && (
+                <ItemContainer>
+                  {listOfEntries.map((entry) => (
+                    <InventoryEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
+                  ))}
+                </ItemContainer>
+              )}
+              {tableView && (
+                <ResponsiveDataGridContainer>
+                  <InventoryTable data={listOfEntries} onEntryClick={onEntryClick} />
+                </ResponsiveDataGridContainer>
+              )}
+            </Grid>
+          </ListContainer>
+        </Grid>
+      </Grid>
     </>
   );
 }

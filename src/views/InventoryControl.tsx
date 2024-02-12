@@ -27,7 +27,7 @@ function InventoryControl() {
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
     padding: theme.spacing(2),
-    textAlign: "center",
+    // textAlign: "center",
     color: theme.palette.text.secondary,
   }));
 
@@ -244,10 +244,8 @@ function InventoryControl() {
           </FixedWidthItem>
         </Grid>
         <Grid item xs={8}>
-          <Grid container justifyContent="space-between" alignItems="center">
-            <FixedWidthItem>
-              <InventoryList listOfEntries={filteredList} onEntryClick={handleChangingSelectedEntry} onClickingAddEntry={handleAddEntryButtonClick} />
-            </FixedWidthItem>
+          <Grid display="flex" justifyContent="space-between">
+            <InventoryList listOfEntries={filteredList} onEntryClick={handleChangingSelectedEntry} onClickingAddEntry={handleAddEntryButtonClick} />
           </Grid>
         </Grid>
         <Grid item xs={2.5}>
