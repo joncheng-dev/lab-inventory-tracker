@@ -204,6 +204,7 @@ function InventoryControl() {
         isCheckedOut: true,
         checkedOutBy: currentUser?.userEmail,
         dateCheckedOut: new Date().toDateString(),
+        quantity: selectedEntry.quantity - 1,
       };
       await updateDoc(entryRef, checkOutEntryData);
     } else {
@@ -219,6 +220,7 @@ function InventoryControl() {
         isCheckedOut: false,
         checkedOutBy: null,
         dateCheckedOut: null,
+        quantity: itemToReturn.quantity + 1,
       };
       await updateDoc(entryRef, returnEntryData);
     } else {
