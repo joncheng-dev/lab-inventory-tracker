@@ -14,6 +14,7 @@ export interface InventoryEntry {
   isCheckedOut: boolean;
   checkedOutBy: string | null;
   dateCheckedOut: Date | string | null;
+  quantity: number;
   tags: string[];
 }
 

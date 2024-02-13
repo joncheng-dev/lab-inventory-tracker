@@ -16,6 +16,10 @@ const StyledCard = styled(Card)`
   /* background: #369; */
   position: relative;
   text-align: left;
+
+  .css-46bh2p-MuiCardContent-root:hover {
+    background-color: #777777;
+  }
 `;
 
 export default function UserItem(props: UserItemProps) {
@@ -34,7 +38,7 @@ export default function UserItem(props: UserItemProps) {
           <Typography variant="h5" component="div">
             {name}
           </Typography>
-          <Typography variant="body2">Checkout Date: {dateCheckedOut}</Typography>
+          <Typography variant="body2">Checkout Date: {dateCheckedOut?.toString()}</Typography>
         </CardContent>
       </StyledCard>
     </>

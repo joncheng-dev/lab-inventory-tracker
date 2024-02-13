@@ -1,5 +1,6 @@
+import { useContext } from "react";
+import { UserContext } from "../helpers/UserContext.js";
 import { Box, Button, Chip, Divider, Stack, useTheme } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
 import Grid from "@mui/material/Unstable_Grid2";
 import styled from "styled-components";
 import { tokens } from "../themes";
@@ -13,8 +14,16 @@ const EntryDetailContainer = styled.div`
   padding-top: 25px;
 `;
 
-const InputColumnContainer = styled.div`
+const DetailsContainer = styled.div`
   float: left;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 1rem;
+  row-gap: 0.25rem;
+`;
+
+const AvailabilityContainer = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: auto auto;
@@ -65,6 +74,7 @@ type InventoryEntryDetailProps = {
 export default function InventoryEntryDetails(props: InventoryEntryDetailProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const currentUser = useContext(UserContext);
   const { entry, onClickingCheckout, onClickingReturn, onClickingEdit, onClickingDelete } = props;
   // prettier-ignore
   const {
@@ -75,12 +85,15 @@ export default function InventoryEntryDetails(props: InventoryEntryDetailProps) 
     isCheckedOut,
     checkedOutBy,
     dateCheckedOut,
+    quantity,
     tags,
   } = entry;
 
+  console.log("InventoryEntryDetail, currentUser.userEmail: ", currentUser?.userEmail);
+
   return (
     <TextAlignLeftContainer>
-      <h2>Inventory Entry Detail</h2>
+      <h2>{name}</h2>
       <EntryDetailContainer>
         <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
           <Grid container spacing={2}>
@@ -90,10 +103,10 @@ export default function InventoryEntryDetails(props: InventoryEntryDetailProps) 
                   "& .MuiTextField-root": { m: 1.5, width: "50ch" },
                 }}
               >
-                <h3>{name}</h3>
+                <h3>Entry Details</h3>
                 <Divider />
                 <br />
-                <InputColumnContainer>
+                <DetailsContainer>
                   <StyledInfoItem>
                     <StyledItemHeader>Description</StyledItemHeader>
                     <StyledItemValue>{description}</StyledItemValue>
@@ -103,38 +116,37 @@ export default function InventoryEntryDetails(props: InventoryEntryDetailProps) 
                     <StyledItemValue>{location}</StyledItemValue>
                   </StyledInfoItem>
                   <StyledInfoItem>
-                    <StyledItemHeader>Is Checked Out</StyledItemHeader>
-                    <StyledItemValue>{isCheckedOut ? "Yes" : "No"}</StyledItemValue>
+                    <StyledItemHeader>Quantity</StyledItemHeader>
+                    <StyledItemValue>{quantity}</StyledItemValue>
                   </StyledInfoItem>
-                  <StyledInfoItem>
-                    <StyledItemHeader>Checked Out By</StyledItemHeader>
-                    <StyledItemValue>{isCheckedOut ? checkedOutBy : null}</StyledItemValue>
-                  </StyledInfoItem>
-                  <StyledInfoItem>
-                    <StyledItemHeader>Date Checked Out</StyledItemHeader>
-                    <StyledItemValue>{isCheckedOut ? dateCheckedOut : null}</StyledItemValue>
-                  </StyledInfoItem>
-                </InputColumnContainer>
+                </DetailsContainer>
+                <h3>Category Tags</h3>
+                <Divider />
+                <br />
+                <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" />)}</StyledStack>
               </Box>
             </Grid>
             <Grid xs={5} pt={1}>
-              <h2>Tags</h2>
+              <h3>Status</h3>
               <Divider />
               <br />
-              <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" />)}</StyledStack>
+              <AvailabilityContainer>
+                <StyledInfoItem>
+                  <StyledItemHeader>Availability</StyledItemHeader>
+                  <StyledItemValue>{isCheckedOut ? "Not Available" : "Available"}</StyledItemValue>
+                </StyledInfoItem>
+                <StyledInfoItem>
+                  <StyledItemHeader>Checked Out By</StyledItemHeader>
+                  <StyledItemValue>{isCheckedOut ? checkedOutBy : null}</StyledItemValue>
+                </StyledInfoItem>
+                <StyledInfoItem>
+                  <StyledItemHeader>Date Checked Out</StyledItemHeader>
+                  <StyledItemValue>{isCheckedOut ? dateCheckedOut?.toString() : null}</StyledItemValue>
+                </StyledInfoItem>
+              </AvailabilityContainer>
             </Grid>
           </Grid>
           <Box display="flex" justifyContent="space-between" p={1}>
-            <Box display="flex" borderRadius="3px" p={2}>
-              <Stack spacing={2} direction="row">
-                <Button onClick={() => onClickingCheckout()} variant="contained">
-                  Check Out
-                </Button>
-                <Button onClick={() => onClickingReturn(id!)} variant="contained">
-                  Return
-                </Button>
-              </Stack>
-            </Box>
             <Box display="flex" borderRadius="3px" p={2}>
               <Stack spacing={2} direction="row">
                 <Button onClick={onClickingEdit} variant="contained">
@@ -146,8 +158,29 @@ export default function InventoryEntryDetails(props: InventoryEntryDetailProps) 
                 </Button> */}
               </Stack>
             </Box>
+            <Box display="flex" borderRadius="3px" p={2}>
+              <Stack spacing={2} direction="row">
+                {!isCheckedOut ? (
+                  <Button onClick={() => onClickingCheckout()} variant="contained">
+                    Check Out
+                  </Button>
+                ) : (
+                  <Button disabled variant="contained">
+                    Check Out
+                  </Button>
+                )}
+                {currentUser?.userEmail === checkedOutBy ? (
+                  <Button onClick={() => onClickingReturn(id!)} variant="contained">
+                    Return
+                  </Button>
+                ) : (
+                  <Button disabled variant="contained">
+                    Return
+                  </Button>
+                )}
+              </Stack>
+            </Box>
           </Box>
-
           <br />
         </Box>
       </EntryDetailContainer>

@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { styled as styledMui } from "@mui/material/styles";
 import InventoryEntry from "./InventoryEntry";
 import { InventoryEntry as IEntry } from "../types";
-import { Button, Grid, IconButton, Stack } from "@mui/material";
+import { Button, Grid, IconButton, Stack, useTheme } from "@mui/material";
 import { Add, Apps, ViewHeadline } from "@mui/icons-material";
 import InventoryTable from "./InventoryTable";
+import { tokens } from "../themes";
 
 //#region styles
 const ListContainer = styled.div`
@@ -18,11 +19,6 @@ const ItemContainer = styled.div`
   flex-wrap: wrap;
   gap: 2.6em;
 `;
-
-// const StyledButton = styledMui(Button)(({ theme }) => ({
-//   color: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-//   backgroundColor: theme.palette.mode === "dark" ? "#141b2d" : "#1A2027",
-// }));
 
 const StyledIconButton = styledMui(IconButton)(({ theme }) => ({
   color: theme.palette.mode === "dark" ? "#fff" : "#1A2027",
@@ -48,8 +44,15 @@ type InventoryListProps = {
 
 function InventoryList(props: InventoryListProps) {
   const { listOfEntries, onEntryClick, onClickingAddEntry } = props;
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [cardView, setCardView] = useState(true);
   const [tableView, setTableView] = useState(false);
+
+  const StyledButton = styledMui(Button)(({ theme }) => ({
+    // color: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    backgroundColor: theme.palette.mode === "dark" ? colors.grey[500] : "#1A2027",
+  }));
 
   const activateCardView = () => {
     setCardView(true);
@@ -92,9 +95,9 @@ function InventoryList(props: InventoryListProps) {
         <Grid item xs={12}>
           <ListContainer>
             <Grid item xs={12}>
-              <Button onClick={onClickingAddEntry} variant="contained" startIcon={<Add />}>
+              <StyledButton onClick={onClickingAddEntry} variant="contained" startIcon={<Add />}>
                 Add Entry
-              </Button>
+              </StyledButton>
             </Grid>
             <br />
             <Grid item xs={12}>

@@ -17,7 +17,6 @@ import InventoryEntryDetail from "../components/InventoryEntryDetail.js";
 // Types & Context
 import { InventoryEntry } from "../types/index.js";
 import { UserContext } from "../helpers/UserContext.js";
-// import { Box } from "@mui/system";
 
 // import useLocalStorage, { useLocalStorageProps } from "../hooks/useLocalStorage.js";
 
@@ -72,6 +71,7 @@ function InventoryControl() {
             isCheckedOut: entry.data().isCheckedOut,
             checkedOutBy: entry.data().checkedOutBy,
             dateCheckedOut: entry.data().dateCheckedOut,
+            quantity: entry.data().quantity,
             tags: entry.data().tags,
           });
         });
@@ -181,6 +181,7 @@ function InventoryControl() {
       name: entry.name,
       description: entry.description,
       location: entry.location,
+      quantity: entry.quantity,
       tags: entry.tags || [],
     };
     await updateDoc(entryRef, data);
