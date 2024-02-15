@@ -14,13 +14,34 @@ const EntryDetailContainer = styled.div`
   padding-top: 25px;
 `;
 
+// const DetailsContainer = styled.div`
+//   float: left;
+//   width: 100%;
+//   display: grid;
+//   grid-template-columns: auto auto;
+//   column-gap: 1rem;
+//   row-gap: 0.25rem;
+// `;
+
 const DetailsContainer = styled.div`
-  float: left;
   width: 100%;
   display: grid;
-  grid-template-columns: auto auto;
-  column-gap: 1rem;
-  row-gap: 0.25rem;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  gap: 1rem; /* Adjust the gap between columns */
+`;
+
+const StyledItemHeader = styled.p`
+  font-size: 1rem;
+  color: rgb(83, 167, 235);
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 0;
+`;
+
+const StyledItemValue = styled.p`
+  font-size: 1rem;
+  color: #ffffff;
+  margin-top: 0; /* Add margin to the top of each value for spacing */
 `;
 
 const AvailabilityContainer = styled.div`
@@ -38,18 +59,18 @@ const StyledInfoItem = styled.div`
   text-align: left;
 `;
 
-const StyledItemHeader = styled.p`
-  font-size: 1rem;
-  color: rgb(83, 167, 235);
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-bottom: 0;
-`;
+// const StyledItemHeader = styled.p`
+//   font-size: 1rem;
+//   color: rgb(83, 167, 235);
+//   text-transform: uppercase;
+//   font-weight: bold;
+//   margin-bottom: 0;
+// `;
 
-const StyledItemValue = styled.p`
-  font-size: 1rem;
-  color: #ffffff;
-`;
+// const StyledItemValue = styled.p`
+//   font-size: 1rem;
+//   color: #ffffff;
+// `;
 
 const StyledStack = styled(Stack)`
   display: block;
@@ -97,37 +118,41 @@ export default function InventoryEntryDetails(props: InventoryEntryDetailProps) 
       <EntryDetailContainer>
         <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
           <Grid container spacing={2}>
-            <Grid xs={7}>
-              <Box
+            <Grid container xs={7}>
+              {/* <Box
                 sx={{
                   "& .MuiTextField-root": { m: 1.5, width: "50ch" },
                 }}
-              >
-                <h3>Entry Details</h3>
+              > */}
+              <Grid xs={8} container>
+                <h4>Entry Details</h4>
                 <Divider />
                 <br />
                 <DetailsContainer>
-                  <StyledInfoItem>
+                  <Grid xs={12}>
                     <StyledItemHeader>Description</StyledItemHeader>
                     <StyledItemValue>{description}</StyledItemValue>
-                  </StyledInfoItem>
-                  <StyledInfoItem>
-                    <StyledItemHeader>Location</StyledItemHeader>
-                    <StyledItemValue>{location}</StyledItemValue>
-                  </StyledInfoItem>
-                  <StyledInfoItem>
-                    <StyledItemHeader>Quantity</StyledItemHeader>
-                    <StyledItemValue>{quantity}</StyledItemValue>
-                  </StyledInfoItem>
+                  </Grid>
                 </DetailsContainer>
-                <h3>Category Tags</h3>
+                <Grid xs={7}>
+                  <StyledItemHeader>Location</StyledItemHeader>
+                  <StyledItemValue>{location}</StyledItemValue>
+                </Grid>
+                <Grid xs={5}>
+                  <StyledItemHeader>Quantity</StyledItemHeader>
+                  <StyledItemValue>{quantity}</StyledItemValue>
+                </Grid>
+              </Grid>
+              {/* </Box> */}
+              <Grid xs={4}>
+                <h4>Categories</h4>
                 <Divider />
                 <br />
                 <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" />)}</StyledStack>
-              </Box>
+              </Grid>
             </Grid>
             <Grid xs={5} pt={1}>
-              <h3>Status</h3>
+              <h4>Status</h4>
               <Divider />
               <br />
               <AvailabilityContainer>
