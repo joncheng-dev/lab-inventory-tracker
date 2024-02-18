@@ -6,12 +6,18 @@ import styled from "styled-components";
 import { tokens } from "../themes";
 import { InventoryEntry } from "../types";
 import ChildModal from "./ChildModal";
+import BasicTable from "./BasicTable.js";
 
 //#region styles
 const EntryDetailContainer = styled.div`
   padding-left: 50px;
   background-color: #282828;
   padding-top: 25px;
+`;
+
+const DetailsImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 // const DetailsContainer = styled.div`
@@ -128,12 +134,16 @@ export default function InventoryEntryDetails(props: InventoryEntryDetailProps) 
                 <h4>Entry Details</h4>
                 <Divider />
                 <br />
-                <DetailsContainer>
-                  <Grid xs={12}>
-                    <StyledItemHeader>Description</StyledItemHeader>
-                    <StyledItemValue>{description}</StyledItemValue>
-                  </Grid>
-                </DetailsContainer>
+                <Grid xs={12}>
+                  <DetailsImageContainer>
+                    <Box component="img" sx={{ height: 180 }} src="src/images/contemplative-reptile.jpg" alt="green iguana" />
+                  </DetailsImageContainer>
+                </Grid>
+                <Grid xs={12}>
+                  <StyledItemHeader>Description</StyledItemHeader>
+                  <StyledItemValue>{description}</StyledItemValue>
+                </Grid>
+                <DetailsContainer></DetailsContainer>
                 <Grid xs={7}>
                   <StyledItemHeader>Location</StyledItemHeader>
                   <StyledItemValue>{location}</StyledItemValue>
@@ -169,6 +179,7 @@ export default function InventoryEntryDetails(props: InventoryEntryDetailProps) 
                   <StyledItemValue>{isCheckedOut ? dateCheckedOut?.toString() : null}</StyledItemValue>
                 </StyledInfoItem>
               </AvailabilityContainer>
+              <BasicTable />
             </Grid>
           </Grid>
           <Box display="flex" justifyContent="space-between" p={1}>
