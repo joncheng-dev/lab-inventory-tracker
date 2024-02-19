@@ -18,6 +18,14 @@ export interface InventoryEntry {
   tags: string[];
 }
 
+export interface InventoryType {
+  id?: string | null;
+  name: string;
+  description: string;
+  location: string;
+  tags: string[];
+}
+
 export interface UserEntry {
   userId: string;
   userEmail: string;
