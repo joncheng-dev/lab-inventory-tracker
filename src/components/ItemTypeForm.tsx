@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { InventoryType } from "../types";
+import { ItemType } from "../types";
 import { Box, Button, Checkbox, Divider, FormControlLabel, Grid, Stack, TextField, useTheme } from "@mui/material";
 import { tokens } from "../themes";
 import { v4 as uuidv4 } from "uuid";
@@ -32,17 +32,17 @@ const PurposeBoxContainer = styled.div`
 //#endregion styles
 
 type FormProps = {
-  entry?: InventoryType;
+  entry?: ItemType;
   subjectTagChecklist: string[];
   purposeTagChecklist: string[];
-  onFormSubmit: (data: InventoryType) => Promise<void>;
+  onFormSubmit: (data: ItemType) => Promise<void>;
 };
 
-export default function InventoryForm2(props: FormProps) {
+export default function ItemTypeForm(props: FormProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { entry, onFormSubmit, subjectTagChecklist, purposeTagChecklist } = props;
-  const [formData, setFormData] = useState<InventoryType>(
+  const [formData, setFormData] = useState<ItemType>(
     entry || {
       name: "",
       description: "",
@@ -58,9 +58,9 @@ export default function InventoryForm2(props: FormProps) {
     tags: yup.array(),
   });
 
-  console.log("InventoryForm2, entry: ", entry);
+  console.log("ItemTypeForm, entry: ", entry);
   const { name, description, location, tags } = formData;
-  console.log("InventoryForm2, formData: ", formData);
+  console.log("ItemTypeForm, formData: ", formData);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     setFormData((prevData) => ({
@@ -99,7 +99,7 @@ export default function InventoryForm2(props: FormProps) {
     });
   };
 
-  const handleSubmit = (values: InventoryType) => {
+  const handleSubmit = (values: ItemType) => {
     console.log("handleSubmit, values: ", values);
     onFormSubmit(values);
   };

@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import { Timestamp } from "firebase/firestore";
 
 export type eTargetType = {
   email: { value: string };
@@ -6,19 +7,15 @@ export type eTargetType = {
 };
 
 // Typing in common for multiple components
-export interface InventoryEntry {
+export interface Item {
   id?: string | null;
-  name: string;
-  description: string;
-  location: string;
+  itemType: string;
   isCheckedOut: boolean;
   checkedOutBy: string | null;
-  dateCheckedOut: Date | string | null;
-  quantity: number;
-  tags: string[];
+  dateCheckedOut: Timestamp;
 }
 
-export interface InventoryType {
+export interface ItemType {
   id?: string | null;
   name: string;
   description: string;
