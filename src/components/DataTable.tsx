@@ -1,9 +1,9 @@
-import { InventoryEntry as IEntry } from "../types";
+import { ItemType as IType } from "../types";
 import { DataGrid, GridRowParams } from "@mui/x-data-grid";
 import styled from "styled-components";
 
-type InventoryTableProps = {
-  data: IEntry[];
+type DataTableProps = {
+  data: IType[];
   onEntryClick: (id: string) => void;
 };
 
@@ -13,7 +13,7 @@ const StyledDataGrid = styled(DataGrid)`
   }
 `;
 
-export default function InventoryTable(props: InventoryTableProps) {
+export default function DataTable(props: DataTableProps) {
   const { data, onEntryClick } = props;
 
   const tableColumns = [
@@ -21,7 +21,6 @@ export default function InventoryTable(props: InventoryTableProps) {
     { field: "name", headerName: "Name", flex: 2.5 },
     { field: "description", headerName: "Description", flex: 3 },
     { field: "location", headerName: "Location", flex: 1.5 },
-    { field: "isCheckedOut", headerName: "Availability", flex: 1.5 },
   ];
 
   const tableRows = data.map((entry) => {
@@ -30,7 +29,6 @@ export default function InventoryTable(props: InventoryTableProps) {
       name: entry.name,
       description: entry.description,
       location: entry.location,
-      isCheckedOut: entry.isCheckedOut ? "Not Available" : "Available",
     };
   });
 

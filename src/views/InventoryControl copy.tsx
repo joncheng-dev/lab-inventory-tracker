@@ -11,9 +11,9 @@ import BasicModal from "../components/BasicModal.js";
 import Header from "../components/Header.js";
 import CategoryPanel from "../components/CategoryPanel.js";
 import UserInfoPanel from "../components/UserInfoPanel.js";
-import InventoryList from "../components/InventoryList.js";
+import InventoryList from "../components/ItemTypeList.js";
 import InventoryForm from "../components/InventoryForm.js";
-import InventoryEntryDetail from "../components/InventoryEntryDetail.js";
+import InventoryEntryDetail from "../components/ItemTypeEntryDetail.js";
 // Types & Context
 import { InventoryType } from "../types/index.js";
 import { UserContext } from "../helpers/UserContext.js";

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Button, Card, CardActions, CardContent, CardMedia, Chip, Stack, Typography } from "@mui/material";
-import { InventoryEntry as IEntry } from "../types";
+import { ItemType as IType } from "../types";
 
 //#region styles
 const StyledCard = styled(Card)`
@@ -21,13 +21,13 @@ const ButtonContainer = styled.div`
 `;
 //#endregion
 
-type InventoryEntryProps = {
-  entry: IEntry;
+type ItemTypeEntryProps = {
+  entry: IType;
   onEntryClick: (id: string) => void;
 };
 
-function InventoryEntry(props: InventoryEntryProps) {
-  console.log("InventoryEntry component renders");
+function ItemTypeEntry(props: ItemTypeEntryProps) {
+  console.log("ItemTypeEntry component renders");
   const { entry, onEntryClick } = props;
   const { id, name, description } = entry;
 
@@ -63,4 +63,4 @@ function InventoryEntry(props: InventoryEntryProps) {
   );
 }
 
-export default InventoryEntry;
+export default ItemTypeEntry;

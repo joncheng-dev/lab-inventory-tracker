@@ -1,11 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { styled as styledMui } from "@mui/material/styles";
-import InventoryEntry from "./InventoryEntry";
-import { InventoryEntry as IEntry } from "../types";
+import ItemTypeEntry from "./ItemTypeEntry";
+import { ItemType as IType } from "../types";
 import { Button, Grid, IconButton, Stack, useTheme } from "@mui/material";
 import { Add, Apps, ViewHeadline } from "@mui/icons-material";
-import InventoryTable from "./InventoryTable";
+import DataTable from "./DataTable";
 import { tokens } from "../themes";
 
 //#region styles
@@ -36,13 +36,13 @@ const ResponsiveDataGridContainer = styled("div")`
 `;
 //#endregion styles
 
-type InventoryListProps = {
-  listOfEntries: IEntry[];
+type ItemTypeListProps = {
+  listOfEntries: IType[];
   onEntryClick: (id: string) => void;
   onClickingAddEntry: () => void;
 };
 
-function InventoryList(props: InventoryListProps) {
+export default function ItemTypeList(props: ItemTypeListProps) {
   const { listOfEntries, onEntryClick, onClickingAddEntry } = props;
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -68,7 +68,7 @@ function InventoryList(props: InventoryListProps) {
     <>
       <Grid container xs={12} justifyContent="space-between">
         <Grid item xs={10} borderRadius="3px">
-          <h2>Inventory List</h2>
+          <h2>Item Type List</h2>
         </Grid>
         <Grid item xs={2} borderRadius="3px">
           <Stack direction="row">
@@ -104,13 +104,13 @@ function InventoryList(props: InventoryListProps) {
               {cardView && (
                 <ItemContainer>
                   {listOfEntries.map((entry) => (
-                    <InventoryEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
+                    <ItemTypeEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
                   ))}
                 </ItemContainer>
               )}
               {tableView && (
                 <ResponsiveDataGridContainer>
-                  <InventoryTable data={listOfEntries} onEntryClick={onEntryClick} />
+                  <DataTable data={listOfEntries} onEntryClick={onEntryClick} />
                 </ResponsiveDataGridContainer>
               )}
             </Grid>
@@ -120,5 +120,3 @@ function InventoryList(props: InventoryListProps) {
     </>
   );
 }
-
-export default InventoryList;

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { styled as styledMui } from "@mui/material/styles";
-import InventoryEntry from "./InventoryEntry";
+import InventoryEntry from "./ItemTypeEntry";
 import { InventoryEntry as IEntry } from "../types";
 import { Button, Grid, IconButton, Stack, useTheme } from "@mui/material";
 import { Add, Apps, ViewHeadline } from "@mui/icons-material";
-import InventoryTable from "./InventoryTable";
+import DataTable from "./DataTable";
 import { tokens } from "../themes";
 
 //#region styles

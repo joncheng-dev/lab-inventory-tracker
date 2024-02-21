@@ -2,7 +2,7 @@ import SignIn from "../views/SignIn";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import ManageUsers from "../views/ManageUsers";
-import InventoryControl from "../views/InventoryControl";
+import ItemTypeControl from "../views/ItemTypeControl";
 import { ColorModeContext, useMode } from "../themes";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Theme } from "@mui/system";
@@ -18,7 +18,7 @@ export default function App() {
           <Routes>
             <Route path="/signin" element={<SignIn />} />
             <Route path="/" element={<Home />}>
-              <Route path="inventory" element={<InventoryControl />} />
+              <Route path="inventory" element={<ItemTypeControl />} />
               <Route path="manageusers" element={<ManageUsers />} />
             </Route>
           </Routes>

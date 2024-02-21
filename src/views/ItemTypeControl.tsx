@@ -1,6 +1,6 @@
 // Outside
 import { useState, useEffect, useContext } from "react";
-import { db } from "../firebase";
+import { db } from "../firebase.js";
 import { collection, addDoc, doc, onSnapshot, deleteDoc, updateDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 // Styling
@@ -11,17 +11,14 @@ import BasicModal from "../components/BasicModal.js";
 import Header from "../components/Header.js";
 import CategoryPanel from "../components/CategoryPanel.js";
 import UserInfoPanel from "../components/UserInfoPanel.js";
-import InventoryList from "../components/InventoryList.js";
-import InventoryForm from "../components/InventoryForm";
+import ItemTypeList from "../components/ItemTypeList.js";
 import ItemTypeForm from "../components/ItemTypeForm.js";
-import InventoryEntryDetail from "../components/InventoryEntryDetail.js";
+import ItemTypeEntryDetail from "../components/ItemTypeEntryDetail.js";
 // Types & Context
 import { Item, ItemType } from "../types/index.js";
 import { UserContext } from "../helpers/UserContext.js";
 
-// import useLocalStorage, { useLocalStorageProps } from "../hooks/useLocalStorage.js";
-
-function InventoryControl() {
+function ItemTypeControl() {
   //#region STYLING
   const FixedWidthItem = styledMui(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -34,23 +31,18 @@ function InventoryControl() {
   //#endregion styling
 
   // STATE & SHARED INFORMATION
+  const currentUser = useContext(UserContext);
   // For conditional rendering:
   const [addTypeFormVisible, setAddTypeFormVisibility] = useState<boolean>(false);
-  // const [addItemFormVisible, setAddItemFormVisibility] = useState<boolean>(false);
-  const [selectedTypeEntry, setSelectedTypeEntry] = useState<ItemType | null>(null);
+  const [selectedEntry, setSelectedEntry] = useState<ItemType | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false); // For modal
 
-  // const [currentUser, setCurrentUser] = useState<useLocalStorageProps | null>(null);
-  const currentUser = useContext(UserContext);
-  // const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<Item[]>([]);
-
   // For data:
-  const [inventoryList, setInventoryList] = useState<ItemType[]>([]);
+  const [itemTypeList, setItemTypeList] = useState<ItemType[]>([]);
   const [tagsToFilter, setTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filteredList, setFilteredList] = useState<ItemType[]>([]);
-  // const localUser = useLocalStorage({ key: "currentUser", objectToStore: currentUser });
 
   // Miscellaneous:
   const [error, setError] = useState<string | null>(null);
@@ -59,39 +51,34 @@ function InventoryControl() {
   const purposeTagChecklist: string[] = ["Equipment", "Materials", "Models", "Safety"];
 
   //#region useEffect hooks
-  // useEffect(() => {
-  //   const unSubscribe = onSnapshot(
-  //     collection(db, "inventoryEntries"),
-  //     (collectionSnapshot) => {
-  //       const entries: InventoryEntry[] = [];
-  //       collectionSnapshot.forEach((entry) => {
-  //         entries.push({
-  //           id: entry.id,
-  //           // label: entry.label,
-  //           // name: entry.data().name,
-  //           // location: entry.data().location,
-  //           // description: entry.data().description,
-  //           isCheckedOut: entry.data().isCheckedOut,
-  //           checkedOutBy: entry.data().checkedOutBy,
-  //           dateCheckedOut: entry.data().dateCheckedOut,
-  //           // quantity: entry.data().quantity,
-  //           // tags: entry.data().tags,
-  //         });
-  //       });
-  //       setInventoryList(entries);
-  //     },
-  //     (error) => {
-  //       setError(error.message);
-  //     }
-  //   );
-  //   return () => unSubscribe();
-  // }, []);
+  useEffect(() => {
+    const unSubscribe = onSnapshot(
+      collection(db, "itemTypes"),
+      (collectionSnapshot) => {
+        const entries: ItemType[] = [];
+        collectionSnapshot.forEach((entry) => {
+          entries.push({
+            id: entry.id,
+            name: entry.data().name,
+            location: entry.data().location,
+            description: entry.data().description,
+            tags: entry.data().tags,
+          });
+        });
+        setItemTypeList(entries);
+      },
+      (error) => {
+        setError(error.message);
+      }
+    );
+    return () => unSubscribe();
+  }, []);
 
   useEffect(() => {
-    if (selectedTypeEntry) {
-      handleChangingSelectedEntry(selectedTypeEntry.id!);
+    if (selectedEntry) {
+      handleChangingSelectedEntry(selectedEntry.id!);
     }
-  }, [inventoryList, selectedTypeEntry]);
+  }, [itemTypeList, selectedEntry]);
 
   // useEffect(() => {
   //   if (currentUser) {
@@ -101,22 +88,15 @@ function InventoryControl() {
 
   useEffect(() => {
     handleFilterList();
-  }, [inventoryList, searchQuery, tagsToFilter]);
-
-  // useEffect(() => {
-  //   if (localUser !== null) {
-  //     setCurrentUser(localUser);
-  //   }
-  //   console.log("useEffect setCurrentUser, user to UserInfoPanel is: ", currentUser!.objectToStore);
-  // }, [localUser]);
+  }, [itemTypeList, searchQuery, tagsToFilter]);
 
   //#endregion useEffect hooks
 
   //#region functions
   const handleExitButtonClick = () => {
-    if (selectedTypeEntry) {
+    if (selectedEntry) {
       setAddTypeFormVisibility(false);
-      setSelectedTypeEntry(null);
+      setSelectedEntry(null);
       setEditing(false);
     } else {
       setAddTypeFormVisibility(!addTypeFormVisible);
@@ -130,8 +110,8 @@ function InventoryControl() {
   };
 
   const handleChangingSelectedEntry = (id: string) => {
-    const selection = inventoryList.filter((entry) => entry.id === id)[0];
-    setSelectedTypeEntry(selection);
+    const selection = itemTypeList.filter((entry) => entry.id === id)[0];
+    setSelectedEntry(selection);
     setIsOpen(true);
   };
 
@@ -157,7 +137,7 @@ function InventoryControl() {
   };
 
   const handleFilterList = () => {
-    let filteredListCopy = [...inventoryList];
+    let filteredListCopy = [...itemTypeList];
     if (tagsToFilter.length > 0) {
       filteredListCopy = filteredListCopy.filter((entry) => tagsToFilter.some((tag) => entry.tags.includes(tag)));
     }
@@ -172,7 +152,7 @@ function InventoryControl() {
   //#region functions updating database
   // functions updating database
   const handleAddingNewItemType = async (entry: ItemType) => {
-    console.log("InventoryControl, handleAddingNewItemType, entry: ", entry);
+    console.log("ItemTypeControl, handleAddingNewItemType, entry: ", entry);
     await addDoc(collection(db, "itemTypes"), entry);
     setAddTypeFormVisibility(false);
     setIsOpen(false);
@@ -193,43 +173,10 @@ function InventoryControl() {
 
   const handleDeletingItemType = async (id: string) => {
     setIsOpen(false);
-    setSelectedTypeEntry(null);
+    setSelectedEntry(null);
     await deleteDoc(doc(db, "itemTypes", id));
   };
 
-  // const handleCheckOutItem = async () => {
-  //   if (!selectedEntry) {
-  //     throw new Error("No items are currently selected. (Selected entry is null.)");
-  //   }
-  //   const entryRef = doc(db, "inventoryEntries", selectedEntry.id!);
-  //   if (selectedEntry.isCheckedOut === false) {
-  //     const checkOutEntryData: Partial<InventoryEntry> = {
-  //       isCheckedOut: true,
-  //       checkedOutBy: currentUser?.userEmail,
-  //       dateCheckedOut: new Date().toDateString(),
-  //       quantity: selectedEntry.quantity - 1,
-  //     };
-  //     await updateDoc(entryRef, checkOutEntryData);
-  //   } else {
-  //     throw "Item is not available to be checked out.";
-  //   }
-  // };
-
-  // const handleReturnItem = async (itemId: string) => {
-  //   const entryRef = doc(db, "inventoryEntries", itemId!);
-  //   const itemToReturn = inventoryList.filter((entry) => entry.id === itemId)[0];
-  //   if (itemToReturn.isCheckedOut === true && itemToReturn.checkedOutBy === currentUser!.userEmail) {
-  //     const returnEntryData: Partial<InventoryEntry> = {
-  //       isCheckedOut: false,
-  //       checkedOutBy: null,
-  //       dateCheckedOut: null,
-  //       quantity: itemToReturn.quantity + 1,
-  //     };
-  //     await updateDoc(entryRef, returnEntryData);
-  //   } else {
-  //     throw "Item is not checked out, so it cannot be returned.";
-  //   }
-  // };
   //#endregion functions updating database
   //#region queries
   //endregion queries
@@ -251,7 +198,8 @@ function InventoryControl() {
         </Grid>
         <Grid item xs={8}>
           <Grid display="flex" justifyContent="space-between">
-            <InventoryList
+            <ItemTypeList
+              // prettier-ignore
               listOfEntries={filteredList}
               onEntryClick={handleChangingSelectedEntry}
               onClickingAddEntry={handleAddItemTypeButtonClick}
@@ -271,21 +219,14 @@ function InventoryControl() {
           handleExitButtonClick();
         }}
       >
-        {/* {isOpen && selectedEntry && editing && (
-          <InventoryForm
+        {isOpen && selectedEntry && editing && (
+          <ItemTypeForm
             entry={selectedEntry}
             subjectTagChecklist={subjectTagChecklist}
             purposeTagChecklist={purposeTagChecklist}
             onFormSubmit={handleEditingItemType}
           />
-        )} */}
-        {/* {isOpen && addItemFormVisible && (
-          <InventoryForm
-            subjectTagChecklist={subjectTagChecklist}
-            purposeTagChecklist={purposeTagChecklist}
-            onFormSubmit={handleAddingNewEntryToList}
-          />
-        )} */}
+        )}
         {isOpen && addTypeFormVisible && (
           <ItemTypeForm
             // prettier-ignore
@@ -294,18 +235,17 @@ function InventoryControl() {
             onFormSubmit={handleAddingNewItemType}
           />
         )}
-        {/* {isOpen && selectedEntry && !editing && (
-          <InventoryEntryDetail
+        {isOpen && selectedEntry && !editing && (
+          <ItemTypeEntryDetail
+            //prettier-ignore
             entry={selectedEntry}
             onClickingEdit={handleEditEntryButtonClick}
-            onClickingCheckout={handleCheckOutItem}
-            onClickingReturn={handleReturnItem}
-            onClickingDelete={handleDeletingEntry}
+            onClickingDelete={handleDeletingItemType}
           />
-        )} */}
+        )}
       </BasicModal>
     </>
   );
 }
 
-export default InventoryControl;
+export default ItemTypeControl;
