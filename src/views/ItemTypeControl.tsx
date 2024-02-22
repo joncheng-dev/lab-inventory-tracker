@@ -1,7 +1,7 @@
 // Outside
 import { useState, useEffect, useContext } from "react";
 import { db } from "../firebase.js";
-import { collection, addDoc, doc, onSnapshot, deleteDoc, updateDoc } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 // Styling
 import { styled as styledMui } from "@mui/material/styles";
 import { Grid, Paper } from "@mui/material";
@@ -18,6 +18,8 @@ import { ItemType } from "../types/index.js";
 import { UserContext } from "../helpers/UserContext.js";
 // Database
 import { addNewDoc, deleteExistingDoc, editExistingDoc } from "../hooks/mutations.js";
+// Helper Functions
+import { filterList } from "../helpers/SearchAndFilter.js";
 
 function ItemTypeControl() {
   //#region STYLING
@@ -81,7 +83,7 @@ function ItemTypeControl() {
   }, [itemTypeList, selectedEntry]);
 
   useEffect(() => {
-    handleFilterList();
+    handleFilterList(itemTypeList, searchQuery, tagsToFilter);
   }, [itemTypeList, searchQuery, tagsToFilter]);
 
   //#endregion useEffect hooks
@@ -115,7 +117,6 @@ function ItemTypeControl() {
 
   // Helper -- Search & Filter
   const onSearchInputChange = (queryString: string) => {
-    console.log("Parent: onSearchInputChange", queryString);
     setSearchQuery(queryString);
   };
 
@@ -125,15 +126,9 @@ function ItemTypeControl() {
   };
 
   // Helper -- Search & Filter
-  const handleFilterList = () => {
-    let filteredListCopy = [...itemTypeList];
-    if (tagsToFilter.length > 0) {
-      filteredListCopy = filteredListCopy.filter((entry) => tagsToFilter.some((tag) => entry.tags.includes(tag)));
-    }
-    if (searchQuery !== "") {
-      filteredListCopy = filteredListCopy.filter((entry) => entry.name.toLowerCase().includes(searchQuery.toLowerCase()));
-    }
-    setFilteredList(filteredListCopy);
+  const handleFilterList = (list: ItemType[], query: string, tags: string[]) => {
+    const filteredResult = filterList(list, query, tags);
+    setFilteredList(filteredResult);
   };
 
   //#endregion functions
@@ -213,7 +208,7 @@ function ItemTypeControl() {
         )}
         {isOpen && selectedEntry && !editing && (
           <ItemTypeEntryDetail
-            //prettier-ignore
+            // prettier-ignore
             entry={selectedEntry}
             onClickingEdit={handleEditEntryButtonClick}
             onClickingDelete={handleDeletingItemType}
