@@ -2,7 +2,6 @@
 import { useState, useEffect, useContext } from "react";
 import { db } from "../firebase.js";
 import { collection, addDoc, doc, onSnapshot, deleteDoc, updateDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
 // Styling
 import { styled as styledMui } from "@mui/material/styles";
 import { Grid, Paper } from "@mui/material";
@@ -15,8 +14,10 @@ import ItemTypeList from "../components/ItemTypeList.js";
 import ItemTypeForm from "../components/ItemTypeForm.js";
 import ItemTypeEntryDetail from "../components/ItemTypeEntryDetail.js";
 // Types & Context
-import { Item, ItemType } from "../types/index.js";
+import { ItemType } from "../types/index.js";
 import { UserContext } from "../helpers/UserContext.js";
+// Database
+import { addNewDoc, deleteExistingDoc, editExistingDoc } from "../hooks/mutations.js";
 
 function ItemTypeControl() {
   //#region STYLING
@@ -46,7 +47,6 @@ function ItemTypeControl() {
 
   // Miscellaneous:
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
   const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
   const purposeTagChecklist: string[] = ["Equipment", "Materials", "Models", "Safety"];
 
@@ -79,12 +79,6 @@ function ItemTypeControl() {
       handleChangingSelectedEntry(selectedEntry.id!);
     }
   }, [itemTypeList, selectedEntry]);
-
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     handleMakeUserItemList();
-  //   }
-  // }, [inventoryList]);
 
   useEffect(() => {
     handleFilterList();
@@ -119,23 +113,18 @@ function ItemTypeControl() {
     setEditing(!editing);
   };
 
-  // const handleMakeUserItemList = () => {
-  //   if (currentUser) {
-  //     setItemsCheckedOutByUser(() => {
-  //       return inventoryList.filter((entry) => entry.checkedOutBy === currentUser.userEmail);
-  //     });
-  //   }
-  // };
-
+  // Helper -- Search & Filter
   const onSearchInputChange = (queryString: string) => {
     console.log("Parent: onSearchInputChange", queryString);
     setSearchQuery(queryString);
   };
 
+  // Helper -- Search & Filter
   const onFilterByCategory = (arrayOfTags: string[]) => {
     setTags(arrayOfTags);
   };
 
+  // Helper -- Search & Filter
   const handleFilterList = () => {
     let filteredListCopy = [...itemTypeList];
     if (tagsToFilter.length > 0) {
@@ -152,31 +141,21 @@ function ItemTypeControl() {
   //#region functions updating database
   // functions updating database
   const handleAddingNewItemType = async (entry: ItemType) => {
-    console.log("ItemTypeControl, handleAddingNewItemType, entry: ", entry);
-    await addDoc(collection(db, "itemTypes"), entry);
+    addNewDoc("itemTypes", entry);
     setAddTypeFormVisibility(false);
     setIsOpen(false);
   };
 
   const handleEditingItemType = async (entry: ItemType) => {
-    const entryRef = doc(db, "itemTypes", entry.id!);
-    // Typing for data being updated
-    const data: Partial<ItemType> = {
-      name: entry.name,
-      description: entry.description,
-      location: entry.location,
-      tags: entry.tags || [],
-    };
-    await updateDoc(entryRef, data);
+    editExistingDoc("itemTypes", entry);
     setEditing(false);
   };
 
   const handleDeletingItemType = async (id: string) => {
+    deleteExistingDoc("itemTypes", id);
     setIsOpen(false);
     setSelectedEntry(null);
-    await deleteDoc(doc(db, "itemTypes", id));
   };
-
   //#endregion functions updating database
   //#region queries
   //endregion queries
@@ -207,10 +186,7 @@ function ItemTypeControl() {
           </Grid>
         </Grid>
         <Grid item xs={2.5}>
-          <FixedWidthItem>
-            {<h3>User Info Panel</h3>}
-            {/* {currentUser ? <UserInfoPanel itemsCheckedOutByUser={itemsCheckedOutByUser} onEntryClick={handleChangingSelectedEntry} /> : ""} */}
-          </FixedWidthItem>
+          <FixedWidthItem>{<h3>User Info Panel</h3>}</FixedWidthItem>
         </Grid>
       </Grid>
       <BasicModal
