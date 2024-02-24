@@ -377,7 +377,7 @@ export default function SignIn() {
         console.log("User credential: ", userCredential);
         console.log("signInWithEmailAndPassword, userCredential.user.email: ", userCredential.user.email);
         setSignInSuccess(`You've signed in as: ${userCredential.user.email}`);
-        navigate("/inventory");
+        navigate("/itemtypes");
       })
       .catch((error) => {
         console.error("Sign-in error: ", error);

@@ -7,12 +7,17 @@ export type eTargetType = {
 };
 
 // Typing in common for multiple components
+export interface AddItemsForm {
+  itemType: string;
+  quantity: number;
+}
+
 export interface Item {
   id?: string | null;
   itemType: string;
   isCheckedOut: boolean;
   checkedOutBy: string | null;
-  dateCheckedOut: Timestamp;
+  dateCheckedOut: Timestamp | null;
 }
 
 export interface ItemType {

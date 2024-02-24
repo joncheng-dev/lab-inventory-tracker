@@ -10,31 +10,30 @@ import { FixedWidthItem } from "../style/styles.js";
 import Header from "../components/Header.js";
 import CategoryPanel from "../components/CategoryPanel.js";
 import UserInfoPanel from "../components/UserInfoPanel.js";
-import ItemTypeList from "../components/ItemTypeList.js";
-import ItemTypeForm from "../components/ItemTypeForm.js";
-import ItemTypeEntryDetail from "../components/ItemTypeEntryDetail.js";
+import ItemForm from "../components/ItemForm.js";
+import ItemList from "../components/ItemList.js";
 // Types & Context
-import { ItemType } from "../types/index.js";
+import { AddItemsForm, Item } from "../types/index.js";
 import { UserContext } from "../helpers/UserContext.js";
 // Database
-import { addNewDoc, deleteExistingDoc, editExistingDoc } from "../hooks/mutations.js";
+import { addMultipleDocs, addNewDoc, deleteExistingDoc, editExistingDoc } from "../hooks/mutations.js";
 // Helper Functions
 import { filterList } from "../helpers/SearchAndFilter.js";
 
-function ItemTypeControl() {
+export default function InventoryControl() {
   // STATE & SHARED INFORMATION
   const currentUser = useContext(UserContext);
   // For conditional rendering:
-  const [addTypeFormVisible, setAddTypeFormVisibility] = useState<boolean>(false);
-  const [selectedEntry, setSelectedEntry] = useState<ItemType | null>(null);
+  const [addItemFormVisible, setAddFormVisibility] = useState<boolean>(false);
+  const [selectedEntry, setSelectedEntry] = useState<Item | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
-  const [isOpen, setIsOpen] = useState(false); // For modal
+  const [isOpen, setIsOpen] = useState(false);
 
   // For data:
-  const [itemTypeList, setItemTypeList] = useState<ItemType[]>([]);
+  const [itemList, setItemList] = useState<Item[]>([]);
   const [tagsToFilter, setTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [filteredList, setFilteredList] = useState<ItemType[]>([]);
+  const [filteredList, setFilteredList] = useState<Item[]>([]);
 
   // Miscellaneous:
   const [error, setError] = useState<string | null>(null);
@@ -44,19 +43,19 @@ function ItemTypeControl() {
   //#region useEffect hooks
   useEffect(() => {
     const unSubscribe = onSnapshot(
-      collection(db, "itemTypes"),
+      collection(db, "items"),
       (collectionSnapshot) => {
-        const entries: ItemType[] = [];
+        const entries: Item[] = [];
         collectionSnapshot.forEach((entry) => {
           entries.push({
             id: entry.id,
-            name: entry.data().name,
-            location: entry.data().location,
-            description: entry.data().description,
-            tags: entry.data().tags,
+            itemType: entry.data().itemType,
+            isCheckedOut: entry.data().isCheckedOut,
+            checkedOutBy: entry.data().checkedOutBy,
+            dateCheckedOut: entry.data().dateCheckedOut,
           });
         });
-        setItemTypeList(entries);
+        setItemList(entries);
       },
       (error) => {
         setError(error.message);
@@ -69,33 +68,33 @@ function ItemTypeControl() {
     if (selectedEntry) {
       handleChangingSelectedEntry(selectedEntry.id!);
     }
-  }, [itemTypeList, selectedEntry]);
+  }, [itemList, selectedEntry]);
 
-  useEffect(() => {
-    handleFilterList(itemTypeList, searchQuery, tagsToFilter);
-  }, [itemTypeList, searchQuery, tagsToFilter]);
+  // useEffect(() => {
+  //   handleFilterList(itemList, searchQuery, tagsToFilter);
+  // }, [itemList, searchQuery, tagsToFilter]);
 
   //#endregion useEffect hooks
 
   //#region functions
   const handleExitButtonClick = () => {
     if (selectedEntry) {
-      setAddTypeFormVisibility(false);
+      setAddFormVisibility(false);
       setSelectedEntry(null);
       setEditing(false);
     } else {
-      setAddTypeFormVisibility(!addTypeFormVisible);
+      setAddFormVisibility(!addItemFormVisible);
     }
     setIsOpen(false);
   };
 
-  const handleAddItemTypeButtonClick = () => {
-    setAddTypeFormVisibility(!addTypeFormVisible);
+  const handleAddItemButtonClick = () => {
+    setAddFormVisibility(!addItemFormVisible);
     setIsOpen(true);
   };
 
   const handleChangingSelectedEntry = (id: string) => {
-    const selection = itemTypeList.filter((entry) => entry.id === id)[0];
+    const selection = itemList.filter((entry) => entry.id === id)[0];
     setSelectedEntry(selection);
     setIsOpen(true);
   };
@@ -115,35 +114,47 @@ function ItemTypeControl() {
   };
 
   // Helper -- Search & Filter
-  const handleFilterList = (list: ItemType[], query: string, tags: string[]) => {
-    const filteredResult = filterList(list, query, tags);
-    setFilteredList(filteredResult);
-  };
+  // const handleFilterList = (list: Item[], query: string, tags: string[]) => {
+  //   const filteredResult = filterList(list, query, tags);
+  //   setFilteredList(filteredResult);
+  // };
 
   //#endregion functions
 
   //#region functions updating database
   // functions updating database
-  const handleAddingNewItemType = async (entry: ItemType) => {
-    addNewDoc("itemTypes", entry);
-    setAddTypeFormVisibility(false);
+  const handleAddingNewItems = async (data: AddItemsForm) => {
+    console.log("InventoryControl, handleAddingNewItems, data: ", data);
+    // AddItemsForm will contain:
+    // itemType -> data.itemType
+    // quantity -> data.quantity
+
+    // What I actually want to do to create a doc is this:
+    // Multiple items. Each item looks like:
+    // Item:
+    // id
+    // itemType: predefined by user,
+    // isCheckedOut: false,
+    // checkedOutBy: null,
+    // dateCheckedOut: Timestamp,
+    addMultipleDocs("items", data.itemType, data.quantity);
+    setAddFormVisibility(false);
     setIsOpen(false);
   };
 
-  const handleEditingItemType = async (entry: ItemType) => {
-    editExistingDoc("itemTypes", entry);
-    setEditing(false);
-  };
+  // const handleEditingItemType = async (entry: Item) => {
+  //   editExistingDoc("itemTypes", entry);
+  //   setEditing(false);
+  // };
 
-  const handleDeletingItemType = async (id: string) => {
-    deleteExistingDoc("itemTypes", id);
-    setIsOpen(false);
-    setSelectedEntry(null);
-  };
+  // const handleDeletingItemType = async (id: string) => {
+  //   deleteExistingDoc("itemTypes", id);
+  //   setIsOpen(false);
+  //   setSelectedEntry(null);
+  // };
   //#endregion functions updating database
   //#region queries
   //endregion queries
-
   return (
     <>
       {/* Conditional rendering */}
@@ -161,11 +172,11 @@ function ItemTypeControl() {
         </Grid>
         <Grid item xs={8}>
           <Grid display="flex" justifyContent="space-between">
-            <ItemTypeList
+            <ItemList
               // prettier-ignore
               listOfEntries={filteredList}
               onEntryClick={handleChangingSelectedEntry}
-              onClickingAddEntry={handleAddItemTypeButtonClick}
+              onClickingAddEntry={handleAddItemButtonClick}
             />
           </Grid>
         </Grid>
@@ -179,33 +190,43 @@ function ItemTypeControl() {
           handleExitButtonClick();
         }}
       >
-        {isOpen && selectedEntry && editing && (
+        {/* {isOpen && selectedEntry && editing && (
           <ItemTypeForm
             entry={selectedEntry}
             subjectTagChecklist={subjectTagChecklist}
             purposeTagChecklist={purposeTagChecklist}
             onFormSubmit={handleEditingItemType}
           />
-        )}
-        {isOpen && addTypeFormVisible && (
-          <ItemTypeForm
+        )} */}
+        {isOpen && addItemFormVisible && (
+          <ItemForm
             // prettier-ignore
-            subjectTagChecklist={subjectTagChecklist}
-            purposeTagChecklist={purposeTagChecklist}
-            onFormSubmit={handleAddingNewItemType}
+            onFormSubmit={handleAddingNewItems}
           />
         )}
-        {isOpen && selectedEntry && !editing && (
+        {/* {isOpen && selectedEntry && !editing && (
           <ItemTypeEntryDetail
             // prettier-ignore
             entry={selectedEntry}
             onClickingEdit={handleEditEntryButtonClick}
             onClickingDelete={handleDeletingItemType}
           />
-        )}
+        )} */}
       </BasicModal>
     </>
   );
 }
 
-export default ItemTypeControl;
+// NOTES**
+// To access this page, click on SideBar, which routes to this page
+
+// Purpose:
+// User sees list of items actually in inventory
+// User can Search for items
+// User can ADD, EDIT, DELETE, CHECK OUT, RETURN items
+
+// To add an item, MODAL opens up.
+// User selects an ITEMTYPE from dropdown
+// User can search for this ITEMTYPE
+// User enters quantity
+// Upon submission, "quantity" number of ItemType is created -- added to database
