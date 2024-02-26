@@ -18,7 +18,8 @@ export default function DataTable(props: DataTableProps) {
 
   const tableColumns = [
     { field: "id", headerName: "ID", flex: 1 },
-    { field: "name", headerName: "Name", flex: 2.5 },
+    { field: "displayName", headerName: "Display Name", flex: 2 },
+    { field: "type", headerName: "Type", flex: 2 },
     { field: "description", headerName: "Description", flex: 3 },
     { field: "location", headerName: "Location", flex: 1.5 },
   ];
@@ -26,9 +27,10 @@ export default function DataTable(props: DataTableProps) {
   const tableRows = data.map((entry) => {
     return {
       id: entry.id,
-      name: entry.name,
+      displayName: entry.displayName,
       description: entry.description,
       location: entry.location,
+      type: entry.type,
     };
   });
 

@@ -6,20 +6,23 @@ export const addNewDoc = async (collectionName: string, entry: Item | ItemType) 
   await addDoc(collection(db, collectionName), entry);
 };
 
-export const addMultipleDocs = async (collectionName: string, itemType: string, quantity: number) => {
+export const addMultipleDocs = async (collectionName: string, data: ItemType, quantity: number) => {
+  const { type, displayName } = data;
   const batch = writeBatch(db);
 
   for (let i = 0; i < quantity; i++) {
     const newDocRef = await addDoc(collection(db, collectionName), {
-      itemType,
+      type,
+      displayName,
       dateAdded: serverTimestamp(),
       isCheckedOut: false,
       checkedOutBy: null,
       dateCheckedOut: null,
     });
     const newEntry = {
-      itemType,
       id: newDocRef.id,
+      type,
+      displayName,
       dateAdded: serverTimestamp(),
       isCheckedOut: false,
       checkedOutBy: null,
@@ -34,10 +37,11 @@ export const addMultipleDocs = async (collectionName: string, itemType: string, 
 export const editExistingDoc = async (collectionName: string, entry: ItemType) => {
   const entryRef = doc(db, collectionName, entry.id!);
   const data: Partial<ItemType> = {
-    name: entry.name,
+    displayName: entry.displayName,
     description: entry.description,
     location: entry.location,
     tags: entry.tags || [],
+    type: entry.type,
   };
   await updateDoc(entryRef, data);
 };

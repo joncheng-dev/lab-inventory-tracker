@@ -44,22 +44,24 @@ export default function ItemTypeForm(props: FormProps) {
   const { entry, onFormSubmit, subjectTagChecklist, purposeTagChecklist } = props;
   const [formData, setFormData] = useState<ItemType>(
     entry || {
-      name: "",
+      displayName: "",
       description: "",
       location: "",
       tags: [],
+      type: "",
     }
   );
 
   const validationSchema = yup.object().shape({
-    name: yup.string().required("Required"),
+    displayName: yup.string().required("Required"),
     description: yup.string().required("Required"),
     location: yup.string().required("Required"),
     tags: yup.array(),
+    type: yup.string().required("Required"),
   });
 
   console.log("ItemTypeForm, entry: ", entry);
-  const { name, description, location, tags } = formData;
+  const { displayName, description, location, tags, type } = formData;
   console.log("ItemTypeForm, formData: ", formData);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -150,11 +152,21 @@ export default function ItemTypeForm(props: FormProps) {
                     {/* prettier-ignore */}
                     <Field 
                       as={TextField}
-                      name="name"
-                      label="Item Type Name"
-                      helperText={<ErrorMessage name="name" />}
+                      name="displayName"
+                      label="Item Type Display Name"
+                      helperText={<ErrorMessage name="displayName" />}
                       onChange={handleInputChange}
-                      value={name}
+                      value={displayName}
+                    />
+                    <br />
+                    {/* prettier-ignore */}
+                    <Field 
+                      as={TextField}
+                      name="type"
+                      label="Item Type"
+                      helperText={<ErrorMessage name="type" />}
+                      onChange={handleInputChange}
+                      value={type}
                     />
                     <br />
                     {/* prettier-ignore */}

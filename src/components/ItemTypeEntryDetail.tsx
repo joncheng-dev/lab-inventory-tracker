@@ -103,17 +103,18 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   // prettier-ignore
   const {
     id,
-    name,
+    displayName,
     description,
     location,
     tags,
+    type,
   } = entry;
 
   console.log("ItemTypeEntryDetail, currentUser.userEmail: ", currentUser?.userEmail);
 
   return (
     <TextAlignLeftContainer>
-      <h2>{name}</h2>
+      <h2>{displayName}</h2>
       <EntryDetailContainer>
         <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
           <Grid container spacing={2}>
@@ -131,6 +132,14 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                   <DetailsImageContainer>
                     <Box component="img" sx={{ height: 180 }} src="src/images/contemplative-reptile.jpg" alt="green iguana" />
                   </DetailsImageContainer>
+                </Grid>
+                <Grid xs={6}>
+                  <StyledItemHeader>Display Name</StyledItemHeader>
+                  <StyledItemValue>{displayName}</StyledItemValue>
+                </Grid>
+                <Grid xs={6}>
+                  <StyledItemHeader>Type</StyledItemHeader>
+                  <StyledItemValue>{type}</StyledItemValue>
                 </Grid>
                 <Grid xs={12}>
                   <StyledItemHeader>Description</StyledItemHeader>

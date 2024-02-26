@@ -50,10 +50,11 @@ function ItemTypeControl() {
         collectionSnapshot.forEach((entry) => {
           entries.push({
             id: entry.id,
-            name: entry.data().name,
+            displayName: entry.data().displayName,
             location: entry.data().location,
             description: entry.data().description,
             tags: entry.data().tags,
+            type: entry.data().type,
           });
         });
         setItemTypeList(entries);
