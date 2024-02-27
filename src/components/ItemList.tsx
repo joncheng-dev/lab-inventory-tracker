@@ -38,6 +38,7 @@ const ResponsiveDataGridContainer = styled("div")`
 
 type ItemListProps = {
   listOfEntries: Item[];
+  // listOfItemTypes: Partial<ItemType>[];
   listOfItemTypes: Partial<ItemType>[];
   onEntryClick: (id: string) => void;
   onClickingAddEntry: () => void;
@@ -51,8 +52,8 @@ export default function ItemList(props: ItemListProps) {
   const [cardView, setCardView] = useState(true);
   const [tableView, setTableView] = useState(false);
 
-  console.log("ItemList, listOfEntries: ", listOfEntries);
-  console.log("ItemList, listOfItemTypes: ", listOfItemTypes);
+  // console.log("ItemList, listOfEntries: ", listOfEntries);
+  // console.log("ItemList, listOfItemTypes: ", listOfItemTypes);
 
   const StyledButton = styledMui(Button)(({ theme }) => ({
     // color: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -61,13 +62,8 @@ export default function ItemList(props: ItemListProps) {
 
   useEffect(() => {
     const itemEntriesToDisplay = () => {
-      // Look at listOfEntries (it's an array of objects)
       // Create a SET of item 'type'.
       const setOfTypes = [...new Set(listOfEntries.map((entry) => entry.type))];
-      // Use these to create item entries to display.
-      console.log("ItemList, setOfTypes: ", setOfTypes);
-      // Use this set of item types.
-      // If the type is listed in here, create an ItemTypeEntry for it
       const filteredItemTypes = listOfItemTypes
         .filter((entry) => setOfTypes.includes(entry.type || ""))
         .filter((entry): entry is ItemType => entry !== undefined);
@@ -123,24 +119,18 @@ export default function ItemList(props: ItemListProps) {
             </Grid>
             <br />
             <Grid item xs={12}>
-              <ItemContainer>
-                {uniqueItemTypes.map((entry) => (
-                  <ItemTypeEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
-                ))}
-                {/* {uniqueItemTypes.map((entry) => (
-                  <div key={entry.id}>
-                    <h3>{entry.displayName}</h3>
-                    <p>{entry.type}</p>
-                  </div>
-                ))} */}
-              </ItemContainer>
-              {/* {cardView && (
+              {cardView && (
+                <ItemContainer>
+                  {uniqueItemTypes.map((entry) => (
+                    <ItemTypeEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
+                  ))}
+                </ItemContainer>
               )}
               {tableView && (
                 <ResponsiveDataGridContainer>
-                  <DataTable data={uniqueEntries} onEntryClick={onEntryClick} />
+                  <DataTable data={uniqueItemTypes} onEntryClick={onEntryClick} />
                 </ResponsiveDataGridContainer>
-              )} */}
+              )}
             </Grid>
           </ListContainer>
         </Grid>

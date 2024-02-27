@@ -25,16 +25,17 @@ export default function InventoryControl() {
   const currentUser = useContext(UserContext);
   // For conditional rendering:
   const [addItemFormVisible, setAddFormVisibility] = useState<boolean>(false);
-  const [selectedEntry, setSelectedEntry] = useState<Item | null>(null);
+  const [selectedEntry, setSelectedEntry] = useState<Item | ItemType | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
 
   // For data:
   const [itemList, setItemList] = useState<Item[]>([]);
-  const [itemTypeList, setItemTypeList] = useState<Partial<ItemType>[]>([]);
+  // const [itemTypeList, setItemTypeList] = useState<Partial<ItemType>[]>([]);
+  const [itemTypeList, setItemTypeList] = useState<ItemType[]>([]);
   const [tagsToFilter, setTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [filteredList, setFilteredList] = useState<Item[]>([]);
+  const [filteredList, setFilteredList] = useState<ItemType[]>([]);
 
   // Miscellaneous:
   const [error, setError] = useState<string | null>(null);
@@ -70,10 +71,14 @@ export default function InventoryControl() {
     const unSubscribe = onSnapshot(
       collection(db, "itemTypes"),
       (collectionSnapshot) => {
-        const entries: Partial<ItemType>[] = [];
+        const entries: ItemType[] = [];
         collectionSnapshot.forEach((entry) => {
           entries.push({
+            id: entry.id,
             displayName: entry.data().displayName,
+            location: entry.data().location,
+            description: entry.data().description,
+            tags: entry.data().tags,
             type: entry.data().type,
           });
         });
@@ -85,6 +90,26 @@ export default function InventoryControl() {
     );
     return () => unSubscribe();
   }, []);
+
+  // useEffect(() => {
+  //   const unSubscribe = onSnapshot(
+  //     collection(db, "itemTypes"),
+  //     (collectionSnapshot) => {
+  //       const entries: Partial<ItemType>[] = [];
+  //       collectionSnapshot.forEach((entry) => {
+  //         entries.push({
+  //           displayName: entry.data().displayName,
+  //           type: entry.data().type,
+  //         });
+  //       });
+  //       setItemTypeList(entries);
+  //     },
+  //     (error) => {
+  //       setError(error.message);
+  //     }
+  //   );
+  //   return () => unSubscribe();
+  // }, []);
 
   useEffect(() => {
     if (selectedEntry) {
@@ -156,7 +181,7 @@ export default function InventoryControl() {
   //   setEditing(false);
   // };
 
-  console.log("InventoryControl, itemTypeList: ", itemTypeList);
+  // console.log("InventoryControl, itemTypeList: ", itemTypeList);
 
   // const handleDeletingItemType = async (id: string) => {
   //   deleteExistingDoc("itemTypes", id);

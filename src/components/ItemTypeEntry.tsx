@@ -42,13 +42,13 @@ const ButtonContainer = styled.div`
 // };
 
 type ItemTypeEntryProps = {
-  entry: ItemType | Partial<ItemType>;
+  // entry: ItemType | Partial<ItemType>;
+  entry: ItemType;
   onEntryClick: (id: string) => void;
 };
 
 function ItemTypeEntry(props: ItemTypeEntryProps) {
   const { entry, onEntryClick } = props;
-  console.log("ItemTypeEntry: entry: ", entry);
   const { id, displayName, type } = entry;
 
   return (
