@@ -101,14 +101,14 @@ export default function ItemList(props: ItemListProps) {
             </Grid>
             <br />
             <Grid item xs={12}>
-              {cardView && (
+              {/* {cardView && (
                 <ItemContainer>
                   {listOfEntries.map((entry) => (
                     <ItemEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
                   ))}
                 </ItemContainer>
               )}
-              {/* {tableView && (
+              {tableView && (
                 <ResponsiveDataGridContainer>
                   <DataTable data={listOfEntries} onEntryClick={onEntryClick} />
                 </ResponsiveDataGridContainer>

@@ -8,7 +8,8 @@ export type eTargetType = {
 
 // Typing in common for multiple components
 export interface AddItemsForm {
-  itemType: ItemType;
+  type: string;
+  displayName: string;
   quantity: number;
 }
 

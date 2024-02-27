@@ -13,10 +13,10 @@ import UserInfoPanel from "../components/UserInfoPanel.js";
 import ItemForm from "../components/ItemForm.js";
 import ItemList from "../components/ItemList.js";
 // Types & Context
-import { AddItemsForm, Item } from "../types/index.js";
+import { AddItemsForm, Item, ItemType } from "../types/index.js";
 import { UserContext } from "../helpers/UserContext.js";
 // Database
-import { addMultipleDocs, addNewDoc, deleteExistingDoc, editExistingDoc } from "../hooks/mutations.js";
+import { addMultipleDocs } from "../hooks/mutations.js";
 // Helper Functions
 import { filterList } from "../helpers/SearchAndFilter.js";
 
@@ -31,6 +31,7 @@ export default function InventoryControl() {
 
   // For data:
   const [itemList, setItemList] = useState<Item[]>([]);
+  const [itemTypeList, setItemTypeList] = useState<Partial<ItemType>[]>([]);
   const [tagsToFilter, setTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filteredList, setFilteredList] = useState<Item[]>([]);
@@ -49,13 +50,34 @@ export default function InventoryControl() {
         collectionSnapshot.forEach((entry) => {
           entries.push({
             id: entry.id,
-            itemType: entry.data().itemType,
+            type: entry.data().type,
+            displayName: entry.data().displayName,
             isCheckedOut: entry.data().isCheckedOut,
             checkedOutBy: entry.data().checkedOutBy,
             dateCheckedOut: entry.data().dateCheckedOut,
           });
         });
         setItemList(entries);
+      },
+      (error) => {
+        setError(error.message);
+      }
+    );
+    return () => unSubscribe();
+  }, []);
+
+  useEffect(() => {
+    const unSubscribe = onSnapshot(
+      collection(db, "itemTypes"),
+      (collectionSnapshot) => {
+        const entries: Partial<ItemType>[] = [];
+        collectionSnapshot.forEach((entry) => {
+          entries.push({
+            displayName: entry.data().displayName,
+            type: entry.data().type,
+          });
+        });
+        setItemTypeList(entries);
       },
       (error) => {
         setError(error.message);
@@ -137,7 +159,7 @@ export default function InventoryControl() {
     // isCheckedOut: false,
     // checkedOutBy: null,
     // dateCheckedOut: Timestamp,
-    addMultipleDocs("items", data.itemType, data.quantity);
+    addMultipleDocs("items", data);
     setAddFormVisibility(false);
     setIsOpen(false);
   };
@@ -201,6 +223,7 @@ export default function InventoryControl() {
         {isOpen && addItemFormVisible && (
           <ItemForm
             // prettier-ignore
+            itemTypeList={itemTypeList}
             onFormSubmit={handleAddingNewItems}
           />
         )}
@@ -218,8 +241,6 @@ export default function InventoryControl() {
 }
 
 // NOTES**
-// To access this page, click on SideBar, which routes to this page
-
 // Purpose:
 // User sees list of items actually in inventory
 // User can Search for items

@@ -1,4 +1,4 @@
-import { Item, ItemType } from "../types";
+import { AddItemsForm, Item, ItemType } from "../types";
 import { db } from "../firebase.js";
 import { collection, addDoc, deleteDoc, doc, serverTimestamp, updateDoc, writeBatch } from "firebase/firestore";
 
@@ -6,8 +6,8 @@ export const addNewDoc = async (collectionName: string, entry: Item | ItemType) 
   await addDoc(collection(db, collectionName), entry);
 };
 
-export const addMultipleDocs = async (collectionName: string, data: ItemType, quantity: number) => {
-  const { type, displayName } = data;
+export const addMultipleDocs = async (collectionName: string, data: AddItemsForm) => {
+  const { type, displayName, quantity } = data;
   const batch = writeBatch(db);
 
   for (let i = 0; i < quantity; i++) {

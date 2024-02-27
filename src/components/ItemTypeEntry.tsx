@@ -29,14 +29,14 @@ type ItemTypeEntryProps = {
 function ItemTypeEntry(props: ItemTypeEntryProps) {
   console.log("ItemTypeEntry component renders");
   const { entry, onEntryClick } = props;
-  const { id, name, description } = entry;
+  const { id, displayName, description } = entry;
 
   return (
     <StyledCard sx={{ maxWidth: 345 }}>
       <CardMedia sx={{ height: 140 }} image="src/images/contemplative-reptile.jpg" title="green iguana" />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {name}
+          {displayName}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {description}

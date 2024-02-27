@@ -1,10 +1,23 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { AddItemsForm, Item } from "../types";
-import { Box, Button, Divider, FormControlLabel, Grid, Stack, TextField, useTheme } from "@mui/material";
+import { AddItemsForm, Item, ItemType } from "../types";
+import {
+  Autocomplete,
+  AutocompleteChangeReason,
+  Box,
+  Button,
+  Divider,
+  FormControl,
+  Grid,
+  InputLabel,
+  Stack,
+  TextField,
+  useTheme,
+} from "@mui/material";
 import { tokens } from "../themes";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
+import { onValue } from "firebase/database";
 
 //#region styles
 const ReusableFormContainer = styled.div`
@@ -19,6 +32,7 @@ const InputColumnContainer = styled.div`
 //#endregion styles
 
 type FormProps = {
+  itemTypeList: Partial<ItemType>[];
   onFormSubmit: (data: AddItemsForm) => Promise<void>;
 };
 
@@ -35,36 +49,59 @@ type FormProps = {
 export default function ItemForm(props: FormProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { onFormSubmit } = props;
+  const { itemTypeList, onFormSubmit } = props;
+  console.log("ItemForm, itemTypeList: ", itemTypeList);
+
   const [formData, setFormData] = useState<AddItemsForm>({
-    itemType: "",
+    type: "",
+    displayName: "",
     quantity: 1,
   });
 
   const validationSchema = yup.object().shape({
-    itemType: yup.string().required("Required"),
+    type: yup.string().required("Required"),
     // prettier-ignore
     quantity: yup.number()
     .integer("Must be a whole number")
     .min(1, "Must be greater than one")
-    .max(10, "Must be 10 or less")
+    .max(10, "Must be between 1 and 10")
     .required("Required"),
   });
 
-  const { itemType, quantity } = formData;
+  const { type, quantity } = formData;
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (e.target.name !== "quantity") {
+  const exampleList: Partial<ItemType>[] = [
+    {
+      displayName: "a-unique-name",
+      type: "Safety Goggles",
+    },
+    {
+      displayName: "some-unique-name",
+      type: "Dice",
+    },
+  ];
+
+  const handleAutocompleteChange = (event: React.ChangeEvent<{}>, value: Partial<ItemType> | null, reason: AutocompleteChangeReason) => {
+    if (reason === "selectOption") {
       setFormData((prevData) => ({
         ...prevData,
-        [e.target.name]: e.target.value,
+        type: value?.type || "",
+        displayName: value?.displayName || "",
       }));
-    } else {
+    } else if (reason === "clear") {
       setFormData((prevData) => ({
         ...prevData,
-        [e.target.name]: parseInt(e.target.value, 10) || 0,
+        type: "",
+        displayName: "",
       }));
     }
+  };
+
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [e.target.name]: e.target.name === "quantity" ? parseInt(e.target.value, 10) || 0 : e.target.value,
+    }));
   };
 
   const handleSubmit = (values: AddItemsForm) => {
@@ -97,25 +134,42 @@ export default function ItemForm(props: FormProps) {
                   <br />
                   <InputColumnContainer>
                     {/* prettier-ignore */}
-                    <Field 
+                    {/* <Field 
                       as={TextField}
                       name="itemType"
                       label="Item Type"
                       helperText={<ErrorMessage name="itemType" />}
                       onChange={handleInputChange}
                       value={itemType}
+                      />
+                    <br /> */}
+                    <Autocomplete
+                      // disablePortal
+                      options={itemTypeList}
+                      onChange={handleAutocompleteChange}
+                      getOptionLabel={(option) => option.type || ''}
+                      renderOption={(props, option) => (
+                        <Box component="li" {...props}>
+                          {option.displayName}
+                          <br />
+                          {option.type} 
+                        </Box>
+                      )}
+                      renderInput={(params) => <TextField {...params} label="Item Type" />}
                     />
-                    <br />
+                    <InputLabel>Select quantity of items to add</InputLabel>
+                    <FormControl sx={{ m: 1, width: 300 }}>
                     <Field
                       as={TextField}
                       name="quantity"
                       label="Item Quantity"
                       helperText={<ErrorMessage name="quantity" />}
-                      onChange={handleInputChange}
+                      onChange={handleQuantityChange}
                       type="number"
                       value={quantity}
                     />
                     <br />
+                  </FormControl>
                   </InputColumnContainer>
                 </Box>
               </Grid>
@@ -133,3 +187,14 @@ export default function ItemForm(props: FormProps) {
     </Box>
   );
 }
+
+// <Field
+//   as={TextField}
+//   name="quantity"
+//   label="Item Quantity"
+//   helperText={<ErrorMessage name="quantity" />}
+//   onChange={handleInputChange}
+//   type="number"
+//   value={quantity}
+// />
+// <br />
