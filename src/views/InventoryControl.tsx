@@ -31,7 +31,6 @@ export default function InventoryControl() {
 
   // For data:
   const [itemList, setItemList] = useState<Item[]>([]);
-  // const [itemTypeList, setItemTypeList] = useState<Partial<ItemType>[]>([]);
   const [itemTypeList, setItemTypeList] = useState<ItemType[]>([]);
   const [tagsToFilter, setTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -91,25 +90,17 @@ export default function InventoryControl() {
     return () => unSubscribe();
   }, []);
 
-  // useEffect(() => {
-  //   const unSubscribe = onSnapshot(
-  //     collection(db, "itemTypes"),
-  //     (collectionSnapshot) => {
-  //       const entries: Partial<ItemType>[] = [];
-  //       collectionSnapshot.forEach((entry) => {
-  //         entries.push({
-  //           displayName: entry.data().displayName,
-  //           type: entry.data().type,
-  //         });
-  //       });
-  //       setItemTypeList(entries);
-  //     },
-  //     (error) => {
-  //       setError(error.message);
-  //     }
-  //   );
-  //   return () => unSubscribe();
-  // }, []);
+  useEffect(() => {
+    const itemEntriesToDisplay = () => {
+      // Create a SET of item 'type'.
+      const setOfTypes = [...new Set(itemList.map((entry) => entry.type))];
+      const filteredItemTypes = itemTypeList
+        .filter((entry) => setOfTypes.includes(entry.type || ""))
+        .filter((entry): entry is ItemType => entry !== undefined);
+      setItemTypeList(filteredItemTypes);
+    };
+    itemEntriesToDisplay();
+  }, [itemList]);
 
   useEffect(() => {
     if (selectedEntry) {
@@ -117,9 +108,9 @@ export default function InventoryControl() {
     }
   }, [itemList, selectedEntry]);
 
-  // useEffect(() => {
-  //   handleFilterList(itemList, searchQuery, tagsToFilter);
-  // }, [itemList, searchQuery, tagsToFilter]);
+  useEffect(() => {
+    handleFilterList(itemTypeList, searchQuery, tagsToFilter);
+  }, [itemList, searchQuery, tagsToFilter]);
 
   //#endregion useEffect hooks
 
@@ -161,10 +152,10 @@ export default function InventoryControl() {
   };
 
   // Helper -- Search & Filter
-  // const handleFilterList = (list: Item[], query: string, tags: string[]) => {
-  //   const filteredResult = filterList(list, query, tags);
-  //   setFilteredList(filteredResult);
-  // };
+  const handleFilterList = (list: ItemType[], query: string, tags: string[]) => {
+    const filteredResult = filterList(list, query, tags);
+    setFilteredList(filteredResult);
+  };
 
   //#endregion functions
 
@@ -210,9 +201,8 @@ export default function InventoryControl() {
           <Grid display="flex" justifyContent="space-between">
             <ItemList
               // prettier-ignore
-              // listOfEntries={filteredList}
-              listOfEntries={itemList}
-              listOfItemTypes={itemTypeList}
+              listOfItems={itemList}
+              listOfItemTypes={filteredList}
               onEntryClick={handleChangingSelectedEntry}
               onClickingAddEntry={handleAddItemButtonClick}
             />

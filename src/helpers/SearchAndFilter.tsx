@@ -6,7 +6,7 @@ export const filterList = (list: ItemType[], searchQuery: string, tagsToFilter: 
     filteredListCopy = filteredListCopy.filter((entry) => tagsToFilter.some((tag) => entry.tags.includes(tag)));
   }
   if (searchQuery !== "") {
-    filteredListCopy = filteredListCopy.filter((entry) => entry.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    filteredListCopy = filteredListCopy.filter((entry) => entry.displayName.toLowerCase().includes(searchQuery.toLowerCase()));
   }
   return filteredListCopy;
 };

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
+import ItemTypeEntry from "./ItemTypeEntry";
+import DataTable from "./DataTable";
+import { Item, ItemType } from "../types";
 import styled from "styled-components";
 import { styled as styledMui } from "@mui/material/styles";
-import ItemTypeEntry from "./ItemTypeEntry";
-import { Item, ItemType } from "../types";
 import { Button, Grid, IconButton, Stack, useTheme } from "@mui/material";
 import { Add, Apps, ViewHeadline } from "@mui/icons-material";
-import DataTable from "./DataTable";
 import { tokens } from "../themes";
 
 //#region styles
@@ -37,40 +37,26 @@ const ResponsiveDataGridContainer = styled("div")`
 //#endregion styles
 
 type ItemListProps = {
-  listOfEntries: Item[];
-  // listOfItemTypes: Partial<ItemType>[];
-  listOfItemTypes: Partial<ItemType>[];
+  listOfItems: Item[];
+  listOfItemTypes: ItemType[];
   onEntryClick: (id: string) => void;
   onClickingAddEntry: () => void;
 };
 
 export default function ItemList(props: ItemListProps) {
-  const { listOfEntries, listOfItemTypes, onEntryClick, onClickingAddEntry } = props;
+  const { listOfItems, listOfItemTypes, onEntryClick, onClickingAddEntry } = props;
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [uniqueItemTypes, setUniqueItemTypes] = useState<ItemType[]>([]);
   const [cardView, setCardView] = useState(true);
   const [tableView, setTableView] = useState(false);
 
-  // console.log("ItemList, listOfEntries: ", listOfEntries);
+  // console.log("ItemList, listOfItems: ", listOfItems);
   // console.log("ItemList, listOfItemTypes: ", listOfItemTypes);
 
   const StyledButton = styledMui(Button)(({ theme }) => ({
     // color: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     backgroundColor: theme.palette.mode === "dark" ? colors.grey[500] : "#1A2027",
   }));
-
-  useEffect(() => {
-    const itemEntriesToDisplay = () => {
-      // Create a SET of item 'type'.
-      const setOfTypes = [...new Set(listOfEntries.map((entry) => entry.type))];
-      const filteredItemTypes = listOfItemTypes
-        .filter((entry) => setOfTypes.includes(entry.type || ""))
-        .filter((entry): entry is ItemType => entry !== undefined);
-      setUniqueItemTypes(filteredItemTypes);
-    };
-    itemEntriesToDisplay();
-  }, [listOfEntries]);
 
   const activateCardView = () => {
     setCardView(true);
@@ -121,14 +107,14 @@ export default function ItemList(props: ItemListProps) {
             <Grid item xs={12}>
               {cardView && (
                 <ItemContainer>
-                  {uniqueItemTypes.map((entry) => (
+                  {listOfItemTypes.map((entry) => (
                     <ItemTypeEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
                   ))}
                 </ItemContainer>
               )}
               {tableView && (
                 <ResponsiveDataGridContainer>
-                  <DataTable data={uniqueItemTypes} onEntryClick={onEntryClick} />
+                  <DataTable data={listOfItemTypes} onEntryClick={onEntryClick} />
                 </ResponsiveDataGridContainer>
               )}
             </Grid>
