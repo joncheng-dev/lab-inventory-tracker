@@ -66,7 +66,7 @@ export default function ItemTypeList(props: ItemTypeListProps) {
 
   return (
     <>
-      <Grid container xs={12} justifyContent="space-between">
+      <Grid container item xs={12} justifyContent="space-between">
         <Grid item xs={10} borderRadius="3px">
           <h2>Item Type List</h2>
         </Grid>

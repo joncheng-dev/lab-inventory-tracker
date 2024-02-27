@@ -12,6 +12,7 @@ import CategoryPanel from "../components/CategoryPanel.js";
 import UserInfoPanel from "../components/UserInfoPanel.js";
 import ItemForm from "../components/ItemForm.js";
 import ItemList from "../components/ItemList.js";
+import InventoryEntryDetail from "../components/InventoryEntryDetail";
 // Types & Context
 import { AddItemsForm, Item, ItemType } from "../types/index.js";
 import { UserContext } from "../helpers/UserContext.js";
@@ -25,7 +26,7 @@ export default function InventoryControl() {
   const currentUser = useContext(UserContext);
   // For conditional rendering:
   const [addItemFormVisible, setAddFormVisibility] = useState<boolean>(false);
-  const [selectedEntry, setSelectedEntry] = useState<Item | ItemType | null>(null);
+  const [selectedEntry, setSelectedEntry] = useState<ItemType | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -106,11 +107,11 @@ export default function InventoryControl() {
     if (selectedEntry) {
       handleChangingSelectedEntry(selectedEntry.id!);
     }
-  }, [itemList, selectedEntry]);
+  }, [itemTypeList, selectedEntry]);
 
   useEffect(() => {
     handleFilterList(itemTypeList, searchQuery, tagsToFilter);
-  }, [itemList, searchQuery, tagsToFilter]);
+  }, [itemTypeList, searchQuery, tagsToFilter]);
 
   //#endregion useEffect hooks
 
@@ -132,14 +133,14 @@ export default function InventoryControl() {
   };
 
   const handleChangingSelectedEntry = (id: string) => {
-    const selection = itemList.filter((entry) => entry.id === id)[0];
+    const selection = itemTypeList.filter((entry) => entry.id === id)[0];
     setSelectedEntry(selection);
     setIsOpen(true);
   };
 
-  const handleEditEntryButtonClick = () => {
-    setEditing(!editing);
-  };
+  // const handleEditEntryButtonClick = () => {
+  //   setEditing(!editing);
+  // };
 
   // Helper -- Search & Filter
   const onSearchInputChange = (queryString: string) => {
@@ -171,8 +172,6 @@ export default function InventoryControl() {
   //   editExistingDoc("itemTypes", entry);
   //   setEditing(false);
   // };
-
-  // console.log("InventoryControl, itemTypeList: ", itemTypeList);
 
   // const handleDeletingItemType = async (id: string) => {
   //   deleteExistingDoc("itemTypes", id);
@@ -233,14 +232,13 @@ export default function InventoryControl() {
             onFormSubmit={handleAddingNewItems}
           />
         )}
-        {/* {isOpen && selectedEntry && !editing && (
-          <ItemTypeEntryDetail
+        {isOpen && selectedEntry && !editing && (
+          <InventoryEntryDetail
             // prettier-ignore
             entry={selectedEntry}
-            onClickingEdit={handleEditEntryButtonClick}
-            onClickingDelete={handleDeletingItemType}
+            itemList={itemList}
           />
-        )} */}
+        )}
       </BasicModal>
     </>
   );
