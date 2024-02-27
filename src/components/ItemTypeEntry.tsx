@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Button, Card, CardActions, CardContent, CardMedia, Chip, Stack, Typography } from "@mui/material";
-import { ItemType as IType } from "../types";
+import { ItemType } from "../types";
 
 //#region styles
 const StyledCard = styled(Card)`
@@ -21,15 +21,35 @@ const ButtonContainer = styled.div`
 `;
 //#endregion
 
+// type OptionalProperties<T> = {
+//   [K in keyof T]?: T[K];
+// };
+
+// interface ItemType {
+//   id?: string | null;
+//   description: string;
+//   displayName: string;
+//   location: string;
+//   tags: string[];
+//   type: string;
+// }
+
+// type PartialItemType = OptionalProperties<ItemType>;
+
+// type ItemTypeEntryProps = {
+//   entry: ItemType | PartialItemType;
+//   onEntryClick: (id: string) => void;
+// };
+
 type ItemTypeEntryProps = {
-  entry: IType;
+  entry: ItemType | Partial<ItemType>;
   onEntryClick: (id: string) => void;
 };
 
 function ItemTypeEntry(props: ItemTypeEntryProps) {
-  console.log("ItemTypeEntry component renders");
   const { entry, onEntryClick } = props;
-  const { id, displayName, description } = entry;
+  console.log("ItemTypeEntry: entry: ", entry);
+  const { id, displayName, type } = entry;
 
   return (
     <StyledCard sx={{ maxWidth: 345 }}>
@@ -39,7 +59,7 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
           {displayName}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {description}
+          {type}
         </Typography>
       </CardContent>
       {/* <Stack>

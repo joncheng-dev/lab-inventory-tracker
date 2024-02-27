@@ -146,19 +146,6 @@ export default function InventoryControl() {
   //#region functions updating database
   // functions updating database
   const handleAddingNewItems = async (data: AddItemsForm) => {
-    console.log("InventoryControl, handleAddingNewItems, data: ", data);
-    // AddItemsForm will contain:
-    // itemType -> data.itemType
-    // quantity -> data.quantity
-
-    // What I actually want to do to create a doc is this:
-    // Multiple items. Each item looks like:
-    // Item:
-    // id
-    // itemType: predefined by user,
-    // isCheckedOut: false,
-    // checkedOutBy: null,
-    // dateCheckedOut: Timestamp,
     addMultipleDocs("items", data);
     setAddFormVisibility(false);
     setIsOpen(false);
@@ -168,6 +155,8 @@ export default function InventoryControl() {
   //   editExistingDoc("itemTypes", entry);
   //   setEditing(false);
   // };
+
+  console.log("InventoryControl, itemTypeList: ", itemTypeList);
 
   // const handleDeletingItemType = async (id: string) => {
   //   deleteExistingDoc("itemTypes", id);
@@ -196,7 +185,9 @@ export default function InventoryControl() {
           <Grid display="flex" justifyContent="space-between">
             <ItemList
               // prettier-ignore
-              listOfEntries={filteredList}
+              // listOfEntries={filteredList}
+              listOfEntries={itemList}
+              listOfItemTypes={itemTypeList}
               onEntryClick={handleChangingSelectedEntry}
               onClickingAddEntry={handleAddItemButtonClick}
             />

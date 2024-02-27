@@ -147,7 +147,7 @@ export default function ItemForm(props: FormProps) {
                       // disablePortal
                       options={itemTypeList}
                       onChange={handleAutocompleteChange}
-                      getOptionLabel={(option) => option.type || ''}
+                      getOptionLabel={(option) => option.displayName || ''}
                       renderOption={(props, option) => (
                         <Box component="li" {...props}>
                           {option.displayName}
