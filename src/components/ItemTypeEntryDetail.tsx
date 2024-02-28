@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { tokens } from "../themes.js";
 import { ItemType } from "../types/index.js";
 import ChildModal from "./ChildModal.js";
-import BasicTable from "./BasicTable.js";
+import BasicTable from "./ItemCheckOutTable.js";
 
 //#region styles
 const EntryDetailContainer = styled.div`

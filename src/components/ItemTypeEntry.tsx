@@ -21,28 +21,7 @@ const ButtonContainer = styled.div`
 `;
 //#endregion
 
-// type OptionalProperties<T> = {
-//   [K in keyof T]?: T[K];
-// };
-
-// interface ItemType {
-//   id?: string | null;
-//   description: string;
-//   displayName: string;
-//   location: string;
-//   tags: string[];
-//   type: string;
-// }
-
-// type PartialItemType = OptionalProperties<ItemType>;
-
-// type ItemTypeEntryProps = {
-//   entry: ItemType | PartialItemType;
-//   onEntryClick: (id: string) => void;
-// };
-
 type ItemTypeEntryProps = {
-  // entry: ItemType | Partial<ItemType>;
   entry: ItemType;
   onEntryClick: (id: string) => void;
 };

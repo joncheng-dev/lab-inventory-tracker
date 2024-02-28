@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../helpers/UserContext.js";
-import { Box, Button, Chip, Divider, Stack, useTheme } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
+import { Box, Button, Chip, Divider, Grid, Stack, useTheme } from "@mui/material";
 import styled from "styled-components";
 import { tokens } from "../themes.js";
 import { Item, ItemType } from "../types/index.js";
 import ChildModal from "./ChildModal.js";
-import BasicTable from "./BasicTable.js";
+import ItemCheckOutTable from "./ItemCheckOutTable.js";
+import ItemReturnTable from "./ItemReturnTable.js";
 
 //#region styles
 const EntryDetailContainer = styled.div`
@@ -51,9 +51,9 @@ const StyledItemValue = styled.p`
 `;
 
 const AvailabilityContainer = styled.div`
-  width: 100%;
+  width: 95%;
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto;
   column-gap: 1rem;
   row-gap: 0.25rem;
 `;
@@ -84,7 +84,7 @@ const StyledStack = styled(Stack)`
 `;
 
 const TextAlignLeftContainer = styled.div`
-  text-align: left;
+  /* text-align: left; */
 `;
 //#endregion styles
 
@@ -100,6 +100,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   const currentUser = useContext(UserContext);
   const { entry, itemList } = props;
   const [quantity, setQuantity] = useState(0);
+  const [quantAvail, setQuantAvail] = useState(0);
   // prettier-ignore
   const {
     id,
@@ -122,8 +123,19 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     itemCounter();
   }, []);
 
+  useEffect(() => {
+    const quantityAvailCounter = () => {
+      const numAvailable = itemList
+        // prettier-ignore
+        .filter((item) => item.type === type)
+        .filter((item) => !item.isCheckedOut).length;
+      setQuantAvail(numAvailable);
+    };
+    quantityAvailCounter();
+  }, []);
+
   return (
-    <TextAlignLeftContainer>
+    <>
       <h2>{displayName}</h2>
       <EntryDetailContainer>
         <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
@@ -173,26 +185,15 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" />)}</StyledStack>
               </Grid>
             </Grid>
-            {/* <Grid xs={5} pt={1}>
-              <h4>Status</h4>
+            <Grid xs={5} pt={1}>
+              <h4>Availability Status</h4>
               <Divider />
               <br />
               <AvailabilityContainer>
-                <StyledInfoItem>
-                  <StyledItemHeader>Availability</StyledItemHeader>
-                  <StyledItemValue>{isCheckedOut ? "Not Available" : "Available"}</StyledItemValue>
-                </StyledInfoItem>
-                <StyledInfoItem>
-                  <StyledItemHeader>Checked Out By</StyledItemHeader>
-                  <StyledItemValue>{isCheckedOut ? checkedOutBy : null}</StyledItemValue>
-                </StyledInfoItem>
-                <StyledInfoItem>
-                  <StyledItemHeader>Date Checked Out</StyledItemHeader>
-                  <StyledItemValue>{isCheckedOut ? dateCheckedOut?.toString() : null}</StyledItemValue>
-                </StyledInfoItem>
+                <ItemCheckOutTable quantAvail={quantAvail} />
+                {/* <ItemReturnTable itemList={itemList} /> */}
               </AvailabilityContainer>
-              <BasicTable />
-            </Grid> */}
+            </Grid>
           </Grid>
           {/* <Box display="flex" justifyContent="space-between" p={1}>
             <Box display="flex" borderRadius="3px" p={2}>
@@ -232,6 +233,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
           <br />
         </Box>
       </EntryDetailContainer>
-    </TextAlignLeftContainer>
+    </>
   );
 }
