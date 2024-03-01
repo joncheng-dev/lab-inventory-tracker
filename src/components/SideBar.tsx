@@ -129,7 +129,7 @@ export default function Sidebar(props: SidebarProps) {
               Data
             </Typography>
             <Item title="Manage Users" to="/manageusers" icon={<PeopleOutlinedIcon />} selected={selected} setSelected={setSelected} />
-            <Item title="Contacts Information" to="/contacts" icon={<ContactsOutlinedIcon />} selected={selected} setSelected={setSelected} />
+            <Item title="Item Types" to="/itemTypes" icon={<ReceiptOutlinedIcon />} selected={selected} setSelected={setSelected} />
             <Item title="Inventory" to="/inventory" icon={<ReceiptOutlinedIcon />} selected={selected} setSelected={setSelected} />
             <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
               Pages

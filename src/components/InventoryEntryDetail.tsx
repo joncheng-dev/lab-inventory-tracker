@@ -100,7 +100,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   const currentUser = useContext(UserContext);
   const { entry, itemList } = props;
   const [quantity, setQuantity] = useState(0);
-  const [quantAvail, setQuantAvail] = useState(0);
+  const [quantAvail, setQuantAvail] = useState<number>(0);
   // prettier-ignore
   const {
     id,
@@ -121,7 +121,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
       setQuantity(count);
     };
     itemCounter();
-  }, []);
+  }, [itemList, type]);
 
   useEffect(() => {
     const quantityAvailCounter = () => {
@@ -132,7 +132,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
       setQuantAvail(numAvailable);
     };
     quantityAvailCounter();
-  }, []);
+  }, [itemList, type]);
 
   return (
     <>
@@ -140,52 +140,52 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
       <EntryDetailContainer>
         <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
           <Grid container spacing={2}>
-            <Grid container xs={7}>
+            <Grid container xs={7} item>
               {/* <Box
                 sx={{
                   "& .MuiTextField-root": { m: 1.5, width: "50ch" },
                 }}
               > */}
-              <Grid xs={8} container>
+              <Grid xs={8} container item>
                 <h4>Inventory Entry Detail</h4>
                 <Divider />
                 <br />
-                <Grid xs={12}>
+                <Grid xs={12} item>
                   <DetailsImageContainer>
                     <Box component="img" sx={{ height: 180 }} src="src/images/contemplative-reptile.jpg" alt="green iguana" />
                   </DetailsImageContainer>
                 </Grid>
-                <Grid xs={6}>
+                <Grid xs={6} item>
                   <StyledItemHeader>Display Name</StyledItemHeader>
                   <StyledItemValue>{displayName}</StyledItemValue>
                 </Grid>
-                <Grid xs={6}>
+                <Grid xs={6} item>
                   <StyledItemHeader>Type</StyledItemHeader>
                   <StyledItemValue>{type}</StyledItemValue>
                 </Grid>
-                <Grid xs={12}>
+                <Grid xs={12} item>
                   <StyledItemHeader>Description</StyledItemHeader>
                   <StyledItemValue>{description}</StyledItemValue>
                 </Grid>
                 <DetailsContainer></DetailsContainer>
-                <Grid xs={6}>
+                <Grid xs={6} item>
                   <StyledItemHeader>Location</StyledItemHeader>
                   <StyledItemValue>{location}</StyledItemValue>
                 </Grid>
-                <Grid xs={6}>
+                <Grid xs={6} item>
                   <StyledItemHeader>Total Quantity</StyledItemHeader>
                   <StyledItemValue>{quantity}</StyledItemValue>
                 </Grid>
               </Grid>
               {/* </Box> */}
-              <Grid xs={4}>
+              <Grid xs={4} item>
                 <h4>Categories</h4>
                 <Divider />
                 <br />
                 <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" />)}</StyledStack>
               </Grid>
             </Grid>
-            <Grid xs={5} pt={1}>
+            <Grid xs={5} pt={1} item>
               <h4>Availability Status</h4>
               <Divider />
               <br />
