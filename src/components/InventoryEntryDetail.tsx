@@ -3,7 +3,7 @@ import { UserContext } from "../helpers/UserContext.js";
 import { Box, Button, Chip, Divider, Grid, Stack, useTheme } from "@mui/material";
 import styled from "styled-components";
 import { tokens } from "../themes.js";
-import { Item, ItemType } from "../types/index.js";
+import { CheckOutFormInput, Item, ItemType } from "../types/index.js";
 import ChildModal from "./ChildModal.js";
 import ItemCheckOutTable from "./ItemCheckOutTable.js";
 import ItemReturnTable from "./ItemReturnTable.js";
@@ -134,6 +134,19 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     quantityAvailCounter();
   }, [itemList, type]);
 
+  const handleCheckoutItems = (data: CheckOutFormInput) => {
+    console.log("InventoryEntryDetail, data: ", data);
+    // Calls on the mutations to query firebase -- do a batch write edit
+    // Takes in the quantity of items the user wishes to check out.
+
+    // -- Randomize the ones to be checked out using ItemList (from here, grab X number of Ids);
+    // Batch write to those ids
+    // Update these fields:
+    // checkedOutBy: userEmail
+    // dateCheckedOut: Date
+    // isCheckedOut: true
+  };
+
   return (
     <>
       <h2>{displayName}</h2>
@@ -190,7 +203,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               <Divider />
               <br />
               <AvailabilityContainer>
-                <ItemCheckOutTable quantAvail={quantAvail} />
+                <ItemCheckOutTable quantAvail={quantAvail} onFormSubmit={handleCheckoutItems} />
                 {/* <ItemReturnTable itemList={itemList} /> */}
               </AvailabilityContainer>
             </Grid>

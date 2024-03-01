@@ -31,6 +31,10 @@ export interface ItemType {
   type: string;
 }
 
+export type CheckOutFormInput = {
+  quantity: number;
+};
+
 export interface UserEntry {
   userId: string;
   userEmail: string;

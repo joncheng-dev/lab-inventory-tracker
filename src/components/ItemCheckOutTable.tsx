@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, FormControl, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Paper } from "@mui/material";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+import { CheckOutFormInput } from "../types";
 import * as yup from "yup";
 
 function createData(name: string, quantity: number) {
@@ -9,10 +10,8 @@ function createData(name: string, quantity: number) {
 
 type ItemCheckOutTableProps = {
   quantAvail: number;
-};
-
-type FormInput = {
-  quantity: number;
+  // onFormSubmit: (data: CheckOutFormInput) => Promise<void>;
+  onFormSubmit: (data: CheckOutFormInput) => void;
 };
 
 // !To Do:
@@ -24,10 +23,10 @@ type FormInput = {
 // Upon submit, take user's number selection, and check out those items to the user's email -- How does this work?
 
 export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
-  const { quantAvail } = props;
+  const { quantAvail, onFormSubmit } = props;
   console.log("ItemCheckOutTable, quantAvail: ", quantAvail);
   const rows = [createData("Available", quantAvail)];
-  const [formData, setFormData] = useState<FormInput>({
+  const [formData, setFormData] = useState<CheckOutFormInput>({
     quantity: 1,
   });
   const { quantity } = formData;
@@ -48,8 +47,27 @@ export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
     }));
   };
 
-  const handleSubmit = (values: FormInput) => {
+  // const handleCheckOutItem = async () => {
+  //   if (!selectedEntry) {
+  //     throw new Error("No items are currently selected. (Selected entry is null.)");
+  //   }
+  //   const entryRef = doc(db, "inventoryEntries", selectedEntry.id!);
+  //   if (selectedEntry.isCheckedOut === false) {
+  //     const checkOutEntryData: Partial<InventoryType> = {
+  //       isCheckedOut: true,
+  //       checkedOutBy: currentUser?.userEmail,
+  //       dateCheckedOut: new Date().toDateString(),
+  //       quantity: selectedEntry.quantity - 1,
+  //     };
+  //     await updateDoc(entryRef, checkOutEntryData);
+  //   } else {
+  //     throw "Item is not available to be checked out.";
+  //   }
+  // };
+
+  const handleSubmit = (values: CheckOutFormInput) => {
     console.log("ItemCheckOutTable, handleSubmit, quantityToCheckOut: ", values.quantity);
+    onFormSubmit(values);
   };
 
   return (
@@ -67,7 +85,7 @@ export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
               <Table sx={{ minWidth: 250 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Quantity</TableCell>
+                    <TableCell>Quantity Available</TableCell>
                     <TableCell>To Check Out</TableCell>
                   </TableRow>
                 </TableHead>
@@ -75,7 +93,7 @@ export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
                   {rows.map((row) => (
                     <TableRow key={row.name} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                       <TableCell component="th" scope="row">
-                        {row.name}
+                        {quantAvail}
                       </TableCell>
                       <TableCell>
                         <Field
