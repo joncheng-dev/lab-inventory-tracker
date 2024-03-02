@@ -7,6 +7,7 @@ import { CheckOutFormInput, Item, ItemType } from "../types/index.js";
 import ChildModal from "./ChildModal.js";
 import ItemCheckOutTable from "./ItemCheckOutTable.js";
 import ItemReturnTable from "./ItemReturnTable.js";
+import { checkOutUpdateDocs } from "../hooks/mutations.js";
 
 //#region styles
 const EntryDetailContainer = styled.div`
@@ -134,17 +135,31 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     quantityAvailCounter();
   }, [itemList, type]);
 
+  function randomItemPicker(numItemsAvailable: number, numItemsToSelect: number) {
+    let randomlySelectedIds = new Set<number>(),
+      ans;
+    while (randomlySelectedIds.size < numItemsToSelect) {
+      randomlySelectedIds.add(Math.floor(Math.random() * numItemsAvailable));
+    }
+    ans = [...randomlySelectedIds];
+    return ans;
+  }
+
   const handleCheckoutItems = (data: CheckOutFormInput) => {
     console.log("InventoryEntryDetail, data: ", data);
+    // data = {
+    //   "quantity": 2
+    // }
+    // Randomize index positions we are interested in -- stored in an array.
+    const randomNumbers: number[] = randomItemPicker(quantAvail, data.quantity);
+    // randomNumbers = [0, 1, 3];
+    // Looks through the collection of items, filters type matching itemType.
+    const itemsOfTargetType = itemList.filter((item) => item.type === type);
+    // Look through list itemsOfTargetType, select the entries matching index positions.
+    const itemsId = randomNumbers.map((index) => itemsOfTargetType[index].id);
+    console.log("InventoryEntryDetails, itemIds: ", itemsId);
     // Calls on the mutations to query firebase -- do a batch write edit
-    // Takes in the quantity of items the user wishes to check out.
-
-    // -- Randomize the ones to be checked out using ItemList (from here, grab X number of Ids);
-    // Batch write to those ids
-    // Update these fields:
-    // checkedOutBy: userEmail
-    // dateCheckedOut: Date
-    // isCheckedOut: true
+    checkOutUpdateDocs("items", currentUser?.userEmail, itemsId as string[]);
   };
 
   return (
