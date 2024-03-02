@@ -47,24 +47,6 @@ export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
     }));
   };
 
-  // const handleCheckOutItem = async () => {
-  //   if (!selectedEntry) {
-  //     throw new Error("No items are currently selected. (Selected entry is null.)");
-  //   }
-  //   const entryRef = doc(db, "inventoryEntries", selectedEntry.id!);
-  //   if (selectedEntry.isCheckedOut === false) {
-  //     const checkOutEntryData: Partial<InventoryType> = {
-  //       isCheckedOut: true,
-  //       checkedOutBy: currentUser?.userEmail,
-  //       dateCheckedOut: new Date().toDateString(),
-  //       quantity: selectedEntry.quantity - 1,
-  //     };
-  //     await updateDoc(entryRef, checkOutEntryData);
-  //   } else {
-  //     throw "Item is not available to be checked out.";
-  //   }
-  // };
-
   const handleSubmit = (values: CheckOutFormInput) => {
     console.log("ItemCheckOutTable, handleSubmit, quantityToCheckOut: ", values.quantity);
     onFormSubmit(values);
@@ -114,9 +96,15 @@ export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
             </TableContainer>
           </Grid>
           <Grid item xs={12} pt={1} sx={{ direction: "row", textAlign: "right" }}>
-            <Button variant="contained" type="submit">
-              Check Out
-            </Button>
+            {quantAvail >= 1 ? (
+              <Button variant="contained" type="submit">
+                Check Out
+              </Button>
+            ) : (
+              <Button variant="contained" type="submit" disabled>
+                Check Out
+              </Button>
+            )}
           </Grid>
         </Grid>
       </Form>

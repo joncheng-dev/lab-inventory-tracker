@@ -50,7 +50,7 @@ export const deleteExistingDoc = async (collectionName: string, id: string) => {
   await deleteDoc(doc(db, collectionName, id));
 };
 
-export const checkOutUpdateDocs = async (collectionName: string, userEmail: string | undefined, selectedIds: string[]) => {
+export const assetTrackUpdateDoc = async (collectionName: string, userEmail: string | undefined, selectedIds: string[], action: string) => {
   const batch = writeBatch(db);
 
   for (const itemId of selectedIds) {
@@ -58,13 +58,23 @@ export const checkOutUpdateDocs = async (collectionName: string, userEmail: stri
     const itemDoc = await getDoc(itemRef);
     const currentItemData = itemDoc.data();
 
-    const updateObject = {
-      ...currentItemData,
-      checkedOutBy: userEmail,
-      dateCheckedOut: serverTimestamp(),
-      isCheckedOut: true,
-    };
-    batch.update(itemRef, updateObject);
+    if (action === "checkOut") {
+      const updateObject = {
+        ...currentItemData,
+        checkedOutBy: userEmail,
+        dateCheckedOut: serverTimestamp(),
+        isCheckedOut: true,
+      };
+      batch.update(itemRef, updateObject);
+    } else if (action === "return") {
+      const updateObject = {
+        ...currentItemData,
+        checkedOutBy: null,
+        dateCheckedOut: null,
+        isCheckedOut: false,
+      };
+      batch.update(itemRef, updateObject);
+    }
   }
   await batch.commit();
 };

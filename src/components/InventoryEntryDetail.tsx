@@ -7,7 +7,7 @@ import { CheckOutFormInput, Item, ItemType } from "../types/index.js";
 import ChildModal from "./ChildModal.js";
 import ItemCheckOutTable from "./ItemCheckOutTable.js";
 import ItemReturnTable from "./ItemReturnTable.js";
-import { checkOutUpdateDocs } from "../hooks/mutations.js";
+import { assetTrackUpdateDoc } from "../hooks/mutations.js";
 
 //#region styles
 const EntryDetailContainer = styled.div`
@@ -159,7 +159,19 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     const itemsId = randomNumbers.map((index) => itemsOfTargetType[index].id);
     console.log("InventoryEntryDetails, itemIds: ", itemsId);
     // Calls on the mutations to query firebase -- do a batch write edit
-    checkOutUpdateDocs("items", currentUser?.userEmail, itemsId as string[]);
+    assetTrackUpdateDoc("items", currentUser?.userEmail, itemsId as string[], "checkOut");
+  };
+
+  const handleReturnItems = () => {
+    console.log("InventoryEntryDetail, handleReturnItems, button clicked: ");
+    // The currently viewed itemType -- being displayed on InventoryEntryDetail
+    // If currently viewed itemList has items of itemType,
+    const itemsOfTargetTypeCheckedOutByUser = itemList
+      .filter((item) => item.type === type)
+      .filter((item) => item.checkedOutBy === currentUser?.userEmail);
+    // AND checkedOutBy === userEmail,
+    const itemIdsToReturn = itemsOfTargetTypeCheckedOutByUser.map((item) => item.id);
+    assetTrackUpdateDoc("items", currentUser?.userEmail, itemIdsToReturn as string[], "return");
   };
 
   return (
@@ -223,8 +235,8 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               </AvailabilityContainer>
             </Grid>
           </Grid>
-          {/* <Box display="flex" justifyContent="space-between" p={1}>
-            <Box display="flex" borderRadius="3px" p={2}>
+          <Box display="flex" justifyContent="space-between" p={1}>
+            {/* <Box display="flex" borderRadius="3px" p={2}>
               <Stack spacing={2} direction="row">
                 <Button onClick={onClickingEdit} variant="contained">
                   Edit entry
@@ -234,20 +246,11 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                   Exit
                 </Button>
               </Stack>
-            </Box>
+            </Box> */}
             <Box display="flex" borderRadius="3px" p={2}>
               <Stack spacing={2} direction="row">
-                {!isCheckedOut ? (
-                  <Button onClick={() => onClickingCheckout()} variant="contained">
-                    Check Out
-                  </Button>
-                ) : (
-                  <Button disabled variant="contained">
-                    Check Out
-                  </Button>
-                )}
-                {currentUser?.userEmail === checkedOutBy ? (
-                  <Button onClick={() => onClickingReturn(id!)} variant="contained">
+                {itemList.some((item) => type === item.type && item.checkedOutBy === currentUser?.userEmail) ? (
+                  <Button onClick={handleReturnItems} variant="contained">
                     Return
                   </Button>
                 ) : (
@@ -257,7 +260,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 )}
               </Stack>
             </Box>
-          </Box> */}
+          </Box>
           <br />
         </Box>
       </EntryDetailContainer>
