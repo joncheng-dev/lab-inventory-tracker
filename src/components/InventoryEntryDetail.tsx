@@ -3,10 +3,10 @@ import { UserContext } from "../helpers/UserContext.js";
 import { Box, Button, Chip, Divider, Grid, Stack, useTheme } from "@mui/material";
 import styled from "styled-components";
 import { tokens } from "../themes.js";
-import { CheckOutFormInput, Item, ItemType } from "../types/index.js";
+import { CheckedOutBySummary, CheckOutFormInput, Item, ItemType } from "../types/index.js";
 import ChildModal from "./ChildModal.js";
 import ItemCheckOutTable from "./ItemCheckOutTable.js";
-import ItemReturnTable from "./ItemReturnTable.js";
+import ItemStatusTable from "./ItemStatusTable.js";
 import { assetTrackUpdateDoc } from "../hooks/mutations.js";
 
 //#region styles
@@ -102,6 +102,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   const { entry, itemList } = props;
   const [quantity, setQuantity] = useState(0);
   const [quantAvail, setQuantAvail] = useState<number>(0);
+  const [checkedOutBySummary, setCheckedOutBySummary] = useState<CheckedOutBySummary[]>([]);
   // prettier-ignore
   const {
     id,
@@ -135,6 +136,32 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     quantityAvailCounter();
   }, [itemList, type]);
 
+  useEffect(() => {
+    currentlyCheckedOutItems();
+  }, [itemList]);
+
+  const currentlyCheckedOutItems = () => {
+    const itemsOfTargetType = itemList.filter((item) => item.type === type);
+    const checkedOutByMap = new Map();
+
+    itemsOfTargetType.forEach((item) => {
+      const { checkedOutBy } = item;
+      if (checkedOutBy) {
+        if (checkedOutByMap.has(checkedOutBy)) {
+          checkedOutByMap.set(checkedOutBy, checkedOutByMap.get(checkedOutBy) + 1);
+        } else {
+          checkedOutByMap.set(checkedOutBy, 1);
+        }
+      }
+    });
+    const summary: CheckedOutBySummary[] = Array.from(checkedOutByMap.entries()).map(([checkedOutBy, quantity]) => ({
+      checkedOutBy,
+      quantity,
+    }));
+    console.log("InventoryEntryDetail, currentlyCheckedOutItems, summary: ", summary);
+    setCheckedOutBySummary(summary);
+  };
+
   function randomItemPicker(numItemsAvailable: number, numItemsToSelect: number) {
     let randomlySelectedIds = new Set<number>(),
       ans;
@@ -154,10 +181,9 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     const randomNumbers: number[] = randomItemPicker(quantAvail, data.quantity);
     // randomNumbers = [0, 1, 3];
     // Looks through the collection of items, filters type matching itemType.
-    const itemsOfTargetType = itemList.filter((item) => item.type === type);
+    const itemsOfTargetType = itemList.filter((item) => item.type === type).filter((item) => !item.isCheckedOut);
     // Look through list itemsOfTargetType, select the entries matching index positions.
     const itemsId = randomNumbers.map((index) => itemsOfTargetType[index].id);
-    console.log("InventoryEntryDetails, itemIds: ", itemsId);
     // Calls on the mutations to query firebase -- do a batch write edit
     assetTrackUpdateDoc("items", currentUser?.userEmail, itemsId as string[], "checkOut");
   };
@@ -171,6 +197,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
       .filter((item) => item.checkedOutBy === currentUser?.userEmail);
     // AND checkedOutBy === userEmail,
     const itemIdsToReturn = itemsOfTargetTypeCheckedOutByUser.map((item) => item.id);
+    console.log("InventoryEntryDetail, handleReturnItems, currentUser.userEmail: ", currentUser?.userEmail);
     assetTrackUpdateDoc("items", currentUser?.userEmail, itemIdsToReturn as string[], "return");
   };
 
@@ -231,36 +258,36 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               <br />
               <AvailabilityContainer>
                 <ItemCheckOutTable quantAvail={quantAvail} onFormSubmit={handleCheckoutItems} />
-                {/* <ItemReturnTable itemList={itemList} /> */}
+                <ItemStatusTable summary={checkedOutBySummary} />
+                <Box display="flex" justifyContent="space-between" p={1}>
+                  {/* <Box display="flex" borderRadius="3px" p={2}>
+                    <Stack spacing={2} direction="row">
+                      <Button onClick={onClickingEdit} variant="contained">
+                        Edit entry
+                      </Button>
+                      <ChildModal entryId={id!} onClickingDelete={onClickingDelete} />
+                      <Button onClick={onClickingExit} variant="contained">
+                        Exit
+                      </Button>
+                    </Stack>
+                  </Box> */}
+                  <Box display="flex" borderRadius="3px" p={2}>
+                    <Stack spacing={2} direction="row">
+                      {itemList.some((item) => type === item.type && item.checkedOutBy === currentUser?.userEmail) ? (
+                        <Button onClick={handleReturnItems} variant="contained">
+                          Return
+                        </Button>
+                      ) : (
+                        <Button disabled variant="contained">
+                          Return
+                        </Button>
+                      )}
+                    </Stack>
+                  </Box>
+                </Box>
               </AvailabilityContainer>
             </Grid>
           </Grid>
-          <Box display="flex" justifyContent="space-between" p={1}>
-            {/* <Box display="flex" borderRadius="3px" p={2}>
-              <Stack spacing={2} direction="row">
-                <Button onClick={onClickingEdit} variant="contained">
-                  Edit entry
-                </Button>
-                <ChildModal entryId={id!} onClickingDelete={onClickingDelete} />
-                <Button onClick={onClickingExit} variant="contained">
-                  Exit
-                </Button>
-              </Stack>
-            </Box> */}
-            <Box display="flex" borderRadius="3px" p={2}>
-              <Stack spacing={2} direction="row">
-                {itemList.some((item) => type === item.type && item.checkedOutBy === currentUser?.userEmail) ? (
-                  <Button onClick={handleReturnItems} variant="contained">
-                    Return
-                  </Button>
-                ) : (
-                  <Button disabled variant="contained">
-                    Return
-                  </Button>
-                )}
-              </Stack>
-            </Box>
-          </Box>
           <br />
         </Box>
       </EntryDetailContainer>

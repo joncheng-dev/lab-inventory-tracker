@@ -40,6 +40,11 @@ export interface UserEntry {
   userEmail: string;
 }
 
+export type CheckedOutBySummary = {
+  checkedOutBy: string;
+  quantity: number;
+};
+
 interface CustomElements extends HTMLFormControlsCollection {
   id?: string;
   name: HTMLInputElement;
