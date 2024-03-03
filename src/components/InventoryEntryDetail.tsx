@@ -271,19 +271,21 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                       </Button>
                     </Stack>
                   </Box> */}
-                  <Box display="flex" borderRadius="3px" p={2}>
-                    <Stack spacing={2} direction="row">
-                      {itemList.some((item) => type === item.type && item.checkedOutBy === currentUser?.userEmail) ? (
-                        <Button onClick={handleReturnItems} variant="contained">
-                          Return
-                        </Button>
-                      ) : (
-                        <Button disabled variant="contained">
-                          Return
-                        </Button>
-                      )}
-                    </Stack>
-                  </Box>
+                  {/* <Box display="flex" borderRadius="3px" p={2}>
+                    <Stack spacing={2} direction="row" textAlign="right"> */}
+                  <Grid item xs={12} sx={{ direction: "row", textAlign: "right" }}>
+                    {itemList.some((item) => type === item.type && item.checkedOutBy === currentUser?.userEmail) ? (
+                      <Button onClick={handleReturnItems} variant="contained">
+                        Return
+                      </Button>
+                    ) : (
+                      <Button disabled variant="contained">
+                        Return
+                      </Button>
+                    )}
+                  </Grid>
+                  {/* </Stack>
+                  </Box> */}
                 </Box>
               </AvailabilityContainer>
             </Grid>

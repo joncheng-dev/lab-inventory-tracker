@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, FormControl, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Paper } from "@mui/material";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { CheckOutFormInput } from "../types";
@@ -14,22 +14,21 @@ type ItemCheckOutTableProps = {
   onFormSubmit: (data: CheckOutFormInput) => void;
 };
 
-// !To Do:
-// Form -
-// Input field for user to submit a quantity (min value 1, max value quantAvail)
-// Submit button - "Check Out" (conditional -- disabled if none avail)
-
-// Functions
-// Upon submit, take user's number selection, and check out those items to the user's email -- How does this work?
-
 export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
   const { quantAvail, onFormSubmit } = props;
   console.log("ItemCheckOutTable, quantAvail: ", quantAvail);
   const rows = [createData("Available", quantAvail)];
   const [formData, setFormData] = useState<CheckOutFormInput>({
-    quantity: 1,
+    quantity: quantAvail > 0 ? 1 : 0,
   });
   const { quantity } = formData;
+
+  useEffect(() => {
+    setFormData((prevData) => ({
+      ...prevData,
+      quantity: quantAvail > 0 ? 1 : 0,
+    }));
+  }, [quantAvail]);
 
   const validationSchema = yup.object().shape({
     quantity: yup
@@ -50,6 +49,8 @@ export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
   const handleSubmit = (values: CheckOutFormInput) => {
     console.log("ItemCheckOutTable, handleSubmit, quantityToCheckOut: ", values.quantity);
     onFormSubmit(values);
+
+    setFormData({ quantity: quantAvail > 0 ? 1 : 0 });
   };
 
   return (

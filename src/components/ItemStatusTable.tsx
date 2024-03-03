@@ -13,7 +13,7 @@ export default function ItemStatusTable(props: ItemStatusTableProps) {
   console.log("ItemStatusTable, summary: ", summary);
 
   return (
-    <Grid container>
+    <Grid container pt={1}>
       <Grid item xs={12}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 250 }} aria-label="simple table">
