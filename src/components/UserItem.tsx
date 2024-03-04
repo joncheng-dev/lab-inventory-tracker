@@ -1,11 +1,12 @@
-import { InventoryEntry } from "../types";
+import { Item, ItemType } from "../types";
 import styled from "styled-components";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 
 type UserItemProps = {
-  entry: InventoryEntry;
+  count: number;
+  entry: ItemType;
   onEntryClick: (id: string) => void;
 };
 
@@ -23,22 +24,20 @@ const StyledCard = styled(Card)`
 `;
 
 export default function UserItem(props: UserItemProps) {
-  const { entry, onEntryClick } = props;
-  const { id, name, dateCheckedOut } = entry;
-
+  const { count, entry, onEntryClick } = props;
+  const { id, displayName } = entry;
   return (
     <>
       <StyledCard
         onClick={() => {
-          console.log("UserItem, Div clicked, id is: ", id);
           onEntryClick(id!);
         }}
       >
         <CardContent>
           <Typography variant="h5" component="div">
-            {name}
+            {displayName}
           </Typography>
-          <Typography variant="body2">Checkout Date: {dateCheckedOut?.toString()}</Typography>
+          <Typography variant="body2">{count}</Typography>
         </CardContent>
       </StyledCard>
     </>

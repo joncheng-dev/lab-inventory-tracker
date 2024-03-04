@@ -33,6 +33,7 @@ export default function InventoryControl() {
   // For data:
   const [itemList, setItemList] = useState<Item[]>([]);
   const [itemTypeList, setItemTypeList] = useState<ItemType[]>([]);
+  const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<Item[]>([]);
   const [tagsToFilter, setTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filteredList, setFilteredList] = useState<ItemType[]>([]);
@@ -92,6 +93,14 @@ export default function InventoryControl() {
   }, []);
 
   useEffect(() => {
+    if (currentUser) {
+      handleMakeUserItemList();
+      console.log("InventoryControl, itemList: ", itemList);
+      console.log("InventoryControl, itemsCheckedOutByUser: ", itemsCheckedOutByUser);
+    }
+  }, [itemList]);
+
+  useEffect(() => {
     const itemEntriesToDisplay = () => {
       // Create a SET of item 'type'.
       const setOfTypes = [...new Set(itemList.map((entry) => entry.type))];
@@ -116,6 +125,14 @@ export default function InventoryControl() {
   //#endregion useEffect hooks
 
   //#region functions
+  const handleMakeUserItemList = () => {
+    if (currentUser) {
+      setItemsCheckedOutByUser(() => {
+        return itemList.filter((entry) => entry.checkedOutBy === currentUser.userEmail);
+      });
+    }
+  };
+
   const handleExitButtonClick = () => {
     if (selectedEntry) {
       setAddFormVisibility(false);
@@ -208,7 +225,14 @@ export default function InventoryControl() {
           </Grid>
         </Grid>
         <Grid item xs={2.5}>
-          <FixedWidthItem>{<h3>User Info Panel</h3>}</FixedWidthItem>
+          <FixedWidthItem>
+            <UserInfoPanel
+              // prettier-ignore
+              onEntryClick={handleChangingSelectedEntry}
+              itemsCheckedOutByUser={itemsCheckedOutByUser}
+              listOfItemTypes={itemTypeList}
+            />
+          </FixedWidthItem>
         </Grid>
       </Grid>
       <BasicModal

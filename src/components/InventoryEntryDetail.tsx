@@ -113,10 +113,10 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     type,
   } = entry;
 
-  console.log("InventoryEntryDetail, currentUser.userEmail: ", currentUser?.userEmail);
+  // console.log("InventoryEntryDetail, currentUser.userEmail: ", currentUser?.userEmail);
 
-  console.log("InventoryEntryDetail, itemList: ", itemList);
-  console.log("InventoryEntryDetail, type: ", type);
+  // console.log("InventoryEntryDetail, itemList: ", itemList);
+  // console.log("InventoryEntryDetail, type: ", type);
   useEffect(() => {
     const itemCounter = () => {
       const count = itemList.filter((item) => item.type === type).length;
@@ -158,7 +158,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
       checkedOutBy,
       quantity,
     }));
-    console.log("InventoryEntryDetail, currentlyCheckedOutItems, summary: ", summary);
+    // console.log("InventoryEntryDetail, currentlyCheckedOutItems, summary: ", summary);
     setCheckedOutBySummary(summary);
   };
 
@@ -173,7 +173,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   }
 
   const handleCheckoutItems = (data: CheckOutFormInput) => {
-    console.log("InventoryEntryDetail, data: ", data);
+    // console.log("InventoryEntryDetail, data: ", data);
     // data = {
     //   "quantity": 2
     // }
@@ -189,7 +189,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   };
 
   const handleReturnItems = () => {
-    console.log("InventoryEntryDetail, handleReturnItems, button clicked: ");
+    // console.log("InventoryEntryDetail, handleReturnItems, button clicked: ");
     // The currently viewed itemType -- being displayed on InventoryEntryDetail
     // If currently viewed itemList has items of itemType,
     const itemsOfTargetTypeCheckedOutByUser = itemList
@@ -197,7 +197,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
       .filter((item) => item.checkedOutBy === currentUser?.userEmail);
     // AND checkedOutBy === userEmail,
     const itemIdsToReturn = itemsOfTargetTypeCheckedOutByUser.map((item) => item.id);
-    console.log("InventoryEntryDetail, handleReturnItems, currentUser.userEmail: ", currentUser?.userEmail);
+    // console.log("InventoryEntryDetail, handleReturnItems, currentUser.userEmail: ", currentUser?.userEmail);
     assetTrackUpdateDoc("items", currentUser?.userEmail, itemIdsToReturn as string[], "return");
   };
 
