@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Item, ItemType } from "../types";
 import UserItem from "./UserItem";
-import Divider from "@mui/material/Divider";
+import { Divider, Grid } from "@mui/material";
 import { UserContext } from "../helpers/UserContext";
 
 type UserInfoPanelProps = {
@@ -29,14 +29,25 @@ export default function UserInfoPanel(props: UserInfoPanelProps) {
 
   return (
     <>
-      <h2>User Info. Panel</h2>
+      <h3>User Info Panel</h3>
       <Divider />
       <br />
-      <h4>Email: {currentUser ? currentUser.userEmail : ""}</h4>
+      <h5>Logged in as:</h5>
+      <h5>{currentUser ? currentUser.userEmail : ""}</h5>
       <Divider />
-      {filteredItemTypes.map((entry) => (
-        <UserItem entry={entry} count={itemCounts[entry.type]} key={entry.id} onEntryClick={onEntryClick} />
-      ))}
+      <Grid container>
+        <Grid item xs={8}>
+          <p>Item Name</p>
+        </Grid>
+        <Grid item xs={4}>
+          Quantity
+        </Grid>
+      </Grid>
+      {itemsCheckedOutByUser.length > 0 ? (
+        filteredItemTypes.map((entry) => <UserItem entry={entry} count={itemCounts[entry.type]} key={entry.id} onEntryClick={onEntryClick} />)
+      ) : (
+        <p>No items checked out</p>
+      )}
     </>
   );
 }

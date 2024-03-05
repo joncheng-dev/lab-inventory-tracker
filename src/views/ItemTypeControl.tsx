@@ -171,7 +171,14 @@ function ItemTypeControl() {
           </Grid>
         </Grid>
         <Grid item xs={2.5}>
-          <FixedWidthItem>{<h3>User Info Panel</h3>}</FixedWidthItem>
+          <FixedWidthItem>
+            {
+              <>
+                <h3>User Info Panel</h3>
+                <p>Not applicable for Item Types</p>
+              </>
+            }
+          </FixedWidthItem>
         </Grid>
       </Grid>
       <BasicModal

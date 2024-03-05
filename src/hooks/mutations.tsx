@@ -4,6 +4,7 @@ import { collection, addDoc, deleteDoc, doc, getDoc, serverTimestamp, updateDoc,
 
 export const addNewDoc = async (collectionName: string, entry: Item | ItemType) => {
   await addDoc(collection(db, collectionName), entry);
+  console.log("mutations, addNewDoc, entry: ", entry);
 };
 
 export const addMultipleDocs = async (collectionName: string, data: AddItemsForm) => {

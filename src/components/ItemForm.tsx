@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { AddItemsForm, Item, ItemType } from "../types";
+import { AddItemsForm, ItemType } from "../types";
 import {
   Autocomplete,
   AutocompleteChangeReason,
@@ -32,7 +32,7 @@ const InputColumnContainer = styled.div`
 //#endregion styles
 
 type FormProps = {
-  itemTypeList: Partial<ItemType>[];
+  itemTypeList: ItemType[];
   onFormSubmit: (data: AddItemsForm) => Promise<void>;
 };
 
@@ -70,18 +70,7 @@ export default function ItemForm(props: FormProps) {
 
   const { type, quantity } = formData;
 
-  const exampleList: Partial<ItemType>[] = [
-    {
-      displayName: "a-unique-name",
-      type: "Safety Goggles",
-    },
-    {
-      displayName: "some-unique-name",
-      type: "Dice",
-    },
-  ];
-
-  const handleAutocompleteChange = (event: React.ChangeEvent<{}>, value: Partial<ItemType> | null, reason: AutocompleteChangeReason) => {
+  const handleAutocompleteChange = (event: React.ChangeEvent<{}>, value: ItemType | null, reason: AutocompleteChangeReason) => {
     if (reason === "selectOption") {
       setFormData((prevData) => ({
         ...prevData,
@@ -122,14 +111,14 @@ export default function ItemForm(props: FormProps) {
           <Form>
           <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
             <Grid container spacing={2}>
-              <Grid xs={7}>
+              <Grid item xs={7}>
                 <Box
                   component="div"
                   sx={{
                     "& .MuiTextField-root": { m: 1.5, width: "50ch" },
                   }}
                 >
-                  <h2>Add New Item</h2>
+                  <h2>Add Items to Inventory</h2>
                   <Divider />
                   <br />
                   <InputColumnContainer>

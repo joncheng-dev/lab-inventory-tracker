@@ -33,6 +33,7 @@ export default function InventoryControl() {
   // For data:
   const [itemList, setItemList] = useState<Item[]>([]);
   const [itemTypeList, setItemTypeList] = useState<ItemType[]>([]);
+  const [itemTypeListForForms, setItemTypeListForForms] = useState<ItemType[]>([]);
   const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<Item[]>([]);
   const [tagsToFilter, setTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -84,6 +85,8 @@ export default function InventoryControl() {
           });
         });
         setItemTypeList(entries);
+        setItemTypeListForForms(entries);
+        console.log("InventoryControl, entries: ", entries);
       },
       (error) => {
         setError(error.message);
@@ -249,10 +252,10 @@ export default function InventoryControl() {
             onFormSubmit={handleEditingItemType}
           />
         )} */}
-        {isOpen && addItemFormVisible && (
+        {isOpen && addItemFormVisible && itemTypeList.length > 0 && (
           <ItemForm
             // prettier-ignore
-            itemTypeList={itemTypeList}
+            itemTypeList={itemTypeListForForms}
             onFormSubmit={handleAddingNewItems}
           />
         )}
