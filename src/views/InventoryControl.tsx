@@ -42,7 +42,7 @@ export default function InventoryControl() {
   // Miscellaneous:
   const [error, setError] = useState<string | null>(null);
   const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
-  const purposeTagChecklist: string[] = ["Equipment", "Materials", "Models", "Safety"];
+  const purposeTagChecklist: string[] = ["Equipment", "Glassware", "Materials", "Measurement", "Models", "Safety", "Tools"];
 
   //#region useEffect hooks
   useEffect(() => {

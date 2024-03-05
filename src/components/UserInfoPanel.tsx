@@ -33,9 +33,9 @@ export default function UserInfoPanel(props: UserInfoPanelProps) {
       <Divider />
       <br />
       <h5>Logged in as:</h5>
-      <h5>{currentUser ? currentUser.userEmail : ""}</h5>
+      <h6>{currentUser ? currentUser.userEmail : ""}</h6>
       <Divider />
-      <Grid container>
+      <Grid container pt={3}>
         <Grid item xs={8}>
           <p>Item Name</p>
         </Grid>

@@ -1,8 +1,6 @@
 import { Item, ItemType } from "../types";
 import styled from "styled-components";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
+import { Card, CardContent, Grid, Typography } from "@mui/material/";
 
 type UserItemProps = {
   count: number;
@@ -34,10 +32,18 @@ export default function UserItem(props: UserItemProps) {
         }}
       >
         <CardContent>
-          <Typography variant="h5" component="div">
-            {displayName}
-          </Typography>
-          <Typography variant="body2">{count}</Typography>
+          <Grid container>
+            <Grid item xs={8}>
+              <Typography variant="h5" component="div">
+                {displayName}
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography variant="body2" textAlign="center">
+                {count}
+              </Typography>
+            </Grid>
+          </Grid>
         </CardContent>
       </StyledCard>
     </>
