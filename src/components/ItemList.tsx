@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ItemTypeEntry from "./ItemTypeEntry";
 import DataTable from "./DataTable";
 import { Item, ItemType } from "../types";

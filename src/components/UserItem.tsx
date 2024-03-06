@@ -1,3 +1,4 @@
+import React from "react";
 import { Item, ItemType } from "../types";
 import styled from "styled-components";
 import { Card, CardContent, Grid, Typography } from "@mui/material/";

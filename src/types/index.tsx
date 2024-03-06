@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 import { Timestamp } from "firebase/firestore";
 
 export type eTargetType = {

@@ -1,3 +1,4 @@
+import React from "react";
 import { tokens } from "../themes";
 
 interface TeamMember {

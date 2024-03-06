@@ -1,3 +1,4 @@
+import React from "react";
 import { ItemType } from "../types";
 
 export const filterList = (list: ItemType[], searchQuery: string, tagsToFilter: string[]) => {
