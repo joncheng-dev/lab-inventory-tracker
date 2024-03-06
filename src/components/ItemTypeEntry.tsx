@@ -28,11 +28,11 @@ type ItemTypeEntryProps = {
 
 function ItemTypeEntry(props: ItemTypeEntryProps) {
   const { entry, onEntryClick } = props;
-  const { id, displayName, type } = entry;
+  const { id, displayName, type, image } = entry;
 
   return (
     <StyledCard sx={{ maxWidth: 345 }}>
-      <CardMedia sx={{ height: 140 }} image="src/images/contemplative-reptile.jpg" title="green iguana" />
+      {image && <CardMedia sx={{ height: 140 }} image={image} title="selected image" />}
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {displayName}
@@ -41,11 +41,6 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
           {type}
         </Typography>
       </CardContent>
-      {/* <Stack>
-        {tags.map((tag, index) => (
-          <Chip key={index} label={tag} />
-        ))}
-      </Stack> */}
       <CardActions>
         <Button
           size="small"
@@ -56,10 +51,17 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
         >
           Details
         </Button>
-        {/* <Button size="small">{isCheckedOut ? "Return" : "Check Out"}</Button> */}
       </CardActions>
     </StyledCard>
   );
 }
 
 export default ItemTypeEntry;
+
+{
+  /* <Stack>
+  {tags.map((tag, index) => (
+    <Chip key={index} label={tag} />
+  ))}
+</Stack> */
+}

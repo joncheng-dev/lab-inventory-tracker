@@ -29,6 +29,7 @@ export interface ItemType {
   location: string;
   tags: string[];
   type: string;
+  image: string;
 }
 
 export type CheckOutFormInput = {

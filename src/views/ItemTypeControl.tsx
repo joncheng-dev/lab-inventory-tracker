@@ -55,6 +55,7 @@ function ItemTypeControl() {
             description: entry.data().description,
             tags: entry.data().tags,
             type: entry.data().type,
+            image: entry.data().image,
           });
         });
         setItemTypeList(entries);

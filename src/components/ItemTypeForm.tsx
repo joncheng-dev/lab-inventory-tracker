@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import ImageSelector from "../components/ImageSelector";
 import { ItemType } from "../types";
 import { Box, Button, Checkbox, Divider, FormControlLabel, Grid, Stack, TextField, useTheme } from "@mui/material";
 import { tokens } from "../themes";
@@ -42,6 +43,7 @@ export default function ItemTypeForm(props: FormProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { entry, onFormSubmit, subjectTagChecklist, purposeTagChecklist } = props;
+  const [selectedImage, setSelectedImage] = useState<string>("");
   const [formData, setFormData] = useState<ItemType>(
     entry || {
       displayName: "",
@@ -49,6 +51,7 @@ export default function ItemTypeForm(props: FormProps) {
       location: "",
       tags: [],
       type: "",
+      image: "",
     }
   );
 
@@ -103,6 +106,7 @@ export default function ItemTypeForm(props: FormProps) {
 
   const handleSubmit = (values: ItemType) => {
     console.log("handleSubmit, values: ", values);
+    values.image = selectedImage || "";
     onFormSubmit(values);
   };
 
@@ -119,26 +123,7 @@ export default function ItemTypeForm(props: FormProps) {
           <Form>
           <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
             <Grid container spacing={2}>
-              <Grid xs={5} pt={1}>
-                <h2>Tags</h2>
-                <Divider />
-                <br />
-                <div className="row">
-                  <SubjectBoxContainer>
-                    <h4>
-                      <strong>Subjects</strong>
-                    </h4>
-                    {tagChecklistGenerator(subjectTagChecklist)}
-                  </SubjectBoxContainer>
-                  <PurposeBoxContainer>
-                    <h4>
-                      <strong>Purpose</strong>
-                    </h4>
-                    {tagChecklistGenerator(purposeTagChecklist)}
-                  </PurposeBoxContainer>
-                </div>
-              </Grid>
-              <Grid xs={7}>
+              <Grid item xs={5}>
                 <Box
                   component="div"
                   sx={{
@@ -189,9 +174,32 @@ export default function ItemTypeForm(props: FormProps) {
                       value={location}
                     />                    
                     <br />
-                  </InputColumnContainer>
-                </Box>
-              </Grid>
+                    </InputColumnContainer>
+                  </Box>
+                </Grid>
+                <Grid item xs={4} pt={1}>
+                  <h2>Tags</h2>
+                  <Divider />
+                  <br />
+                  <div className="row">
+                    <SubjectBoxContainer>
+                      <h4>
+                        <strong>Subjects</strong>
+                      </h4>
+                      {tagChecklistGenerator(subjectTagChecklist)}
+                    </SubjectBoxContainer>
+                    <PurposeBoxContainer>
+                      <h4>
+                        <strong>Purpose</strong>
+                      </h4>
+                      {tagChecklistGenerator(purposeTagChecklist)}
+                    </PurposeBoxContainer>
+                  </div>
+                </Grid>
+                <Grid item xs={2}>
+                  <h2>Image</h2>
+                  <ImageSelector onSelect={setSelectedImage} />
+                </Grid>
             </Grid>
             <Stack spacing={2} direction="row" justifyContent="flex-end">
               <Button type="submit" variant="contained">

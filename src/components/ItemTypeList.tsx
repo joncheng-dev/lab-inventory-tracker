@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { styled as styledMui } from "@mui/material/styles";
 import ItemTypeEntry from "./ItemTypeEntry";
-import { ItemType as IType } from "../types";
+import { ItemType } from "../types";
 import { Button, Grid, IconButton, Stack, useTheme } from "@mui/material";
 import { Add, Apps, ViewHeadline } from "@mui/icons-material";
 import DataTable from "./DataTable";
@@ -37,7 +37,7 @@ const ResponsiveDataGridContainer = styled("div")`
 //#endregion styles
 
 type ItemTypeListProps = {
-  listOfEntries: IType[];
+  listOfEntries: ItemType[];
   onEntryClick: (id: string) => void;
   onClickingAddEntry: () => void;
 };

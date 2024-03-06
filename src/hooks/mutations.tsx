@@ -43,6 +43,7 @@ export const editExistingDoc = async (collectionName: string, entry: ItemType) =
     location: entry.location,
     tags: entry.tags || [],
     type: entry.type,
+    image: entry.image,
   };
   await updateDoc(entryRef, data);
 };

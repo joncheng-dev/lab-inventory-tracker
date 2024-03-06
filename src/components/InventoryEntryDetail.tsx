@@ -111,6 +111,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     location,
     tags,
     type,
+    image,
   } = entry;
 
   // console.log("InventoryEntryDetail, currentUser.userEmail: ", currentUser?.userEmail);
@@ -219,7 +220,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 <br />
                 <Grid xs={12} item>
                   <DetailsImageContainer>
-                    <Box component="img" sx={{ height: 180 }} src="src/images/contemplative-reptile.jpg" alt="green iguana" />
+                    <Box component="img" sx={{ height: 180 }} src={image} alt="selected image" />
                   </DetailsImageContainer>
                 </Grid>
                 <Grid xs={6} item>

@@ -108,9 +108,11 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     location,
     tags,
     type,
+    image,
   } = entry;
 
   console.log("ItemTypeEntryDetail, currentUser.userEmail: ", currentUser?.userEmail);
+  console.log("ItemTypeEntryDetails, image: ", image);
 
   return (
     <TextAlignLeftContainer>
@@ -130,7 +132,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 <br />
                 <Grid xs={12}>
                   <DetailsImageContainer>
-                    <Box component="img" sx={{ height: 180 }} src="src/images/contemplative-reptile.jpg" alt="green iguana" />
+                    <Box component="img" sx={{ height: 180 }} src={image} alt="selected image" />
                   </DetailsImageContainer>
                 </Grid>
                 <Grid xs={6}>
