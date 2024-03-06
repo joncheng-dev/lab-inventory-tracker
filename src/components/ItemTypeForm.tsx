@@ -10,7 +10,7 @@ import * as yup from "yup";
 
 //#region styles
 const ReusableFormContainer = styled.div`
-  padding-left: 50px;
+  padding-left: 20px;
   padding-top: 25px;
 `;
 

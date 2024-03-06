@@ -161,7 +161,7 @@ function ItemTypeControl() {
             />
           </FixedWidthItem>
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={7.75}>
           <Grid display="flex" justifyContent="space-between">
             <ItemTypeList
               // prettier-ignore
@@ -171,7 +171,7 @@ function ItemTypeControl() {
             />
           </Grid>
         </Grid>
-        <Grid item xs={2.5}>
+        <Grid item xs={2.75} pr={2}>
           <FixedWidthItem>
             {
               <>

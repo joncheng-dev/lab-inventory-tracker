@@ -92,7 +92,7 @@ export default function Sidebar(props: SidebarProps) {
             }}
           >
             {!isCollapsed && (
-              <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
+              <Box display="flex" justifyContent="space-between" alignItems="center" ml="10px">
                 <Typography variant="h3" color={colors.grey[100]}>
                   {currentUser ? currentUser.userEmail : "User"}
                 </Typography>
@@ -109,25 +109,25 @@ export default function Sidebar(props: SidebarProps) {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`../../assets/user.png`}
+                  src={`src/images/profile.jpg`}
                   style={{ cursor: "pointer", borderRadius: "50px" }}
                 />
               </Box>
               <Box textAlign="center">
-                <Typography variant="h2" color={colors.grey[100]} fontWeight="bold" sx={{ m: "10px 0 0 0" }}>
-                  .
+                <Typography variant="h4" color={colors.grey[100]} fontWeight="bold" sx={{ m: "10px 0 0 0" }}>
+                  User Name
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  Admin
+                  Teacher
                 </Typography>
               </Box>
             </Box>
           )}
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item title="Dashboard" to="/inventory" icon={<HomeOutlinedIcon />} selected={selected} setSelected={setSelected} />
-            <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
+            {/* <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
               Data
-            </Typography>
+            </Typography> */}
             <Item title="Manage Users" to="/manageusers" icon={<PeopleOutlinedIcon />} selected={selected} setSelected={setSelected} />
             <Item title="Item Types" to="/itemTypes" icon={<ReceiptOutlinedIcon />} selected={selected} setSelected={setSelected} />
             <Item title="Inventory" to="/inventory" icon={<ReceiptOutlinedIcon />} selected={selected} setSelected={setSelected} />

@@ -217,7 +217,7 @@ export default function InventoryControl() {
             />
           </FixedWidthItem>
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={7.75}>
           <Grid display="flex" justifyContent="space-between">
             <ItemList
               // prettier-ignore
@@ -228,7 +228,7 @@ export default function InventoryControl() {
             />
           </Grid>
         </Grid>
-        <Grid item xs={2.5}>
+        <Grid item xs={2.75} pr={2}>
           <FixedWidthItem>
             <UserInfoPanel
               // prettier-ignore

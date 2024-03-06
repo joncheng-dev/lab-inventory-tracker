@@ -17,7 +17,7 @@ const ItemContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 2.6em;
+  gap: 1.5em;
 `;
 
 const StyledIconButton = styledMui(IconButton)(({ theme }) => ({
@@ -66,7 +66,7 @@ export default function ItemTypeList(props: ItemTypeListProps) {
 
   return (
     <>
-      <Grid container item xs={12} justifyContent="space-between">
+      <Grid container item xs={12} pl={2.5} justifyContent="space-between">
         <Grid item xs={10} borderRadius="3px">
           <h2>Item Types</h2>
         </Grid>
