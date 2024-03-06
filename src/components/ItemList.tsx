@@ -71,10 +71,10 @@ export default function ItemList(props: ItemListProps) {
   return (
     <>
       <Grid container item xs={12} pl={2.5} justifyContent="space-between">
-        <Grid item xs={10} borderRadius="3px">
+        <Grid item xs={10.5} borderRadius="3px">
           <h2>Item List</h2>
         </Grid>
-        <Grid item xs={2} borderRadius="3px">
+        <Grid item xs={1.5} borderRadius="3px">
           <Stack direction="row">
             <StyledIconButton onClick={activateCardView}>
               <Apps

@@ -68,14 +68,14 @@ export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
               <Table sx={{ minWidth: 250 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Quantity Available</TableCell>
-                    <TableCell>To Check Out</TableCell>
+                    <TableCell sx={{ fontSize: 15 }}>Quantity Available</TableCell>
+                    <TableCell sx={{ fontSize: 15 }}>To Check Out</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {rows.map((row) => (
                     <TableRow key={row.name} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                      <TableCell component="th" scope="row">
+                      <TableCell component="th" scope="row" sx={{ fontSize: 12 }}>
                         {quantAvail}
                       </TableCell>
                       <TableCell>
@@ -88,6 +88,7 @@ export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
                           onChange={handleQuantityChange}
                           type="number"
                           value={quantity}
+                          sx={{ fontSize: 15 }}
                         />
                       </TableCell>
                     </TableRow>
@@ -98,11 +99,11 @@ export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
           </Grid>
           <Grid item xs={12} pt={1} sx={{ direction: "row", textAlign: "right" }}>
             {quantAvail >= 1 ? (
-              <Button variant="contained" type="submit">
+              <Button variant="contained" type="submit" sx={{ fontSize: 12 }}>
                 Check Out
               </Button>
             ) : (
-              <Button variant="contained" type="submit" disabled>
+              <Button variant="contained" type="submit" disabled sx={{ fontSize: 12 }}>
                 Check Out
               </Button>
             )}

@@ -81,6 +81,7 @@ const StyledInfoItem = styled.div`
 const StyledStack = styled(Stack)`
   display: block;
   justify-content: "left";
+  flex-direction: "column";
 `;
 
 const TextAlignLeftContainer = styled.div`
@@ -158,7 +159,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 <h4>Categories</h4>
                 <Divider />
                 <br />
-                <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" />)}</StyledStack>
+                <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" sx={{ fontSize: 15 }} />)}</StyledStack>
               </Grid>
             </Grid>
             {/* <Grid xs={5} pt={1}>

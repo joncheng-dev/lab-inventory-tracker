@@ -3,10 +3,11 @@ import { Box, Paper, Typography } from "@mui/material";
 
 interface ImageSelectorProps {
   onSelect: (imageUrl: string) => void;
+  initialSelectedImage?: string;
 }
 
-const ImageSelector: React.FC<ImageSelectorProps> = ({ onSelect }) => {
-  const [selectedImageUrl, setSelectedImageUrl] = useState<string | undefined>("src/images/contemplative-reptile.jpg");
+const ImageSelector: React.FC<ImageSelectorProps> = ({ onSelect, initialSelectedImage }) => {
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string | undefined>(initialSelectedImage);
 
   const imageUrls = [
     "src/images/equipment-1.png",

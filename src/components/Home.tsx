@@ -16,8 +16,9 @@ export default function Home() {
   const navigate = useNavigate();
   const currentUser = useContext(UserContext);
   const [isSidebarExpanded, setSidebarExpanded] = useState<boolean>(true);
-  const sidebarWidth = isSidebarExpanded ? 2 : 1;
-  const mainContentWidth = isSidebarExpanded ? 10 : 11;
+  // const sidebarWidth = isSidebarExpanded ? 2 : 1;
+  const sidebarWidth = isSidebarExpanded ? 1.25 : 1;
+  const mainContentWidth = isSidebarExpanded ? 10.75 : 11;
 
   // const localUser = useLocalStorage({ key: "currentUser", objectToStore: currentUser });
 

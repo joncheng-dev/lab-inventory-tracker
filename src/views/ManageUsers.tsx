@@ -61,7 +61,7 @@ function ManageUsers() {
 
   return (
     <Box m="20px" width="100%">
-      <h2>Manage Users</h2>
+      <h2>Users</h2>
       <Box
         m="40px 0 0 0"
         height="75vh"

@@ -44,7 +44,7 @@ export default function ItemTypeForm(props: FormProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { entry, onFormSubmit, subjectTagChecklist, purposeTagChecklist } = props;
-  const [selectedImage, setSelectedImage] = useState<string>("src/images/contemplative-reptile.jpg");
+  const [selectedImage, setSelectedImage] = useState<string>(entry?.image || "src/images/contemplative-reptile.jpg");
   const [formData, setFormData] = useState<ItemType>(
     entry || {
       displayName: "",
@@ -199,7 +199,7 @@ export default function ItemTypeForm(props: FormProps) {
                 </Grid>
                 <Grid item xs={2.5}>
                   <h2>Image</h2>
-                  <ImageSelector onSelect={setSelectedImage} />
+                  <ImageSelector onSelect={setSelectedImage} initialSelectedImage={selectedImage} />
                 </Grid>
             </Grid>
             <Stack spacing={2} direction="row" justifyContent="flex-end">

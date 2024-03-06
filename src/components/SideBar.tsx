@@ -56,12 +56,12 @@ export default function Sidebar(props: SidebarProps) {
   const { onToggle } = props;
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
   const [selected, setSelected] = useState<string>("Dashboard");
 
-  useEffect(() => {
-    onToggle();
-  }, [isCollapsed]);
+  // useEffect(() => {
+  //   onToggle();
+  // }, [isCollapsed]);
 
   return (
     <Box
@@ -86,7 +86,7 @@ export default function Sidebar(props: SidebarProps) {
       <ProSidebar collapsed={isCollapsed}>
         <Menu iconShape="square">
           <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            // onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
               margin: "10px 0 20px 0",

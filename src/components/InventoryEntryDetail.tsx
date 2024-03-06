@@ -21,6 +21,24 @@ const DetailsImageContainer = styled.div`
   justify-content: center;
 `;
 
+const MuiChipCustom = styled(Chip)(() => ({
+  width: 150, //adding custom css styles
+  height: 50,
+  backgroundColor: "lightblue",
+  borderRadius: 2,
+  color: "white",
+
+  "& .MuiChip-label": {
+    color: "blue", //using the MUI chip label properties
+    fontSize: 20,
+  },
+
+  "& .MuiChip-deleteIcon": {
+    color: "blue",
+    fontSize: 20,
+  },
+}));
+
 // const DetailsContainer = styled.div`
 //   float: left;
 //   width: 100%;
@@ -250,7 +268,8 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 <h4>Categories</h4>
                 <Divider />
                 <br />
-                <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" />)}</StyledStack>
+                <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" sx={{ fontSize: 15 }} />)}</StyledStack>
+                {/* <StyledStack>{tags && tags.map((tag, index) => <MuiChipCustom key={index} label={tag} size="medium" />)}</StyledStack> */}
               </Grid>
             </Grid>
             <Grid xs={5} pt={1} item>

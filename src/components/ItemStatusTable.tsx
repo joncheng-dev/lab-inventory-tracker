@@ -19,8 +19,8 @@ export default function ItemStatusTable(props: ItemStatusTableProps) {
           <Table sx={{ minWidth: 250 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>User</TableCell>
-                <TableCell>Quantity Checked Out</TableCell>
+                <TableCell sx={{ fontSize: 15 }}>User</TableCell>
+                <TableCell sx={{ fontSize: 15 }}>Quantity Checked Out</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -34,10 +34,10 @@ export default function ItemStatusTable(props: ItemStatusTableProps) {
               )}
               {summary.map((row) => (
                 <TableRow key={row.checkedOutBy} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                  <TableCell component="th" scope="row">
+                  <TableCell component="th" scope="row" sx={{ fontSize: 15 }}>
                     {row.checkedOutBy}
                   </TableCell>
-                  <TableCell>{row.quantity}</TableCell>
+                  <TableCell sx={{ fontSize: 15 }}>{row.quantity}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
