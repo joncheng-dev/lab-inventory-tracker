@@ -37,7 +37,7 @@ export default function Header(props: HeaderProps) {
 
   return (
     <>
-      <Box display="flex" justifyContent="space-between" p={2}>
+      <Box display="flex" justifyContent="space-between" pt={2} pr={2} pb={2}>
         <Box display="flex" sx={{ backgroundColor: colors.primary[400], borderRadius: "3px" }} component="form" noValidate autoComplete="off">
           <InputBase sx={{ ml: 2, flex: 1 }} name="searchString" onChange={handleSearchBarChange} placeholder="Search" />
           <IconButton type="button" sx={{ p: 1 }}>

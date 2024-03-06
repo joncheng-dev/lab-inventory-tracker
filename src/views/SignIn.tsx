@@ -7,7 +7,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } f
 import { eTargetType } from "../types/index.tsx";
 import { tokens } from "../themes.tsx";
 import { useTheme } from "@mui/material";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Grid, Paper, TextField } from "@mui/material";
 import * as yup from "yup";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import TextInput from "../components/Forms/TextInput.tsx";
@@ -419,7 +419,7 @@ export default function SignIn() {
               name="email"
               error={!!touched.email && !!errors.email}
               helperText={touched.email && errors.email}
-              sx={{ gridColumn: "span 4" }}
+              sx={{ gridColumn: "span 8" }}
             />
             <TextField
               fullWidth
@@ -432,7 +432,7 @@ export default function SignIn() {
               name="password"
               error={!!touched.password && !!errors.password}
               helperText={touched.password && errors.password}
-              sx={{ gridColumn: "span 4" }}
+              sx={{ gridColumn: "span 8" }}
             />
           </Box>
           <Box display="flex" justifyContent="end" mt="20px">

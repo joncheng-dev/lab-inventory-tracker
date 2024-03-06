@@ -23,6 +23,7 @@ const SubjectBoxContainer = styled.div`
   float: left;
   width: 50%;
   text-align: left;
+  padding-left: 15px;
 `;
 
 const PurposeBoxContainer = styled.div`
@@ -177,7 +178,7 @@ export default function ItemTypeForm(props: FormProps) {
                     </InputColumnContainer>
                   </Box>
                 </Grid>
-                <Grid item xs={4} pt={1}>
+                <Grid item xs={3.5} pt={1}>
                   <h2>Tags</h2>
                   <Divider />
                   <br />
@@ -196,7 +197,7 @@ export default function ItemTypeForm(props: FormProps) {
                     </PurposeBoxContainer>
                   </div>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={2.5}>
                   <h2>Image</h2>
                   <ImageSelector onSelect={setSelectedImage} />
                 </Grid>

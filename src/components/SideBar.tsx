@@ -4,7 +4,9 @@ import "react-pro-sidebar/dist/css/styles.css";
 import { Box, IconButton, Typography, useTheme, SvgIconTypeMap } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../themes";
+import DescriptionIcon from "@mui/icons-material/Description";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import InventoryIcon from "@mui/icons-material/Inventory";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
@@ -129,8 +131,8 @@ export default function Sidebar(props: SidebarProps) {
               Data
             </Typography> */}
             <Item title="Manage Users" to="/manageusers" icon={<PeopleOutlinedIcon />} selected={selected} setSelected={setSelected} />
-            <Item title="Item Types" to="/itemTypes" icon={<ReceiptOutlinedIcon />} selected={selected} setSelected={setSelected} />
-            <Item title="Inventory" to="/inventory" icon={<ReceiptOutlinedIcon />} selected={selected} setSelected={setSelected} />
+            <Item title="Item Types" to="/itemTypes" icon={<DescriptionIcon />} selected={selected} setSelected={setSelected} />
+            <Item title="Inventory" to="/inventory" icon={<InventoryIcon />} selected={selected} setSelected={setSelected} />
             {/* <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
               Pages
             </Typography>
