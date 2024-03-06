@@ -1,4 +1,3 @@
-import React from "react";
 import { useField, FieldInputProps } from "formik";
 import "../../style/styles-custom.css";
 import styled from "styled-components";

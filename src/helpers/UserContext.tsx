@@ -12,12 +12,20 @@ interface UserInfo {
 export const UserContext = React.createContext<UserInfo | null>(null);
 
 export const UserProvider = ({ children }: any) => {
+  const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<UserInfo | null>(null);
   const [user] = useAuthState(auth);
 
   useEffect(() => {
+    if (user === null) {
+      console.log("User is not authenticated yet.");
+      setLoading(false);
+      return;
+    }
     if (user) {
       const fetchUserInfo = async () => {
+        console.log("Fetching user info...");
+        setLoading(false);
         const userRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(userRef);
         if (docSnap.exists()) {
@@ -32,6 +40,10 @@ export const UserProvider = ({ children }: any) => {
       console.log("User not authenticated.");
     }
   }, [user]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return <UserContext.Provider value={currentUser}>{children}</UserContext.Provider>;
 };

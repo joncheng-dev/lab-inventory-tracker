@@ -17,7 +17,6 @@ import {
 import { tokens } from "../themes";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
-import { onValue } from "firebase/database";
 
 //#region styles
 const ReusableFormContainer = styled.div`

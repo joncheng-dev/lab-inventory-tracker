@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { Button, Card, CardActions, CardContent, CardMedia, Chip, Stack, Typography } from "@mui/material";
 import { ItemType } from "../types";

@@ -1,5 +1,5 @@
 // Outside
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { db } from "../firebase.js";
 import { collection, onSnapshot } from "firebase/firestore";
 // Styling

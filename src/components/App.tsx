@@ -1,4 +1,3 @@
-import React from "react";
 import SignIn from "../views/SignIn";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Home";
@@ -7,7 +6,7 @@ import ItemTypeControl from "../views/ItemTypeControl";
 import InventoryControl from "../views/InventoryControl";
 import { ColorModeContext, useMode } from "../themes";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { Theme } from "@mui/system";
+// import { Theme } from "@mui/system";
 
 export default function App() {
   const [theme, colorMode] = useMode();

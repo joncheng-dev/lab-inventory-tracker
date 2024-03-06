@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Item, ItemType } from "../types";
 import UserItem from "./UserItem";
 import { Divider, Grid } from "@mui/material";
