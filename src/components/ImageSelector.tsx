@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Paper, Typography } from "@mui/material";
 
 interface ImageSelectorProps {
@@ -6,6 +6,8 @@ interface ImageSelectorProps {
 }
 
 const ImageSelector: React.FC<ImageSelectorProps> = ({ onSelect }) => {
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string | undefined>("src/images/contemplative-reptile.jpg");
+
   const imageUrls = [
     "src/images/equipment-1.png",
     "src/images/equipment-2.png",
@@ -25,6 +27,11 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ onSelect }) => {
     "src/images/tools-3.png",
   ];
 
+  const handleImageClick = (imageUrl: string) => {
+    onSelect(imageUrl);
+    setSelectedImageUrl(imageUrl);
+  };
+
   return (
     <Box>
       <Typography variant="h5">Select an Image:</Typography>
@@ -40,8 +47,9 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ onSelect }) => {
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
+              border: selectedImageUrl === imageUrl ? "2px solid #1976D2" : "2px solid transparent", // Highlight selected image
             }}
-            onClick={() => onSelect(imageUrl)}
+            onClick={() => handleImageClick(imageUrl)}
           >
             <img src={imageUrl} alt={`Image ${index}`} style={{ maxWidth: "100%", maxHeight: "100%" }} />
           </Paper>

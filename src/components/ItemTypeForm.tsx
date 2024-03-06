@@ -43,7 +43,7 @@ export default function ItemTypeForm(props: FormProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { entry, onFormSubmit, subjectTagChecklist, purposeTagChecklist } = props;
-  const [selectedImage, setSelectedImage] = useState<string>("");
+  const [selectedImage, setSelectedImage] = useState<string>("src/images/contemplative-reptile.jpg");
   const [formData, setFormData] = useState<ItemType>(
     entry || {
       displayName: "",
