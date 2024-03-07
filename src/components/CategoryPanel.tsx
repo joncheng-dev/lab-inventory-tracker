@@ -6,6 +6,7 @@ import Divider from "@mui/material/Divider";
 
 const CategoryPanelContainer = styled.div`
   text-align: left;
+  flex-direction: column-reverse;
 `;
 
 const ListContainer = styled.div`
