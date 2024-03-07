@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext } from "react";
-import { useNavigate, Outlet, useOutletContext } from "react-router-dom";
-import useLocalStorage, { useLocalStorageProps } from "../hooks/useLocalStorage.js";
-import { UserContext } from "../helpers/UserContext.js";
+import { useState, useContext } from "react";
+import { useNavigate, Outlet } from "react-router-dom";
+// import useLocalStorage, { useLocalStorageProps } from "../hooks/useLocalStorage.js";
+// import { UserContext } from "../helpers/UserContext.js";
 // Firebase / Firestore
-import { db, auth } from "../firebase.js";
-import { doc, getDoc } from "firebase/firestore";
+// import { db, auth } from "../firebase.js";
+// import { doc, getDoc } from "firebase/firestore";
 // Components & Style
 import Layout from "./Layout.js";
 import Grid from "@mui/material/Grid";
@@ -13,8 +13,8 @@ import Sidebar from "../components/SideBar";
 // type ContextType = { currentUser: useLocalStorageProps | null };
 
 export default function Home() {
-  const navigate = useNavigate();
-  const currentUser = useContext(UserContext);
+  // const navigate = useNavigate();
+  // const currentUser = useContext(UserContext);
   const [isSidebarExpanded, setSidebarExpanded] = useState<boolean>(true);
   // const sidebarWidth = isSidebarExpanded ? 2 : 1;
   const sidebarWidth = isSidebarExpanded ? 1.25 : 1;

@@ -1,4 +1,4 @@
-import { Item, ItemType } from "../types";
+import { ItemType } from "../types";
 import styled from "styled-components";
 import { Card, CardContent, Grid, Typography } from "@mui/material/";
 

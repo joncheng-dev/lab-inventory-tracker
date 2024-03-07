@@ -1,5 +1,23 @@
 import React, { useState } from "react";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material/";
+import {
+  equipment1,
+  equipment2,
+  glassware1,
+  glassware2,
+  materials1,
+  materials2,
+  measurement1,
+  models1,
+  models2,
+  models3,
+  models4,
+  safety1,
+  safety2,
+  tools1,
+  tools2,
+  tools3,
+} from "../images";
 
 interface ImageSelectorProps {
   onSelect: (imageUrl: string) => void;
@@ -10,23 +28,42 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ onSelect, initialSelected
   const [selectedImageUrl, setSelectedImageUrl] = useState<string | undefined>(initialSelectedImage);
 
   const imageUrls = [
-    "src/images/equipment-1.png",
-    "src/images/equipment-2.png",
-    "src/images/glassware-1.png",
-    "src/images/glassware-2.png",
-    "src/images/materials-1.png",
-    "src/images/materials-2.png",
-    "src/images/measurement-1.png",
-    "src/images/models-1.png",
-    "src/images/models-2.png",
-    "src/images/models-3.png",
-    "src/images/models-4.png",
-    "src/images/safety-1.png",
-    "src/images/safety-2.png",
-    "src/images/tools-1.png",
-    "src/images/tools-2.png",
-    "src/images/tools-3.png",
+    `equipment1`,
+    `equipment2`,
+    `glassware1`,
+    `glassware2`,
+    `materials1`,
+    `materials2`,
+    `measurement1`,
+    `models1`,
+    `models2`,
+    `models3`,
+    `models4`,
+    `safety1`,
+    `safety2`,
+    `tools1`,
+    `tools2`,
+    `tools3`,
   ];
+
+  const example: any = {
+    equipment1,
+    equipment2,
+    glassware1,
+    glassware2,
+    materials1,
+    materials2,
+    measurement1,
+    models1,
+    models2,
+    models3,
+    models4,
+    safety1,
+    safety2,
+    tools1,
+    tools2,
+    tools3,
+  };
 
   const handleImageClick = (imageUrl: string) => {
     onSelect(imageUrl);
@@ -48,11 +85,11 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ onSelect, initialSelected
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
-              border: selectedImageUrl === imageUrl ? "2px solid #1976D2" : "2px solid transparent", // Highlight selected image
+              border: selectedImageUrl === imageUrl ? "2px solid #1976D2" : "2px solid transparent",
             }}
-            onClick={() => handleImageClick(imageUrl)}
+            onClick={() => handleImageClick(`${imageUrl}`)}
           >
-            <img src={imageUrl} alt={`Image ${index}`} style={{ maxWidth: "100%", maxHeight: "100%" }} />
+            <img src={example[imageUrl]} alt={`Image ${index}`} style={{ maxWidth: "100%", maxHeight: "100%" }} />
           </Paper>
         ))}
       </Box>

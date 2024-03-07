@@ -6,7 +6,7 @@ import ItemTypeControl from "../views/ItemTypeControl";
 import InventoryControl from "../views/InventoryControl";
 import { ColorModeContext, useMode } from "../themes";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { Theme } from "@mui/system";
+// import { Theme } from "@mui/system";
 
 export default function App() {
   const [theme, colorMode] = useMode();
@@ -15,7 +15,7 @@ export default function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Router>
+        <Router basename="/lab-inventory-tracker">
           <Routes>
             <Route path="/signin" element={<SignIn />} />
             <Route path="/" element={<Home />}>

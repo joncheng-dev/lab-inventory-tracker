@@ -1,5 +1,6 @@
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../helpers/UserContext.js";
+import { useEffect, useState } from "react";
+import { db, auth } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Box, Button, Chip, Divider, Grid, Stack, useTheme } from "@mui/material";
 import styled from "styled-components";
 import { tokens } from "../themes.js";
@@ -8,6 +9,24 @@ import ChildModal from "./ChildModal.js";
 import ItemCheckOutTable from "./ItemCheckOutTable.js";
 import ItemStatusTable from "./ItemStatusTable.js";
 import { assetTrackUpdateDoc } from "../hooks/mutations.js";
+import {
+  equipment1,
+  equipment2,
+  glassware1,
+  glassware2,
+  materials1,
+  materials2,
+  measurement1,
+  models1,
+  models2,
+  models3,
+  models4,
+  safety1,
+  safety2,
+  tools1,
+  tools2,
+  tools3,
+} from "../images";
 
 //#region styles
 const EntryDetailContainer = styled.div`
@@ -107,6 +126,25 @@ const TextAlignLeftContainer = styled.div`
 `;
 //#endregion styles
 
+const imageDictionary: Record<string, string> = {
+  equipment1,
+  equipment2,
+  glassware1,
+  glassware2,
+  materials1,
+  materials2,
+  measurement1,
+  models1,
+  models2,
+  models3,
+  models4,
+  safety1,
+  safety2,
+  tools1,
+  tools2,
+  tools3,
+};
+
 type ItemTypeEntryDetailProps = {
   entry: ItemType;
   itemList: Item[]; // Used to tally up quantity for each itemType
@@ -116,7 +154,7 @@ type ItemTypeEntryDetailProps = {
 export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const currentUser = useContext(UserContext);
+  const [user] = useAuthState(auth);
   const { entry, itemList } = props;
   const [quantity, setQuantity] = useState(0);
   const [quantAvail, setQuantAvail] = useState<number>(0);
@@ -197,6 +235,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     //   "quantity": 2
     // }
     // Randomize index positions we are interested in -- stored in an array.
+    const userEmail = user?.email || "";
     const randomNumbers: number[] = randomItemPicker(quantAvail, data.quantity);
     // randomNumbers = [0, 1, 3];
     // Looks through the collection of items, filters type matching itemType.
@@ -204,20 +243,19 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     // Look through list itemsOfTargetType, select the entries matching index positions.
     const itemsId = randomNumbers.map((index) => itemsOfTargetType[index].id);
     // Calls on the mutations to query firebase -- do a batch write edit
-    assetTrackUpdateDoc("items", currentUser?.userEmail, itemsId as string[], "checkOut");
+    assetTrackUpdateDoc("items", userEmail, itemsId as string[], "checkOut");
   };
 
   const handleReturnItems = () => {
+    const userEmail = user?.email || "";
     // console.log("InventoryEntryDetail, handleReturnItems, button clicked: ");
     // The currently viewed itemType -- being displayed on InventoryEntryDetail
     // If currently viewed itemList has items of itemType,
-    const itemsOfTargetTypeCheckedOutByUser = itemList
-      .filter((item) => item.type === type)
-      .filter((item) => item.checkedOutBy === currentUser?.userEmail);
+    const itemsOfTargetTypeCheckedOutByUser = itemList.filter((item) => item.type === type).filter((item) => item.checkedOutBy === user?.email);
     // AND checkedOutBy === userEmail,
     const itemIdsToReturn = itemsOfTargetTypeCheckedOutByUser.map((item) => item.id);
     // console.log("InventoryEntryDetail, handleReturnItems, currentUser.userEmail: ", currentUser?.userEmail);
-    assetTrackUpdateDoc("items", currentUser?.userEmail, itemIdsToReturn as string[], "return");
+    assetTrackUpdateDoc("items", userEmail, itemIdsToReturn as string[], "return");
   };
 
   return (
@@ -238,7 +276,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 <br />
                 <Grid xs={12} item>
                   <DetailsImageContainer>
-                    <Box component="img" sx={{ height: 180 }} src={image} alt="selected image" />
+                    <Box component="img" sx={{ height: 180 }} src={imageDictionary[image]} alt="selected image" />
                   </DetailsImageContainer>
                 </Grid>
                 <Grid xs={6} item>
@@ -294,7 +332,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                   {/* <Box display="flex" borderRadius="3px" p={2}>
                     <Stack spacing={2} direction="row" textAlign="right"> */}
                   <Grid item xs={12} sx={{ direction: "row", textAlign: "right" }}>
-                    {itemList.some((item) => type === item.type && item.checkedOutBy === currentUser?.userEmail) ? (
+                    {itemList.some((item) => type === item.type && item.checkedOutBy === user?.email) ? (
                       <Button onClick={handleReturnItems} variant="contained">
                         Return
                       </Button>

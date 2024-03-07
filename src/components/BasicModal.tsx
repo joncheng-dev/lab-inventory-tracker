@@ -1,10 +1,10 @@
-import * as React from "react";
+// import * as React from "react";
 import { ReactNode } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+// import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { Item } from "../types";
+// import { Item } from "../types";
 
 const style = {
   position: "absolute" as "absolute",
