@@ -1,9 +1,8 @@
 // import * as React from "react";
 import { ReactNode } from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import { Box, Button, Grid, Modal } from "@mui/material/";
+import CloseIcon from "@mui/icons-material/Close";
 // import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
 // import { Item } from "../types";
 
 const style = {
@@ -35,8 +34,14 @@ export default function BasicModal(props: BasicModalProps) {
     <div>
       <Modal open={open} onClose={onClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Box sx={style}>
-          {children}
-          <Button onClick={onClose}>Exit</Button>
+          <Grid container>
+            <Grid item xs={12} display="flex" justifyContent="flex-end">
+              <CloseIcon onClick={onClose}>Exit</CloseIcon>
+            </Grid>
+            <Grid item xs={12}>
+              {children}
+            </Grid>
+          </Grid>
         </Box>
       </Modal>
     </div>

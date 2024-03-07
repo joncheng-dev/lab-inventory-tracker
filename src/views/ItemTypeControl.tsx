@@ -16,7 +16,6 @@ import ItemTypeForm from "../components/ItemTypeForm.js";
 import ItemTypeEntryDetail from "../components/ItemTypeEntryDetail.js";
 // Types & Context
 import { ItemType } from "../types/index.js";
-import { UserContext } from "../helpers/UserContext.js";
 // Database
 import { addNewDoc, deleteExistingDoc, editExistingDoc } from "../hooks/mutations.js";
 // Helper Functions
