@@ -1,7 +1,8 @@
 // Outside
-import { useState, useEffect, useContext } from "react";
-import { db } from "../firebase.js";
+import { useState, useEffect } from "react";
+import { db, auth } from "../firebase.js";
 import { collection, onSnapshot } from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
 // Styling
 import { Grid } from "@mui/material";
 import BasicModal from "../components/BasicModal.js";
@@ -23,7 +24,7 @@ import { filterList } from "../helpers/SearchAndFilter.js";
 
 function ItemTypeControl() {
   // STATE & SHARED INFORMATION
-  const currentUser = useContext(UserContext);
+  const [user] = useAuthState(auth);
   // For conditional rendering:
   const [addTypeFormVisible, setAddTypeFormVisibility] = useState<boolean>(false);
   const [selectedEntry, setSelectedEntry] = useState<ItemType | null>(null);

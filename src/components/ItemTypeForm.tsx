@@ -40,11 +40,28 @@ type FormProps = {
   onFormSubmit: (data: ItemType) => Promise<void>;
 };
 
+// equipment1,
+// equipment2,
+// glassware1,
+// glassware2,
+// materials1,
+// materials2,
+// measurement1,
+// models1,
+// models2,
+// models3,
+// models4,
+// safety1,
+// safety2,
+// tools1,
+// tools2,
+// tools3,
+
 export default function ItemTypeForm(props: FormProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { entry, onFormSubmit, subjectTagChecklist, purposeTagChecklist } = props;
-  const [selectedImage, setSelectedImage] = useState<string>(entry?.image || "src/images/contemplative-reptile.jpg");
+  const [selectedImage, setSelectedImage] = useState<string>(entry?.image || "equipment1");
   const [formData, setFormData] = useState<ItemType>(
     entry || {
       displayName: "",

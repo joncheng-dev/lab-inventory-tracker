@@ -1,6 +1,24 @@
 import styled from "styled-components";
 import { Button, Card, CardActions, CardContent, CardMedia, Chip, Stack, Typography } from "@mui/material";
 import { ItemType } from "../types";
+import {
+  equipment1,
+  equipment2,
+  glassware1,
+  glassware2,
+  materials1,
+  materials2,
+  measurement1,
+  models1,
+  models2,
+  models3,
+  models4,
+  safety1,
+  safety2,
+  tools1,
+  tools2,
+  tools3,
+} from "../images";
 
 //#region styles
 const StyledCard = styled(Card)`
@@ -26,13 +44,32 @@ type ItemTypeEntryProps = {
   onEntryClick: (id: string) => void;
 };
 
+const imageDictionary: Record<string, string> = {
+  equipment1,
+  equipment2,
+  glassware1,
+  glassware2,
+  materials1,
+  materials2,
+  measurement1,
+  models1,
+  models2,
+  models3,
+  models4,
+  safety1,
+  safety2,
+  tools1,
+  tools2,
+  tools3,
+};
+
 function ItemTypeEntry(props: ItemTypeEntryProps) {
   const { entry, onEntryClick } = props;
   const { id, displayName, type, image } = entry;
 
   return (
     <StyledCard sx={{ maxWidth: 345 }}>
-      {image && <CardMedia sx={{ height: 140 }} image={image} title="selected image" />}
+      {image && <CardMedia sx={{ height: 140 }} image={imageDictionary[image]} title="selected image" />}
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {displayName}

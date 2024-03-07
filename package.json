@@ -2,7 +2,7 @@
   "name": "lab-inventory-tracker",
   "private": true,
   "version": "0.0.0",
-  "homepage": "/lab-inventory-tracker",
+  "homepage": "https://joncheng-dev.github.io/lab-inventory-tracker",
   "type": "module",
   "scripts": {
     "dev": "vite",

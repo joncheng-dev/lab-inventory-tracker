@@ -7,6 +7,24 @@ import { tokens } from "../themes.js";
 import { ItemType } from "../types/index.js";
 import ChildModal from "./ChildModal.js";
 import BasicTable from "./ItemCheckOutTable.js";
+import {
+  equipment1,
+  equipment2,
+  glassware1,
+  glassware2,
+  materials1,
+  materials2,
+  measurement1,
+  models1,
+  models2,
+  models3,
+  models4,
+  safety1,
+  safety2,
+  tools1,
+  tools2,
+  tools3,
+} from "../images";
 
 //#region styles
 const EntryDetailContainer = styled.div`
@@ -96,6 +114,25 @@ type ItemTypeEntryDetailProps = {
   // onClickingExit: () => void;
 };
 
+const imageDictionary: Record<string, string> = {
+  equipment1,
+  equipment2,
+  glassware1,
+  glassware2,
+  materials1,
+  materials2,
+  measurement1,
+  models1,
+  models2,
+  models3,
+  models4,
+  safety1,
+  safety2,
+  tools1,
+  tools2,
+  tools3,
+};
+
 export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -133,7 +170,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 <br />
                 <Grid xs={12}>
                   <DetailsImageContainer>
-                    <Box component="img" sx={{ height: 180 }} src={image} alt="selected image" />
+                    <Box component="img" sx={{ height: 180 }} src={imageDictionary[image]} alt="selected image" />
                   </DetailsImageContainer>
                 </Grid>
                 <Grid xs={6}>
