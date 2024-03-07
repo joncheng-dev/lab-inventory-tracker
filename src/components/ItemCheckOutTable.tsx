@@ -85,6 +85,7 @@ export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
                           name="quantity"
                           label="Item Quantity"
                           helperText={<ErrorMessage name="quantity" />}
+                          inputProps={{ min: "0" }}
                           onChange={handleQuantityChange}
                           type="number"
                           value={quantity}
