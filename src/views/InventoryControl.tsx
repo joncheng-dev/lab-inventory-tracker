@@ -1,5 +1,5 @@
 // Outside
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { db, auth } from "../firebase.js";
 import { collection, onSnapshot } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -16,7 +16,6 @@ import ItemList from "../components/ItemList.js";
 import InventoryEntryDetail from "../components/InventoryEntryDetail";
 // Types & Context
 import { AddItemsForm, Item, ItemType } from "../types/index.js";
-import { UserContext } from "../helpers/UserContext.js";
 // Database
 import { addMultipleDocs } from "../hooks/mutations.js";
 // Helper Functions
@@ -278,9 +277,3 @@ export default function InventoryControl() {
 // User sees list of items actually in inventory
 // User can Search for items
 // User can ADD, EDIT, DELETE, CHECK OUT, RETURN items
-
-// To add an item, MODAL opens up.
-// User selects an ITEMTYPE from dropdown
-// User can search for this ITEMTYPE
-// User enters quantity
-// Upon submission, "quantity" number of ItemType is created -- added to database

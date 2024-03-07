@@ -72,7 +72,7 @@ export default function ItemList(props: ItemListProps) {
     <>
       <Grid container item xs={12} pl={2.5} justifyContent="space-between">
         <Grid item xs={10.5} borderRadius="3px">
-          <h2>Item List</h2>
+          <h2>Inventory</h2>
         </Grid>
         <Grid item xs={1.5} borderRadius="3px">
           <Stack direction="row">

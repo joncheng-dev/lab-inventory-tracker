@@ -149,9 +149,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     image,
   } = entry;
 
-  console.log("ItemTypeEntryDetail, currentUser.userEmail: ", currentUser?.userEmail);
-  console.log("ItemTypeEntryDetails, image: ", image);
-
   return (
     <TextAlignLeftContainer>
       <h2>{displayName}</h2>
@@ -199,26 +196,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" sx={{ fontSize: 15 }} />)}</StyledStack>
               </Grid>
             </Grid>
-            {/* <Grid xs={5} pt={1}>
-              <h4>Status</h4>
-              <Divider />
-              <br />
-              <AvailabilityContainer>
-                <StyledInfoItem>
-                  <StyledItemHeader>Availability</StyledItemHeader>
-                  <StyledItemValue>{isCheckedOut ? "Not Available" : "Available"}</StyledItemValue>
-                </StyledInfoItem>
-                <StyledInfoItem>
-                  <StyledItemHeader>Checked Out By</StyledItemHeader>
-                  <StyledItemValue>{isCheckedOut ? checkedOutBy : null}</StyledItemValue>
-                </StyledInfoItem>
-                <StyledInfoItem>
-                  <StyledItemHeader>Date Checked Out</StyledItemHeader>
-                  <StyledItemValue>{isCheckedOut ? dateCheckedOut?.toString() : null}</StyledItemValue>
-                </StyledInfoItem>
-              </AvailabilityContainer>
-              <BasicTable />
-            </Grid> */}
           </Grid>
           <Box display="flex" justifyContent="space-between" p={1}>
             <Box display="flex" borderRadius="3px" p={2}>
@@ -232,28 +209,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 </Button> */}
               </Stack>
             </Box>
-            {/* <Box display="flex" borderRadius="3px" p={2}>
-              <Stack spacing={2} direction="row">
-                {!isCheckedOut ? (
-                  <Button onClick={() => onClickingCheckout()} variant="contained">
-                    Check Out
-                  </Button>
-                ) : (
-                  <Button disabled variant="contained">
-                    Check Out
-                  </Button>
-                )}
-                {currentUser?.userEmail === checkedOutBy ? (
-                  <Button onClick={() => onClickingReturn(id!)} variant="contained">
-                    Return
-                  </Button>
-                ) : (
-                  <Button disabled variant="contained">
-                    Return
-                  </Button>
-                )}
-              </Stack>
-            </Box> */}
           </Box>
           <br />
         </Box>
