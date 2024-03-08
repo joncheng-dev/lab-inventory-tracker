@@ -8,7 +8,8 @@ type DataTableProps = {
 };
 
 const StyledDataGrid = styled(DataGrid)`
-  .MuiDataGrid-row:hover {
+  /* .MuiDataGrid-row:hover { */
+  &:hover {
     background-color: #777777;
   }
 `;
