@@ -18,7 +18,6 @@ export default function DataTable(props: DataTableProps) {
   const { data, onEntryClick } = props;
 
   const tableColumns = [
-    { field: "id", headerName: "ID", flex: 1 },
     { field: "displayName", headerName: "Display Name", flex: 2 },
     { field: "type", headerName: "Type", flex: 2 },
     { field: "description", headerName: "Description", flex: 3 },
@@ -54,9 +53,3 @@ export default function DataTable(props: DataTableProps) {
     />
   );
 }
-
-// Type '(id: string) => void' is not assignable to type 'GridEventListener<"rowClick">'.
-//   Types of parameters 'id' and 'params' are incompatible.
-//     Type 'GridRowParams<any>' is not assignable to type 'string'.ts(2322)
-// DataGridProps.d.ts(546, 5): The expected type comes from property 'onRowClick' which is declared here on type 'IntrinsicAttributes & Omit<Partial<DataGridPropsWithDefaultValues> & DataGridPropsWithComplexDefaultValueBeforeProcessing & DataGridPropsWithoutDefaultValue<...>, DataGridForcedPropsKey> & { ...; } & RefAttributes<...>'
-// (property) onRowClick?: GridEventListener<"rowClick"> | undefined

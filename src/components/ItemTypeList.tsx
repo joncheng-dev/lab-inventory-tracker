@@ -2,8 +2,9 @@ import { useState } from "react";
 import styled from "styled-components";
 import { styled as styledMui } from "@mui/material/styles";
 import ItemTypeEntry from "./ItemTypeEntry";
+import { StyledIconButton } from "../style/styles";
 import { ItemType } from "../types";
-import { Button, Grid, IconButton, Stack, useTheme } from "@mui/material";
+import { Button, Grid, Stack, useTheme } from "@mui/material";
 import { Add, Apps, ViewHeadline } from "@mui/icons-material";
 import DataTable from "./DataTable";
 import { tokens } from "../themes";
@@ -19,10 +20,6 @@ const ItemContainer = styled.div`
   flex-wrap: wrap;
   gap: 1.5em;
 `;
-
-const StyledIconButton = styledMui(IconButton)(({ theme }) => ({
-  color: theme.palette.mode === "dark" ? "#fff" : "#1A2027",
-}));
 
 const ResponsiveDataGridContainer = styled("div")`
   width: 100%;
@@ -46,8 +43,7 @@ export default function ItemTypeList(props: ItemTypeListProps) {
   const { listOfEntries, onEntryClick, onClickingAddEntry } = props;
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [cardView, setCardView] = useState(true);
-  const [tableView, setTableView] = useState(false);
+  const [selectedView, setSelectedView] = useState<"card" | "table">("card");
 
   const StyledButton = styledMui(Button)(({ theme }) => ({
     // color: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -55,24 +51,22 @@ export default function ItemTypeList(props: ItemTypeListProps) {
   }));
 
   const activateCardView = () => {
-    setCardView(true);
-    setTableView(false);
+    setSelectedView("card");
   };
 
   const activateTableView = () => {
-    setCardView(false);
-    setTableView(true);
+    setSelectedView("table");
   };
 
   return (
     <>
       <Grid container item xs={12} pl={2.5} justifyContent="space-between">
-        <Grid item xs={10} borderRadius="3px">
+        <Grid item xs={10.5} borderRadius="3px">
           <h2>Catalog</h2>
         </Grid>
-        <Grid item xs={2} borderRadius="3px">
+        <Grid item xs={1.5} borderRadius="3px">
           <Stack direction="row">
-            <StyledIconButton onClick={activateCardView}>
+            <StyledIconButton onClick={activateCardView} disableRipple>
               <Apps
                 sx={{
                   fontSize: 25,
@@ -81,7 +75,7 @@ export default function ItemTypeList(props: ItemTypeListProps) {
                 }}
               />
             </StyledIconButton>
-            <StyledIconButton onClick={activateTableView}>
+            <StyledIconButton onClick={activateTableView} disableRipple>
               <ViewHeadline
                 sx={{
                   fontSize: 25,
@@ -101,14 +95,14 @@ export default function ItemTypeList(props: ItemTypeListProps) {
             </Grid>
             <br />
             <Grid item xs={12}>
-              {cardView && (
+              {selectedView === "card" && (
                 <ItemContainer>
                   {listOfEntries.map((entry) => (
                     <ItemTypeEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
                   ))}
                 </ItemContainer>
               )}
-              {tableView && (
+              {selectedView === "table" && (
                 <ResponsiveDataGridContainer>
                   <DataTable data={listOfEntries} onEntryClick={onEntryClick} />
                 </ResponsiveDataGridContainer>
