@@ -69,7 +69,7 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
 
   return (
     <StyledCard sx={{ maxWidth: 345 }}>
-      {image && <CardMedia sx={{ height: 140 }} image={imageDictionary[image]} title="selected image" />}
+      {image && <CardMedia sx={{ height: 140 }} image={imageDictionary[image]} title={image} />}
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {displayName}

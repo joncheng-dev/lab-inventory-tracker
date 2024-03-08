@@ -16,7 +16,8 @@ const StyledCard = styled(Card)`
   position: relative;
   text-align: left;
 
-  .css-46bh2p-MuiCardContent-root:hover {
+  /* .css-46bh2p-MuiCardContent-root:hover { */
+  &:hover {
     background-color: #777777;
   }
 `;

@@ -19,7 +19,7 @@ export default function App() {
           <Routes>
             <Route path="/signin" element={<SignIn />} />
             <Route path="/" element={<Home />}>
-              <Route path="itemtypes" element={<ItemTypeControl />} />
+              <Route path="catalog" element={<ItemTypeControl />} />
               <Route path="inventory" element={<InventoryControl />} />
               <Route path="manageusers" element={<ManageUsers />} />
             </Route>
