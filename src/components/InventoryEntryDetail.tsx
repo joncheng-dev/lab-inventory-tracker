@@ -30,9 +30,9 @@ import {
 
 //#region styles
 const EntryDetailContainer = styled.div`
-  padding-left: 50px;
+  /* padding-left: 10px; */
   background-color: #282828;
-  padding-top: 25px;
+  /* padding-top: 25px; */
 `;
 
 const DetailsImageContainer = styled.div`
@@ -88,19 +88,19 @@ const StyledItemValue = styled.p`
   margin-top: 0; /* Add margin to the top of each value for spacing */
 `;
 
-const AvailabilityContainer = styled.div`
-  width: 95%;
-  display: grid;
-  grid-template-columns: auto;
-  column-gap: 1rem;
-  row-gap: 0.25rem;
-`;
-
 const StyledInfoItem = styled.div`
   display: grid;
   grid-template-columns: auto;
   font-size: 1rem;
   text-align: left;
+`;
+
+const AvailabilityContainer = styled.div`
+  width: 95%;
+  display: grid;
+  /* grid-template-columns: auto; */
+  column-gap: 1rem;
+  row-gap: 0.25rem;
 `;
 
 // const StyledItemHeader = styled.p`
@@ -262,15 +262,15 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     <>
       <h2>{displayName}</h2>
       <EntryDetailContainer>
-        <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
+        <Box pt={0.2} sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
           <Grid container spacing={2}>
-            <Grid container xs={7} item>
+            <Grid container xs={7} item pt={1}>
               {/* <Box
                 sx={{
                   "& .MuiTextField-root": { m: 1.5, width: "50ch" },
                 }}
               > */}
-              <Grid xs={8} container item>
+              <Grid xs={8} container item pl={1.5}>
                 <h4>Inventory Entry Detail</h4>
                 <Divider />
                 <br />
@@ -310,14 +310,14 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 {/* <StyledStack>{tags && tags.map((tag, index) => <MuiChipCustom key={index} label={tag} size="medium" />)}</StyledStack> */}
               </Grid>
             </Grid>
-            <Grid xs={5} pt={1} item>
+            <Grid xs={5} item>
               <h4>Availability Status</h4>
               <Divider />
               <br />
               <AvailabilityContainer>
                 <ItemCheckOutTable quantAvail={quantAvail} onFormSubmit={handleCheckoutItems} />
                 <ItemStatusTable summary={checkedOutBySummary} />
-                <Box display="flex" justifyContent="space-between" p={1}>
+                <Box display="flex" justifyContent="space-between" pt={1}>
                   {/* <Box display="flex" borderRadius="3px" p={2}>
                     <Stack spacing={2} direction="row">
                       <Button onClick={onClickingEdit} variant="contained">

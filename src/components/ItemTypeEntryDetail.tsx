@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { UserContext } from "../helpers/UserContext.js";
 import { Box, Button, Chip, Divider, Stack, useTheme } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import styled from "styled-components";
@@ -136,7 +135,6 @@ const imageDictionary: Record<string, string> = {
 export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const currentUser = useContext(UserContext);
   const { entry, onClickingEdit, onClickingDelete } = props;
   // prettier-ignore
   const {
