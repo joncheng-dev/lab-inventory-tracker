@@ -24,10 +24,6 @@ const ReusableFormContainer = styled.div`
   padding-top: 25px;
 `;
 
-const InputColumnContainer = styled.div`
-  float: left;
-  width: 100%;
-`;
 //#endregion styles
 
 type FormProps = {
@@ -98,7 +94,7 @@ export default function ItemForm(props: FormProps) {
   };
 
   return (
-    <Box sx={{ backgroundColor: colors.primary[400] }}>
+    <Box sx={{ backgroundColor: colors.primary[400] }} mr={0.5}>
       <ReusableFormContainer>
         {/* prettier-ignore */}
         <Formik
@@ -109,60 +105,42 @@ export default function ItemForm(props: FormProps) {
         >
           <Form>
           <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
-            <Grid container spacing={2}>
-              <Grid item xs={7}>
-                <Box
-                  component="div"
-                  sx={{
-                    "& .MuiTextField-root": { m: 1.5, width: "50ch" },
-                  }}
-                >
-                  <h2>Add Items to Inventory</h2>
-                  <Divider />
-                  <br />
-                  <InputColumnContainer>
-                    {/* prettier-ignore */}
-                    {/* <Field 
-                      as={TextField}
-                      name="itemType"
-                      label="Item Type"
-                      helperText={<ErrorMessage name="itemType" />}
-                      onChange={handleInputChange}
-                      value={itemType}
-                      />
-                    <br /> */}
-                    <Autocomplete
-                      // disablePortal
-                      options={itemTypeList}
-                      onChange={handleAutocompleteChange}
-                      getOptionLabel={(option) => option.displayName || ''}
-                      renderOption={(props, option) => (
-                        <Box component="li" {...props}>
-                          {option.displayName}
-                          <br />
-                          {option.type} 
-                        </Box>
-                      )}
-                      renderInput={(params) => <TextField {...params} label="Item Type" />}
-                    />
-                    <InputLabel>Select quantity of items to add</InputLabel>
-                    <FormControl sx={{ m: 1, width: 300 }}>
-                    <Field
-                      as={TextField}
-                      name="quantity"
-                      label="Item Quantity"
-                      helperText={<ErrorMessage name="quantity" />}
-                      onChange={handleQuantityChange}
-                      type="number"
-                      value={quantity}
-                    />
-                    <br />
-                  </FormControl>
-                  </InputColumnContainer>
-                </Box>
+            <Grid container xs={12} spacing={2}>
+              <Grid item xs={12}>    
+                <h2>Add Items to Inventory</h2>
               </Grid>
+              <Grid item xs={7}>
+                <Autocomplete
+                  // disablePortal
+                  options={itemTypeList}
+                  onChange={handleAutocompleteChange}
+                  getOptionLabel={(option) => option.displayName || ''}
+                  renderOption={(props, option) => (
+                    <Box component="li" {...props}>
+                      {option.displayName}
+                      <br />
+                      {option.type} 
+                    </Box>
+                  )}
+                  renderInput={(params) => <TextField {...params} label="Item Type" />}
+                />
+                </Grid>
+                <Grid item xs={5}>
+                  <FormControl sx={{ width: 300 }}>
+                  <Field
+                    as={TextField}
+                    name="quantity"
+                    label="Item Quantity"
+                    helperText={<ErrorMessage name="quantity" />}
+                    onChange={handleQuantityChange}
+                    type="number"
+                    value={quantity}
+                  />
+                  <br />
+                  </FormControl>
+                </Grid>
             </Grid>
-            <Stack spacing={2} direction="row" justifyContent="flex-end">
+            <Stack spacing={2} direction="row" justifyContent="flex-end" pr={2}>
               <Button type="submit" variant="contained">
                 Add Items to Inventory
               </Button>
