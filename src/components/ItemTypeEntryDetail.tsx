@@ -1,6 +1,5 @@
 import { useContext } from "react";
-import { Box, Button, Chip, Divider, Stack, useTheme } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
+import { Box, Button, Chip, Divider, Grid, Stack, useTheme } from "@mui/material";
 import styled from "styled-components";
 import { tokens } from "../themes.js";
 import { ItemType } from "../types/index.js";
@@ -27,9 +26,9 @@ import {
 
 //#region styles
 const EntryDetailContainer = styled.div`
-  padding-left: 50px;
+  /* padding-left: 50px; */
   background-color: #282828;
-  padding-top: 25px;
+  /* padding-top: 25px; */
 `;
 
 const DetailsImageContainer = styled.div`
@@ -68,9 +67,9 @@ const StyledItemValue = styled.p`
 `;
 
 const AvailabilityContainer = styled.div`
-  width: 100%;
+  width: 95%;
   display: grid;
-  grid-template-columns: auto auto;
+  /* grid-template-columns: auto auto; */
   column-gap: 1rem;
   row-gap: 0.25rem;
 `;
@@ -102,7 +101,7 @@ const StyledStack = styled(Stack)`
 `;
 
 const TextAlignLeftContainer = styled.div`
-  text-align: left;
+  /* text-align: left; */
 `;
 //#endregion styles
 
@@ -148,46 +147,46 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   } = entry;
 
   return (
-    <TextAlignLeftContainer>
+    <>
       <h2>{displayName}</h2>
       <EntryDetailContainer>
-        <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
-          <Grid container spacing={2}>
-            <Grid container xs={7}>
+        <Box pt={0.2} sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
+          <Grid container spacing={2} pt={1}>
+            <Grid container item xs={7}>
               {/* <Box
                 sx={{
                   "& .MuiTextField-root": { m: 1.5, width: "50ch" },
                 }}
               > */}
-              <Grid xs={8} container>
+              <Grid xs={8} container item pl={1.5}>
                 <h4>Item Type Entry Details</h4>
                 <Divider />
                 <br />
-                <Grid xs={12}>
+                <Grid xs={12} item>
                   <DetailsImageContainer>
                     <Box component="img" sx={{ height: 180 }} src={imageDictionary[image]} alt="selected image" />
                   </DetailsImageContainer>
                 </Grid>
-                <Grid xs={6}>
+                <Grid xs={6} item>
                   <StyledItemHeader>Display Name</StyledItemHeader>
                   <StyledItemValue>{displayName}</StyledItemValue>
                 </Grid>
-                <Grid xs={6}>
+                <Grid xs={6} item>
                   <StyledItemHeader>Type</StyledItemHeader>
                   <StyledItemValue>{type}</StyledItemValue>
                 </Grid>
-                <Grid xs={12}>
+                <Grid xs={12} item>
                   <StyledItemHeader>Description</StyledItemHeader>
                   <StyledItemValue>{description}</StyledItemValue>
                 </Grid>
                 <DetailsContainer></DetailsContainer>
-                <Grid xs={12}>
+                <Grid xs={12} item>
                   <StyledItemHeader>Location</StyledItemHeader>
                   <StyledItemValue>{location}</StyledItemValue>
                 </Grid>
               </Grid>
               {/* </Box> */}
-              <Grid xs={4}>
+              <Grid xs={4} item>
                 <h4>Categories</h4>
                 <Divider />
                 <br />
@@ -211,6 +210,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
           <br />
         </Box>
       </EntryDetailContainer>
-    </TextAlignLeftContainer>
+    </>
   );
 }
