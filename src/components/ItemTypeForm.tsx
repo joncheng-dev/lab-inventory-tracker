@@ -40,23 +40,6 @@ type FormProps = {
   onFormSubmit: (data: ItemType) => Promise<void>;
 };
 
-// equipment1,
-// equipment2,
-// glassware1,
-// glassware2,
-// materials1,
-// materials2,
-// measurement1,
-// models1,
-// models2,
-// models3,
-// models4,
-// safety1,
-// safety2,
-// tools1,
-// tools2,
-// tools3,
-
 export default function ItemTypeForm(props: FormProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -219,7 +202,7 @@ export default function ItemTypeForm(props: FormProps) {
                   <ImageSelector onSelect={setSelectedImage} initialSelectedImage={selectedImage} />
                 </Grid>
             </Grid>
-            <Stack spacing={2} direction="row" justifyContent="flex-end">
+            <Stack spacing={2} direction="row" justifyContent="flex-end" pr={2}>
               <Button type="submit" variant="contained">
                 {!entry ? "Add Item Type" : "Update Item Type"}
               </Button>

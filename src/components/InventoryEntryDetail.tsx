@@ -263,7 +263,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
       <h2>{displayName}</h2>
       <EntryDetailContainer>
         <Box pt={0.2} sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} pt={1}>
             <Grid container xs={7} item pt={1}>
               {/* <Box
                 sx={{
