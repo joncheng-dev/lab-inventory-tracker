@@ -56,8 +56,8 @@ export default function Header(props: HeaderProps) {
         <Box display="flex">
           <IconButton onClick={colorMode.toggleColorMode}>{theme.palette.mode === "dark" ? <DarkModeOutlined /> : <LightModeOutlined />}</IconButton>
           <Stack direction="row" spacing={1}>
-            <Chip label="Home" component="a" href="/" variant="outlined" clickable />
-            <Chip label="Sign Out" onClick={doSignOut} component="a" href="/" variant="outlined" clickable />
+            <Chip label="Home" component="a" href="/lab-inventory-tracker" variant="outlined" clickable />
+            <Chip label="Sign Out" onClick={doSignOut} component="a" href="/lab-inventory-tracker" variant="outlined" clickable />
           </Stack>
         </Box>
       </Box>
