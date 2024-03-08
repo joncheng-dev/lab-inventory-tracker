@@ -1,14 +1,9 @@
 import { useState, useContext } from "react";
 import { auth } from "../firebase.tsx";
 import { signOut } from "firebase/auth";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
-import { Box, IconButton, useTheme } from "@mui/material";
+import { Box, Chip, IconButton, InputBase, Stack, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from "../themes.tsx";
-import { InputBase } from "@mui/material";
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import SearchIcon from "@mui/icons-material/Search";
+import { DarkModeOutlined, LightModeOutlined, Search } from "@mui/icons-material/";
 
 type HeaderProps = {
   onSearchInputChange: (queryString: string) => void;
@@ -38,19 +33,31 @@ export default function Header(props: HeaderProps) {
   return (
     <>
       <Box display="flex" justifyContent="space-between" pt={2} pr={2} pb={2}>
-        <Box display="flex" sx={{ backgroundColor: colors.primary[400], borderRadius: "3px" }} component="form" noValidate autoComplete="off">
+        <Box
+          display="flex"
+          sx={{ backgroundColor: colors.primary[400], borderRadius: "3px" }}
+          component="form"
+          noValidate
+          autoComplete="off"
+          onSubmit={(e) => {
+            e.preventDefault(); // Prevent default form submission
+            // prettier-ignore
+            const searchString = (e.target as HTMLFormElement).elements.namedItem(
+              "searchString"
+            ) as HTMLInputElement;
+            onSearchInputChange(searchString?.value || "");
+          }}
+        >
           <InputBase sx={{ ml: 2, flex: 1 }} name="searchString" onChange={handleSearchBarChange} placeholder="Search" />
-          <IconButton type="button" sx={{ p: 1 }}>
-            <SearchIcon />
+          <IconButton type="submit" sx={{ p: 1 }}>
+            <Search />
           </IconButton>
         </Box>
         <Box display="flex">
-          <IconButton onClick={colorMode.toggleColorMode}>
-            {theme.palette.mode === "dark" ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
-          </IconButton>
+          <IconButton onClick={colorMode.toggleColorMode}>{theme.palette.mode === "dark" ? <DarkModeOutlined /> : <LightModeOutlined />}</IconButton>
           <Stack direction="row" spacing={1}>
             <Chip label="Home" component="a" href="/" variant="outlined" clickable />
-            <Chip label="Sign Out" onClick={doSignOut} component="a" href="/signin" variant="outlined" clickable />
+            <Chip label="Sign Out" onClick={doSignOut} component="a" href="/" variant="outlined" clickable />
           </Stack>
         </Box>
       </Box>
