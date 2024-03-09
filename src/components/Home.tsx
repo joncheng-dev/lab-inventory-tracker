@@ -7,7 +7,7 @@ import { useNavigate, Outlet } from "react-router-dom";
 // import { doc, getDoc } from "firebase/firestore";
 // Components & Style
 import Layout from "./Layout.js";
-import Grid from "@mui/material/Grid";
+import { Grid } from "@mui/material/";
 import Sidebar from "../components/SideBar";
 
 // type ContextType = { currentUser: useLocalStorageProps | null };

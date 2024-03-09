@@ -153,14 +153,3 @@ export default function ItemForm(props: FormProps) {
     </Box>
   );
 }
-
-// <Field
-//   as={TextField}
-//   name="quantity"
-//   label="Item Quantity"
-//   helperText={<ErrorMessage name="quantity" />}
-//   onChange={handleInputChange}
-//   type="number"
-//   value={quantity}
-// />
-// <br />

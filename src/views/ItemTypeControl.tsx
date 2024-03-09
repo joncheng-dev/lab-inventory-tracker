@@ -10,7 +10,6 @@ import { FixedWidthItem } from "../style/styles.js";
 // Components
 import Header from "../components/Header.js";
 import CategoryPanel from "../components/CategoryPanel.js";
-import UserInfoPanel from "../components/UserInfoPanel.js";
 import ItemTypeList from "../components/ItemTypeList.js";
 import ItemTypeForm from "../components/ItemTypeForm.js";
 import ItemTypeEntryDetail from "../components/ItemTypeEntryDetail.js";
