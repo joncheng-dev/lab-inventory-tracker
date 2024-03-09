@@ -68,7 +68,12 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
   const { id, displayName, type, image } = entry;
 
   return (
-    <StyledCard sx={{ maxWidth: 345 }}>
+    <StyledCard
+      sx={{ maxWidth: 345 }}
+      onClick={() => {
+        onEntryClick(id!);
+      }}
+    >
       {image && <CardMedia sx={{ height: 140 }} image={imageDictionary[image]} title={image} />}
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
@@ -79,13 +84,7 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button
-          size="small"
-          variant="contained"
-          onClick={() => {
-            onEntryClick(id!);
-          }}
-        >
+        <Button size="small" variant="contained">
           Details
         </Button>
       </CardActions>
