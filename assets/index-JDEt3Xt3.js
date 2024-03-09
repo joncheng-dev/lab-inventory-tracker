@@ -3323,6 +3323,9 @@ PERFORMANCE OF THIS SOFTWARE.
   justify-content: center;
   align-items: center;
 `;const KCe={equipment1:Q0,equipment2:Y0,glassware1:X0,glassware2:J0,materials1:Z0,materials2:eb,measurement1:tb,models1:nb,models2:rb,models3:ob,models4:ib,safety1:sb,safety2:ab,tools1:lb,tools2:cb,tools3:ub};function z4(e){const{entry:t,onEntryClick:n}=e,{id:r,displayName:o,type:i,image:s}=t;return m.jsxs(WCe,{sx:{maxWidth:345},onClick:()=>{n(r)},children:[s&&m.jsx(Hee,{sx:{height:140},image:KCe[s],title:s}),m.jsxs(vL,{children:[m.jsx(jn,{gutterBottom:!0,variant:"h5",component:"div",children:o}),m.jsx(jn,{variant:"body2",color:"text.secondary",children:i})]}),m.jsx(_ee,{children:m.jsx(yr,{size:"small",variant:"contained",children:"Details"})})]})}const qCe=rt($4)`
+  .MuiDataGrid-columnHeaderTitleContainer {
+    font-size: 1.5em;
+  }
   .MuiDataGrid-row:hover {
     /* &:hover { */
     background-color: #777777cc;
