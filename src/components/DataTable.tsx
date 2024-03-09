@@ -8,6 +8,9 @@ type DataTableProps = {
 };
 
 const StyledDataGrid = styled(DataGrid)`
+  .MuiDataGrid-columnHeaderTitleContainer {
+    font-size: 1.5em;
+  }
   .MuiDataGrid-row:hover {
     /* &:hover { */
     background-color: #777777cc;
