@@ -8,5 +8,6 @@ export const filterList = (list: ItemType[], searchQuery: string, tagsToFilter: 
   if (searchQuery !== "") {
     filteredListCopy = filteredListCopy.filter((entry) => entry.displayName.toLowerCase().includes(searchQuery.toLowerCase()));
   }
+  filteredListCopy.sort((a, b) => a.displayName.localeCompare(b.displayName));
   return filteredListCopy;
 };
