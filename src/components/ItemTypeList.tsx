@@ -5,7 +5,7 @@ import ItemTypeEntry from "./ItemTypeEntry";
 import { StyledIconButton } from "../style/styles";
 import { ItemType } from "../types";
 import { Button, Grid, Stack, Tooltip, useTheme } from "@mui/material";
-import { Add, Apps, ViewHeadline } from "@mui/icons-material";
+import { Add, Apps, InfoOutlined, ViewHeadline } from "@mui/icons-material";
 import DataTable from "./DataTable";
 import { tokens } from "../themes";
 
@@ -39,6 +39,8 @@ type ItemTypeListProps = {
   onClickingAddEntry: () => void;
 };
 
+const catalogTooltipText = `A list of item types or item templates. These entries are used to populate the inventory.`;
+
 export default function ItemTypeList(props: ItemTypeListProps) {
   const { listOfEntries, onEntryClick, onClickingAddEntry } = props;
   const theme = useTheme();
@@ -61,8 +63,32 @@ export default function ItemTypeList(props: ItemTypeListProps) {
   return (
     <>
       <Grid container item xs={12} pl={2.5} justifyContent="space-between">
-        <Grid item xs={10.5} borderRadius="3px">
-          <h2>Catalog</h2>
+        <Grid container item xs={10.5} borderRadius="3px" justifyContent="flex-start">
+          <Grid item>
+            <h2>Catalog</h2>
+          </Grid>
+          <Grid item>
+            <Tooltip
+              title={catalogTooltipText}
+              placement="top"
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: "offset",
+                      options: {
+                        // offset: [0, -24],
+                      },
+                    },
+                  ],
+                },
+              }}
+            >
+              <div>
+                <InfoOutlined />
+              </div>
+            </Tooltip>
+          </Grid>
         </Grid>
         <Grid item xs={1.5} borderRadius="3px">
           <Stack direction="row">

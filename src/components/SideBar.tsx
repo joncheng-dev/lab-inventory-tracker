@@ -19,6 +19,8 @@ import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 // import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import { UserContext } from "../helpers/UserContext";
+import { auth } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 type ItemProps = {
   name: string;
@@ -53,12 +55,14 @@ function Item(props: ItemProps) {
 
 export default function Sidebar(props: SidebarProps) {
   const currentUser = useContext(UserContext);
+  const [user] = useAuthState(auth);
   const { onToggle } = props;
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
   const [selected, setSelected] = useState<string>("Dashboard");
 
+  console.log("Sidebar, user: ", user);
   // useEffect(() => {
   //   onToggle();
   // }, [isCollapsed]);

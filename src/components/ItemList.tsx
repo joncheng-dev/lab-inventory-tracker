@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { StyledIconButton } from "../style/styles";
 import { styled as styledMui } from "@mui/material/styles";
 import { Button, Grid, Stack, Tooltip, useTheme } from "@mui/material";
-import { Add, Apps, ViewHeadline } from "@mui/icons-material";
+import { Add, Apps, InfoOutlined, ViewHeadline } from "@mui/icons-material";
 import { tokens } from "../themes";
 
 //#region styles
@@ -40,6 +40,8 @@ type ItemListProps = {
   onClickingAddEntry: () => void;
 };
 
+const inventoryTooltipText = `A collection of all items registered to the laboratory.`;
+
 export default function ItemList(props: ItemListProps) {
   const { listOfItems, listOfItemTypes, onEntryClick, onClickingAddEntry } = props;
   const theme = useTheme();
@@ -62,8 +64,32 @@ export default function ItemList(props: ItemListProps) {
   return (
     <>
       <Grid container item xs={12} pl={2.5} justifyContent="space-between">
-        <Grid item xs={10.5} borderRadius="3px">
-          <h2>Inventory</h2>
+        <Grid container item xs={10.5} borderRadius="3px" justifyContent="flex-start">
+          <Grid item>
+            <h2>Inventory</h2>
+          </Grid>
+          <Grid item>
+            <Tooltip
+              title={inventoryTooltipText}
+              placement="top"
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: "offset",
+                      options: {
+                        // offset: [0, -24],
+                      },
+                    },
+                  ],
+                },
+              }}
+            >
+              <div>
+                <InfoOutlined />
+              </div>
+            </Tooltip>
+          </Grid>
         </Grid>
         <Grid item xs={1.5} borderRadius="3px">
           <Stack direction="row">
