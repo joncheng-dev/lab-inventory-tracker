@@ -5,7 +5,7 @@ import { Item, ItemType } from "../types";
 import styled from "styled-components";
 import { StyledIconButton } from "../style/styles";
 import { styled as styledMui } from "@mui/material/styles";
-import { Button, Grid, Stack, useTheme } from "@mui/material";
+import { Button, Grid, Stack, Tooltip, useTheme } from "@mui/material";
 import { Add, Apps, ViewHeadline } from "@mui/icons-material";
 import { tokens } from "../themes";
 
@@ -67,24 +67,28 @@ export default function ItemList(props: ItemListProps) {
         </Grid>
         <Grid item xs={1.5} borderRadius="3px">
           <Stack direction="row">
-            <StyledIconButton onClick={activateCardView} disableRipple>
-              <Apps
-                sx={{
-                  fontSize: 25,
-                  ml: 1,
-                  mb: 1,
-                }}
-              />
-            </StyledIconButton>
-            <StyledIconButton onClick={activateTableView} disableRipple>
-              <ViewHeadline
-                sx={{
-                  fontSize: 25,
-                  mr: 1,
-                  mb: 1,
-                }}
-              />
-            </StyledIconButton>
+            <Tooltip title="Card View">
+              <StyledIconButton onClick={activateCardView} disableRipple>
+                <Apps
+                  sx={{
+                    fontSize: 25,
+                    ml: 1,
+                    mb: 1,
+                  }}
+                />
+              </StyledIconButton>
+            </Tooltip>
+            <Tooltip title="Table View">
+              <StyledIconButton onClick={activateTableView} disableRipple>
+                <ViewHeadline
+                  sx={{
+                    fontSize: 25,
+                    mr: 1,
+                    mb: 1,
+                  }}
+                />
+              </StyledIconButton>
+            </Tooltip>
           </Stack>
         </Grid>
         <Grid item xs={12}>

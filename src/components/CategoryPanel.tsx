@@ -1,8 +1,6 @@
 import styled from "styled-components";
-import { Checkbox } from "@mui/material";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import { Checkbox, Divider, FormControlLabel } from "@mui/material";
 import * as React from "react";
-import Divider from "@mui/material/Divider";
 
 const CategoryPanelContainer = styled.div`
   text-align: left;
@@ -14,6 +12,13 @@ const ListContainer = styled.div`
   flex-direction: column;
 `;
 
+const StyledFormControlLabel = styled(FormControlLabel)`
+  &:hover {
+    background-color: #777777cc;
+    cursor: pointer;
+  }
+`;
+
 interface CategoryPanelProps {
   tags: string[];
   subjectTagChecklist: string[];
@@ -23,9 +28,6 @@ interface CategoryPanelProps {
 
 export default function CategoryPanel(props: CategoryPanelProps) {
   const { tags, subjectTagChecklist, purposeTagChecklist, onCategorySelection } = props;
-
-  // Next step, filter results to show to center panel
-  // It will instantly filter out all the results and only show the items that have that tag.
 
   const handleCheckedboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
@@ -42,10 +44,17 @@ export default function CategoryPanel(props: CategoryPanelProps) {
       const isChecked = tags.includes(word);
       return (
         // prettier-ignore
-        <FormControlLabel
+        <StyledFormControlLabel
         key={index}
         value={word}
-          control={<Checkbox id={`checkbox-${word}`} checked={isChecked} value={word} onChange={handleCheckedboxChange}/>}
+          control={
+            <Checkbox
+              // prettier-ignore
+              id={`checkbox-${word}`}
+              checked={isChecked}
+              value={word}
+              onChange={handleCheckedboxChange}
+            />}
         label={word}
       />
       );

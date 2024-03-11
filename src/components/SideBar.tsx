@@ -130,7 +130,7 @@ export default function Sidebar(props: SidebarProps) {
             {/* <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
               Data
             </Typography> */}
-            <Item title="Manage Users" to="/manageusers" icon={<PeopleOutlinedIcon />} selected={selected} setSelected={setSelected} />
+            {/* <Item title="Manage Users" to="/manageusers" icon={<PeopleOutlinedIcon />} selected={selected} setSelected={setSelected} /> */}
             <Item title="Catalog" to="/catalog" icon={<DescriptionIcon />} selected={selected} setSelected={setSelected} />
             <Item title="Inventory" to="/inventory" icon={<InventoryIcon />} selected={selected} setSelected={setSelected} />
             {/* <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
