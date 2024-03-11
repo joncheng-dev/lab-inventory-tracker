@@ -59,7 +59,7 @@ export default function ItemForm(props: FormProps) {
     quantity: yup.number()
     .integer("Must be a whole number")
     .min(1, "Must be greater than one")
-    .max(10, "Must be between 1 and 10")
+    .max(20, "Must be between 1 and 20")
     .required("Required"),
   });
 
