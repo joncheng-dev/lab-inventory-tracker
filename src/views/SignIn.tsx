@@ -388,17 +388,18 @@ export default function SignIn() {
 
   return (
     <>
-      <Paper
-        component="main"
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100vh",
-        }}
-      >
-        <Box>
+      <Box display="flex" alignItems="center" justifyContent="center" height="100vh">
+        <Paper
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "50vh",
+            width: "30vw",
+            padding: "20px",
+          }}
+        >
           <Formik
             initialValues={{
               email: "",
@@ -420,14 +421,16 @@ export default function SignIn() {
           >
             {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
               <form onSubmit={handleSubmit}>
-                <Typography component="h1" variant="h5">
-                  Sign In
-                </Typography>
+                <Grid container xs={12} justifyContent="center">
+                  <Typography component="h1" variant="h3">
+                    Sign In
+                  </Typography>
+                </Grid>
                 <Grid container sx={{ marginTop: 2, marginBottom: 2 }}>
-                  <Grid item xs={12} p={1}>
+                  <Grid item xs={12} p={2}>
                     <TextField
                       fullWidth
-                      variant="filled"
+                      variant="outlined"
                       type="text"
                       label="Email"
                       onBlur={handleBlur}
@@ -438,10 +441,10 @@ export default function SignIn() {
                       helperText={touched.email && errors.email}
                     />
                   </Grid>
-                  <Grid item xs={12} p={1} pb={1.5}>
+                  <Grid item xs={12} p={2} pb={1.5}>
                     <TextField
                       fullWidth
-                      variant="filled"
+                      variant="outlined"
                       type="text"
                       label="Password"
                       onBlur={handleBlur}
@@ -461,8 +464,8 @@ export default function SignIn() {
               </form>
             )}
           </Formik>
-        </Box>
-      </Paper>
+        </Paper>
+      </Box>
     </>
   );
 }
