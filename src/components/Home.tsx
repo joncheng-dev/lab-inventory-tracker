@@ -1,10 +1,8 @@
-import { useState, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
-// import useLocalStorage, { useLocalStorageProps } from "../hooks/useLocalStorage.js";
-// import { UserContext } from "../helpers/UserContext.js";
 // Firebase / Firestore
-// import { db, auth } from "../firebase.js";
-// import { doc, getDoc } from "firebase/firestore";
+import { auth } from "../firebase.js";
+import { useAuthState } from "react-firebase-hooks/auth";
 // Components & Style
 import Layout from "./Layout.js";
 import { Grid } from "@mui/material/";
@@ -13,58 +11,27 @@ import Sidebar from "../components/SideBar";
 // type ContextType = { currentUser: useLocalStorageProps | null };
 
 export default function Home() {
-  // const navigate = useNavigate();
-  // const currentUser = useContext(UserContext);
+  const [user, loading] = useAuthState(auth);
+  const [isReady, setReady] = useState<boolean>(false);
+  const navigate = useNavigate();
   const [isSidebarExpanded, setSidebarExpanded] = useState<boolean>(true);
   // const sidebarWidth = isSidebarExpanded ? 2 : 1;
   const sidebarWidth = isSidebarExpanded ? 1.25 : 1;
   const mainContentWidth = isSidebarExpanded ? 10.75 : 11;
 
-  // const localUser = useLocalStorage({ key: "currentUser", objectToStore: currentUser });
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        navigate("/signin");
+      } else {
+        setReady(true);
+      }
+    }
+  }, [user, loading, navigate]);
 
-  // useEffect(() => {
-  //   // Check if the user is authenticated. If logged in, to inventory. If not, to sign in
-  //   const checkAuth = async () => {
-  //     try {
-  //       if (auth.currentUser) {
-  //         const userRef = doc(db, "users", auth.currentUser.uid);
-  //         const docSnap = await getDoc(userRef);
-  //         if (docSnap.exists()) {
-  //           const userInfo = docSnap.data() as UserEntry;
-  //           setCurrentUser({ key: "currentUser", objectToStore: userInfo });
-  //           navigate("/inventory");
-  //         } else {
-  //           console.log("No such user in database. (User collections does not contain a user document with this id.)");
-  //         }
-  //       } else if (localStorage !== null) {
-  //         navigate("/inventory");
-  //       } else {
-  //         navigate("/signin");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error retrieving user info:", error);
-  //     }
-  //   };
-  //   checkAuth();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     navigate("/inventory");
-  //   } else {
-  //     navigate("/signin");
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log("localUser: ", localUser);
-  // }, [currentUser]);
-
-  // useEffect(() => {
-  //   if (localUser !== null) {
-  //     setCurrentUser(localUser);
-  //   }
-  // }, [localUser]);
+  if (!isReady) {
+    return null;
+  }
 
   const handleSidebarToggle = () => {
     setSidebarExpanded((prev) => !prev);
@@ -78,8 +45,6 @@ export default function Home() {
             <Sidebar onToggle={handleSidebarToggle} />
           </Grid>
           <Grid item xs={mainContentWidth} style={{ transition: "all 0.5s" }}>
-            {/* Conditional rendering */}
-            {/* <Outlet context={{ currentUser } satisfies ContextType} /> */}
             <Outlet />
           </Grid>
         </Grid>
