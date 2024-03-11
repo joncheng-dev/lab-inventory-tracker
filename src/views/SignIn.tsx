@@ -7,13 +7,24 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } f
 import { eTargetType } from "../types/index.tsx";
 import { tokens } from "../themes.tsx";
 import { useTheme } from "@mui/material";
-import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Divider, Grid, Paper, TextField, Typography } from "@mui/material";
 import * as yup from "yup";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import TextInput from "../components/Forms/TextInput.tsx";
 import { flexbox } from "@mui/system";
 
 //#region style
+const LoginPaper = styled(Paper)(({ theme }) => ({
+  elevation: "3",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  height: "50vh",
+  width: "30vw",
+  padding: "20px",
+}));
+
 const FormContainer = styled.div`
   body {
     font-family: "Poppins", sans-serif;
@@ -299,6 +310,17 @@ const FormContainer = styled.div`
 `;
 //#endregion style
 
+type SignInForm = {
+  email: string;
+  password: string;
+};
+
+type TesterLoginButtonProps = {
+  email: string;
+  acctType: string;
+  password: string;
+};
+
 export default function SignIn() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -363,11 +385,6 @@ export default function SignIn() {
   //     });
   // }
 
-  type SignInForm = {
-    email: string;
-    password: string;
-  };
-
   function doSignIn(props: SignInForm) {
     // Typing form values
     const email = props.email;
@@ -386,20 +403,26 @@ export default function SignIn() {
       });
   }
 
+  const TesterLoginButton = (props: TesterLoginButtonProps) => {
+    const { email, acctType, password } = props;
+
+    return (
+      //prettier-ignore
+      <Button
+        color="secondary"
+        size="large"
+        variant="outlined"
+        onClick={() => doSignIn(props)}
+      >
+        {acctType}
+      </Button>
+    );
+  };
+
   return (
     <>
       <Box display="flex" alignItems="center" justifyContent="center" height="100vh">
-        <Paper
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "50vh",
-            width: "30vw",
-            padding: "20px",
-          }}
-        >
+        <LoginPaper>
           <Formik
             initialValues={{
               email: "",
@@ -421,12 +444,12 @@ export default function SignIn() {
           >
             {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
               <form onSubmit={handleSubmit}>
-                <Grid container xs={12} justifyContent="center">
+                <Grid container xs={12} justifyContent="center" pt={2}>
                   <Typography component="h1" variant="h3">
                     Log In
                   </Typography>
                 </Grid>
-                <Grid container sx={{ marginTop: 2, marginBottom: 2 }}>
+                <Grid container p={2} sx={{ marginTop: 2, marginBottom: 2 }}>
                   <Grid item xs={12} p={2}>
                     <TextField
                       fullWidth
@@ -460,16 +483,23 @@ export default function SignIn() {
                       Log In
                     </Button>
                   </Grid>
+                  <Grid item xs={12} p={2} display="flex">
+                    <Divider sx={{ height: "2px", width: "100%", marginRight: "16px" }} />
+                  </Grid>
+                  <Grid container item xs={12} p={2} justifyContent="center">
+                    <Typography variant="h5">DEMO ACCOUNTS</Typography>
+                  </Grid>
+                  <Grid container item xs={6} justifyContent="center">
+                    <TesterLoginButton email="testing@123.com" acctType="admin" password="testing123" />
+                  </Grid>
+                  <Grid container item xs={6} justifyContent="center">
+                    <TesterLoginButton email="testing@456.com" acctType="standard" password="testing456" />
+                  </Grid>
                 </Grid>
-                {/* <Box display="flex" justifyContent="center" mt="20px">
-                  <Button type="submit" color="secondary" size="large" variant="outlined">
-                    Sign In
-                  </Button>
-                </Box> */}
               </form>
             )}
           </Formik>
-        </Paper>
+        </LoginPaper>
       </Box>
     </>
   );
