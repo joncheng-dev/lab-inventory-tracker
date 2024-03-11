@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
-import { Box, IconButton, Typography, useTheme, SvgIconTypeMap } from "@mui/material";
+import { Box, IconButton, Typography, Tooltip, useTheme, SvgIconTypeMap } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../themes";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -21,7 +21,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { UserContext } from "../helpers/UserContext";
 
 type ItemProps = {
-  title: string;
+  name: string;
   to: string;
   icon: React.ReactElement<SvgIconTypeMap<{}, "svg">>;
   selected: string;
@@ -33,19 +33,19 @@ type SidebarProps = {
 };
 
 function Item(props: ItemProps) {
-  const { title, to, icon, selected, setSelected } = props;
+  const { name, to, icon, selected, setSelected } = props;
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
     <MenuItem
-      active={selected === title}
+      active={selected === name}
       style={{
         color: colors.grey[100],
       }}
-      onClick={() => setSelected(title)}
+      onClick={() => setSelected(name)}
       icon={icon}
     >
-      <Typography>{title}</Typography>
+      <Typography>{name}</Typography>
       <Link to={to} />
     </MenuItem>
   );
@@ -126,13 +126,52 @@ export default function Sidebar(props: SidebarProps) {
             </Box>
           )}
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-            <Item title="Dashboard" to="/signin" icon={<HomeOutlinedIcon />} selected={selected} setSelected={setSelected} />
+            {/* <Item title="Dashboard" to="/signin" icon={<HomeOutlinedIcon />} selected={selected} setSelected={setSelected} /> */}
             {/* <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
               Data
             </Typography> */}
             {/* <Item title="Manage Users" to="/manageusers" icon={<PeopleOutlinedIcon />} selected={selected} setSelected={setSelected} /> */}
-            <Item title="Catalog" to="/catalog" icon={<DescriptionIcon />} selected={selected} setSelected={setSelected} />
-            <Item title="Inventory" to="/inventory" icon={<InventoryIcon />} selected={selected} setSelected={setSelected} />
+
+            <Tooltip
+              title="Catalog"
+              placement="right"
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: "offset",
+                      options: {
+                        offset: [0, -24],
+                      },
+                    },
+                  ],
+                },
+              }}
+            >
+              <div>
+                <Item to="/catalog" icon={<DescriptionIcon />} selected={selected} setSelected={setSelected} name="Catalog" />
+              </div>
+            </Tooltip>
+            <Tooltip
+              title="Inventory"
+              placement="right"
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: "offset",
+                      options: {
+                        offset: [0, -24],
+                      },
+                    },
+                  ],
+                },
+              }}
+            >
+              <div>
+                <Item name="Inventory" to="/inventory" icon={<InventoryIcon />} selected={selected} setSelected={setSelected} />
+              </div>
+            </Tooltip>
             {/* <Typography variant="h6" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
               Pages
             </Typography>
