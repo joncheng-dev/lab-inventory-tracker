@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { db, auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Box, Button, Chip, Divider, Grid, Stack, useTheme } from "@mui/material";
+import { Box, Button, Chip, Divider, Grid, Snackbar, SnackbarContent, SnackbarOrigin, Stack, useTheme } from "@mui/material";
 import styled from "styled-components";
 import { tokens } from "../themes.js";
 import { CheckedOutBySummary, CheckOutFormInput, Item, ItemType } from "../types/index.js";
@@ -145,6 +145,18 @@ const imageDictionary: Record<string, string> = {
   tools3,
 };
 
+const SnackbarMessage = styled(SnackbarContent)`
+  && {
+    background-color: #4caf50; /* success color */
+  }
+`;
+
+interface SnackbarState {
+  open: boolean;
+  vertical: "top" | "bottom";
+  horizontal: "left" | "center" | "right";
+}
+
 type ItemTypeEntryDetailProps = {
   entry: ItemType;
   itemList: Item[]; // Used to tally up quantity for each itemType
@@ -159,6 +171,11 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   const [quantity, setQuantity] = useState(0);
   const [quantAvail, setQuantAvail] = useState<number>(0);
   const [checkedOutBySummary, setCheckedOutBySummary] = useState<CheckedOutBySummary[]>([]);
+  const [notification, setNotificationOpen] = useState<SnackbarState>({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
   // prettier-ignore
   const {
     id,
@@ -196,6 +213,10 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   useEffect(() => {
     currentlyCheckedOutItems();
   }, [itemList]);
+
+  const handleCloseSnackbar = () => {
+    setNotificationOpen({ ...notification, open: false });
+  };
 
   const currentlyCheckedOutItems = () => {
     const itemsOfTargetType = itemList.filter((item) => item.type === type);
@@ -244,6 +265,8 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     const itemsId = randomNumbers.map((index) => itemsOfTargetType[index].id);
     // Calls on the mutations to query firebase -- do a batch write edit
     assetTrackUpdateDoc("items", userEmail, itemsId as string[], "checkOut");
+    // Report back that items were successfully checked out.
+    setNotificationOpen({ ...notification, open: true });
   };
 
   const handleReturnItems = () => {
@@ -262,6 +285,16 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     <>
       <h2>{displayName}</h2>
       <EntryDetailContainer>
+        {notification.open && (
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={notification.open}
+            autoHideDuration={3000}
+            onClose={handleCloseSnackbar}
+          >
+            <SnackbarMessage message="Items checked out successfully!" />
+          </Snackbar>
+        )}
         <Box pt={0.2} sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
           <Grid container spacing={2} pt={1}>
             <Grid container xs={7} item pt={1}>
