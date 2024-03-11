@@ -445,12 +445,12 @@ export default function SignIn() {
           >
             {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
               <form onSubmit={handleSubmit}>
-                <Grid container xs={12} justifyContent="center" pt={4}>
+                <Grid container xs={12} justifyContent="center" pt={3}>
                   <Typography component="h1" variant="h3">
                     Log In
                   </Typography>
                 </Grid>
-                <Grid container p={2} sx={{ marginTop: 2, marginBottom: 2 }}>
+                <Grid container p={2} pt={0.5} sx={{ marginTop: 2, marginBottom: 2 }}>
                   <Grid item xs={12} p={2}>
                     <TextField
                       fullWidth
@@ -483,7 +483,7 @@ export default function SignIn() {
                     <Button type="submit" color="secondary" fullWidth size="large" variant="outlined">
                       Log In
                     </Button>
-                    <Grid item xs={12} pt={4} pb={4}>
+                    <Grid item xs={12} pt={4} pb={2}>
                       <Divider sx={{ height: "2px", width: "100%", marginRight: "16px" }} />
                     </Grid>
                     <Grid container item xs={12} p={2} justifyContent="center">

@@ -28,6 +28,10 @@ const StyledCard = styled(Card)`
   border: 1px black solid;
   /* background: #369; */
   position: relative;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const ButtonContainer = styled.div`
