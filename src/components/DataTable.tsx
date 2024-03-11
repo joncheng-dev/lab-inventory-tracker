@@ -14,6 +14,7 @@ const StyledDataGrid = styled(DataGrid)`
   .MuiDataGrid-row:hover {
     /* &:hover { */
     background-color: #777777cc;
+    cursor: pointer;
   }
 `;
 

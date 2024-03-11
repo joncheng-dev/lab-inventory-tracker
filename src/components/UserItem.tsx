@@ -19,6 +19,7 @@ const StyledCard = styled(Card)`
   /* .css-46bh2p-MuiCardContent-root:hover { */
   &:hover {
     background-color: #777777;
+    cursor: pointer;
   }
 `;
 
