@@ -423,7 +423,7 @@ export default function SignIn() {
               <form onSubmit={handleSubmit}>
                 <Grid container xs={12} justifyContent="center">
                   <Typography component="h1" variant="h3">
-                    Sign In
+                    Log In
                   </Typography>
                 </Grid>
                 <Grid container sx={{ marginTop: 2, marginBottom: 2 }}>
@@ -432,7 +432,7 @@ export default function SignIn() {
                       fullWidth
                       variant="outlined"
                       type="text"
-                      label="Email"
+                      label="Username"
                       onBlur={handleBlur}
                       onChange={handleChange}
                       value={values.email}
@@ -455,12 +455,17 @@ export default function SignIn() {
                       helperText={touched.password && errors.password}
                     />
                   </Grid>
+                  <Grid item xs={12} p={2} pt={3}>
+                    <Button type="submit" color="secondary" fullWidth size="large" variant="outlined">
+                      Log In
+                    </Button>
+                  </Grid>
                 </Grid>
-                <Box display="flex" justifyContent="end" mt="20px">
-                  <Button type="submit" color="secondary" variant="outlined">
+                {/* <Box display="flex" justifyContent="center" mt="20px">
+                  <Button type="submit" color="secondary" size="large" variant="outlined">
                     Sign In
                   </Button>
-                </Box>
+                </Box> */}
               </form>
             )}
           </Formik>
