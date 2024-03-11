@@ -58,10 +58,10 @@ export default function ItemTypeForm(props: FormProps) {
 
   const validationSchema = yup.object().shape({
     displayName: yup.string().required("Required"),
-    description: yup.string().required("Required"),
-    location: yup.string().required("Required"),
+    description: yup.string().max(300, "Must be less than 300 characters.").required("Required"),
+    location: yup.string().max(100, "Must be less than 100 characters").required("Required"),
     tags: yup.array(),
-    type: yup.string().required("Required"),
+    type: yup.string().max(100, "Must be less than 100 characters").required("Required"),
   });
 
   console.log("ItemTypeForm, entry: ", entry);
