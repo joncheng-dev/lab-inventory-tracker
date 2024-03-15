@@ -17,6 +17,7 @@ type SignInForm = {
 
 interface AuthContextValue {
   signIn: (email: string, password: string) => void;
+  signOutUser: () => void;
   currentUser: UserInfo | null;
 }
 
@@ -28,7 +29,6 @@ export const sharedInfo = () => {
 
 export const UserProvider = ({ children }: any) => {
   const [currentUser, setCurrentUser] = useState<UserInfo | null>(null);
-  const [user] = useAuthState(auth);
   // console.log("UserProvider, user -> useAuthState(auth): ", user);
 
   // useEffect(() => {
@@ -80,8 +80,18 @@ export const UserProvider = ({ children }: any) => {
       });
   };
 
+  const signOutUser = async () => {
+    try {
+      await signOut(auth);
+      setCurrentUser(null);
+    } catch (error) {
+      console.log("Unable to log out current user.");
+    }
+  };
+
   const contextValue: AuthContextValue = {
     signIn,
+    signOutUser,
     currentUser,
   };
 

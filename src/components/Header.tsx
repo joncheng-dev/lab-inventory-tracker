@@ -26,8 +26,7 @@ export default function Header(props: HeaderProps) {
 
   async function handleSignOut() {
     try {
-      await doSignOut();
-      console.log("Sign-out successful");
+      userProvider?.signOutUser();
       navigate("/signin");
     } catch (error: any) {
       console.error("Error during sign-out:", error.message);
