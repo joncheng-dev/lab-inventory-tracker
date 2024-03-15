@@ -1,39 +1,92 @@
 // TSX VERSION
-import React, { useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { db, auth } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { UserCredential, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 interface UserInfo {
-  userName: string;
-  userEmail: string;
+  email: string;
+  isAdmin: boolean;
 }
 
-export const UserContext = React.createContext<UserInfo | null>(null);
+type SignInForm = {
+  email: string;
+  password: string;
+};
+
+interface AuthContextValue {
+  signIn: (email: string, password: string) => void;
+  currentUser: UserInfo | null;
+}
+
+const UserContext = createContext<AuthContextValue | null>(null);
+
+export const sharedInfo = () => {
+  return useContext(UserContext);
+};
 
 export const UserProvider = ({ children }: any) => {
   const [currentUser, setCurrentUser] = useState<UserInfo | null>(null);
   const [user] = useAuthState(auth);
+  // console.log("UserProvider, user -> useAuthState(auth): ", user);
 
-  useEffect(() => {
-    if (user) {
-      const fetchUserInfo = async () => {
-        const userRef = doc(db, "users", user.uid);
+  // useEffect(() => {
+  //   // console.log("here");
+  //   setCurrentUser({
+  //     email: "testing@123.com",
+  //     isAdmin: true,
+  //   });
+  //   if (user) {
+  //     const fetchUserInfo = async () => {
+  //       const userRef = doc(db, "users", user.uid);
+  //       const docSnap = await getDoc(userRef);
+  //       if (docSnap.exists()) {
+  //         console.log("3a. UserContext, user successfully retrieved, docSnap.data(): ", docSnap.data());
+  //         const userInfo = docSnap.data() as UserInfo;
+  //         console.log("userInfo: ", userInfo);
+  //         setCurrentUser(userInfo);
+  //         // console.log("3a. UserContext, user successfully retrieved, userInfo: ", userInfo);
+  //       } else {
+  //         console.log("No such user in database.");
+  //       }
+  //     };
+  //     fetchUserInfo();
+  //   } else {
+  //     // console.log("3b. UserContext, user not successfully retrieved (User not authenticated.)");
+  //     console.log("User not authenticated.");
+  //   }
+  // }, [user]);
+
+  const signIn = async (email: string, password: string) => {
+    // console.log("1a. SignIn, handleSignIn started, props: ", props);
+    signInWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential: UserCredential) => {
+        console.log("User credential: ", userCredential);
+        console.log("signInWithEmailAndPassword, userCredential.user.email: ", userCredential.user.email);
+        const userRef = doc(db, "users", userCredential.user.uid);
         const docSnap = await getDoc(userRef);
         if (docSnap.exists()) {
-          const userInfo = docSnap.data() as UserInfo;
-          setCurrentUser(userInfo);
-        } else {
-          console.log("No such user in database.");
+          console.log("signIn, docSnap.data()", docSnap.data());
+          const relevantUserInfo: UserInfo = {
+            email: docSnap.data().email,
+            isAdmin: docSnap.data().isAdmin,
+          };
+          setCurrentUser(relevantUserInfo);
         }
-      };
-      fetchUserInfo();
-    } else {
-      console.log("User not authenticated.");
-    }
-  }, [user]);
+      })
+      .catch((error: any) => {
+        console.error("Sign-in error: ", error);
+      });
+  };
 
-  return <UserContext.Provider value={currentUser}>{children}</UserContext.Provider>;
+  const contextValue: AuthContextValue = {
+    signIn,
+    currentUser,
+  };
+
+  console.log("UserContext currentUser: ", currentUser);
+  return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
 };
 
 // TSX VERSION

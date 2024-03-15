@@ -18,17 +18,6 @@ export async function doCreateAccount(email: string, password: string) {
   }
 }
 
-export async function doSignIn(email: string, password: string) {
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log("1b. Sign-in successful:", userCredential);
-    return userCredential;
-  } catch (error: any) {
-    console.error("Sign-in error: ", error);
-    throw new Error(`Error signing in: ${error.message}`);
-  }
-}
-
 export async function doSignOut() {
   try {
     await signOut(auth);

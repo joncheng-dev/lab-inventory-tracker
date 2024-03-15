@@ -1,8 +1,10 @@
 // Outside
-import { useState, useEffect } from "react";
-import { db, auth } from "../firebase.js";
+import { useContext, useState, useEffect } from "react";
+// import { db, auth } from "../firebase.js";
+import { db } from "../firebase.js";
 import { collection, onSnapshot } from "firebase/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
+// import { useAuthState } from "react-firebase-hooks/auth";
+import { sharedInfo } from "../helpers/UserContext";
 // Styling
 import { Grid } from "@mui/material";
 import BasicModal from "../components/BasicModal.js";
@@ -23,7 +25,8 @@ import { filterList } from "../helpers/SearchAndFilter.js";
 
 export default function InventoryControl() {
   // STATE & SHARED INFORMATION
-  const [user] = useAuthState(auth);
+  // const [user] = useAuthState(auth);
+  const userProvider = sharedInfo();
   // For conditional rendering:
   const [addItemFormVisible, setAddFormVisibility] = useState<boolean>(false);
   const [selectedEntry, setSelectedEntry] = useState<ItemType | null>(null);
@@ -97,7 +100,7 @@ export default function InventoryControl() {
   }, []);
 
   useEffect(() => {
-    if (user) {
+    if (userProvider?.currentUser) {
       handleMakeUserItemList();
       console.log("InventoryControl, itemList: ", itemList);
       console.log("InventoryControl, itemsCheckedOutByUser: ", itemsCheckedOutByUser);
@@ -130,9 +133,9 @@ export default function InventoryControl() {
 
   //#region functions
   const handleMakeUserItemList = () => {
-    if (user) {
+    if (userProvider?.currentUser) {
       setItemsCheckedOutByUser(() => {
-        return itemList.filter((entry) => entry.checkedOutBy === user.email);
+        return itemList.filter((entry) => entry.checkedOutBy === userProvider.currentUser?.email);
       });
     }
   };

@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase.tsx";
-import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { sharedInfo } from "../helpers/UserContext.tsx";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { eTargetType } from "../types/index.tsx";
 import { tokens } from "../themes.tsx";
 import { useTheme } from "@mui/material";
 import { Box, Button, Divider, Grid, Paper, TextField, Typography } from "@mui/material";
 import * as yup from "yup";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+import { doCreateAccount } from "../hooks/authUtil.tsx";
 import TextInput from "../components/Forms/TextInput.tsx";
 import { flexbox } from "@mui/system";
 
@@ -324,84 +326,73 @@ type TesterLoginButtonProps = {
 export default function SignIn() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [user] = useAuthState(auth);
+  const userProvider = sharedInfo();
   // state variables with useState hooks
   const [createAccountSuccess, setCreateAccountSuccess] = useState<string | null>(null);
-  const [signInSuccess, setSignInSuccess] = useState<string | null>(null);
+  // const [signInSuccess, setSignInSuccess] = useState<boolean>(false);
   const [signOutSuccess, setSignOutSuccess] = useState<string | null>(null);
   const [isCreateAccount, setIsCreateAccount] = useState<boolean>(false);
   // redirects
   const navigate = useNavigate();
 
-  // functions
-  function handleCheckboxChange() {
-    setIsCreateAccount((prevState) => !prevState);
-  }
+  useEffect(() => {
+    if (userProvider?.currentUser) {
+      navigate("/inventory");
+    }
+  }, [userProvider?.currentUser]);
 
-  function doCreateAccount(e: React.SyntheticEvent) {
+  // useEffect(() => {
+  //   console.log("signInSuccess: ", signInSuccess);
+  //   // console.log("SignIn component mounted");
+  //   // console.log("SignIn, useEffect, state - signInSuccess: ", signInSuccess);
+  //   if (signInSuccess) {
+  //     navigate("/inventory");
+  //     console.log("SignIn, navigate to /inventory");
+  //   }
+  // }, [signInSuccess]);
+
+  async function handleCreateAccount(e: React.SyntheticEvent) {
     e.preventDefault();
 
-    // Typing form values
     const target = e.target as typeof e.target & eTargetType;
     const email = target.email.value;
     const password = target.password.value;
 
-    console.log("Account made with email:", email);
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(async (userCredential) => {
-        // user successfully creates account
-        setCreateAccountSuccess(`Account creation successful: ${userCredential.user.email}.`);
-        console.log("Account creation successful:", userCredential.user.email);
-        await setDoc(doc(db, "users", userCredential.user.uid), {
-          userEmail: email,
-          userId: userCredential.user.uid,
-        });
-      })
-      .catch((error) => {
-        // error with creating account
-        setCreateAccountSuccess(`Error creating account: ${error.message}`);
-        console.error("Error creating account:", error.message);
-      });
+    try {
+      const userCredential = await doCreateAccount(email, password);
+      setCreateAccountSuccess(`Account creation successful: ${userCredential.user.email}.`);
+    } catch (error: any) {
+      setCreateAccountSuccess(`Error creating account: ${error.message}`);
+    }
   }
 
-  // function doSignIn(e: React.SyntheticEvent) {
-  //   e.preventDefault();
+  const handleSignIn = async (props: SignInForm) => {
+    const { email, password } = props;
+    try {
+      userProvider?.signIn(email, password);
+      // setSignInSuccess(true);
+    } catch (error) {
+      console.log("Error signing in user");
+      // setSignInSuccess(false);
+    }
+  };
 
-  //   // Typing form values
-  //   const target = e.target as typeof e.target & eTargetType;
-  //   const email = target.email.value;
-  //   const password = target.password.value;
-
+  // function handleSignIn(props: SignInForm) {
+  //   // console.log("1a. SignIn, handleSignIn started, props: ", props);
+  //   const { email, password } = props;
   //   signInWithEmailAndPassword(auth, email, password)
   //     .then((userCredential) => {
   //       console.log("User credential: ", userCredential);
   //       console.log("signInWithEmailAndPassword, userCredential.user.email: ", userCredential.user.email);
-  //       setSignInSuccess(`You've signed in as: ${userCredential.user.email}`);
-  //       navigate("/inventory");
+  //       setSignInSuccess(true);
+  //       // navigate("/inventory");
   //     })
-  //     .catch((error) => {
+  //     .catch((error: any) => {
   //       console.error("Sign-in error: ", error);
-  //       setSignInSuccess(`There was an error with sign-in: ${error.message}`);
+  //       setSignInSuccess(false);
   //     });
   // }
-
-  function doSignIn(props: SignInForm) {
-    // Typing form values
-    const email = props.email;
-    const password = props.password;
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log("User credential: ", userCredential);
-        console.log("signInWithEmailAndPassword, userCredential.user.email: ", userCredential.user.email);
-        setSignInSuccess(`You've signed in as: ${userCredential.user.email}`);
-        navigate("/inventory");
-      })
-      .catch((error) => {
-        console.error("Sign-in error: ", error);
-        setSignInSuccess(`There was an error with sign-in: ${error.message}`);
-      });
-  }
 
   const TesterLoginButton = (props: TesterLoginButtonProps) => {
     const { email, acctType, password } = props;
@@ -413,7 +404,7 @@ export default function SignIn() {
         fullWidth
         size="large"
         variant="outlined"
-        onClick={() => doSignIn(props)}
+        onClick={() => handleSignIn(props)}
       >
         {acctType}
       </Button>
@@ -439,13 +430,12 @@ export default function SignIn() {
                 .required("Required"),
             })}
             onSubmit={(values) => {
-              doSignIn(values);
-              console.log("SignIn.tsx, form values: ", values);
+              handleSignIn(values);
             }}
           >
             {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
               <form onSubmit={handleSubmit}>
-                <Grid container xs={12} justifyContent="center" pt={3}>
+                <Grid container justifyContent="center" pt={3}>
                   <Typography component="h1" variant="h3">
                     Log In
                   </Typography>
@@ -479,24 +469,24 @@ export default function SignIn() {
                       helperText={touched.password && errors.password}
                     />
                   </Grid>
-                  <Grid item xs={12} p={2} pt={3}>
+                  <Grid container item xs={12} p={2} pt={3}>
                     <Button type="submit" color="secondary" fullWidth size="large" variant="outlined">
                       Log In
                     </Button>
                     <Grid item xs={12} pt={4} pb={2}>
                       <Divider sx={{ height: "2px", width: "100%", marginRight: "16px" }} />
                     </Grid>
-                    <Grid container item xs={12} p={2} justifyContent="center">
+                    <Grid item xs={12} p={2} justifyContent="center">
                       <Typography variant="h5">DEMO ACCOUNTS</Typography>
                     </Grid>
-                    <Grid container item xs={12}>
+                    {/* <Grid container item xs={12}>
                       <Grid item xs={6} justifyContent="center" p={0.5}>
                         <TesterLoginButton email="testing@123.com" acctType="admin" password="testing123" />
                       </Grid>
                       <Grid item xs={6} justifyContent="center" p={0.5}>
                         <TesterLoginButton email="testing@456.com" acctType="standard" password="testing456" />
                       </Grid>
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </Grid>
               </form>
@@ -507,6 +497,80 @@ export default function SignIn() {
     </>
   );
 }
+
+function UserContext() {
+  throw new Error("Function not implemented.");
+}
+// functions
+// function handleCheckboxChange() {
+//   setIsCreateAccount((prevState) => !prevState);
+// }
+
+// function doCreateAccount(e: React.SyntheticEvent) {
+//   e.preventDefault();
+
+//   // Typing form values
+//   const target = e.target as typeof e.target & eTargetType;
+//   const email = target.email.value;
+//   const password = target.password.value;
+
+//   console.log("Account made with email:", email);
+
+//   createUserWithEmailAndPassword(auth, email, password)
+//     .then(async (userCredential) => {
+//       // user successfully creates account
+//       setCreateAccountSuccess(`Account creation successful: ${userCredential.user.email}.`);
+//       console.log("Account creation successful:", userCredential.user.email);
+//       await setDoc(doc(db, "users", userCredential.user.uid), {
+//         userEmail: email,
+//         userId: userCredential.user.uid,
+//       });
+//     })
+//     .catch((error) => {
+//       // error with creating account
+//       setCreateAccountSuccess(`Error creating account: ${error.message}`);
+//       console.error("Error creating account:", error.message);
+//     });
+// }
+
+// function doSignIn(e: React.SyntheticEvent) {
+//   e.preventDefault();
+
+//   // Typing form values
+//   const target = e.target as typeof e.target & eTargetType;
+//   const email = target.email.value;
+//   const password = target.password.value;
+
+//   signInWithEmailAndPassword(auth, email, password)
+//     .then((userCredential) => {
+//       console.log("User credential: ", userCredential);
+//       console.log("signInWithEmailAndPassword, userCredential.user.email: ", userCredential.user.email);
+//       setSignInSuccess(`You've signed in as: ${userCredential.user.email}`);
+//       navigate("/inventory");
+//     })
+//     .catch((error) => {
+//       console.error("Sign-in error: ", error);
+//       setSignInSuccess(`There was an error with sign-in: ${error.message}`);
+//     });
+// }
+
+// async function doSignIn(props: SignInForm) {
+//   // Typing form values
+//   const email = props.email;
+//   const password = props.password;
+
+//   try {
+//     console.log("Before signInWithEmailAndPassword");
+//     const userCredential = await signInWithEmailAndPassword(auth, email, password);
+//     console.log("After signInWithEmailAndPassword, userCredential:", userCredential);
+//     // const userCredential = await signInWithEmailAndPassword(auth, email, password);
+//     setSignInSuccess(`You've signed in as: ${userCredential.user.email}`);
+//     navigate("/inventory");
+//   } catch (error: any) {
+//     console.error("Sign-in error: ", error);
+//     setSignInSuccess(`There was an error with sign-in: ${error.message}`);
+//   }
+// }
 
 // <Form>
 //   <h3>Sign In</h3>

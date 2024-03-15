@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ItemTypeEntry from "./ItemTypeEntry";
 import DataTable from "./DataTable";
 import { Item, ItemType } from "../types";
@@ -8,6 +8,7 @@ import { styled as styledMui } from "@mui/material/styles";
 import { Button, Grid, Stack, Tooltip, useTheme } from "@mui/material";
 import { Add, Apps, InfoOutlined, ViewHeadline } from "@mui/icons-material";
 import { tokens } from "../themes";
+import { sharedInfo } from "../helpers/UserContext.tsx";
 
 //#region styles
 const ListContainer = styled.div`
@@ -44,6 +45,7 @@ const inventoryTooltipText = `A collection of all items registered to the labora
 
 export default function ItemList(props: ItemListProps) {
   const { listOfItems, listOfItemTypes, onEntryClick, onClickingAddEntry } = props;
+  const userProvider = sharedInfo();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [selectedView, setSelectedView] = useState<"card" | "table">("card");
@@ -120,9 +122,11 @@ export default function ItemList(props: ItemListProps) {
         <Grid item xs={12}>
           <ListContainer>
             <Grid item xs={12}>
-              <StyledButton onClick={onClickingAddEntry} variant="contained" startIcon={<Add />}>
-                Add Items
-              </StyledButton>
+              {userProvider?.currentUser?.isAdmin && (
+                <StyledButton onClick={onClickingAddEntry} variant="contained" startIcon={<Add />}>
+                  Add Items
+                </StyledButton>
+              )}
             </Grid>
             <br />
             <Grid item xs={12}>

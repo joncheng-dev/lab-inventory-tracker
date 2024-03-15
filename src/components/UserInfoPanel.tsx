@@ -2,9 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Item, ItemType } from "../types";
 import UserItem from "./UserItem";
 import { Divider, Grid } from "@mui/material";
-import { UserContext } from "../helpers/UserContext";
-import { db, auth } from "../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { sharedInfo } from "../helpers/UserContext";
 
 type UserInfoPanelProps = {
   itemsCheckedOutByUser: Item[];
@@ -13,8 +11,8 @@ type UserInfoPanelProps = {
 };
 
 export default function UserInfoPanel(props: UserInfoPanelProps) {
-  // const currentUser = useContext(UserContext);
-  const [user] = useAuthState(auth);
+  const userProvider = sharedInfo();
+  // const [user] = useAuthState(auth);
   const { itemsCheckedOutByUser, listOfItemTypes, onEntryClick } = props;
   const [itemCounts, setItemCounts] = useState<Record<string, number>>({});
 
@@ -36,7 +34,7 @@ export default function UserInfoPanel(props: UserInfoPanelProps) {
       <Divider />
       <br />
       <h5>Logged in as:</h5>
-      <h6>{user ? user.email : ""}</h6>
+      <h6>{userProvider ? userProvider.currentUser?.email : ""}</h6>
       <Divider />
       <Grid container pt={3}>
         <Grid item xs={8}>
