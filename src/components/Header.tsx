@@ -1,9 +1,11 @@
 import { useState, useContext } from "react";
 import { auth } from "../firebase.tsx";
-import { signOut } from "firebase/auth";
 import { Box, Chip, IconButton, InputBase, Stack, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from "../themes.tsx";
 import { DarkModeOutlined, LightModeOutlined, Search } from "@mui/icons-material/";
+import { doSignOut } from "../hooks/authUtil.tsx";
+import { useNavigate } from "react-router-dom";
+import { sharedInfo } from "../helpers/UserContext";
 
 type HeaderProps = {
   onSearchInputChange: (queryString: string) => void;
@@ -11,23 +13,24 @@ type HeaderProps = {
 
 export default function Header(props: HeaderProps) {
   const theme = useTheme();
+  const userProvider = sharedInfo();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
   const { onSearchInputChange } = props;
   const [signOutSuccess, setSignOutSuccess] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   function handleSearchBarChange(e: { target: { value: string } }) {
     onSearchInputChange(e.target.value.toString());
   }
 
-  function doSignOut() {
-    signOut(auth)
-      .then(() => {
-        setSignOutSuccess("You've signed out.");
-      })
-      .catch((error) => {
-        setSignOutSuccess(`There was an error with sign-out: ${error.message}`);
-      });
+  async function handleSignOut() {
+    try {
+      userProvider?.signOutUser();
+      navigate("/signin");
+    } catch (error: any) {
+      console.error("Error during sign-out:", error.message);
+    }
   }
 
   return (
@@ -57,7 +60,7 @@ export default function Header(props: HeaderProps) {
           <IconButton onClick={colorMode.toggleColorMode}>{theme.palette.mode === "dark" ? <DarkModeOutlined /> : <LightModeOutlined />}</IconButton>
           <Stack direction="row" spacing={1}>
             <Chip label="Home" component="a" href="/lab-inventory-tracker/inventory" variant="outlined" clickable />
-            <Chip label="Sign Out" onClick={doSignOut} component="a" href="/lab-inventory-tracker/" variant="outlined" clickable />
+            <Chip label="Sign Out" onClick={handleSignOut} variant="outlined" clickable />
           </Stack>
         </Box>
       </Box>

@@ -18,9 +18,7 @@ import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 // import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 // import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import { UserContext } from "../helpers/UserContext";
-import { auth } from "../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { sharedInfo } from "../helpers/UserContext.tsx";
 
 type ItemProps = {
   name: string;
@@ -54,15 +52,13 @@ function Item(props: ItemProps) {
 }
 
 export default function Sidebar(props: SidebarProps) {
-  const currentUser = useContext(UserContext);
-  const [user] = useAuthState(auth);
+  const userProvider = sharedInfo();
   const { onToggle } = props;
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
   const [selected, setSelected] = useState<string>("Dashboard");
 
-  console.log("Sidebar, user: ", user);
   // useEffect(() => {
   //   onToggle();
   // }, [isCollapsed]);
@@ -100,7 +96,7 @@ export default function Sidebar(props: SidebarProps) {
             {!isCollapsed && (
               <Box display="flex" justifyContent="space-between" alignItems="center" ml="10px">
                 <Typography variant="h3" color={colors.grey[100]}>
-                  {currentUser ? currentUser.userEmail : "User"}
+                  {userProvider?.currentUser ? userProvider.currentUser?.email : "User"}
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -135,27 +131,28 @@ export default function Sidebar(props: SidebarProps) {
               Data
             </Typography> */}
             {/* <Item title="Manage Users" to="/manageusers" icon={<PeopleOutlinedIcon />} selected={selected} setSelected={setSelected} /> */}
-
-            <Tooltip
-              title="Catalog"
-              placement="right"
-              slotProps={{
-                popper: {
-                  modifiers: [
-                    {
-                      name: "offset",
-                      options: {
-                        offset: [0, -24],
+            {userProvider?.currentUser?.isAdmin && (
+              <Tooltip
+                title="Catalog"
+                placement="right"
+                slotProps={{
+                  popper: {
+                    modifiers: [
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -24],
+                        },
                       },
-                    },
-                  ],
-                },
-              }}
-            >
-              <div>
-                <Item to="/catalog" icon={<DescriptionIcon />} selected={selected} setSelected={setSelected} name="Catalog" />
-              </div>
-            </Tooltip>
+                    ],
+                  },
+                }}
+              >
+                <div>
+                  <Item to="/catalog" icon={<DescriptionIcon />} selected={selected} setSelected={setSelected} name="Catalog" />
+                </div>
+              </Tooltip>
+            )}
             <Tooltip
               title="Inventory"
               placement="right"

@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
-import { db, auth } from "../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useContext, useEffect, useState } from "react";
+// import { db, auth } from "../firebase";
+// import { useAuthState } from "react-firebase-hooks/auth";
+import { sharedInfo } from "../helpers/UserContext";
 import { Box, Button, Chip, Divider, Grid, Snackbar, SnackbarContent, SnackbarOrigin, Stack, useTheme } from "@mui/material";
 import styled from "styled-components";
 import { tokens } from "../themes.js";
@@ -166,7 +167,8 @@ type ItemTypeEntryDetailProps = {
 export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [user] = useAuthState(auth);
+  // const [user] = useAuthState(auth);
+  const userProvider = sharedInfo();
   const { entry, itemList } = props;
   const [quantity, setQuantity] = useState(0);
   const [quantAvail, setQuantAvail] = useState<number>(0);
@@ -256,7 +258,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     //   "quantity": 2
     // }
     // Randomize index positions we are interested in -- stored in an array.
-    const userEmail = user?.email || "";
+    const userEmail = userProvider?.currentUser?.email || "";
     const randomNumbers: number[] = randomItemPicker(quantAvail, data.quantity);
     // randomNumbers = [0, 1, 3];
     // Looks through the collection of items, filters type matching itemType.
@@ -270,11 +272,13 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   };
 
   const handleReturnItems = () => {
-    const userEmail = user?.email || "";
+    const userEmail = userProvider?.currentUser?.email || "";
     // console.log("InventoryEntryDetail, handleReturnItems, button clicked: ");
     // The currently viewed itemType -- being displayed on InventoryEntryDetail
     // If currently viewed itemList has items of itemType,
-    const itemsOfTargetTypeCheckedOutByUser = itemList.filter((item) => item.type === type).filter((item) => item.checkedOutBy === user?.email);
+    const itemsOfTargetTypeCheckedOutByUser = itemList
+      .filter((item) => item.type === type)
+      .filter((item) => item.checkedOutBy === userProvider?.currentUser?.email);
     // AND checkedOutBy === userEmail,
     const itemIdsToReturn = itemsOfTargetTypeCheckedOutByUser.map((item) => item.id);
     // console.log("InventoryEntryDetail, handleReturnItems, currentUser.userEmail: ", currentUser?.userEmail);
@@ -365,7 +369,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                   {/* <Box display="flex" borderRadius="3px" p={2}>
                     <Stack spacing={2} direction="row" textAlign="right"> */}
                   <Grid item xs={12} sx={{ direction: "row", textAlign: "right" }}>
-                    {itemList.some((item) => type === item.type && item.checkedOutBy === user?.email) ? (
+                    {itemList.some((item) => type === item.type && item.checkedOutBy === userProvider?.currentUser?.email) ? (
                       <Button onClick={handleReturnItems} variant="contained">
                         Return
                       </Button>
