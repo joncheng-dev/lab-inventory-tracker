@@ -164,7 +164,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 <br />
                 <Grid xs={12} item>
                   <DetailsImageContainer>
-                    <Box component="img" sx={{ height: 180 }} src={imageDictionary[image]} alt="selected image" />
+                    <Box component="img" sx={{ maxHeight: 180, maxWidth: 180 }} src={imageDictionary[image]} alt="selected image" />
                   </DetailsImageContainer>
                 </Grid>
                 <Grid xs={6} item>
