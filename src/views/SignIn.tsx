@@ -14,13 +14,13 @@ import { flexbox } from "@mui/system";
 //#region style
 const LoginPaper = styled(Paper)(({ theme }) => ({
   elevation: "3",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  height: "50vh",
-  width: "30vw",
-  padding: "20px",
+  // display: "flex",
+  // flexDirection: "column",
+  // alignItems: "center",
+  // justifyContent: "center",
+  // height: "50vh",
+  // width: "30vw",
+  padding: "3%",
 }));
 //#endregion style
 
@@ -113,15 +113,16 @@ export default function SignIn() {
 
   return (
     <>
-      <Box display="flex" alignItems="center" justifyContent="center" height="100vh">
-        <LoginPaper>
-          <Formik
-            initialValues={{
-              email: "",
-              password: "",
-            }}
-            // prettier-ignore
-            validationSchema={yup.object({
+      <Box display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
+        <Grid container item xs={4}>
+          <LoginPaper>
+            <Formik
+              initialValues={{
+                email: "",
+                password: "",
+              }}
+              // prettier-ignore
+              validationSchema={yup.object({
               email: yup.string()
                 .email("Invalid email address")
                 .required("Required"),
@@ -129,70 +130,71 @@ export default function SignIn() {
                 .min(6, "Must be more than 6 characters")
                 .required("Required"),
             })}
-            onSubmit={(values) => {
-              handleSignIn(values);
-            }}
-          >
-            {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
-              <form onSubmit={handleSubmit}>
-                <Grid container justifyContent="center" pt={3}>
-                  <Typography component="h1" variant="h3">
-                    Log In
-                  </Typography>
-                </Grid>
-                <Grid container p={2} pt={0.5} sx={{ marginTop: 2, marginBottom: 2 }}>
-                  <Grid item xs={12} p={2}>
-                    <TextField
-                      fullWidth
-                      variant="outlined"
-                      type="text"
-                      label="Username"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      value={values.email}
-                      name="email"
-                      error={!!touched.email && !!errors.email}
-                      helperText={touched.email && errors.email}
-                    />
-                  </Grid>
-                  <Grid item xs={12} p={2} pb={1.5}>
-                    <TextField
-                      fullWidth
-                      variant="outlined"
-                      type="text"
-                      label="Password"
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      value={values.password}
-                      name="password"
-                      error={!!touched.password && !!errors.password}
-                      helperText={touched.password && errors.password}
-                    />
-                  </Grid>
-                  <Grid container item xs={12} p={2} pt={3}>
-                    <Button type="submit" color="secondary" fullWidth size="large" variant="outlined">
+              onSubmit={(values) => {
+                handleSignIn(values);
+              }}
+            >
+              {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+                <form onSubmit={handleSubmit}>
+                  <Grid item display="flex" justifyContent="center" pt={3}>
+                    <Typography component="h1" variant="h3">
                       Log In
-                    </Button>
-                    <Grid item xs={12} pt={4} pb={2}>
-                      <Divider sx={{ height: "2px", width: "100%", marginRight: "16px" }} />
+                    </Typography>
+                  </Grid>
+                  <Grid container item p={2} pt={0.5} sx={{ marginTop: 2, marginBottom: 2 }}>
+                    <Grid item xs={12} p={2}>
+                      <TextField
+                        fullWidth
+                        variant="outlined"
+                        type="text"
+                        label="Username"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.email}
+                        name="email"
+                        error={!!touched.email && !!errors.email}
+                        helperText={touched.email && errors.email}
+                      />
                     </Grid>
-                    <Grid item xs={12} p={2} justifyContent="center">
-                      <Typography variant="h5">DEMO ACCOUNTS</Typography>
+                    <Grid item xs={12} p={2} pb={1.5}>
+                      <TextField
+                        fullWidth
+                        variant="outlined"
+                        type="text"
+                        label="Password"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.password}
+                        name="password"
+                        error={!!touched.password && !!errors.password}
+                        helperText={touched.password && errors.password}
+                      />
                     </Grid>
-                    <Grid container item xs={12}>
-                      <Grid item xs={6} justifyContent="center" p={0.5}>
-                        <TesterLoginButton email="testing@123.com" acctType="admin" password="testing123" />
+                    <Grid container item xs={12} p={2} pt={3}>
+                      <Button type="submit" color="secondary" fullWidth size="large" variant="outlined">
+                        Log In
+                      </Button>
+                      <Grid item xs={12} pt={4} pb={2}>
+                        <Divider sx={{ height: "2px", width: "100%", marginRight: "16px" }} />
                       </Grid>
-                      <Grid item xs={6} justifyContent="center" p={0.5}>
-                        <TesterLoginButton email="testing@456.com" acctType="standard" password="testing456" />
+                      <Grid item xs={12} p={2} display="flex" justifyContent="center">
+                        <Typography variant="h5">DEMO ACCOUNTS</Typography>
+                      </Grid>
+                      <Grid container item xs={12}>
+                        <Grid item xs={6} justifyContent="center" p={0.5}>
+                          <TesterLoginButton email="testing@123.com" acctType="admin" password="testing123" />
+                        </Grid>
+                        <Grid item xs={6} justifyContent="center" p={0.5}>
+                          <TesterLoginButton email="testing@456.com" acctType="standard" password="testing456" />
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
-              </form>
-            )}
-          </Formik>
-        </LoginPaper>
+                </form>
+              )}
+            </Formik>
+          </LoginPaper>
+        </Grid>
       </Box>
     </>
   );
