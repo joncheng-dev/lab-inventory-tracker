@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { Item, ItemType } from "../types";
 import UserItem from "./UserItem";
-import { Divider, Grid } from "@mui/material";
+import { Divider, Grid, Tooltip } from "@mui/material";
+import { InfoOutlined } from "@mui/icons-material";
 import { sharedInfo } from "../helpers/UserContext";
 
 type UserInfoPanelProps = {
@@ -9,6 +10,8 @@ type UserInfoPanelProps = {
   listOfItemTypes: ItemType[];
   onEntryClick: (id: string) => void;
 };
+
+const userInfoPanelTooltipText = `Shows items you have currently checked out`;
 
 export default function UserInfoPanel(props: UserInfoPanelProps) {
   const userProvider = sharedInfo();
@@ -30,7 +33,35 @@ export default function UserInfoPanel(props: UserInfoPanelProps) {
 
   return (
     <>
-      <h3>User Info Panel</h3>
+      <Grid container item xs={12}>
+        <Grid container item>
+          <Grid item>
+            <h3>User Info Panel</h3>
+          </Grid>
+          <Grid item>
+            <Tooltip
+              title={userInfoPanelTooltipText}
+              placement="top"
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: "offset",
+                      options: {
+                        // offset: [0, -24],
+                      },
+                    },
+                  ],
+                },
+              }}
+            >
+              <div>
+                <InfoOutlined />
+              </div>
+            </Tooltip>
+          </Grid>
+        </Grid>
+      </Grid>
       <Divider />
       <br />
       <h5>Logged in as:</h5>

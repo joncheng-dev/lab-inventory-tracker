@@ -180,11 +180,11 @@ export default function SignIn() {
                       <Grid item xs={12} p={2} display="flex" justifyContent="center">
                         <Typography variant="h5">DEMO ACCOUNTS</Typography>
                       </Grid>
-                      <Grid container item xs={12}>
-                        <Grid item xs={6} justifyContent="center" p={0.5}>
+                      <Grid container item xs={12} spacing={2}>
+                        <Grid item xs={6} md={6} justifyContent="center" p={0.5}>
                           <TesterLoginButton email="testing@123.com" acctType="admin" password="testing123" />
                         </Grid>
-                        <Grid item xs={6} justifyContent="center" p={0.5}>
+                        <Grid item xs={6} md={6} justifyContent="center" p={0.5}>
                           <TesterLoginButton email="testing@456.com" acctType="standard" password="testing456" />
                         </Grid>
                       </Grid>
