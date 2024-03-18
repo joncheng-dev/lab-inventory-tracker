@@ -1,6 +1,6 @@
 import { AddItemsForm, Item, ItemType } from "../types";
 import { db } from "../firebase.js";
-import { collection, addDoc, deleteDoc, doc, getDoc, serverTimestamp, updateDoc, writeBatch } from "firebase/firestore";
+import { collection, addDoc, deleteDoc, doc, getDoc, getFirestore, serverTimestamp, updateDoc, writeBatch } from "firebase/firestore";
 
 export const addNewDoc = async (collectionName: string, entry: Item | ItemType) => {
   await addDoc(collection(db, collectionName), entry);
@@ -33,6 +33,24 @@ export const addMultipleDocs = async (collectionName: string, data: AddItemsForm
   }
 
   await batch.commit();
+};
+
+export const deleteMultipleDocs = async (collectionName: string, docIdsToDelete: string[]) => {
+  const firestore = getFirestore();
+  const batch = writeBatch(firestore);
+
+  docIdsToDelete.forEach((docId) => {
+    const docRef = doc(firestore, collectionName, docId);
+    batch.delete(docRef);
+  });
+
+  try {
+    await batch.commit();
+    console.log("Batch delete successful");
+  } catch (error) {
+    console.error("Error deleting documents: ", error);
+    throw error;
+  }
 };
 
 export const editExistingDoc = async (collectionName: string, entry: ItemType) => {
