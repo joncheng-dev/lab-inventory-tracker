@@ -127,6 +127,13 @@ const TextAlignLeftContainer = styled.div`
 `;
 //#endregion styles
 
+// !TO DO
+// Write a function that opens up a small modal.
+// Modal should be titled "Edit Total Quantity" (with a tool tip that says it can modify all existing items)
+// Input field for numbers.
+// Update / Cancel buttons
+// Write a function that properly calls database to update quantity appropriately
+
 const imageDictionary: Record<string, string> = {
   equipment1,
   equipment2,
@@ -336,6 +343,9 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 <Grid xs={6} item>
                   <StyledItemHeader>Total Quantity</StyledItemHeader>
                   <StyledItemValue>{quantity}</StyledItemValue>
+                </Grid>
+                <Grid xs={12} item>
+                  <Button variant="contained">Edit Total Quantity</Button>
                 </Grid>
               </Grid>
               {/* </Box> */}
