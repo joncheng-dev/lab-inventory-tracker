@@ -36,6 +36,10 @@ export type CheckOutFormInput = {
   quantity: number;
 };
 
+export type EditQuantityForm = {
+  quantity: number;
+};
+
 export interface UserEntry {
   userId: string;
   userEmail: string;

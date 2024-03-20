@@ -5,8 +5,8 @@ import { sharedInfo } from "../helpers/UserContext";
 import { Box, Button, Chip, Divider, Grid, Snackbar, SnackbarContent, SnackbarOrigin, Stack, useTheme } from "@mui/material";
 import styled from "styled-components";
 import { tokens } from "../themes.js";
-import { CheckedOutBySummary, CheckOutFormInput, Item, ItemType } from "../types/index.js";
-import ChildModal from "./ChildModal.js";
+import { CheckedOutBySummary, CheckOutFormInput, EditQuantityForm, Item, ItemType } from "../types/index.js";
+import ChildModalEditQuant from "./ChildModalEditQuant.js";
 import ItemCheckOutTable from "./ItemCheckOutTable.js";
 import ItemStatusTable from "./ItemStatusTable.js";
 import { assetTrackUpdateDoc } from "../hooks/mutations.js";
@@ -174,7 +174,6 @@ type ItemTypeEntryDetailProps = {
 export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  // const [user] = useAuthState(auth);
   const userProvider = sharedInfo();
   const { entry, itemList } = props;
   const [quantity, setQuantity] = useState(0);
@@ -259,6 +258,10 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     return ans;
   }
 
+  const handleUpdateQuantity = (data: EditQuantityForm) => {
+    console.log("InventoryEntryDetail, handleUpdateQuantity triggered, data is: ", data);
+  };
+
   const handleCheckoutItems = (data: CheckOutFormInput) => {
     // console.log("InventoryEntryDetail, data: ", data);
     // data = {
@@ -309,11 +312,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
         <Box pt={0.2} sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
           <Grid container spacing={2} pt={1}>
             <Grid container xs={7} item pt={1}>
-              {/* <Box
-                sx={{
-                  "& .MuiTextField-root": { m: 1.5, width: "50ch" },
-                }}
-              > */}
               <Grid xs={8} container item pl={1.5}>
                 <h4>Inventory Entry Detail</h4>
                 <Divider />
@@ -345,10 +343,9 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                   <StyledItemValue>{quantity}</StyledItemValue>
                 </Grid>
                 <Grid xs={12} item>
-                  <Button variant="contained">Edit Total Quantity</Button>
+                  <ChildModalEditQuant quantTotal={quantAvail} onFormSubmit={handleUpdateQuantity} />
                 </Grid>
               </Grid>
-              {/* </Box> */}
               <Grid xs={4} item>
                 <h4>Categories</h4>
                 <Divider />
