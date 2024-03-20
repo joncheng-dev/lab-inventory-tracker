@@ -9,7 +9,7 @@ import { CheckedOutBySummary, CheckOutFormInput, EditQuantityForm, Item, ItemTyp
 import ChildModalEditQuant from "./ChildModalEditQuant.js";
 import ItemCheckOutTable from "./ItemCheckOutTable.js";
 import ItemStatusTable from "./ItemStatusTable.js";
-import { assetTrackUpdateDoc } from "../hooks/mutations.js";
+import { addMultipleDocs, assetTrackUpdateDoc } from "../hooks/mutations.js";
 import {
   equipment1,
   equipment2,
@@ -179,7 +179,12 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   const [quantity, setQuantity] = useState(0);
   const [quantAvail, setQuantAvail] = useState<number>(0);
   const [checkedOutBySummary, setCheckedOutBySummary] = useState<CheckedOutBySummary[]>([]);
-  const [notification, setNotificationOpen] = useState<SnackbarState>({
+  const [checkoutNotification, setCheckoutNotificationOpen] = useState<SnackbarState>({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+  const [quantUpdateNotification, setQuantUpdateNotificationOpen] = useState<SnackbarState>({
     open: false,
     vertical: "top",
     horizontal: "center",
@@ -216,14 +221,14 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
       setQuantAvail(numAvailable);
     };
     quantityAvailCounter();
-  }, [itemList, type]);
+  }, [itemList, type, quantAvail]);
 
   useEffect(() => {
     currentlyCheckedOutItems();
   }, [itemList]);
 
   const handleCloseSnackbar = () => {
-    setNotificationOpen({ ...notification, open: false });
+    setCheckoutNotificationOpen({ ...checkoutNotification, open: false });
   };
 
   const currentlyCheckedOutItems = () => {
@@ -259,14 +264,31 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   }
 
   const handleUpdateQuantity = (data: EditQuantityForm) => {
-    console.log("InventoryEntryDetail, handleUpdateQuantity triggered, data is: ", data);
+    // data =
+    // {
+    //   "quantity": 2
+    // }
+    if (data.quantity > quantity) {
+      // Here, we make a number of documents for the difference
+      console.log("InventoryEntryDetail, data.quantity > quantAvail, data.quantity: ", data.quantity);
+      console.log("InventoryEntryDetail, data.quantity > quantAvail, quantity: ", quantity);
+      const quantDifference = data.quantity - quantity;
+      console.log("InventoryEntryDetail, quantDifference: ", quantDifference);
+      const itemData = {
+        type: type,
+        displayName: displayName,
+        quantity: quantDifference,
+      };
+      addMultipleDocs("items", itemData);
+      setQuantUpdateNotificationOpen({ ...quantUpdateNotification, open: true });
+    } else {
+      // Here, we delete a number of documents -- if they are not checked out
+      console.log("InventoryEntryDetail, else, data.quantity: ", data.quantity);
+      console.log("InventoryEntryDetail, else, quantity: ", quantity);
+    }
   };
 
   const handleCheckoutItems = (data: CheckOutFormInput) => {
-    // console.log("InventoryEntryDetail, data: ", data);
-    // data = {
-    //   "quantity": 2
-    // }
     // Randomize index positions we are interested in -- stored in an array.
     const userEmail = userProvider?.currentUser?.email || "";
     const randomNumbers: number[] = randomItemPicker(quantAvail, data.quantity);
@@ -278,7 +300,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     // Calls on the mutations to query firebase -- do a batch write edit
     assetTrackUpdateDoc("items", userEmail, itemsId as string[], "checkOut");
     // Report back that items were successfully checked out.
-    setNotificationOpen({ ...notification, open: true });
+    setCheckoutNotificationOpen({ ...checkoutNotification, open: true });
   };
 
   const handleReturnItems = () => {
@@ -299,14 +321,24 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     <>
       <h2>{displayName}</h2>
       <EntryDetailContainer>
-        {notification.open && (
+        {checkoutNotification.open && (
           <Snackbar
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
-            open={notification.open}
+            open={checkoutNotification.open}
             autoHideDuration={3000}
             onClose={handleCloseSnackbar}
           >
             <SnackbarMessage message="Items checked out successfully!" />
+          </Snackbar>
+        )}
+        {quantUpdateNotification.open && (
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={quantUpdateNotification.open}
+            autoHideDuration={3000}
+            onClose={handleCloseSnackbar}
+          >
+            <SnackbarMessage message="Quantity updated!" />
           </Snackbar>
         )}
         <Box pt={0.2} sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
@@ -343,7 +375,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                   <StyledItemValue>{quantity}</StyledItemValue>
                 </Grid>
                 <Grid xs={12} item>
-                  <ChildModalEditQuant quantTotal={quantAvail} onFormSubmit={handleUpdateQuantity} />
+                  <ChildModalEditQuant quantTotal={quantity} onFormSubmit={handleUpdateQuantity} />
                 </Grid>
               </Grid>
               <Grid xs={4} item>

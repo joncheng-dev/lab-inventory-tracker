@@ -19,7 +19,7 @@ const ChildModalStyle = {
   pb: 3,
 };
 
-type ChildModalProps = {
+type ChildModalEditQuantProps = {
   quantTotal: number;
   onFormSubmit: (data: EditQuantityForm) => void;
 };
@@ -35,12 +35,14 @@ const validationSchema = yup.object().shape({
 
 const tooltipText = `Total number or units of this item in the laboratory.`;
 
-export default function ChildModalEditQuant(props: ChildModalProps) {
+export default function ChildModalEditQuant(props: ChildModalEditQuantProps) {
   const { quantTotal, onFormSubmit } = props;
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     quantity: quantTotal,
   });
+  const { quantity } = formData;
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -65,6 +67,7 @@ export default function ChildModalEditQuant(props: ChildModalProps) {
   const handleSubmit = (values: EditQuantityForm) => {
     onFormSubmit(values);
     setFormData({ quantity: quantTotal });
+    handleClose();
   };
 
   return (
@@ -118,7 +121,7 @@ export default function ChildModalEditQuant(props: ChildModalProps) {
                     inputProps={{ min: "0" }}
                     onChange={handleQuantityChange}
                     type="number"
-                    value={quantTotal}
+                    value={quantity}
                     sx={{ fontSize: 15 }}
                   />
                 </Grid>
@@ -126,7 +129,9 @@ export default function ChildModalEditQuant(props: ChildModalProps) {
                   <Button onClick={handleClose} variant="contained">
                     Cancel
                   </Button>
-                  <Button variant="contained">Update</Button>
+                  <Button type="submit" variant="contained">
+                    Update
+                  </Button>
                 </Grid>
               </Grid>
             </Form>
