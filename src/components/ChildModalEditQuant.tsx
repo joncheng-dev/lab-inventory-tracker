@@ -33,7 +33,7 @@ const validationSchema = yup.object().shape({
     .required("Required"),
 });
 
-const tooltipText = `Total number or units of this item in the laboratory.`;
+const tooltipText = `Total number or units of this item type in the laboratory.`;
 
 export default function ChildModalEditQuant(props: ChildModalEditQuantProps) {
   const { quantTotal, onFormSubmit } = props;

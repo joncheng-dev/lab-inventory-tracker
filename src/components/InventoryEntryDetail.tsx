@@ -163,6 +163,7 @@ interface SnackbarState {
   open: boolean;
   vertical: "top" | "bottom";
   horizontal: "left" | "center" | "right";
+  message: "Items checked out successfully!" | "Total quantity updated successfully.";
 }
 
 type ItemTypeEntryDetailProps = {
@@ -179,15 +180,11 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   const [quantity, setQuantity] = useState(0);
   const [quantAvail, setQuantAvail] = useState<number>(0);
   const [checkedOutBySummary, setCheckedOutBySummary] = useState<CheckedOutBySummary[]>([]);
-  const [checkoutNotification, setCheckoutNotificationOpen] = useState<SnackbarState>({
+  const [notification, setNotificationOpen] = useState<SnackbarState>({
     open: false,
     vertical: "top",
     horizontal: "center",
-  });
-  const [quantUpdateNotification, setQuantUpdateNotificationOpen] = useState<SnackbarState>({
-    open: false,
-    vertical: "top",
-    horizontal: "center",
+    message: "Items checked out successfully!",
   });
   // prettier-ignore
   const {
@@ -228,7 +225,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   }, [itemList]);
 
   const handleCloseSnackbar = () => {
-    setCheckoutNotificationOpen({ ...checkoutNotification, open: false });
+    setNotificationOpen({ ...notification, open: false });
   };
 
   const currentlyCheckedOutItems = () => {
@@ -280,7 +277,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
         quantity: quantDifference,
       };
       addMultipleDocs("items", itemData);
-      setQuantUpdateNotificationOpen({ ...quantUpdateNotification, open: true });
+      setNotificationOpen({ ...notification, open: true, message: "Total quantity updated successfully." });
     } else {
       // Here, we delete a number of documents -- if they are not checked out
       console.log("InventoryEntryDetail, else, data.quantity: ", data.quantity);
@@ -300,7 +297,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     // Calls on the mutations to query firebase -- do a batch write edit
     assetTrackUpdateDoc("items", userEmail, itemsId as string[], "checkOut");
     // Report back that items were successfully checked out.
-    setCheckoutNotificationOpen({ ...checkoutNotification, open: true });
+    setNotificationOpen({ ...notification, open: true, message: "Items checked out successfully!" });
   };
 
   const handleReturnItems = () => {
@@ -321,24 +318,14 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     <>
       <h2>{displayName}</h2>
       <EntryDetailContainer>
-        {checkoutNotification.open && (
+        {notification.open && (
           <Snackbar
             anchorOrigin={{ vertical: "top", horizontal: "center" }}
-            open={checkoutNotification.open}
+            open={notification.open}
             autoHideDuration={3000}
             onClose={handleCloseSnackbar}
           >
-            <SnackbarMessage message="Items checked out successfully!" />
-          </Snackbar>
-        )}
-        {quantUpdateNotification.open && (
-          <Snackbar
-            anchorOrigin={{ vertical: "top", horizontal: "center" }}
-            open={quantUpdateNotification.open}
-            autoHideDuration={3000}
-            onClose={handleCloseSnackbar}
-          >
-            <SnackbarMessage message="Quantity updated!" />
+            <SnackbarMessage message={notification.message} />
           </Snackbar>
         )}
         <Box pt={0.2} sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
