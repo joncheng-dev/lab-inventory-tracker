@@ -9,7 +9,7 @@ import { CheckedOutBySummary, CheckOutFormInput, EditQuantityForm, Item, ItemTyp
 import ChildModalEditQuant from "./ChildModalEditQuant.js";
 import ItemCheckOutTable from "./ItemCheckOutTable.js";
 import ItemStatusTable from "./ItemStatusTable.js";
-import { addMultipleDocs, assetTrackUpdateDoc } from "../hooks/mutations.js";
+import { addMultipleDocs, assetTrackUpdateDoc, deleteMultipleDocs } from "../hooks/mutations.js";
 import {
   equipment1,
   equipment2,
@@ -153,17 +153,16 @@ const imageDictionary: Record<string, string> = {
   tools3,
 };
 
-const SnackbarMessage = styled(SnackbarContent)`
-  && {
-    background-color: #4caf50; /* success color */
-  }
-`;
-
 interface SnackbarState {
   open: boolean;
   vertical: "top" | "bottom";
   horizontal: "left" | "center" | "right";
-  message: "Items checked out successfully!" | "Total quantity updated successfully.";
+  message:
+    | "Items checked out successfully!"
+    | "Total quantity updated successfully."
+    | "New quantity is equal to current. No changes made."
+    | "Cannot remove items that are checked out.";
+  color: "#4caf50" | "#FFFF00" | "#ff0f0f";
 }
 
 type ItemTypeEntryDetailProps = {
@@ -185,6 +184,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     vertical: "top",
     horizontal: "center",
     message: "Items checked out successfully!",
+    color: "#4caf50",
   });
   // prettier-ignore
   const {
@@ -261,27 +261,55 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   }
 
   const handleUpdateQuantity = (data: EditQuantityForm) => {
-    // data =
-    // {
-    //   "quantity": 2
-    // }
     if (data.quantity > quantity) {
-      // Here, we make a number of documents for the difference
-      console.log("InventoryEntryDetail, data.quantity > quantAvail, data.quantity: ", data.quantity);
-      console.log("InventoryEntryDetail, data.quantity > quantAvail, quantity: ", quantity);
       const quantDifference = data.quantity - quantity;
-      console.log("InventoryEntryDetail, quantDifference: ", quantDifference);
       const itemData = {
         type: type,
         displayName: displayName,
         quantity: quantDifference,
       };
       addMultipleDocs("items", itemData);
-      setNotificationOpen({ ...notification, open: true, message: "Total quantity updated successfully." });
+      setNotificationOpen({ ...notification, open: true, message: "Total quantity updated successfully.", color: "#4caf50" });
+    } else if (data.quantity === quantity) {
+      setNotificationOpen({ ...notification, open: true, message: "New quantity is equal to current. No changes made.", color: "#FFFF00" });
     } else {
-      // Here, we delete a number of documents -- if they are not checked out
-      console.log("InventoryEntryDetail, else, data.quantity: ", data.quantity);
-      console.log("InventoryEntryDetail, else, quantity: ", quantity);
+      // Here, we will be removing items.
+      console.log("New quantity: specified by user -- data.quantity: ", data.quantity); // data.quantity is new quantity specified by user
+      console.log("Current quantity of items total -- quantity: ", quantity); // quantity is current number of items total
+      console.log("Num of items able to be deleted -- quantAvail: ", quantAvail); // quantAvail is num of items able to be deleted
+      // DELETE ITEMS
+      const quantToDelete = quantity - data.quantity; // This is how many that will be (attempted to be) deleted.
+      const itemsThatCanBeDeleted = itemList
+        // prettier-ignore
+        .filter((item) => item.type === type)
+        .filter((item) => !item.isCheckedOut);
+      console.log("itemsThatCanBeDeleted: ", itemsThatCanBeDeleted);
+      const itemIdsThatCanBeDeleted = itemList
+        // prettier-ignore
+        .filter((item) => item.type === type && !item.isCheckedOut)
+        .map((item) => item.id);
+      console.log("itemIdsThatCanBeDeleted: ", itemIdsThatCanBeDeleted);
+      // quantAvail --> Number not checked out
+      if (quantAvail >= quantToDelete) {
+        console.log("quantAvail >= quantToDelete, quantAvail: ", quantAvail);
+        console.log("quantAvail >= quantToDelete, quantToDelete: ", quantToDelete);
+        // Can delete all needed. Delete only if not checked out (specific ids)
+        // Randomize the ids being sent to delete.
+        const randomNumbers: number[] = randomItemPicker(quantAvail, quantToDelete);
+        // randomNumbers = [0, 1, 3];
+        // Look through list of deletable items, select the entries matching index positions.
+        const itemsId = randomNumbers.map((index) => itemsThatCanBeDeleted[index].id);
+        console.log("itemsId that are chosen to be deleted: ", itemsId);
+        // Make the call to delete these items matching elements in itemsId array
+        deleteMultipleDocs("items", itemsId as string[]);
+        setNotificationOpen({ ...notification, open: true, message: "Total quantity updated successfully.", color: "#4caf50" });
+      } else {
+        // Cannot delete all required. Will only delete ALL quantAvail(specific ids)
+        // quantAvail < quantToDelete
+        // Thus, delete only all quantAvail
+        deleteMultipleDocs("items", itemIdsThatCanBeDeleted as string[]);
+        setNotificationOpen({ ...notification, open: true, message: "Cannot remove items that are checked out.", color: "#ff0f0f" });
+      }
     }
   };
 
@@ -297,7 +325,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     // Calls on the mutations to query firebase -- do a batch write edit
     assetTrackUpdateDoc("items", userEmail, itemsId as string[], "checkOut");
     // Report back that items were successfully checked out.
-    setNotificationOpen({ ...notification, open: true, message: "Items checked out successfully!" });
+    setNotificationOpen({ ...notification, open: true, message: "Items checked out successfully!", color: "#4caf50" });
   };
 
   const handleReturnItems = () => {
@@ -325,7 +353,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
             autoHideDuration={3000}
             onClose={handleCloseSnackbar}
           >
-            <SnackbarMessage message={notification.message} />
+            <SnackbarContent message={notification.message} sx={{ bgcolor: notification.color }} />
           </Snackbar>
         )}
         <Box pt={0.2} sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>

@@ -25,11 +25,11 @@ type ChildModalEditQuantProps = {
 };
 
 const validationSchema = yup.object().shape({
-  quantity: yup
-    .number()
+  //prettier-ignore
+  quantity: yup.number()
     .integer("Must be a whole number")
-    .min(1, "Must be greater than one")
-    .max(20, "Must be between 1 and 20")
+    .min(1, "Must be 1 or greater.")
+    .max(20, "Must be between 1 and 20.")
     .required("Required"),
 });
 
