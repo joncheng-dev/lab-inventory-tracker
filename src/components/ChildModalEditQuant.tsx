@@ -48,6 +48,9 @@ export default function ChildModalEditQuant(props: ChildModalEditQuantProps) {
   };
   const handleClose = () => {
     setOpen(false);
+    setFormData({
+      quantity: quantTotal,
+    });
   };
 
   useEffect(() => {
