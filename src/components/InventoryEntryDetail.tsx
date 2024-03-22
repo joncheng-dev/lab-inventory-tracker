@@ -390,7 +390,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                   <StyledItemValue>{quantity}</StyledItemValue>
                 </Grid>
                 <Grid xs={12} item>
-                  <ChildModalEditQuant quantTotal={quantity} onFormSubmit={handleUpdateQuantity} />
+                  {userProvider?.currentUser?.isAdmin && <ChildModalEditQuant quantTotal={quantity} onFormSubmit={handleUpdateQuantity} />}
                 </Grid>
               </Grid>
               <Grid xs={4} item>
