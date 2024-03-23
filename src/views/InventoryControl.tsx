@@ -162,10 +162,6 @@ export default function InventoryControl() {
     setIsOpen(true);
   };
 
-  // const handleEditEntryButtonClick = () => {
-  //   setEditing(!editing);
-  // };
-
   // Helper -- Search & Filter
   const onSearchInputChange = (queryString: string) => {
     setSearchQuery(queryString);
@@ -192,16 +188,13 @@ export default function InventoryControl() {
     setIsOpen(false);
   };
 
-  // const handleEditingItemType = async (entry: Item) => {
-  //   editExistingDoc("itemTypes", entry);
-  //   setEditing(false);
-  // };
-
-  // const handleDeletingItemType = async (id: string) => {
-  //   deleteExistingDoc("itemTypes", id);
-  //   setIsOpen(false);
-  //   setSelectedEntry(null);
-  // };
+  const handleDeletingAllOfItemType = () => {
+    // Delete all of specified item type
+    // -- Check if any are checked out (isCheckedOut: true)
+    //    If checked out, cancel, do not delete anything
+    //    If none checked out, proceed
+    setIsOpen(false);
+  };
   //#endregion functions updating database
   //#region queries
   //endregion queries
