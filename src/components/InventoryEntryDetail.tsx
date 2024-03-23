@@ -1,8 +1,6 @@
-import { useContext, useEffect, useState } from "react";
-// import { db, auth } from "../firebase";
-// import { useAuthState } from "react-firebase-hooks/auth";
+import { useEffect, useState } from "react";
 import { sharedInfo } from "../helpers/UserContext";
-import { Box, Button, Chip, Divider, Grid, Snackbar, SnackbarContent, SnackbarOrigin, Stack, useTheme } from "@mui/material";
+import { Box, Button, Chip, Divider, Grid, Snackbar, SnackbarContent, Stack, useTheme } from "@mui/material";
 import styled from "styled-components";
 import { tokens } from "../themes.js";
 import { CheckedOutBySummary, CheckOutFormInput, EditQuantityForm, Item, ItemType } from "../types/index.js";
@@ -161,7 +159,6 @@ interface SnackbarState {
 type ItemTypeEntryDetailProps = {
   entry: ItemType;
   itemList: Item[]; // Used to tally up quantity for each itemType
-  // onClickingExit: () => void;
 };
 
 export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
