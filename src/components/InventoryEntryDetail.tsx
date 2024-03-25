@@ -26,6 +26,7 @@ import {
   tools2,
   tools3,
 } from "../images";
+import ChildModalDeleteAll from "./ChildModalDeleteAll.js";
 
 //#region styles
 const EntryDetailContainer = styled.div`
@@ -159,13 +160,14 @@ interface SnackbarState {
 type ItemTypeEntryDetailProps = {
   entry: ItemType;
   itemList: Item[]; // Used to tally up quantity for each itemType
+  onClickingDelete: () => void;
 };
 
 export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const userProvider = sharedInfo();
-  const { entry, itemList } = props;
+  const { entry, itemList, onClickingDelete } = props;
   const [quantity, setQuantity] = useState(0);
   const [quantAvail, setQuantAvail] = useState<number>(0);
   const [checkedOutBySummary, setCheckedOutBySummary] = useState<CheckedOutBySummary[]>([]);
@@ -379,8 +381,11 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                   <StyledItemHeader>Total Quantity</StyledItemHeader>
                   <StyledItemValue>{quantity}</StyledItemValue>
                 </Grid>
-                <Grid xs={12} item>
+                <Grid xs={6} item>
                   {userProvider?.currentUser?.isAdmin && <ChildModalEditQuant quantTotal={quantity} onFormSubmit={handleUpdateQuantity} />}
+                </Grid>
+                <Grid xs={6} item>
+                  <ChildModalDeleteAll onClickingDelete={onClickingDelete} />
                 </Grid>
               </Grid>
               <Grid xs={4} item>
