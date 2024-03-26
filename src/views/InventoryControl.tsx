@@ -16,7 +16,6 @@ import UserInfoPanel from "../components/UserInfoPanel.js";
 import ItemForm from "../components/ItemForm.js";
 import ItemList from "../components/ItemList.js";
 import InventoryEntryDetail from "../components/InventoryEntryDetail";
-import ChildModalDeleteAll from "../components/ChildModalDeleteAll.js";
 // Types & Context
 import { AddItemsForm, Item, ItemType } from "../types/index.js";
 // Database
@@ -189,18 +188,6 @@ export default function InventoryControl() {
     setIsOpen(false);
   };
 
-  const handleDeletingAllOfItemType = () => {
-    console.log("delete button clicked");
-    // Delete all of specified item type
-    // -- Check if any are checked out (isCheckedOut: true)
-    //    If checked out, cancel, do not delete anything
-    //    If none checked out, proceed
-    //
-    // To delete all of one item type, user must select one item type. That will bring you to InventoryEntryDetail with "selected"
-    // Button is in InventoryEntryDetail modal -- "Delete All" (red danger)
-    setIsOpen(false); // Closes InventoryEntryDetail modal
-  };
-
   //#endregion functions updating database
   //#region queries
   //endregion queries
@@ -267,7 +254,6 @@ export default function InventoryControl() {
             // prettier-ignore
             entry={selectedEntry}
             itemList={itemList}
-            onClickingDelete={handleDeletingAllOfItemType}
           />
         )}
       </BasicModal>

@@ -153,21 +153,22 @@ interface SnackbarState {
     | "Items checked out successfully!"
     | "Total quantity updated successfully."
     | "New quantity is equal to current. No changes made."
-    | "Cannot remove items that are checked out.";
+    | "Cannot remove items that are checked out."
+    | "Unable to delete items. All items need to be returned first."
+    | "All items of type successfully removed from inventory.";
   color: "#4caf50" | "#FFFF00" | "#ff0f0f";
 }
 
 type ItemTypeEntryDetailProps = {
   entry: ItemType;
   itemList: Item[]; // Used to tally up quantity for each itemType
-  onClickingDelete: () => void;
 };
 
 export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const userProvider = sharedInfo();
-  const { entry, itemList, onClickingDelete } = props;
+  const { entry, itemList } = props;
   const [quantity, setQuantity] = useState(0);
   const [quantAvail, setQuantAvail] = useState<number>(0);
   const [checkedOutBySummary, setCheckedOutBySummary] = useState<CheckedOutBySummary[]>([]);
@@ -334,6 +335,43 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     assetTrackUpdateDoc("items", userEmail, itemIdsToReturn as string[], "return");
   };
 
+  // Delete all of specified item type
+  const handleDeletingAllOfItemType = () => {
+    console.log("delete button clicked");
+    console.log("entry is of type: ", entry?.type);
+    console.log("itemList is: ", itemList);
+    const checkedOutCount = itemList
+      // prettier-ignore
+      .filter((item) => item.type === entry?.type)
+      .filter((item) => item.isCheckedOut === true).length;
+    console.log("handleDeletingAllOfItemType, checkedOutCount: ", checkedOutCount);
+    //    If > 0, show message that it cannot be done, do not delete anything
+    if (checkedOutCount > 0) {
+      console.log("Cannot delete all, checkedOutCount > 0, Count is: ", checkedOutCount);
+      // Show error notification.
+      setNotificationOpen({
+        ...notification,
+        open: true,
+        message: "Unable to delete items. All items need to be returned first.",
+        color: "#ff0f0f",
+      });
+    }
+    //    If === 0 checked out, allow deletion, show message success
+    if (checkedOutCount === 0) {
+      console.log("Delete all possible, checkedOutCount === 0, Count is: ", checkedOutCount);
+      setNotificationOpen({
+        ...notification,
+        open: true,
+        message: "All items of type successfully removed from inventory.",
+        color: "#4caf50",
+      });
+      // setSelectedEntry(null);
+      // setIsOpen(false); // Closes InventoryEntryDetail modal
+    }
+    //
+    // To delete all of one item type, user must select one item type. That will bring you to InventoryEntryDetail with "selected"
+  };
+
   return (
     <>
       <h2>{displayName}</h2>
@@ -385,7 +423,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                   {userProvider?.currentUser?.isAdmin && <ChildModalEditQuant quantTotal={quantity} onFormSubmit={handleUpdateQuantity} />}
                 </Grid>
                 <Grid xs={6} item>
-                  <ChildModalDeleteAll onClickingDelete={onClickingDelete} />
+                  <ChildModalDeleteAll onClickingDelete={handleDeletingAllOfItemType} />
                 </Grid>
               </Grid>
               <Grid xs={4} item>
