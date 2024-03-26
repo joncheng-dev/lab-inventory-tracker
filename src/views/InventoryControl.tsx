@@ -5,8 +5,8 @@ import { db } from "../firebase.js";
 import { collection, onSnapshot } from "firebase/firestore";
 // import { useAuthState } from "react-firebase-hooks/auth";
 import { sharedInfo } from "../helpers/UserContext";
-// Styling
-import { Grid } from "@mui/material";
+// Styling / MUI
+import { Grid, Snackbar, SnackbarContent } from "@mui/material";
 import BasicModal from "../components/BasicModal.js";
 import { FixedWidthItem } from "../style/styles.js";
 // Components
@@ -23,6 +23,14 @@ import { addMultipleDocs } from "../hooks/mutations.js";
 // Helper Functions
 import { filterList } from "../helpers/SearchAndFilter.js";
 
+interface SnackbarState {
+  open: boolean;
+  vertical: "top" | "bottom";
+  horizontal: "left" | "center" | "right";
+  message: "All items of type successfully removed from inventory.";
+  color: "#4caf50" | "#FFFF00" | "#ff0f0f";
+}
+
 export default function InventoryControl() {
   // STATE & SHARED INFORMATION
   // const [user] = useAuthState(auth);
@@ -32,7 +40,13 @@ export default function InventoryControl() {
   const [selectedEntry, setSelectedEntry] = useState<ItemType | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [notification, setNotificationOpen] = useState<SnackbarState>({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+    message: "All items of type successfully removed from inventory.",
+    color: "#4caf50",
+  });
   // For data:
   const [itemList, setItemList] = useState<Item[]>([]);
   const [itemTypeList, setItemTypeList] = useState<ItemType[]>([]);
@@ -189,6 +203,22 @@ export default function InventoryControl() {
   };
 
   //#endregion functions updating database
+  const handleModalClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleNotification = () => {
+    setNotificationOpen({
+      ...notification,
+      open: true,
+      message: "All items of type successfully removed from inventory.",
+      color: "#4caf50",
+    });
+  };
+
+  const handleCloseSnackbar = () => {
+    setNotificationOpen({ ...notification, open: false });
+  };
   //#region queries
   //endregion queries
   return (
@@ -208,6 +238,16 @@ export default function InventoryControl() {
         </Grid>
         <Grid item xs={7.75}>
           <Grid display="flex" justifyContent="space-between">
+            {notification.open && (
+              <Snackbar
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                open={notification.open}
+                autoHideDuration={3000}
+                onClose={handleCloseSnackbar}
+              >
+                <SnackbarContent message={notification.message} sx={{ bgcolor: notification.color }} />
+              </Snackbar>
+            )}
             <ItemList
               // prettier-ignore
               listOfItems={itemList}
@@ -254,6 +294,8 @@ export default function InventoryControl() {
             // prettier-ignore
             entry={selectedEntry}
             itemList={itemList}
+            onSuccessfulDelete={handleNotification}
+            onCloseModal={handleModalClose}
           />
         )}
       </BasicModal>
