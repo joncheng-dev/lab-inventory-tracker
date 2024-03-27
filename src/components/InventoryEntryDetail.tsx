@@ -181,6 +181,13 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     message: "Items checked out successfully!",
     color: "#4caf50",
   });
+  const [childModalNotification, setChildModalNotification] = useState<SnackbarState>({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+    message: "Unable to delete items. All items need to be returned first.",
+    color: "#4caf50",
+  });
   // prettier-ignore
   const {
     id,
@@ -350,8 +357,8 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     //    If > 0, show message that it cannot be done, do not delete anything
     if (checkedOutCount > 0) {
       // Show error notification.
-      setNotificationOpen({
-        ...notification,
+      setChildModalNotification({
+        ...childModalNotification,
         open: true,
         message: "Unable to delete items. All items need to be returned first.",
         color: "#ff0f0f",
@@ -369,6 +376,13 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
       onCloseModal();
     }
   };
+
+  // const handleCloseChildModalNotification = () => {
+  //   setChildModalNotification({
+  //     ...childModalNotification,
+  //     open: true,
+  //   });
+  // };
 
   return (
     <>
@@ -421,7 +435,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                   {userProvider?.currentUser?.isAdmin && <ChildModalEditQuant quantTotal={quantity} onFormSubmit={handleUpdateQuantity} />}
                 </Grid>
                 <Grid xs={6} item>
-                  <ChildModalDeleteAll onClickingDelete={handleDeletingAllOfItemType} />
+                  {userProvider?.currentUser?.isAdmin && <ChildModalDeleteAll onClickingDelete={handleDeletingAllOfItemType} />}
                 </Grid>
               </Grid>
               <Grid xs={4} item>
