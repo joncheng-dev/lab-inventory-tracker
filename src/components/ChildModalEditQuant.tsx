@@ -70,7 +70,9 @@ export default function ChildModalEditQuant(props: ChildModalEditQuantProps) {
   const handleSubmit = (values: EditQuantityForm) => {
     onFormSubmit(values);
     setFormData({ quantity: quantTotal });
-    handleClose();
+    if (quantTotal < quantity) {
+      handleClose();
+    }
   };
 
   return (

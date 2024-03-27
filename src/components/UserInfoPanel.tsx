@@ -11,7 +11,7 @@ type UserInfoPanelProps = {
   onEntryClick: (id: string) => void;
 };
 
-const userInfoPanelTooltipText = `Shows items you have currently checked out`;
+const userInfoPanelTooltipText = `List of items you have currently checked out`;
 
 export default function UserInfoPanel(props: UserInfoPanelProps) {
   const userProvider = sharedInfo();
