@@ -153,11 +153,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
         <Box pt={0.2} sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
           <Grid container spacing={2} pt={1}>
             <Grid container item xs={7}>
-              {/* <Box
-                sx={{
-                  "& .MuiTextField-root": { m: 1.5, width: "50ch" },
-                }}
-              > */}
               <Grid xs={8} container item pl={1.5}>
                 <h4>Item Type Entry Details</h4>
                 <Divider />
@@ -185,7 +180,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                   <StyledItemValue>{location}</StyledItemValue>
                 </Grid>
               </Grid>
-              {/* </Box> */}
               <Grid xs={4} item>
                 <h4>Categories</h4>
                 <Divider />

@@ -105,7 +105,7 @@ export default function ItemForm(props: FormProps) {
         >
           <Form>
           <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
-            <Grid container xs={12} spacing={2}>
+            <Grid container spacing={2}>
               <Grid item xs={12}>    
                 <h2>Add Items to Inventory</h2>
               </Grid>
