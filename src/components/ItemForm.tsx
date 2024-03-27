@@ -12,8 +12,10 @@ import {
   InputLabel,
   Stack,
   TextField,
+  Tooltip,
   useTheme,
 } from "@mui/material";
+import { InfoOutlined } from "@mui/icons-material";
 import { tokens } from "../themes";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as yup from "yup";
@@ -31,15 +33,11 @@ type FormProps = {
   onFormSubmit: (data: AddItemsForm) => Promise<void>;
 };
 
-// Take user information
-// 1. ItemType - must be selected from an existing list
-//    if type does not exist, message says that it must be added first.
-// 2. Quantity - number input field
-//    Up to 10 at a time?
+// Item type list is sent here via props.
+// Use item type list to populate information in input field.
+// Do not save displayName to item entry in database.
 
-// Submit button
-// on submit, uses quantity to create X number of items of itemType.
-// How to make Firebase call to create multiple docs?
+const tooltipText = `Select a catalog entry to add items to inventory.`;
 
 export default function ItemForm(props: FormProps) {
   const theme = useTheme();
@@ -106,9 +104,33 @@ export default function ItemForm(props: FormProps) {
           <Form>
           <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>    
-                <h2>Add Items to Inventory</h2>
-              </Grid>
+              <Grid container item xs={12}>
+                <Grid item>
+                  <h2>Add Items to Inventory</h2>
+                </Grid>
+                <Grid item>
+                  <Tooltip
+                  title={tooltipText}
+                  placement="top"
+                  slotProps={{
+                    popper: {
+                      modifiers: [
+                        {
+                          name: "offset",
+                          options: {
+                            // offset: [0, -24],
+                          },
+                        },
+                      ],
+                    },
+                  }}
+                >
+                  <div>
+                    <InfoOutlined />
+                  </div>
+                </Tooltip>
+              </Grid>    
+            </Grid>
               <Grid item xs={7}>
                 <Autocomplete
                   // disablePortal

@@ -162,7 +162,7 @@ interface SnackbarState {
 type ItemTypeEntryDetailProps = {
   entry: ItemType;
   itemList: Item[]; // Used to tally up quantity for each itemType
-  onSuccessfulDelete: () => void;
+  onSuccessfulDelete: (message: string) => void;
   onCloseModal: () => void;
 };
 
@@ -372,7 +372,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
       // setSelectedEntry(null);
       const toBeDeleted = itemList.filter((item) => item.type === entry?.type).map((item) => item.id);
       await deleteMultipleDocs("items", toBeDeleted as string[]);
-      onSuccessfulDelete();
+      onSuccessfulDelete("All items of type successfully removed from inventory.");
       onCloseModal();
     }
   };
@@ -422,7 +422,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                   <StyledItemHeader>Description</StyledItemHeader>
                   <StyledItemValue>{description}</StyledItemValue>
                 </Grid>
-                <DetailsContainer></DetailsContainer>
                 <Grid xs={6} item>
                   <StyledItemHeader>Location</StyledItemHeader>
                   <StyledItemValue>{location}</StyledItemValue>
@@ -431,11 +430,11 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                   <StyledItemHeader>Total Quantity</StyledItemHeader>
                   <StyledItemValue>{quantity}</StyledItemValue>
                 </Grid>
-                <Grid xs={6} item>
-                  {userProvider?.currentUser?.isAdmin && <ChildModalEditQuant quantTotal={quantity} onFormSubmit={handleUpdateQuantity} />}
-                </Grid>
-                <Grid xs={6} item>
-                  {userProvider?.currentUser?.isAdmin && <ChildModalDeleteAll onClickingDelete={handleDeletingAllOfItemType} />}
+                <Grid xs={12} container item spacing={2}>
+                  <Grid item>
+                    {userProvider?.currentUser?.isAdmin && <ChildModalEditQuant quantTotal={quantity} onFormSubmit={handleUpdateQuantity} />}
+                  </Grid>
+                  <Grid item>{userProvider?.currentUser?.isAdmin && <ChildModalDeleteAll onClickingDelete={handleDeletingAllOfItemType} />}</Grid>
                 </Grid>
               </Grid>
               <Grid xs={4} item>
