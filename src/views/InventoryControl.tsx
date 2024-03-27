@@ -1,9 +1,7 @@
 // Outside
 import { useState, useEffect } from "react";
-// import { db, auth } from "../firebase.js";
 import { db } from "../firebase.js";
 import { collection, onSnapshot } from "firebase/firestore";
-// import { useAuthState } from "react-firebase-hooks/auth";
 import { sharedInfo } from "../helpers/UserContext";
 // Styling / MUI
 import { Grid, Snackbar, SnackbarContent } from "@mui/material";
@@ -27,13 +25,12 @@ interface SnackbarState {
   open: boolean;
   vertical: "top" | "bottom";
   horizontal: "left" | "center" | "right";
-  message: "All items of type successfully removed from inventory.";
+  message: string;
   color: "#4caf50" | "#FFFF00" | "#ff0f0f";
 }
 
 export default function InventoryControl() {
   // STATE & SHARED INFORMATION
-  // const [user] = useAuthState(auth);
   const userProvider = sharedInfo();
   // For conditional rendering:
   const [addItemFormVisible, setAddFormVisibility] = useState<boolean>(false);
@@ -196,10 +193,40 @@ export default function InventoryControl() {
 
   //#region functions updating database
   // functions updating database
+  // const handleAddingNewItems = async (data: AddItemsForm) => {
+  //   addMultipleDocs("items", data);
+  //   setAddFormVisibility(false);
+  //   setIsOpen(false);
+  // };
   const handleAddingNewItems = async (data: AddItemsForm) => {
-    addMultipleDocs("items", data);
-    setAddFormVisibility(false);
-    setIsOpen(false);
+    try {
+      // Add new items to the database
+      await addMultipleDocs("items", data);
+
+      // Update the itemList state with the newly added items
+      const newItems: Item[] = [];
+      for (let i = 0; i < data.quantity; i++) {
+        const newItem: Item = {
+          id: `temp_${i}`, // You can set a temporary ID here or generate one from the database
+          type: data.type,
+          displayName: data.displayName,
+          isCheckedOut: false,
+          checkedOutBy: null,
+          dateCheckedOut: null,
+        };
+        newItems.push(newItem);
+      }
+      setItemList((prevItemList) => [...prevItemList, ...newItems]);
+
+      // Close the modal
+      setAddFormVisibility(false);
+      setIsOpen(false);
+
+      // Show notification
+      handleNotification("Item(s) successfully added to inventory."); // You may want to customize this function to display a specific message for adding items
+    } catch (error) {
+      console.error("Error adding new items:", error);
+    }
   };
 
   //#endregion functions updating database
@@ -207,11 +234,11 @@ export default function InventoryControl() {
     setIsOpen(false);
   };
 
-  const handleNotification = () => {
+  const handleNotification = (message: string) => {
     setNotificationOpen({
       ...notification,
       open: true,
-      message: "All items of type successfully removed from inventory.",
+      message: message,
       color: "#4caf50",
     });
   };

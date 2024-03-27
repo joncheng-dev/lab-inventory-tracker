@@ -162,7 +162,7 @@ interface SnackbarState {
 type ItemTypeEntryDetailProps = {
   entry: ItemType;
   itemList: Item[]; // Used to tally up quantity for each itemType
-  onSuccessfulDelete: () => void;
+  onSuccessfulDelete: (message: string) => void;
   onCloseModal: () => void;
 };
 
@@ -372,7 +372,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
       // setSelectedEntry(null);
       const toBeDeleted = itemList.filter((item) => item.type === entry?.type).map((item) => item.id);
       await deleteMultipleDocs("items", toBeDeleted as string[]);
-      onSuccessfulDelete();
+      onSuccessfulDelete("All items of type successfully removed from inventory.");
       onCloseModal();
     }
   };
