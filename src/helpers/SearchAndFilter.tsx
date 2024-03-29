@@ -1,5 +1,4 @@
-import React from "react";
-import { ItemType } from "../types";
+import { Item, ItemType } from "../types";
 
 export const filterList = (list: ItemType[], searchQuery: string, tagsToFilter: string[]) => {
   let filteredListCopy = [...list];
@@ -11,4 +10,19 @@ export const filterList = (list: ItemType[], searchQuery: string, tagsToFilter: 
   }
   filteredListCopy.sort((a, b) => a.displayName.localeCompare(b.displayName));
   return filteredListCopy;
+};
+
+export const itemEntriesToDisplay = (listOfItems: Item[], listOfItemTypes: ItemType[]) => {
+  if (listOfItems.length > 0 && listOfItemTypes.length > 0) {
+    // Create a SET of item 'type'.
+    const setOfTypes = [...new Set(listOfItems.map((entry) => entry.type))];
+    // console.log("itemList - setOfTypes: ", { itemList, setOfTypes, itemTypeList });
+    const filteredItemTypes = listOfItemTypes
+      .filter((entry) => setOfTypes.includes(entry.type || ""))
+      .filter((entry): entry is ItemType => entry !== undefined);
+    // console.log("item type list updated, filteredItemTypes: ", filteredItemTypes);
+    return filteredItemTypes;
+  } else {
+    return listOfItemTypes;
+  }
 };
