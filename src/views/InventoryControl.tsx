@@ -20,6 +20,7 @@ import { AddItemsForm, Item, ItemType } from "../types/index.js";
 import { addMultipleDocs } from "../hooks/mutations.js";
 // Helper Functions
 import { filterList } from "../helpers/SearchAndFilter.js";
+import useDBHook from "../hooks/useDBHook.js";
 
 interface SnackbarState {
   open: boolean;
@@ -51,7 +52,10 @@ export default function InventoryControl() {
   const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<Item[]>([]);
   const [tagsToFilter, setTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [filteredList, setFilteredList] = useState<ItemType[]>([]);
+  const [filteredItemTypeList, setFilteredItemTypeList] = useState<ItemType[]>([]);
+  console.log("START of InventoryControl: filteredItemTypeList: ", filteredItemTypeList);
+
+  // const { itemList, itemTypeList, itemTypeListForForms, error } = useDBHook();
 
   // Miscellaneous:
   const [error, setError] = useState<string | null>(null);
@@ -74,6 +78,7 @@ export default function InventoryControl() {
             dateCheckedOut: entry.data().dateCheckedOut,
           });
         });
+        // console.log("db", entries);
         setItemList(entries);
       },
       (error) => {
@@ -101,7 +106,7 @@ export default function InventoryControl() {
         });
         setItemTypeList(entries);
         setItemTypeListForForms(entries);
-        console.log("InventoryControl, entries: ", entries);
+        // console.log("InventoryControl, entries: ", entries);
       },
       (error) => {
         setError(error.message);
@@ -113,22 +118,16 @@ export default function InventoryControl() {
   useEffect(() => {
     if (userProvider?.currentUser) {
       handleMakeUserItemList();
-      console.log("InventoryControl, itemList: ", itemList);
-      console.log("InventoryControl, itemsCheckedOutByUser: ", itemsCheckedOutByUser);
+      // console.log("InventoryControl, itemList: ", itemList);
+      // console.log("InventoryControl, itemsCheckedOutByUser: ", itemsCheckedOutByUser);
     }
   }, [itemList]);
 
-  useEffect(() => {
-    const itemEntriesToDisplay = () => {
-      // Create a SET of item 'type'.
-      const setOfTypes = [...new Set(itemList.map((entry) => entry.type))];
-      const filteredItemTypes = itemTypeList
-        .filter((entry) => setOfTypes.includes(entry.type || ""))
-        .filter((entry): entry is ItemType => entry !== undefined);
-      setItemTypeList(filteredItemTypes);
-    };
-    itemEntriesToDisplay();
-  }, [itemList]);
+  // useEffect(() => {
+  //   if (itemList.length > 0 && itemTypeList.length > 0) {
+  //     itemEntriesToDisplay(itemList, itemTypeList);
+  //   }
+  // }, [itemList, itemTypeList]);
 
   useEffect(() => {
     if (selectedEntry) {
@@ -137,6 +136,7 @@ export default function InventoryControl() {
   }, [itemTypeList, selectedEntry]);
 
   useEffect(() => {
+    // console.log("handleFilterList, itemTypeList: ", itemTypeList);
     handleFilterList(itemTypeList, searchQuery, tagsToFilter);
   }, [itemTypeList, searchQuery, tagsToFilter]);
 
@@ -185,8 +185,14 @@ export default function InventoryControl() {
 
   // Helper -- Search & Filter
   const handleFilterList = (list: ItemType[], query: string, tags: string[]) => {
+    if (tags.length === 0 && query === "") {
+      console.log("handleFilterList - list", list);
+      setFilteredItemTypeList(list);
+      return;
+    }
     const filteredResult = filterList(list, query, tags);
-    setFilteredList(filteredResult);
+    console.log("handleFilterList - filteredResult", filteredResult);
+    setFilteredItemTypeList(filteredResult);
   };
 
   //#endregion functions
@@ -231,6 +237,7 @@ export default function InventoryControl() {
 
   //#endregion functions updating database
   const handleModalClose = () => {
+    setSelectedEntry(null);
     setIsOpen(false);
   };
 
@@ -278,7 +285,7 @@ export default function InventoryControl() {
             <ItemList
               // prettier-ignore
               listOfItems={itemList}
-              listOfItemTypes={filteredList}
+              listOfItemTypes={filteredItemTypeList}
               onEntryClick={handleChangingSelectedEntry}
               onClickingAddEntry={handleAddItemButtonClick}
             />
@@ -329,9 +336,3 @@ export default function InventoryControl() {
     </>
   );
 }
-
-// NOTES**
-// Purpose:
-// User sees list of items actually in inventory
-// User can Search for items
-// User can ADD, EDIT, DELETE, CHECK OUT, RETURN items

@@ -9,6 +9,7 @@ import { Button, Grid, Stack, Tooltip, useTheme } from "@mui/material";
 import { Add, Apps, InfoOutlined, ViewHeadline } from "@mui/icons-material";
 import { tokens } from "../themes";
 import { sharedInfo } from "../helpers/UserContext.tsx";
+import { itemEntriesToDisplay } from "../helpers/SearchAndFilter.tsx";
 
 //#region styles
 const ListContainer = styled.div`
@@ -50,10 +51,15 @@ export default function ItemList(props: ItemListProps) {
   const colors = tokens(theme.palette.mode);
   const [selectedView, setSelectedView] = useState<"card" | "table">("card");
 
+  console.log("ItemList, listOfItems: ", listOfItems);
+  console.log("ItemList, listOfItemTypes: ", listOfItemTypes);
+
   const StyledButton = styledMui(Button)(({ theme }) => ({
     // color: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     backgroundColor: theme.palette.mode === "dark" ? colors.grey[500] : "#1A2027",
   }));
+
+  const itemsToRender = itemEntriesToDisplay(listOfItems, listOfItemTypes);
 
   const activateCardView = () => {
     setSelectedView("card");
@@ -132,14 +138,14 @@ export default function ItemList(props: ItemListProps) {
             <Grid item xs={12}>
               {selectedView === "card" && (
                 <ItemContainer>
-                  {listOfItemTypes.map((entry) => (
+                  {itemsToRender.map((entry) => (
                     <ItemTypeEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
                   ))}
                 </ItemContainer>
               )}
               {selectedView === "table" && (
                 <ResponsiveDataGridContainer>
-                  <DataTable data={listOfItemTypes} onEntryClick={onEntryClick} />
+                  <DataTable data={itemsToRender} onEntryClick={onEntryClick} />
                 </ResponsiveDataGridContainer>
               )}
             </Grid>
