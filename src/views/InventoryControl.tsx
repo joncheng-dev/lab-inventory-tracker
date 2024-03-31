@@ -1,7 +1,5 @@
 // Outside
 import { useState, useEffect } from "react";
-import { db } from "../firebase.js";
-import { collection, onSnapshot } from "firebase/firestore";
 import { sharedInfo } from "../helpers/UserContext";
 // Styling / MUI
 import { Grid, Snackbar, SnackbarContent } from "@mui/material";
@@ -46,9 +44,6 @@ export default function InventoryControl() {
     color: "#4caf50",
   });
   // For data:
-  // const [itemList, setItemList] = useState<Item[]>([]);
-  // const [itemTypeList, setItemTypeList] = useState<ItemType[]>([]);
-  // const [itemTypeListForForms, setItemTypeListForForms] = useState<ItemType[]>([]);
   const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<Item[]>([]);
   const [tagsToFilter, setTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -58,76 +53,14 @@ export default function InventoryControl() {
   const { itemList, itemTypeList, itemTypeListForForms, error } = useDBHook();
 
   // Miscellaneous:
-  // const [error, setError] = useState<string | null>(null);
   const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
   const purposeTagChecklist: string[] = ["Equipment", "Glassware", "Materials", "Measurement", "Models", "Safety", "Tools"];
-
-  //#region useEffect hooks
-  // useEffect(() => {
-  //   const unSubscribe = onSnapshot(
-  //     collection(db, "items"),
-  //     (collectionSnapshot) => {
-  //       const entries: Item[] = [];
-  //       collectionSnapshot.forEach((entry) => {
-  //         entries.push({
-  //           id: entry.id,
-  //           type: entry.data().type,
-  //           displayName: entry.data().displayName,
-  //           isCheckedOut: entry.data().isCheckedOut,
-  //           checkedOutBy: entry.data().checkedOutBy,
-  //           dateCheckedOut: entry.data().dateCheckedOut,
-  //         });
-  //       });
-  //       // console.log("db", entries);
-  //       setItemList(entries);
-  //     },
-  //     (error) => {
-  //       setError(error.message);
-  //     }
-  //   );
-  //   return () => unSubscribe();
-  // }, []);
-
-  // useEffect(() => {
-  //   const unSubscribe = onSnapshot(
-  //     collection(db, "itemTypes"),
-  //     (collectionSnapshot) => {
-  //       const entries: ItemType[] = [];
-  //       collectionSnapshot.forEach((entry) => {
-  //         entries.push({
-  //           id: entry.id,
-  //           displayName: entry.data().displayName,
-  //           location: entry.data().location,
-  //           description: entry.data().description,
-  //           tags: entry.data().tags,
-  //           type: entry.data().type,
-  //           image: entry.data().image,
-  //         });
-  //       });
-  //       setItemTypeList(entries);
-  //       setItemTypeListForForms(entries);
-  //       // console.log("InventoryControl, entries: ", entries);
-  //     },
-  //     (error) => {
-  //       setError(error.message);
-  //     }
-  //   );
-  //   return () => unSubscribe();
-  // }, []);
 
   useEffect(() => {
     if (userProvider?.currentUser) {
       handleMakeUserItemList();
-      // console.log("InventoryControl, itemList: ", itemList);
-      // console.log("InventoryControl, itemsCheckedOutByUser: ", itemsCheckedOutByUser);
     }
   }, [itemList]);
-
-  // useEffect(() => {
-  //   if (itemList.length > 0 && itemTypeList.length > 0) {
-  //     itemEntriesToDisplay(itemList, itemTypeList);
-  //   }
-  // }, [itemList, itemTypeList]);
 
   useEffect(() => {
     if (selectedEntry) {
@@ -136,7 +69,6 @@ export default function InventoryControl() {
   }, [itemTypeList, selectedEntry]);
 
   useEffect(() => {
-    // console.log("handleFilterList, itemTypeList: ", itemTypeList);
     handleFilterList(itemTypeList, searchQuery, tagsToFilter);
   }, [itemTypeList, searchQuery, tagsToFilter]);
 
@@ -205,36 +137,6 @@ export default function InventoryControl() {
     setIsOpen(false);
     handleNotification("Item(s) successfully added to inventory.");
   };
-  // const handleAddingNewItems = async (data: AddItemsForm) => {
-  //   try {
-  //     // Add new items to the database
-  //     await addMultipleDocs("items", data);
-
-  //     // Update the itemList state with the newly added items
-  //     const newItems: Item[] = [];
-  //     for (let i = 0; i < data.quantity; i++) {
-  //       const newItem: Item = {
-  //         id: `temp_${i}`, // Set a temporary ID
-  //         type: data.type,
-  //         displayName: data.displayName,
-  //         isCheckedOut: false,
-  //         checkedOutBy: null,
-  //         dateCheckedOut: null,
-  //       };
-  //       newItems.push(newItem);
-  //     }
-  //     setItemList((prevItemList) => [...prevItemList, ...newItems]);
-
-  //     // Close the modal
-  //     setAddFormVisibility(false);
-  //     setIsOpen(false);
-
-  //     // Show notification
-  //     handleNotification("Item(s) successfully added to inventory.");
-  //   } catch (error) {
-  //     console.error("Error adding new items:", error);
-  //   }
-  // };
 
   //#endregion functions updating database
   const handleModalClose = () => {
