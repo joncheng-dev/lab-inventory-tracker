@@ -184,7 +184,12 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 <h4>Categories</h4>
                 <Divider />
                 <br />
-                <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" sx={{ fontSize: 15 }} />)}</StyledStack>
+                <Grid xs={12} item>
+                  <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" sx={{ fontSize: 15 }} />)}</StyledStack>
+                </Grid>
+                {/* <Grid xs={12} item>
+                  <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" sx={{ fontSize: 15 }} />)}</StyledStack>
+                </Grid> */}
               </Grid>
             </Grid>
           </Grid>

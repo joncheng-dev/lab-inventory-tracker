@@ -453,19 +453,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 <ItemCheckOutTable quantAvail={quantAvail} onFormSubmit={handleCheckoutItems} />
                 <ItemStatusTable summary={checkedOutBySummary} />
                 <Box display="flex" justifyContent="space-between" pt={1}>
-                  {/* <Box display="flex" borderRadius="3px" p={2}>
-                    <Stack spacing={2} direction="row">
-                      <Button onClick={onClickingEdit} variant="contained">
-                        Edit entry
-                      </Button>
-                      <ChildModal entryId={id!} onClickingDelete={onClickingDelete} />
-                      <Button onClick={onClickingExit} variant="contained">
-                        Exit
-                      </Button>
-                    </Stack>
-                  </Box> */}
-                  {/* <Box display="flex" borderRadius="3px" p={2}>
-                    <Stack spacing={2} direction="row" textAlign="right"> */}
                   <Grid item xs={12} sx={{ direction: "row", textAlign: "right" }}>
                     {itemList.some((item) => type === item.type && item.checkedOutBy === userProvider?.currentUser?.email) ? (
                       <Button onClick={handleReturnItems} variant="contained">
@@ -477,8 +464,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                       </Button>
                     )}
                   </Grid>
-                  {/* </Stack>
-                  </Box> */}
                 </Box>
               </AvailabilityContainer>
             </Grid>

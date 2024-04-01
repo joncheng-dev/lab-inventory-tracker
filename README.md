@@ -26,7 +26,19 @@ _This app is my final project for my time at Epicodus. The front end is written 
 
 _I chose to write the front end using React.js to improve my fluency with React. I used TypeScript, Vite, and Materials UI to push myself to learn new tools. For the database, I used NoSQL Firestore for two main reasons. NoSQL does not require a schema. From my current understanding, as I add complexity to the database, it will be easier to make updates without rebuilding the database from scratch -- as could be the case with SQL. The other reason, for practical purposes, is that if my former workplace were to use this application, Firestore will be reliably accessible around the clock without cost._
 
-## Component Diagram
+## Diagrams, Screenshots, Demos
+
+_Demo: Search & Filters_
+
+<img src="./src/images/lab-manager-demo1.gif" width="50%">
+
+_Screenshot: Item Availability_
+
+<img src="./src/images/lab-manager-screenshot1.png" width="50%">
+
+_Screenshot: Add New Items Form_
+
+<img src="./src/images/lab-manager-screenshot2.png" width="50%">
 
 _The diagram below depicts the components for the application._
 
