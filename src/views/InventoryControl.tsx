@@ -1,5 +1,5 @@
 // Outside
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { sharedInfo } from "../helpers/UserContext";
 // Styling / MUI
 import { Grid, Snackbar, SnackbarContent } from "@mui/material";
@@ -47,10 +47,13 @@ export default function InventoryControl() {
   const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<Item[]>([]);
   const [tagsToFilter, setTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [filteredItemTypeList, setFilteredItemTypeList] = useState<ItemType[]>([]);
-  console.log("START of InventoryControl: filteredItemTypeList: ", filteredItemTypeList);
-
   const { itemList, itemTypeList, itemTypeListForForms, error } = useDBHook();
+  const filteredItemTypeList = useMemo(() => {
+    if (tagsToFilter.length === 0 && searchQuery === "") {
+      return itemTypeList;
+    }
+    return filterList(itemTypeList, searchQuery, tagsToFilter);
+  }, [itemTypeList, searchQuery, tagsToFilter]);
 
   // Miscellaneous:
   const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
@@ -67,11 +70,6 @@ export default function InventoryControl() {
       handleChangingSelectedEntry(selectedEntry.id!);
     }
   }, [itemTypeList, selectedEntry]);
-
-  useEffect(() => {
-    handleFilterList(itemTypeList, searchQuery, tagsToFilter);
-  }, [itemTypeList, searchQuery, tagsToFilter]);
-
   //#endregion useEffect hooks
 
   //#region functions
@@ -110,23 +108,9 @@ export default function InventoryControl() {
     setSearchQuery(queryString);
   };
 
-  // Helper -- Search & Filter
   const onFilterByCategory = (arrayOfTags: string[]) => {
     setTags(arrayOfTags);
   };
-
-  // Helper -- Search & Filter
-  const handleFilterList = (list: ItemType[], query: string, tags: string[]) => {
-    if (tags.length === 0 && query === "") {
-      console.log("handleFilterList - list", list);
-      setFilteredItemTypeList(list);
-      return;
-    }
-    const filteredResult = filterList(list, query, tags);
-    console.log("handleFilterList - filteredResult", filteredResult);
-    setFilteredItemTypeList(filteredResult);
-  };
-
   //#endregion functions
 
   //#region functions updating database
@@ -211,14 +195,6 @@ export default function InventoryControl() {
           handleExitButtonClick();
         }}
       >
-        {/* {isOpen && selectedEntry && editing && (
-          <ItemTypeForm
-            entry={selectedEntry}
-            subjectTagChecklist={subjectTagChecklist}
-            purposeTagChecklist={purposeTagChecklist}
-            onFormSubmit={handleEditingItemType}
-          />
-        )} */}
         {isOpen && addItemFormVisible && itemTypeList.length > 0 && (
           <ItemForm
             // prettier-ignore

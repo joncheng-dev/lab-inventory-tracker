@@ -1,9 +1,5 @@
 // Outside
-import { useContext, useState, useEffect } from "react";
-// import { db, auth } from "../firebase.js";
-import { db } from "../firebase.js";
-import { collection, onSnapshot } from "firebase/firestore";
-// import { useAuthState } from "react-firebase-hooks/auth";
+import { useState, useEffect, useMemo } from "react";
 import { sharedInfo } from "../helpers/UserContext";
 // Styling
 import { Grid } from "@mui/material";
@@ -21,64 +17,37 @@ import { ItemType } from "../types/index.js";
 import { addNewDoc, deleteExistingDoc, editExistingDoc } from "../hooks/mutations.js";
 // Helper Functions
 import { filterList } from "../helpers/SearchAndFilter.js";
+import useDBHook from "../hooks/useDBHook.js";
 
 function ItemTypeControl() {
   // STATE & SHARED INFORMATION
-  // const [user] = useAuthState(auth);
   const userProvider = sharedInfo();
   // For conditional rendering:
   const [addTypeFormVisible, setAddTypeFormVisibility] = useState<boolean>(false);
   const [selectedEntry, setSelectedEntry] = useState<ItemType | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
-  const [isOpen, setIsOpen] = useState(false); // For modal
-
+  const [isOpen, setIsOpen] = useState(false);
   // For data:
-  const [itemTypeList, setItemTypeList] = useState<ItemType[]>([]);
   const [tagsToFilter, setTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [filteredList, setFilteredList] = useState<ItemType[]>([]);
+  const { itemTypeList, error } = useDBHook();
+  const filteredItemTypeList = useMemo(() => {
+    if (tagsToFilter.length === 0 && searchQuery === "") {
+      return itemTypeList;
+    }
+    return filterList(itemTypeList, searchQuery, tagsToFilter);
+  }, [itemTypeList, searchQuery, tagsToFilter]);
 
   // Miscellaneous:
-  const [error, setError] = useState<string | null>(null);
   const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
   const purposeTagChecklist: string[] = ["Equipment", "Glassware", "Materials", "Measurement", "Models", "Safety", "Tools"];
 
   //#region useEffect hooks
   useEffect(() => {
-    const unSubscribe = onSnapshot(
-      collection(db, "itemTypes"),
-      (collectionSnapshot) => {
-        const entries: ItemType[] = [];
-        collectionSnapshot.forEach((entry) => {
-          entries.push({
-            id: entry.id,
-            displayName: entry.data().displayName,
-            location: entry.data().location,
-            description: entry.data().description,
-            tags: entry.data().tags,
-            type: entry.data().type,
-            image: entry.data().image,
-          });
-        });
-        setItemTypeList(entries);
-      },
-      (error) => {
-        setError(error.message);
-      }
-    );
-    return () => unSubscribe();
-  }, []);
-
-  useEffect(() => {
     if (selectedEntry) {
       handleChangingSelectedEntry(selectedEntry.id!);
     }
   }, [itemTypeList, selectedEntry]);
-
-  useEffect(() => {
-    handleFilterList(itemTypeList, searchQuery, tagsToFilter);
-  }, [itemTypeList, searchQuery, tagsToFilter]);
-
   //#endregion useEffect hooks
 
   //#region functions
@@ -113,17 +82,9 @@ function ItemTypeControl() {
     setSearchQuery(queryString);
   };
 
-  // Helper -- Search & Filter
   const onFilterByCategory = (arrayOfTags: string[]) => {
     setTags(arrayOfTags);
   };
-
-  // Helper -- Search & Filter
-  const handleFilterList = (list: ItemType[], query: string, tags: string[]) => {
-    const filteredResult = filterList(list, query, tags);
-    setFilteredList(filteredResult);
-  };
-
   //#endregion functions
 
   //#region functions updating database
@@ -167,7 +128,7 @@ function ItemTypeControl() {
           <Grid display="flex" justifyContent="space-between">
             <ItemTypeList
               // prettier-ignore
-              listOfEntries={filteredList}
+              listOfEntries={filteredItemTypeList}
               onEntryClick={handleChangingSelectedEntry}
               onClickingAddEntry={handleAddItemTypeButtonClick}
             />
