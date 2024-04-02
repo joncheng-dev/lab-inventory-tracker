@@ -113,7 +113,7 @@ function ItemTypeControl() {
     <>
       {/* Conditional rendering */}
       <Header onSearchInputChange={onSearchInputChange} />
-      <Grid container spacing={1}>
+      <Grid container pt={2} spacing={1}>
         <Grid item xs={1.5}>
           <FixedWidthItem>
             <CategoryPanel

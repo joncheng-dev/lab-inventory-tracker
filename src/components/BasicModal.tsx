@@ -1,9 +1,6 @@
-// import * as React from "react";
 import { ReactNode } from "react";
 import { Box, Button, Grid, Modal } from "@mui/material/";
 import CloseIcon from "@mui/icons-material/Close";
-// import Typography from "@mui/material/Typography";
-// import { Item } from "../types";
 
 const style = {
   position: "absolute" as "absolute",
