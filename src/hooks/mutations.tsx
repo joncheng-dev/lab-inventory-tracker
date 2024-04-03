@@ -8,13 +8,12 @@ export const addNewDoc = async (collectionName: string, entry: Item | ItemType) 
 };
 
 export const addMultipleDocs = async (collectionName: string, data: AddItemsForm) => {
-  const { type, displayName, quantity } = data;
+  const { type, quantity } = data;
   const batch = writeBatch(db);
 
   for (let i = 0; i < quantity; i++) {
     const newDocRef = await addDoc(collection(db, collectionName), {
       type,
-      displayName,
       dateAdded: serverTimestamp(),
       isCheckedOut: false,
       checkedOutBy: null,
@@ -23,7 +22,6 @@ export const addMultipleDocs = async (collectionName: string, data: AddItemsForm
     const newEntry = {
       id: newDocRef.id,
       type,
-      displayName,
       dateAdded: serverTimestamp(),
       isCheckedOut: false,
       checkedOutBy: null,

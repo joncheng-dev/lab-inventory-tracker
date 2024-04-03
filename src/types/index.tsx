@@ -9,14 +9,14 @@ export type eTargetType = {
 // Typing in common for multiple components
 export interface AddItemsForm {
   type: string;
-  displayName: string;
+  // displayName: string;
   quantity: number;
 }
 
 export interface Item {
   id?: string | null;
   type: string;
-  displayName: string;
+  // displayName: string;
   isCheckedOut: boolean;
   checkedOutBy: string | null;
   dateCheckedOut: Timestamp | null;
