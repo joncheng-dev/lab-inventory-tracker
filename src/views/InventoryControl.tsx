@@ -146,7 +146,7 @@ export default function InventoryControl() {
     <>
       {/* Conditional rendering */}
       <Header onSearchInputChange={onSearchInputChange} />
-      <Grid container spacing={1}>
+      <Grid container pt={2} spacing={1}>
         <Grid item xs={1.5}>
           <FixedWidthItem>
             <CategoryPanel
@@ -178,7 +178,7 @@ export default function InventoryControl() {
             />
           </Grid>
         </Grid>
-        <Grid item xs={2.75} pr={2}>
+        <Grid item xs={2.75} pr={2} sx={{ display: { xs: "none", sm: "block" } }}>
           <FixedWidthItem>
             <UserInfoPanel
               // prettier-ignore

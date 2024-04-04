@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Item, ItemType } from "../types";
 import UserItem from "./UserItem";
 import { Divider, Grid, Tooltip } from "@mui/material";
@@ -15,7 +15,6 @@ const userInfoPanelTooltipText = `List of items you have currently checked out`;
 
 export default function UserInfoPanel(props: UserInfoPanelProps) {
   const userProvider = sharedInfo();
-  // const [user] = useAuthState(auth);
   const { itemsCheckedOutByUser, listOfItemTypes, onEntryClick } = props;
   const [itemCounts, setItemCounts] = useState<Record<string, number>>({});
 

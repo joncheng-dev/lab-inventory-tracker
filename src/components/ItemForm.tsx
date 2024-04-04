@@ -47,7 +47,7 @@ export default function ItemForm(props: FormProps) {
 
   const [formData, setFormData] = useState<AddItemsForm>({
     type: "",
-    displayName: "",
+    // displayName: "",
     quantity: 1,
   });
 
@@ -68,13 +68,13 @@ export default function ItemForm(props: FormProps) {
       setFormData((prevData) => ({
         ...prevData,
         type: value?.type || "",
-        displayName: value?.displayName || "",
+        // displayName: value?.displayName || "",
       }));
     } else if (reason === "clear") {
       setFormData((prevData) => ({
         ...prevData,
         type: "",
-        displayName: "",
+        // displayName: "",
       }));
     }
   };

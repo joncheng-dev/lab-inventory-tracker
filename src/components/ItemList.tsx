@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import ItemTypeEntry from "./ItemTypeEntry";
 import DataTable from "./DataTable";
 import { Item, ItemType } from "../types";
