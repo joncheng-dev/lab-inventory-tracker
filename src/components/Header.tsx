@@ -33,7 +33,10 @@ export default function Header(props: HeaderProps) {
   }
 
   return (
-    <AppBar position="sticky" sx={{ backgroundColor: theme.palette.mode === "dark" ? "#141b2d" : "#fff", boxShadow: "none" }}>
+    <AppBar
+      position="sticky"
+      sx={{ backgroundImage: "none", backgroundColor: theme.palette.mode === "dark" ? "#141b2d" : "#fff", boxShadow: "none" }}
+    >
       <Toolbar>
         <Box sx={{ flexGrow: 1 }}>
           <Box
