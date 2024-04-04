@@ -18,7 +18,6 @@ function useDBHook() {
           entries.push({
             id: entry.id,
             type: entry.data().type,
-            displayName: entry.data().displayName,
             isCheckedOut: entry.data().isCheckedOut,
             checkedOutBy: entry.data().checkedOutBy,
             dateCheckedOut: entry.data().dateCheckedOut,
