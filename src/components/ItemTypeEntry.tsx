@@ -19,6 +19,7 @@ import {
   tools2,
   tools3,
 } from "../images";
+import { maxWidth } from "@mui/system";
 
 //#region styles
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -32,6 +33,36 @@ const StyledCard = styled(Card)(({ theme }) => ({
   "&:hover": {
     cursor: "pointer",
   },
+
+  [theme.breakpoints.down("md")]: {
+    width: "400px",
+    height: "150px",
+    display: "flex",
+    flexDirection: "row",
+    overflow: "hidden",
+  },
+
+  [theme.breakpoints.down("lg")]: {
+    maxWidth: "345px",
+  },
+}));
+
+const StyledImgBox = styled(Box)(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    width: "40%",
+    height: "100%",
+    overflow: "hidden",
+  },
+  [theme.breakpoints.down("lg")]: {},
+}));
+
+const StyledTextBox = styled(Box)(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    width: "60%",
+    height: "100%",
+    padding: "16px",
+  },
+  [theme.breakpoints.down("lg")]: {},
 }));
 
 //#endregion
@@ -63,22 +94,28 @@ const imageDictionary: Record<string, string> = {
 function ItemTypeEntry(props: ItemTypeEntryProps) {
   const { entry, onEntryClick } = props;
   const { id, displayName, type, image } = entry;
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md")); // Check if screen width is below 600px
 
-  return isSmallScreen ? (
+  return (
     <StyledCard
-      sx={{ width: "400px", height: "150px", display: "flex", flexDirection: "row" }}
       onClick={() => {
         onEntryClick(id!);
       }}
     >
-      <Box sx={{ width: "40%", height: "100%", overflow: "hidden" }}>
+      <StyledImgBox>
         {image && (
-          <CardMedia component="img" sx={{ width: "100%", height: "100%", objectFit: "cover" }} image={imageDictionary[image]} title={image} />
+          <CardMedia
+            component="img"
+            image={imageDictionary[image]}
+            title={image}
+            sx={{
+              width: "100%",
+              height: "140px",
+              objectFit: "cover",
+            }}
+          />
         )}
-      </Box>
-      <Box sx={{ width: "60%", height: "100%", padding: "16px" }}>
+      </StyledImgBox>
+      <StyledTextBox>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {displayName}
@@ -87,24 +124,7 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
             {type}
           </Typography>
         </CardContent>
-      </Box>
-    </StyledCard>
-  ) : (
-    <StyledCard
-      sx={{ maxWidth: 345 }}
-      onClick={() => {
-        onEntryClick(id!);
-      }}
-    >
-      {image && <CardMedia component="img" sx={{ height: 140 }} image={imageDictionary[image]} title={image} />}
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {displayName}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {type}
-        </Typography>
-      </CardContent>
+      </StyledTextBox>
     </StyledCard>
   );
 }
