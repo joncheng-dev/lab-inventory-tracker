@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Button, Card, CardActions, CardContent, CardMedia, Chip, Stack, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { Box, Card, CardContent, CardMedia, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { ItemType } from "../types";
 import {
   equipment1,
@@ -21,26 +21,19 @@ import {
 } from "../images";
 
 //#region styles
-const StyledCard = styled(Card)`
-  flex: 0 1 auto;
-  width: 250px;
-  max-width: 30%;
-  border: 1px black solid;
-  /* background: #369; */
-  position: relative;
+const StyledCard = styled(Card)(({ theme }) => ({
+  // display: "flex",
+  flex: "0 1 auto",
+  width: "250px",
+  maxWidth: "100%",
+  border: "1px black solid",
+  position: "relative",
 
-  &:hover {
-    cursor: pointer;
-  }
-`;
+  "&:hover": {
+    cursor: "pointer",
+  },
+}));
 
-const ButtonContainer = styled.div`
-  position: absolute;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 //#endregion
 
 type ItemTypeEntryProps = {
@@ -70,15 +63,40 @@ const imageDictionary: Record<string, string> = {
 function ItemTypeEntry(props: ItemTypeEntryProps) {
   const { entry, onEntryClick } = props;
   const { id, displayName, type, image } = entry;
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md")); // Check if screen width is below 600px
 
-  return (
+  return isSmallScreen ? (
+    <StyledCard
+      sx={{ width: "400px", height: "150px", display: "flex", flexDirection: "row" }}
+      onClick={() => {
+        onEntryClick(id!);
+      }}
+    >
+      <Box sx={{ width: "40%", height: "100%", overflow: "hidden" }}>
+        {image && (
+          <CardMedia component="img" sx={{ width: "100%", height: "100%", objectFit: "cover" }} image={imageDictionary[image]} title={image} />
+        )}
+      </Box>
+      <Box sx={{ width: "60%", height: "100%", padding: "16px" }}>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            {displayName}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {type}
+          </Typography>
+        </CardContent>
+      </Box>
+    </StyledCard>
+  ) : (
     <StyledCard
       sx={{ maxWidth: 345 }}
       onClick={() => {
         onEntryClick(id!);
       }}
     >
-      {image && <CardMedia sx={{ height: 140 }} image={imageDictionary[image]} title={image} />}
+      {image && <CardMedia component="img" sx={{ height: 140 }} image={imageDictionary[image]} title={image} />}
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {displayName}
@@ -87,21 +105,8 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
           {type}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small" variant="contained">
-          Details
-        </Button>
-      </CardActions>
     </StyledCard>
   );
 }
 
 export default ItemTypeEntry;
-
-{
-  /* <Stack>
-  {tags.map((tag, index) => (
-    <Chip key={index} label={tag} />
-  ))}
-</Stack> */
-}

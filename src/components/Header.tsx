@@ -2,10 +2,11 @@ import { useState, useContext } from "react";
 import { AppBar, Box, Chip, Grid, IconButton, InputBase, Stack, Toolbar, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from "../themes.tsx";
 import { styled, alpha } from "@mui/material/styles";
-import { DarkModeOutlined, LightModeOutlined, Search } from "@mui/icons-material/";
+import { DarkModeOutlined, LightModeOutlined, MoreVert, Search } from "@mui/icons-material/";
 import { doSignOut } from "../hooks/authUtil.tsx";
 import { useNavigate } from "react-router-dom";
 import { sharedInfo } from "../helpers/UserContext";
+import LeftNav from "./LeftNav.tsx";
 
 type HeaderProps = {
   onSearchInputChange: (queryString: string) => void;
@@ -33,6 +34,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
       width: "20ch",
     },
   },
+}));
+
+const StyledStackContainer = styled("div")(({ theme }) => ({
+  gridArea: "rest",
+  display: "flex",
+  justifyContent: "flex-end",
+}));
+
+const StyledAppBarContainer = styled("div")(({ theme }) => ({
+  width: "100vw",
+  display: "grid",
+  gridTemplateColumns: "40px 400px auto",
+  gridTemplateAreas: `"leftNav search rest"`,
 }));
 
 export default function Header(props: HeaderProps) {
@@ -64,49 +78,49 @@ export default function Header(props: HeaderProps) {
         backgroundImage: "none",
         backgroundColor: theme.palette.mode === "dark" ? "#141b2d" : "#fff",
         boxShadow: "none",
+        paddingLeft: "2em",
       }}
     >
       <Toolbar>
-        <Grid container justifyContent="space-between" alignItems="center">
-          {/* <Box sx={{ display: "flex", alignContent: "flex-end", flexGrow: 1, maxWidth: "30%" }}> */}
-          <Grid item>
-            <Box
-              sx={{
-                // display: "flex",
-                // alignItems: "left",
-                position: "relative",
-                borderRadius: theme.shape.borderRadius,
-                backgroundColor: colors.primary[400],
-                // backgroundColor: alpha(theme.palette.common.white, 0.15),
-                // "&:hover": {
-                //   backgroundColor: alpha(theme.palette.common.white, 0.25),
-                // },
-                marginRight: theme.spacing(2),
-                marginLeft: 0,
-                width: "100%",
-                [theme.breakpoints.up("sm")]: {
-                  marginLeft: theme.spacing(3),
-                  width: "auto",
-                },
-              }}
-            >
-              <SearchIconWrapper>
-                <Search />
-              </SearchIconWrapper>
-              <StyledInputBase placeholder="Search" inputProps={{ "aria-label": "search" }} onChange={handleSearchBarChange} />
-            </Box>
-          </Grid>
-          {/* </Box> */}
-          <Grid item>
+        <StyledAppBarContainer>
+          <LeftNav />
+          <Box
+            sx={{
+              gridArea: "search",
+              // display: "flex",
+              // alignItems: "left",
+              position: "relative",
+              borderRadius: theme.shape.borderRadius,
+              backgroundColor: colors.primary[400],
+              // backgroundColor: alpha(theme.palette.common.white, 0.15),
+              // "&:hover": {
+              //   backgroundColor: alpha(theme.palette.common.white, 0.25),
+              // },
+              marginRight: theme.spacing(2),
+              marginLeft: 0,
+              width: "100%",
+              [theme.breakpoints.up("sm")]: {
+                marginLeft: theme.spacing(3),
+                width: "auto",
+              },
+            }}
+          >
+            <SearchIconWrapper>
+              <Search />
+            </SearchIconWrapper>
+            <StyledInputBase placeholder="Search" inputProps={{ "aria-label": "search" }} onChange={handleSearchBarChange} />
+          </Box>
+          <StyledStackContainer>
             <Stack direction="row" spacing={1} alignItems="center">
               <IconButton onClick={colorMode.toggleColorMode}>
                 {theme.palette.mode === "dark" ? <DarkModeOutlined /> : <LightModeOutlined />}
               </IconButton>
               <Chip label="Home" component="a" href="/lab-inventory-tracker/inventory" variant="outlined" clickable />
               <Chip label="Sign Out" onClick={handleSignOut} variant="outlined" clickable />
+              <MoreVert />
             </Stack>
-          </Grid>
-        </Grid>
+          </StyledStackContainer>
+        </StyledAppBarContainer>
       </Toolbar>
     </AppBar>
   );
