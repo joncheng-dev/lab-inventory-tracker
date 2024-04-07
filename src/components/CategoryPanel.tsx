@@ -5,12 +5,12 @@ import { Checkbox, Divider, FormControlLabel, useTheme } from "@mui/material";
 
 const CategoryPanelContainer = styled("div")(({ theme }) => ({
   textAlign: "left",
-  [theme.breakpoints.up("sm")]: {
-    paddingLeft: "2em",
-  },
-  [theme.breakpoints.up("md")]: {
-    paddingLeft: "5em",
-  },
+  // [theme.breakpoints.up("sm")]: {
+  //   paddingLeft: "2em",
+  // },
+  // [theme.breakpoints.up("md")]: {
+  //   paddingLeft: "5em",
+  // },
 }));
 
 const ListContainer = styled("div")(({ theme }) => ({

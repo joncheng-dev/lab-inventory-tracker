@@ -4,7 +4,7 @@ import { sharedInfo } from "../helpers/UserContext";
 // Styling / MUI
 import { Grid, Snackbar, SnackbarContent } from "@mui/material";
 import BasicModal from "../components/BasicModal.js";
-import { FixedWidthItem } from "../style/styles.js";
+import { CategoryColumn, UserInfoColumn } from "../style/styles.js";
 // Components
 import Header from "../components/Header.js";
 import CategoryPanel from "../components/CategoryPanel.js";
@@ -148,14 +148,14 @@ export default function InventoryControl() {
       <Header onSearchInputChange={onSearchInputChange} />
       <Grid container pt={2} spacing={1}>
         <Grid item sm={4} md={3} lg={1.5}>
-          <FixedWidthItem>
+          <CategoryColumn>
             <CategoryPanel
               tags={tagsToFilter}
               subjectTagChecklist={subjectTagChecklist}
               purposeTagChecklist={purposeTagChecklist}
               onCategorySelection={onFilterByCategory}
             />
-          </FixedWidthItem>
+          </CategoryColumn>
         </Grid>
         <Grid item sm={8} md={9} lg={7.75}>
           <Grid display="flex" justifyContent="space-between">
@@ -179,14 +179,14 @@ export default function InventoryControl() {
           </Grid>
         </Grid>
         <Grid item sm={12} md={12} lg={2.75} pr={2} sx={{ display: { xs: "none", sm: "block" } }}>
-          <FixedWidthItem>
+          <UserInfoColumn>
             <UserInfoPanel
               // prettier-ignore
               onEntryClick={handleChangingSelectedEntry}
               itemsCheckedOutByUser={itemsCheckedOutByUser}
               listOfItemTypes={itemTypeList}
             />
-          </FixedWidthItem>
+          </UserInfoColumn>
         </Grid>
       </Grid>
       <BasicModal
