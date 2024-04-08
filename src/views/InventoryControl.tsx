@@ -158,7 +158,7 @@ export default function InventoryControl() {
           </CategoryColumn>
         </Grid>
         <Grid item xs={12} sm={8} md={9} lg={7.5}>
-          <Grid display="flex" justifyContent="space-between">
+          <Grid item display="block" ml={2}>
             {notification.open && (
               <Snackbar
                 anchorOrigin={{ vertical: "top", horizontal: "center" }}
