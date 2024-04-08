@@ -4,7 +4,7 @@ import { sharedInfo } from "../helpers/UserContext";
 // Styling
 import { Grid } from "@mui/material";
 import BasicModal from "../components/BasicModal.js";
-import { FixedWidthItem } from "../style/styles.js";
+import { CategoryColumn, UserInfoColumn } from "../style/styles.js";
 // Components
 import Header from "../components/Header.js";
 import CategoryPanel from "../components/CategoryPanel.js";
@@ -115,14 +115,14 @@ function ItemTypeControl() {
       <Header onSearchInputChange={onSearchInputChange} />
       <Grid container pt={2} spacing={1}>
         <Grid item xs={1.5}>
-          <FixedWidthItem>
+          <CategoryColumn>
             <CategoryPanel
               tags={tagsToFilter}
               subjectTagChecklist={subjectTagChecklist}
               purposeTagChecklist={purposeTagChecklist}
               onCategorySelection={onFilterByCategory}
             />
-          </FixedWidthItem>
+          </CategoryColumn>
         </Grid>
         <Grid item xs={7.75}>
           <Grid display="flex" justifyContent="space-between">
@@ -135,14 +135,14 @@ function ItemTypeControl() {
           </Grid>
         </Grid>
         <Grid item xs={2.75} pr={2}>
-          <FixedWidthItem>
+          <UserInfoColumn>
             {
               <>
                 <h3>User Info Panel</h3>
                 <p>Not applicable for Item Types</p>
               </>
             }
-          </FixedWidthItem>
+          </UserInfoColumn>
         </Grid>
       </Grid>
       <BasicModal

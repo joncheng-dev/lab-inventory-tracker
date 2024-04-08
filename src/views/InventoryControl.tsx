@@ -147,7 +147,7 @@ export default function InventoryControl() {
       {/* Conditional rendering */}
       <Header onSearchInputChange={onSearchInputChange} />
       <Grid container pt={2} spacing={1}>
-        <Grid item sm={4} md={3} lg={1.5}>
+        <Grid item xs={12} sm={4} md={3} lg={2} sx={{ display: { xs: "none", sm: "block" } }}>
           <CategoryColumn>
             <CategoryPanel
               tags={tagsToFilter}
@@ -157,7 +157,7 @@ export default function InventoryControl() {
             />
           </CategoryColumn>
         </Grid>
-        <Grid item sm={8} md={9} lg={7.75}>
+        <Grid item xs={12} sm={8} md={9} lg={7.5}>
           <Grid display="flex" justifyContent="space-between">
             {notification.open && (
               <Snackbar
@@ -178,7 +178,7 @@ export default function InventoryControl() {
             />
           </Grid>
         </Grid>
-        <Grid item sm={12} md={12} lg={2.75} pr={2} sx={{ display: { xs: "none", sm: "block" } }}>
+        <Grid item xs={12} sm={12} md={12} lg={2.5} sx={{ display: { xs: "none", lg: "block" } }}>
           <UserInfoColumn>
             <UserInfoPanel
               // prettier-ignore

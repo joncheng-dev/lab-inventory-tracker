@@ -35,7 +35,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
   },
 
   [theme.breakpoints.down("md")]: {
-    width: "400px",
+    minWidth: "450px",
     height: "150px",
     display: "flex",
     flexDirection: "row",
