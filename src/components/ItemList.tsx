@@ -11,6 +11,7 @@ import { Add, Apps, InfoOutlined, ViewHeadline } from "@mui/icons-material";
 import { tokens } from "../themes";
 import { sharedInfo } from "../helpers/UserContext.tsx";
 import { itemEntriesToDisplay } from "../helpers/SearchAndFilter.tsx";
+import { fontSize } from "@mui/system";
 
 //#region styles
 
@@ -18,6 +19,8 @@ const StyledTextContainer = styled("div")(({ theme }) => ({
   width: "100%",
   display: "flex",
   justifyContent: "space-between",
+  flexWrap: "wrap",
+  marginBottom: "2em",
 }));
 
 const StyledStackContainer = styled("div")(({ theme }) => ({
@@ -73,6 +76,13 @@ export default function ItemList(props: ItemListProps) {
     alignContent: "baseline",
     marginLeft: "0.5rem",
     marginTop: "-0.5rem",
+    flexShrink: 1,
+    // [theme.breakpoints.between("md", "lg")]: {
+    //   padding: "0.3rem 0.7rem",
+    // },
+    // [theme.breakpoints.down("sm")]: {
+    //   padding: "0.5rem 1rem",
+    // },
   }));
 
   const itemsToRender = itemEntriesToDisplay(listOfItems, listOfItemTypes);
@@ -128,7 +138,7 @@ export default function ItemList(props: ItemListProps) {
           >
             {userProvider?.currentUser?.isAdmin && (
               <StyledButton onClick={onClickingAddEntry} variant="contained" startIcon={<Add />}>
-                Add Items
+                Items
               </StyledButton>
             )}
           </Box>

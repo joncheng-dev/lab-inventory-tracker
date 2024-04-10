@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { AppBar, Box, Chip, Grid, IconButton, InputBase, Stack, Toolbar, useTheme } from "@mui/material";
+import { AppBar, Box, Chip, Grid, IconButton, InputBase, Stack, Toolbar, useMediaQuery, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from "../themes.tsx";
 import { styled, alpha } from "@mui/material/styles";
 import { DarkModeOutlined, LightModeOutlined, MoreVert, Search } from "@mui/icons-material/";
@@ -7,6 +7,7 @@ import { doSignOut } from "../hooks/authUtil.tsx";
 import { useNavigate } from "react-router-dom";
 import { sharedInfo } from "../helpers/UserContext";
 import LeftNav from "./LeftNav.tsx";
+import { StyledIconButton } from "../style/styles.tsx";
 
 type HeaderProps = {
   onSearchInputChange: (queryString: string) => void;
@@ -51,6 +52,8 @@ const StyledAppBarContainer = styled("div")(({ theme }) => ({
 
 export default function Header(props: HeaderProps) {
   const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const userProvider = sharedInfo();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
@@ -78,7 +81,7 @@ export default function Header(props: HeaderProps) {
         backgroundImage: "none",
         backgroundColor: theme.palette.mode === "dark" ? "#141b2d" : "#fff",
         boxShadow: "none",
-        paddingLeft: "2em",
+        // paddingLeft: "2em",
       }}
     >
       <Toolbar>
@@ -112,12 +115,18 @@ export default function Header(props: HeaderProps) {
           </Box>
           <StyledStackContainer>
             <Stack direction="row" spacing={1} alignItems="center">
-              <IconButton onClick={colorMode.toggleColorMode}>
-                {theme.palette.mode === "dark" ? <DarkModeOutlined /> : <LightModeOutlined />}
-              </IconButton>
-              <Chip label="Home" component="a" href="/lab-inventory-tracker/inventory" variant="outlined" clickable />
-              <Chip label="Sign Out" onClick={handleSignOut} variant="outlined" clickable />
-              <MoreVert />
+              {!isSmallScreen && (
+                <IconButton onClick={colorMode.toggleColorMode}>
+                  {theme.palette.mode === "dark" ? <DarkModeOutlined /> : <LightModeOutlined />}
+                </IconButton>
+              )}
+              {/* <Chip label="Home" component="a" href="/lab-inventory-tracker/inventory" variant="outlined" clickable /> */}
+              {!isSmallScreen && <Chip label="Sign Out" onClick={handleSignOut} variant="outlined" clickable />}
+              {isMediumScreen && (
+                <StyledIconButton disableRipple>
+                  <MoreVert />
+                </StyledIconButton>
+              )}
             </Stack>
           </StyledStackContainer>
         </StyledAppBarContainer>

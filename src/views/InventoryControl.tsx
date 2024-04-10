@@ -14,6 +14,7 @@ import ItemList from "../components/ItemList.js";
 import InventoryEntryDetail from "../components/InventoryEntryDetail";
 // Types & Context
 import { AddItemsForm, Item, ItemType } from "../types/index.js";
+import { useTheme } from "@mui/material/styles";
 // Database
 import { addMultipleDocs } from "../hooks/mutations.js";
 // Helper Functions
@@ -31,6 +32,7 @@ interface SnackbarState {
 export default function InventoryControl() {
   // STATE & SHARED INFORMATION
   const userProvider = sharedInfo();
+  const theme = useTheme();
   // For conditional rendering:
   const [addItemFormVisible, setAddFormVisibility] = useState<boolean>(false);
   const [selectedEntry, setSelectedEntry] = useState<ItemType | null>(null);
@@ -58,6 +60,8 @@ export default function InventoryControl() {
   // Miscellaneous:
   const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
   const purposeTagChecklist: string[] = ["Equipment", "Glassware", "Materials", "Measurement", "Models", "Safety", "Tools"];
+
+  // const marginSize = theme.breakpoints.between("md", "lg") ? "2.5" : "1.5";
 
   useEffect(() => {
     if (userProvider?.currentUser) {
@@ -158,7 +162,7 @@ export default function InventoryControl() {
           </CategoryColumn>
         </Grid>
         <Grid item xs={12} sm={8} md={9} lg={7.5}>
-          <Grid item display="block" ml={2}>
+          <Grid item display="block" ml={2} mr={2}>
             {notification.open && (
               <Snackbar
                 anchorOrigin={{ vertical: "top", horizontal: "center" }}

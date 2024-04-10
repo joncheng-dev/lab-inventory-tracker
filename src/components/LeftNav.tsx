@@ -15,6 +15,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import { StyledIconButton } from "../style/styles.tsx";
 
 const StyledLeftNavContainer = styled("div")(({ theme }) => ({
   gridArea: "leftNav",
@@ -91,9 +92,9 @@ export default function LeftNav() {
 
   return (
     <StyledLeftNavContainer>
-      <Button onClick={toggleDrawer(true)}>
+      <StyledIconButton onClick={toggleDrawer(true)}>
         <MenuIcon />
-      </Button>
+      </StyledIconButton>
       <Drawer open={open} onClose={toggleDrawer(false)}>
         {DrawerList}
       </Drawer>
