@@ -18,7 +18,7 @@ import { useTheme } from "@mui/material/styles";
 // Database
 import { addMultipleDocs } from "../hooks/mutations.js";
 // Helper Functions
-import { filterList } from "../helpers/SearchAndFilter.js";
+import { filterList, filterListWithTags } from "../helpers/SearchAndFilter.js";
 import useDBHook from "../hooks/useDBHook.js";
 
 interface SnackbarState {
@@ -47,9 +47,9 @@ export default function InventoryControl() {
   });
   // For data:
   const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<Item[]>([]);
-  const [tagsToFilter, setTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const { itemList, itemTypeList, itemTypeListForForms, error } = useDBHook();
+  const { tagsToFilter, subjectTagChecklist, purposeTagChecklist, onFilterByCategory } = filterListWithTags();
   const filteredItemTypeList = useMemo(() => {
     if (tagsToFilter.length === 0 && searchQuery === "") {
       return itemTypeList;
@@ -58,9 +58,6 @@ export default function InventoryControl() {
   }, [itemTypeList, searchQuery, tagsToFilter]);
 
   // Miscellaneous:
-  const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
-  const purposeTagChecklist: string[] = ["Equipment", "Glassware", "Materials", "Measurement", "Models", "Safety", "Tools"];
-
   // const marginSize = theme.breakpoints.between("md", "lg") ? "2.5" : "1.5";
 
   useEffect(() => {
@@ -112,9 +109,6 @@ export default function InventoryControl() {
     setSearchQuery(queryString);
   };
 
-  const onFilterByCategory = (arrayOfTags: string[]) => {
-    setTags(arrayOfTags);
-  };
   //#endregion functions
 
   //#region functions updating database

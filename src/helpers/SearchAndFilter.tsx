@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Item, ItemType } from "../types";
 
 export const filterList = (list: ItemType[], searchQuery: string, tagsToFilter: string[]) => {
@@ -25,4 +26,24 @@ export const itemEntriesToDisplay = (listOfItems: Item[], listOfItemTypes: ItemT
   } else {
     return listOfItemTypes;
   }
+};
+
+export const filterListWithTags = () => {
+  const [tagsToFilter, setTags] = useState<string[]>([]);
+
+  // Miscellaneous:
+  const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
+  const purposeTagChecklist: string[] = ["Equipment", "Glassware", "Materials", "Measurement", "Models", "Safety", "Tools"];
+
+  const onFilterByCategory = (arrayOfTags: string[]) => {
+    setTags(arrayOfTags);
+  };
+
+  return {
+    tagsToFilter,
+    // setTags,
+    subjectTagChecklist,
+    purposeTagChecklist,
+    onFilterByCategory,
+  };
 };

@@ -46,7 +46,7 @@ const StyledStackContainer = styled("div")(({ theme }) => ({
 const StyledAppBarContainer = styled("div")(({ theme }) => ({
   width: "100vw",
   display: "grid",
-  gridTemplateColumns: "40px 400px auto",
+  gridTemplateColumns: "40px 1fr auto",
   gridTemplateAreas: `"leftNav search rest"`,
 }));
 
@@ -102,10 +102,7 @@ export default function Header(props: HeaderProps) {
               marginRight: theme.spacing(2),
               marginLeft: 0,
               width: "100%",
-              [theme.breakpoints.up("sm")]: {
-                marginLeft: theme.spacing(3),
-                width: "auto",
-              },
+              maxWidth: "400px",
             }}
           >
             <SearchIconWrapper>
@@ -115,13 +112,11 @@ export default function Header(props: HeaderProps) {
           </Box>
           <StyledStackContainer>
             <Stack direction="row" spacing={1} alignItems="center">
-              {!isSmallScreen && (
-                <IconButton onClick={colorMode.toggleColorMode}>
-                  {theme.palette.mode === "dark" ? <DarkModeOutlined /> : <LightModeOutlined />}
-                </IconButton>
-              )}
+              <IconButton onClick={colorMode.toggleColorMode}>
+                {theme.palette.mode === "dark" ? <DarkModeOutlined /> : <LightModeOutlined />}
+              </IconButton>
               {/* <Chip label="Home" component="a" href="/lab-inventory-tracker/inventory" variant="outlined" clickable /> */}
-              {!isSmallScreen && <Chip label="Sign Out" onClick={handleSignOut} variant="outlined" clickable />}
+              <Chip label="Sign Out" onClick={handleSignOut} variant="outlined" clickable />
               {isMediumScreen && (
                 <StyledIconButton disableRipple>
                   <MoreVert />

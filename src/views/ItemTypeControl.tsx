@@ -16,7 +16,7 @@ import { ItemType } from "../types/index.js";
 // Database
 import { addNewDoc, deleteExistingDoc, editExistingDoc } from "../hooks/mutations.js";
 // Helper Functions
-import { filterList } from "../helpers/SearchAndFilter.js";
+import { filterList, filterListWithTags } from "../helpers/SearchAndFilter.js";
 import useDBHook from "../hooks/useDBHook.js";
 
 function ItemTypeControl() {
@@ -28,19 +28,15 @@ function ItemTypeControl() {
   const [editing, setEditing] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
   // For data:
-  const [tagsToFilter, setTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const { itemTypeList, error } = useDBHook();
+  const { tagsToFilter, subjectTagChecklist, purposeTagChecklist, onFilterByCategory } = filterListWithTags();
   const filteredItemTypeList = useMemo(() => {
     if (tagsToFilter.length === 0 && searchQuery === "") {
       return itemTypeList;
     }
     return filterList(itemTypeList, searchQuery, tagsToFilter);
   }, [itemTypeList, searchQuery, tagsToFilter]);
-
-  // Miscellaneous:
-  const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
-  const purposeTagChecklist: string[] = ["Equipment", "Glassware", "Materials", "Measurement", "Models", "Safety", "Tools"];
 
   //#region useEffect hooks
   useEffect(() => {
@@ -82,9 +78,6 @@ function ItemTypeControl() {
     setSearchQuery(queryString);
   };
 
-  const onFilterByCategory = (arrayOfTags: string[]) => {
-    setTags(arrayOfTags);
-  };
   //#endregion functions
 
   //#region functions updating database

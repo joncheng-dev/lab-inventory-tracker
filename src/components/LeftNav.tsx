@@ -16,6 +16,8 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { StyledIconButton } from "../style/styles.tsx";
+import CategoryPanel from "./CategoryPanel.tsx";
+import { filterListWithTags } from "../helpers/SearchAndFilter.tsx";
 
 const StyledLeftNavContainer = styled("div")(({ theme }) => ({
   gridArea: "leftNav",
@@ -26,6 +28,7 @@ export default function LeftNav() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [open, setOpen] = useState(false);
+  // const { tagsToFilter, subjectTagChecklist, purposeTagChecklist, onFilterByCategory } = filterListWithTags();
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -97,6 +100,8 @@ export default function LeftNav() {
       </StyledIconButton>
       <Drawer open={open} onClose={toggleDrawer(false)}>
         {DrawerList}
+        <Divider />
+        <CategoryPanel />
       </Drawer>
     </StyledLeftNavContainer>
   );
