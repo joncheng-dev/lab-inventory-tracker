@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import { Item, ItemType } from "../types";
 import { AppBar, Box, Chip, Grid, IconButton, InputBase, Stack, Toolbar, useMediaQuery, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from "../themes.tsx";
 import { styled, alpha } from "@mui/material/styles";
@@ -8,11 +9,17 @@ import { useNavigate } from "react-router-dom";
 import { sharedInfo } from "../helpers/UserContext";
 import LeftNav from "./LeftNav.tsx";
 import { StyledIconButton } from "../style/styles.tsx";
+import RightNav from "./RightNav.tsx";
 
 interface HeaderProps {
   onSearchInputChange: (queryString: string) => void;
+  // For CategoryPanel
   tagsToFilter: string[];
   onFilterByCategory: (arrayOfTags: string[]) => void;
+  // For UserInfoPanel
+  listOfItemTypes: ItemType[];
+  itemsCheckedOutByUser: Item[];
+  onEntryClick: (id: string) => void;
 }
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
@@ -54,7 +61,7 @@ const StyledAppBarContainer = styled("div")(({ theme }) => ({
 
 export default function Header(props: HeaderProps) {
   const theme = useTheme();
-  const { tagsToFilter, onFilterByCategory } = props;
+  const { tagsToFilter, onFilterByCategory, listOfItemTypes, itemsCheckedOutByUser, onEntryClick } = props;
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const userProvider = sharedInfo();
@@ -121,9 +128,13 @@ export default function Header(props: HeaderProps) {
               {/* <Chip label="Home" component="a" href="/lab-inventory-tracker/inventory" variant="outlined" clickable /> */}
               <Chip label="Sign Out" onClick={handleSignOut} variant="outlined" clickable />
               {isMediumScreen && (
-                <StyledIconButton disableRipple>
-                  <MoreVert />
-                </StyledIconButton>
+                // RightNav here
+                <RightNav
+                  // prettier-ignore
+                  listOfItemTypes={listOfItemTypes}
+                  itemsCheckedOutByUser={itemsCheckedOutByUser}
+                  onEntryClick={onEntryClick}
+                />
               )}
             </Stack>
           </StyledStackContainer>

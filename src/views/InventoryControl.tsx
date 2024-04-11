@@ -137,7 +137,16 @@ export default function InventoryControl() {
   return (
     <>
       {/* Conditional rendering */}
-      <Header onSearchInputChange={onSearchInputChange} tagsToFilter={tagsToFilter} onFilterByCategory={onFilterByCategory} />
+      <Header
+        onSearchInputChange={onSearchInputChange}
+        // For CategoryPanel
+        tagsToFilter={tagsToFilter}
+        onFilterByCategory={onFilterByCategory}
+        // For UserInfoPanel
+        listOfItemTypes={itemTypeList}
+        itemsCheckedOutByUser={itemsCheckedOutByUser}
+        onEntryClick={handleChangingSelectedEntry}
+      />
       <Grid container pt={2} spacing={1}>
         <Grid item xs={12} sm={4} md={3} lg={2} sx={{ display: { xs: "none", sm: "block" } }}>
           <CategoryColumn>
@@ -174,9 +183,9 @@ export default function InventoryControl() {
           <UserInfoColumn>
             <UserInfoPanel
               // prettier-ignore
-              onEntryClick={handleChangingSelectedEntry}
-              itemsCheckedOutByUser={itemsCheckedOutByUser}
               listOfItemTypes={itemTypeList}
+              itemsCheckedOutByUser={itemsCheckedOutByUser}
+              onEntryClick={handleChangingSelectedEntry}
             />
           </UserInfoColumn>
         </Grid>

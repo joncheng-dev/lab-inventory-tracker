@@ -11,6 +11,7 @@ import CategoryPanel from "../components/CategoryPanel.js";
 import ItemTypeList from "../components/ItemTypeList.js";
 import ItemTypeForm from "../components/ItemTypeForm.js";
 import ItemTypeEntryDetail from "../components/ItemTypeEntryDetail.js";
+import UserInfoPanel from "../components/UserInfoPanel.js";
 // Types & Context
 import { ItemType } from "../types/index.js";
 // Database
@@ -101,7 +102,16 @@ export default function ItemTypeControl() {
   return (
     <>
       {/* Conditional rendering */}
-      <Header onSearchInputChange={onSearchInputChange} tagsToFilter={tagsToFilter} onFilterByCategory={onFilterByCategory} />
+      <Header
+        onSearchInputChange={onSearchInputChange}
+        // For CategoryPanel
+        tagsToFilter={tagsToFilter}
+        onFilterByCategory={onFilterByCategory}
+        // For UserInfoPanel -- not relevant for this component
+        listOfItemTypes={itemTypeList}
+        itemsCheckedOutByUser={[]}
+        onEntryClick={handleChangingSelectedEntry}
+      />
       <Grid container pt={2} spacing={1}>
         <Grid item xs={12} sm={4} md={3} lg={2} sx={{ display: { xs: "none", sm: "block" } }}>
           <CategoryColumn>
@@ -125,12 +135,12 @@ export default function ItemTypeControl() {
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={2.5} sx={{ display: { xs: "none", lg: "block" } }}>
           <UserInfoColumn>
-            {
-              <>
-                <h3>User Info Panel</h3>
-                <p>Not applicable for Item Types</p>
-              </>
-            }
+            <UserInfoPanel
+              // prettier-ignore
+              listOfItemTypes={itemTypeList}
+              itemsCheckedOutByUser={[]}
+              onEntryClick={handleChangingSelectedEntry}
+            />
           </UserInfoColumn>
         </Grid>
       </Grid>
