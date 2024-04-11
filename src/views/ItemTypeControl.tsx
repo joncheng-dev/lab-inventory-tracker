@@ -1,25 +1,25 @@
 // Outside
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { sharedInfo } from "../helpers/UserContext";
 // Styling
 import { Grid } from "@mui/material";
 import BasicModal from "../components/BasicModal.js";
-import { FixedWidthItem } from "../style/styles.js";
+import { CategoryColumn, UserInfoColumn } from "../style/styles.js";
 // Components
 import Header from "../components/Header.js";
 import CategoryPanel from "../components/CategoryPanel.js";
 import ItemTypeList from "../components/ItemTypeList.js";
 import ItemTypeForm from "../components/ItemTypeForm.js";
 import ItemTypeEntryDetail from "../components/ItemTypeEntryDetail.js";
+import UserInfoPanel from "../components/UserInfoPanel.js";
 // Types & Context
 import { ItemType } from "../types/index.js";
 // Database
 import { addNewDoc, deleteExistingDoc, editExistingDoc } from "../hooks/mutations.js";
 // Helper Functions
-import { filterList } from "../helpers/SearchAndFilter.js";
-import useDBHook from "../hooks/useDBHook.js";
+import { useFilterList } from "../helpers/SearchAndFilter.js";
 
-function ItemTypeControl() {
+export default function ItemTypeControl() {
   // STATE & SHARED INFORMATION
   const userProvider = sharedInfo();
   // For conditional rendering:
@@ -28,19 +28,17 @@ function ItemTypeControl() {
   const [editing, setEditing] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
   // For data:
-  const [tagsToFilter, setTags] = useState<string[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const { itemTypeList, error } = useDBHook();
-  const filteredItemTypeList = useMemo(() => {
-    if (tagsToFilter.length === 0 && searchQuery === "") {
-      return itemTypeList;
-    }
-    return filterList(itemTypeList, searchQuery, tagsToFilter);
-  }, [itemTypeList, searchQuery, tagsToFilter]);
-
-  // Miscellaneous:
-  const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
-  const purposeTagChecklist: string[] = ["Equipment", "Glassware", "Materials", "Measurement", "Models", "Safety", "Tools"];
+  const {
+    onSearchInputChange,
+    tagsToFilter,
+    subjectTagChecklist,
+    purposeTagChecklist,
+    onFilterByCategory,
+    itemList,
+    itemTypeList,
+    filteredItemTypeList,
+    itemTypeListForForms,
+  } = useFilterList();
 
   //#region useEffect hooks
   useEffect(() => {
@@ -77,14 +75,6 @@ function ItemTypeControl() {
     setEditing(!editing);
   };
 
-  // Helper -- Search & Filter
-  const onSearchInputChange = (queryString: string) => {
-    setSearchQuery(queryString);
-  };
-
-  const onFilterByCategory = (arrayOfTags: string[]) => {
-    setTags(arrayOfTags);
-  };
   //#endregion functions
 
   //#region functions updating database
@@ -112,20 +102,29 @@ function ItemTypeControl() {
   return (
     <>
       {/* Conditional rendering */}
-      <Header onSearchInputChange={onSearchInputChange} />
+      <Header
+        onSearchInputChange={onSearchInputChange}
+        // For CategoryPanel
+        tagsToFilter={tagsToFilter}
+        onFilterByCategory={onFilterByCategory}
+        // For UserInfoPanel -- not relevant for this component
+        listOfItemTypes={itemTypeList}
+        itemsCheckedOutByUser={[]}
+        onEntryClick={handleChangingSelectedEntry}
+      />
       <Grid container pt={2} spacing={1}>
-        <Grid item xs={1.5}>
-          <FixedWidthItem>
+        <Grid item xs={12} sm={4} md={3} lg={2} sx={{ display: { xs: "none", sm: "block" } }}>
+          <CategoryColumn>
             <CategoryPanel
               tags={tagsToFilter}
               subjectTagChecklist={subjectTagChecklist}
               purposeTagChecklist={purposeTagChecklist}
               onCategorySelection={onFilterByCategory}
             />
-          </FixedWidthItem>
+          </CategoryColumn>
         </Grid>
-        <Grid item xs={7.75}>
-          <Grid display="flex" justifyContent="space-between">
+        <Grid item xs={12} sm={8} md={9} lg={7.5}>
+          <Grid item display="block" ml={2} mr={2}>
             <ItemTypeList
               // prettier-ignore
               listOfEntries={filteredItemTypeList}
@@ -134,15 +133,15 @@ function ItemTypeControl() {
             />
           </Grid>
         </Grid>
-        <Grid item xs={2.75} pr={2}>
-          <FixedWidthItem>
-            {
-              <>
-                <h3>User Info Panel</h3>
-                <p>Not applicable for Item Types</p>
-              </>
-            }
-          </FixedWidthItem>
+        <Grid item xs={12} sm={12} md={12} lg={2.5} sx={{ display: { xs: "none", lg: "block" } }}>
+          <UserInfoColumn>
+            <UserInfoPanel
+              // prettier-ignore
+              listOfItemTypes={itemTypeList}
+              itemsCheckedOutByUser={[]}
+              onEntryClick={handleChangingSelectedEntry}
+            />
+          </UserInfoColumn>
         </Grid>
       </Grid>
       <BasicModal
@@ -179,5 +178,3 @@ function ItemTypeControl() {
     </>
   );
 }
-
-export default ItemTypeControl;

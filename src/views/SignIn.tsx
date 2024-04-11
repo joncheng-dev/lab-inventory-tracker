@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { sharedInfo } from "../helpers/UserContext.tsx";
 import { eTargetType } from "../types/index.tsx";
 import { tokens } from "../themes.tsx";
 import { useTheme } from "@mui/material";
-import { Box, Button, Divider, Grid, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Divider, Grid, Paper, TextField, Typography, useMediaQuery } from "@mui/material";
 import * as yup from "yup";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { doCreateAccount } from "../hooks/authUtil.tsx";
@@ -14,12 +14,6 @@ import { flexbox } from "@mui/system";
 //#region style
 const LoginPaper = styled(Paper)(({ theme }) => ({
   elevation: "3",
-  // display: "flex",
-  // flexDirection: "column",
-  // alignItems: "center",
-  // justifyContent: "center",
-  // height: "50vh",
-  // width: "30vw",
   padding: "3%",
 }));
 //#endregion style
@@ -71,28 +65,10 @@ export default function SignIn() {
     const { email, password } = props;
     try {
       userProvider?.signIn(email, password);
-      // setSignInSuccess(true);
     } catch (error) {
       console.log("Error signing in user");
-      // setSignInSuccess(false);
     }
   };
-
-  // function handleSignIn(props: SignInForm) {
-  //   // console.log("1a. SignIn, handleSignIn started, props: ", props);
-  //   const { email, password } = props;
-  //   signInWithEmailAndPassword(auth, email, password)
-  //     .then((userCredential) => {
-  //       console.log("User credential: ", userCredential);
-  //       console.log("signInWithEmailAndPassword, userCredential.user.email: ", userCredential.user.email);
-  //       setSignInSuccess(true);
-  //       // navigate("/inventory");
-  //     })
-  //     .catch((error: any) => {
-  //       console.error("Sign-in error: ", error);
-  //       setSignInSuccess(false);
-  //     });
-  // }
 
   const TesterLoginButton = (props: TesterLoginButtonProps) => {
     const { email, acctType, password } = props;
@@ -114,7 +90,7 @@ export default function SignIn() {
   return (
     <>
       <Box display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
-        <Grid container item xs={4}>
+        <Grid container item xs={10} md={6} lg={5} xl={3.5} justifyContent="center">
           <LoginPaper>
             <Formik
               initialValues={{
@@ -141,7 +117,7 @@ export default function SignIn() {
                       Log In
                     </Typography>
                   </Grid>
-                  <Grid container item p={2} pt={0.5} sx={{ marginTop: 2, marginBottom: 2 }}>
+                  <Grid container item p={2} pt={0.5} mt={2} mb={2}>
                     <Grid item xs={12} p={2}>
                       <TextField
                         fullWidth

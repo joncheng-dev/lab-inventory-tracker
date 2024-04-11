@@ -1,10 +1,10 @@
 // Outside
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { sharedInfo } from "../helpers/UserContext";
 // Styling / MUI
 import { Grid, Snackbar, SnackbarContent } from "@mui/material";
 import BasicModal from "../components/BasicModal.js";
-import { FixedWidthItem } from "../style/styles.js";
+import { CategoryColumn, UserInfoColumn } from "../style/styles.js";
 // Components
 import Header from "../components/Header.js";
 import CategoryPanel from "../components/CategoryPanel.js";
@@ -14,11 +14,11 @@ import ItemList from "../components/ItemList.js";
 import InventoryEntryDetail from "../components/InventoryEntryDetail";
 // Types & Context
 import { AddItemsForm, Item, ItemType } from "../types/index.js";
+import { useTheme } from "@mui/material/styles";
 // Database
 import { addMultipleDocs } from "../hooks/mutations.js";
 // Helper Functions
-import { filterList } from "../helpers/SearchAndFilter.js";
-import useDBHook from "../hooks/useDBHook.js";
+import { useFilterList } from "../helpers/SearchAndFilter.js";
 
 interface SnackbarState {
   open: boolean;
@@ -31,11 +31,13 @@ interface SnackbarState {
 export default function InventoryControl() {
   // STATE & SHARED INFORMATION
   const userProvider = sharedInfo();
+  const theme = useTheme();
   // For conditional rendering:
   const [addItemFormVisible, setAddFormVisibility] = useState<boolean>(false);
   const [selectedEntry, setSelectedEntry] = useState<ItemType | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
+  // For notifications
   const [notification, setNotificationOpen] = useState<SnackbarState>({
     open: false,
     vertical: "top",
@@ -43,21 +45,20 @@ export default function InventoryControl() {
     message: "All items of type successfully removed from inventory.",
     color: "#4caf50",
   });
+
   // For data:
   const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<Item[]>([]);
-  const [tagsToFilter, setTags] = useState<string[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const { itemList, itemTypeList, itemTypeListForForms, error } = useDBHook();
-  const filteredItemTypeList = useMemo(() => {
-    if (tagsToFilter.length === 0 && searchQuery === "") {
-      return itemTypeList;
-    }
-    return filterList(itemTypeList, searchQuery, tagsToFilter);
-  }, [itemTypeList, searchQuery, tagsToFilter]);
-
-  // Miscellaneous:
-  const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
-  const purposeTagChecklist: string[] = ["Equipment", "Glassware", "Materials", "Measurement", "Models", "Safety", "Tools"];
+  const {
+    onSearchInputChange,
+    tagsToFilter,
+    subjectTagChecklist,
+    purposeTagChecklist,
+    onFilterByCategory,
+    itemList,
+    itemTypeList,
+    filteredItemTypeList,
+    itemTypeListForForms,
+  } = useFilterList();
 
   useEffect(() => {
     if (userProvider?.currentUser) {
@@ -103,26 +104,17 @@ export default function InventoryControl() {
     setIsOpen(true);
   };
 
-  // Helper -- Search & Filter
-  const onSearchInputChange = (queryString: string) => {
-    setSearchQuery(queryString);
-  };
-
-  const onFilterByCategory = (arrayOfTags: string[]) => {
-    setTags(arrayOfTags);
-  };
   //#endregion functions
 
   //#region functions updating database
-  // functions updating database
   const handleAddingNewItems = async (data: AddItemsForm) => {
     addMultipleDocs("items", data);
     setAddFormVisibility(false);
     setIsOpen(false);
     handleNotification("Item(s) successfully added to inventory.");
   };
-
   //#endregion functions updating database
+
   const handleModalClose = () => {
     setSelectedEntry(null);
     setIsOpen(false);
@@ -145,20 +137,29 @@ export default function InventoryControl() {
   return (
     <>
       {/* Conditional rendering */}
-      <Header onSearchInputChange={onSearchInputChange} />
+      <Header
+        onSearchInputChange={onSearchInputChange}
+        // For CategoryPanel
+        tagsToFilter={tagsToFilter}
+        onFilterByCategory={onFilterByCategory}
+        // For UserInfoPanel
+        listOfItemTypes={itemTypeList}
+        itemsCheckedOutByUser={itemsCheckedOutByUser}
+        onEntryClick={handleChangingSelectedEntry}
+      />
       <Grid container pt={2} spacing={1}>
-        <Grid item xs={1.5}>
-          <FixedWidthItem>
+        <Grid item xs={12} sm={4} md={3} lg={2} sx={{ display: { xs: "none", sm: "block" } }}>
+          <CategoryColumn>
             <CategoryPanel
               tags={tagsToFilter}
               subjectTagChecklist={subjectTagChecklist}
               purposeTagChecklist={purposeTagChecklist}
               onCategorySelection={onFilterByCategory}
             />
-          </FixedWidthItem>
+          </CategoryColumn>
         </Grid>
-        <Grid item xs={7.75}>
-          <Grid display="flex" justifyContent="space-between">
+        <Grid item xs={12} sm={8} md={9} lg={7.5}>
+          <Grid item display="block" ml={2} mr={2}>
             {notification.open && (
               <Snackbar
                 anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -178,15 +179,15 @@ export default function InventoryControl() {
             />
           </Grid>
         </Grid>
-        <Grid item xs={2.75} pr={2} sx={{ display: { xs: "none", sm: "block" } }}>
-          <FixedWidthItem>
+        <Grid item xs={12} sm={12} md={12} lg={2.5} sx={{ display: { xs: "none", lg: "block" } }}>
+          <UserInfoColumn>
             <UserInfoPanel
               // prettier-ignore
-              onEntryClick={handleChangingSelectedEntry}
-              itemsCheckedOutByUser={itemsCheckedOutByUser}
               listOfItemTypes={itemTypeList}
+              itemsCheckedOutByUser={itemsCheckedOutByUser}
+              onEntryClick={handleChangingSelectedEntry}
             />
-          </FixedWidthItem>
+          </UserInfoColumn>
         </Grid>
       </Grid>
       <BasicModal

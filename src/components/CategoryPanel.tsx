@@ -1,16 +1,16 @@
-import styled from "styled-components";
-import { Checkbox, Divider, FormControlLabel } from "@mui/material";
-import * as React from "react";
+import { useContext } from "react";
+import { styled } from "@mui/material/styles";
+import { ColorModeContext, tokens } from "../themes";
+import { Checkbox, Divider, FormControlLabel, useTheme } from "@mui/material";
 
-const CategoryPanelContainer = styled.div`
-  text-align: left;
-  flex-direction: column-reverse;
-`;
+const CategoryPanelContainer = styled("div")(({ theme }) => ({
+  textAlign: "left",
+}));
 
-const ListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+const ListContainer = styled("div")(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+}));
 
 const StyledFormControlLabel = styled(FormControlLabel)`
   &:hover {
@@ -28,6 +28,8 @@ interface CategoryPanelProps {
 
 export default function CategoryPanel(props: CategoryPanelProps) {
   const { tags, subjectTagChecklist, purposeTagChecklist, onCategorySelection } = props;
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   const handleCheckedboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;

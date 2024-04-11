@@ -6,8 +6,6 @@ import ItemTypeControl from "../views/ItemTypeControl";
 import InventoryControl from "../views/InventoryControl";
 import { ColorModeContext, useMode } from "../themes";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import PrivateRoutes from "../helpers/PrivateRoutes";
-// import { Theme } from "@mui/system";
 
 export default function App() {
   const [theme, colorMode] = useMode();
@@ -23,7 +21,6 @@ export default function App() {
               <Route path="catalog" element={<ItemTypeControl />} />
               <Route path="inventory" element={<InventoryControl />} />
               <Route path="manageusers" element={<ManageUsers />} />
-              {/* </Route> */}
             </Route>
           </Routes>
         </Router>
