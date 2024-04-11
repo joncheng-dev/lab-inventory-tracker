@@ -1,17 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Item, ItemType } from "../types";
-
-export const filterList = (list: ItemType[], searchQuery: string, tagsToFilter: string[]) => {
-  let filteredListCopy = [...list];
-  if (tagsToFilter.length > 0) {
-    filteredListCopy = filteredListCopy.filter((entry) => tagsToFilter.every((tag) => entry.tags.includes(tag)));
-  }
-  if (searchQuery !== "") {
-    filteredListCopy = filteredListCopy.filter((entry) => entry.displayName.toLowerCase().includes(searchQuery.toLowerCase()));
-  }
-  filteredListCopy.sort((a, b) => a.displayName.localeCompare(b.displayName));
-  return filteredListCopy;
-};
+import useDBHook from "../hooks/useDBHook";
 
 export const itemEntriesToDisplay = (listOfItems: Item[], listOfItemTypes: ItemType[]) => {
   if (listOfItems.length > 0 && listOfItemTypes.length > 0) {
@@ -28,22 +17,61 @@ export const itemEntriesToDisplay = (listOfItems: Item[], listOfItemTypes: ItemT
   }
 };
 
-export const filterListWithTags = () => {
+export const useFilterList = () => {
+  const { itemList, itemTypeList, itemTypeListForForms, error } = useDBHook();
+
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [tagsToFilter, setTags] = useState<string[]>([]);
+  const [filteredItemTypeList, setFilteredItemTypeList] = useState<ItemType[]>([]);
 
   // Miscellaneous:
   const subjectTagChecklist: string[] = ["Biology", "Chemistry", "Earth Science", "Physics", "General"];
   const purposeTagChecklist: string[] = ["Equipment", "Glassware", "Materials", "Measurement", "Models", "Safety", "Tools"];
 
+  const handleFilterList = () => {
+    if (tagsToFilter.length === 0 && searchQuery === "") {
+      setFilteredItemTypeList(itemTypeList);
+      return;
+    }
+    const filteredResult = filterListSearch(itemTypeList);
+    setFilteredItemTypeList(filteredResult);
+  };
+
+  useEffect(() => {
+    handleFilterList();
+  }, [itemTypeList, searchQuery, tagsToFilter]);
+
+  const onSearchInputChange = (queryString: string) => {
+    setSearchQuery(queryString);
+  };
+
   const onFilterByCategory = (arrayOfTags: string[]) => {
     setTags(arrayOfTags);
   };
 
+  const filterListSearch = (list: ItemType[]) => {
+    let filteredListCopy = [...list];
+    if (tagsToFilter.length > 0) {
+      filteredListCopy = filteredListCopy.filter((entry) => tagsToFilter.every((tag) => entry.tags.includes(tag)));
+    }
+    if (searchQuery !== "") {
+      filteredListCopy = filteredListCopy.filter((entry) => entry.displayName.toLowerCase().includes(searchQuery.toLowerCase()));
+    }
+    filteredListCopy.sort((a, b) => a.displayName.localeCompare(b.displayName));
+    return filteredListCopy;
+  };
+
   return {
+    searchQuery,
+    onSearchInputChange,
     tagsToFilter,
-    // setTags,
     subjectTagChecklist,
     purposeTagChecklist,
     onFilterByCategory,
+    filterListSearch,
+    itemList,
+    itemTypeList,
+    filteredItemTypeList,
+    itemTypeListForForms,
   };
 };

@@ -9,9 +9,11 @@ import { sharedInfo } from "../helpers/UserContext";
 import LeftNav from "./LeftNav.tsx";
 import { StyledIconButton } from "../style/styles.tsx";
 
-type HeaderProps = {
+interface HeaderProps {
   onSearchInputChange: (queryString: string) => void;
-};
+  tagsToFilter: string[];
+  onFilterByCategory: (arrayOfTags: string[]) => void;
+}
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -52,6 +54,7 @@ const StyledAppBarContainer = styled("div")(({ theme }) => ({
 
 export default function Header(props: HeaderProps) {
   const theme = useTheme();
+  const { tagsToFilter, onFilterByCategory } = props;
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const userProvider = sharedInfo();
@@ -86,7 +89,7 @@ export default function Header(props: HeaderProps) {
     >
       <Toolbar>
         <StyledAppBarContainer>
-          <LeftNav />
+          <LeftNav tagsToFilter={tagsToFilter} onFilterByCategory={onFilterByCategory} />
           <Box
             sx={{
               gridArea: "search",

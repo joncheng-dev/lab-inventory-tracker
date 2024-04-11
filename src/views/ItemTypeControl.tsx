@@ -1,5 +1,5 @@
 // Outside
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { sharedInfo } from "../helpers/UserContext";
 // Styling
 import { Grid } from "@mui/material";
@@ -16,10 +16,9 @@ import { ItemType } from "../types/index.js";
 // Database
 import { addNewDoc, deleteExistingDoc, editExistingDoc } from "../hooks/mutations.js";
 // Helper Functions
-import { filterList, filterListWithTags } from "../helpers/SearchAndFilter.js";
-import useDBHook from "../hooks/useDBHook.js";
+import { useFilterList } from "../helpers/SearchAndFilter.js";
 
-function ItemTypeControl() {
+export default function ItemTypeControl() {
   // STATE & SHARED INFORMATION
   const userProvider = sharedInfo();
   // For conditional rendering:
@@ -28,15 +27,17 @@ function ItemTypeControl() {
   const [editing, setEditing] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
   // For data:
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const { itemTypeList, error } = useDBHook();
-  const { tagsToFilter, subjectTagChecklist, purposeTagChecklist, onFilterByCategory } = filterListWithTags();
-  const filteredItemTypeList = useMemo(() => {
-    if (tagsToFilter.length === 0 && searchQuery === "") {
-      return itemTypeList;
-    }
-    return filterList(itemTypeList, searchQuery, tagsToFilter);
-  }, [itemTypeList, searchQuery, tagsToFilter]);
+  const {
+    onSearchInputChange,
+    tagsToFilter,
+    subjectTagChecklist,
+    purposeTagChecklist,
+    onFilterByCategory,
+    itemList,
+    itemTypeList,
+    filteredItemTypeList,
+    itemTypeListForForms,
+  } = useFilterList();
 
   //#region useEffect hooks
   useEffect(() => {
@@ -73,11 +74,6 @@ function ItemTypeControl() {
     setEditing(!editing);
   };
 
-  // Helper -- Search & Filter
-  const onSearchInputChange = (queryString: string) => {
-    setSearchQuery(queryString);
-  };
-
   //#endregion functions
 
   //#region functions updating database
@@ -105,9 +101,9 @@ function ItemTypeControl() {
   return (
     <>
       {/* Conditional rendering */}
-      <Header onSearchInputChange={onSearchInputChange} />
+      <Header onSearchInputChange={onSearchInputChange} tagsToFilter={tagsToFilter} onFilterByCategory={onFilterByCategory} />
       <Grid container pt={2} spacing={1}>
-        <Grid item xs={1.5}>
+        <Grid item xs={12} sm={4} md={3} lg={2} sx={{ display: { xs: "none", sm: "block" } }}>
           <CategoryColumn>
             <CategoryPanel
               tags={tagsToFilter}
@@ -117,8 +113,8 @@ function ItemTypeControl() {
             />
           </CategoryColumn>
         </Grid>
-        <Grid item xs={7.75}>
-          <Grid display="flex" justifyContent="space-between">
+        <Grid item xs={12} sm={8} md={9} lg={7.5}>
+          <Grid item display="block" ml={2} mr={2}>
             <ItemTypeList
               // prettier-ignore
               listOfEntries={filteredItemTypeList}
@@ -127,7 +123,7 @@ function ItemTypeControl() {
             />
           </Grid>
         </Grid>
-        <Grid item xs={2.75} pr={2}>
+        <Grid item xs={12} sm={12} md={12} lg={2.5} sx={{ display: { xs: "none", lg: "block" } }}>
           <UserInfoColumn>
             {
               <>
@@ -172,5 +168,3 @@ function ItemTypeControl() {
     </>
   );
 }
-
-export default ItemTypeControl;

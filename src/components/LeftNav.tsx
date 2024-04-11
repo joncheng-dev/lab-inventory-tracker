@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { styled } from "@mui/material/styles";
-import { Box, Button, Drawer, Tooltip, useTheme } from "@mui/material/";
+import { Box, Button, Drawer, Tooltip, useMediaQuery, useTheme } from "@mui/material/";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import { sharedInfo } from "../helpers/UserContext.tsx";
@@ -17,18 +17,25 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { StyledIconButton } from "../style/styles.tsx";
 import CategoryPanel from "./CategoryPanel.tsx";
-import { filterListWithTags } from "../helpers/SearchAndFilter.tsx";
+import { useFilterList } from "../helpers/SearchAndFilter.tsx";
+
+interface LeftNavProps {
+  tagsToFilter: string[];
+  onFilterByCategory: (arrayOfTags: string[]) => void;
+}
 
 const StyledLeftNavContainer = styled("div")(({ theme }) => ({
   gridArea: "leftNav",
 }));
 
-export default function LeftNav() {
+export default function LeftNav(props: LeftNavProps) {
+  const { tagsToFilter, onFilterByCategory } = props;
   const userProvider = sharedInfo();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [open, setOpen] = useState(false);
-  // const { tagsToFilter, subjectTagChecklist, purposeTagChecklist, onFilterByCategory } = filterListWithTags();
+  const { subjectTagChecklist, purposeTagChecklist } = useFilterList();
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -101,7 +108,14 @@ export default function LeftNav() {
       <Drawer open={open} onClose={toggleDrawer(false)}>
         {DrawerList}
         <Divider />
-        <CategoryPanel />
+        {isSmallScreen && (
+          <CategoryPanel
+            tags={tagsToFilter}
+            subjectTagChecklist={subjectTagChecklist}
+            purposeTagChecklist={purposeTagChecklist}
+            onCategorySelection={onFilterByCategory}
+          />
+        )}
       </Drawer>
     </StyledLeftNavContainer>
   );

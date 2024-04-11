@@ -1,5 +1,5 @@
 // Outside
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { sharedInfo } from "../helpers/UserContext";
 // Styling / MUI
 import { Grid, Snackbar, SnackbarContent } from "@mui/material";
@@ -18,8 +18,7 @@ import { useTheme } from "@mui/material/styles";
 // Database
 import { addMultipleDocs } from "../hooks/mutations.js";
 // Helper Functions
-import { filterList, filterListWithTags } from "../helpers/SearchAndFilter.js";
-import useDBHook from "../hooks/useDBHook.js";
+import { useFilterList } from "../helpers/SearchAndFilter.js";
 
 interface SnackbarState {
   open: boolean;
@@ -38,6 +37,7 @@ export default function InventoryControl() {
   const [selectedEntry, setSelectedEntry] = useState<ItemType | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
+  // For notifications
   const [notification, setNotificationOpen] = useState<SnackbarState>({
     open: false,
     vertical: "top",
@@ -45,20 +45,20 @@ export default function InventoryControl() {
     message: "All items of type successfully removed from inventory.",
     color: "#4caf50",
   });
+
   // For data:
   const [itemsCheckedOutByUser, setItemsCheckedOutByUser] = useState<Item[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const { itemList, itemTypeList, itemTypeListForForms, error } = useDBHook();
-  const { tagsToFilter, subjectTagChecklist, purposeTagChecklist, onFilterByCategory } = filterListWithTags();
-  const filteredItemTypeList = useMemo(() => {
-    if (tagsToFilter.length === 0 && searchQuery === "") {
-      return itemTypeList;
-    }
-    return filterList(itemTypeList, searchQuery, tagsToFilter);
-  }, [itemTypeList, searchQuery, tagsToFilter]);
-
-  // Miscellaneous:
-  // const marginSize = theme.breakpoints.between("md", "lg") ? "2.5" : "1.5";
+  const {
+    onSearchInputChange,
+    tagsToFilter,
+    subjectTagChecklist,
+    purposeTagChecklist,
+    onFilterByCategory,
+    itemList,
+    itemTypeList,
+    filteredItemTypeList,
+    itemTypeListForForms,
+  } = useFilterList();
 
   useEffect(() => {
     if (userProvider?.currentUser) {
@@ -104,23 +104,17 @@ export default function InventoryControl() {
     setIsOpen(true);
   };
 
-  // Helper -- Search & Filter
-  const onSearchInputChange = (queryString: string) => {
-    setSearchQuery(queryString);
-  };
-
   //#endregion functions
 
   //#region functions updating database
-  // functions updating database
   const handleAddingNewItems = async (data: AddItemsForm) => {
     addMultipleDocs("items", data);
     setAddFormVisibility(false);
     setIsOpen(false);
     handleNotification("Item(s) successfully added to inventory.");
   };
-
   //#endregion functions updating database
+
   const handleModalClose = () => {
     setSelectedEntry(null);
     setIsOpen(false);
@@ -143,7 +137,7 @@ export default function InventoryControl() {
   return (
     <>
       {/* Conditional rendering */}
-      <Header onSearchInputChange={onSearchInputChange} />
+      <Header onSearchInputChange={onSearchInputChange} tagsToFilter={tagsToFilter} onFilterByCategory={onFilterByCategory} />
       <Grid container pt={2} spacing={1}>
         <Grid item xs={12} sm={4} md={3} lg={2} sx={{ display: { xs: "none", sm: "block" } }}>
           <CategoryColumn>
