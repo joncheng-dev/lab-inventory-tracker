@@ -13,6 +13,7 @@ import {
   Stack,
   TextField,
   Tooltip,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import { InfoOutlined } from "@mui/icons-material";
@@ -22,7 +23,7 @@ import * as yup from "yup";
 
 //#region styles
 const ReusableFormContainer = styled.div`
-  padding-left: 50px;
+  padding-left: 30px;
   padding-top: 25px;
 `;
 
@@ -42,23 +43,24 @@ const tooltipText = `Select a catalog entry to add items to inventory.`;
 export default function ItemForm(props: FormProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const isExtraSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.between("sm", "md"));
   const { itemTypeList, onFormSubmit } = props;
-  console.log("ItemForm, itemTypeList: ", itemTypeList);
 
   const [formData, setFormData] = useState<AddItemsForm>({
     type: "",
-    // displayName: "",
     quantity: 1,
   });
 
   const validationSchema = yup.object().shape({
     type: yup.string().required("Required"),
     // prettier-ignore
-    quantity: yup.number()
-    .integer("Must be a whole number")
-    .min(1, "Must be greater than one")
-    .max(20, "Must be between 1 and 20")
-    .required("Required"),
+    quantity: yup
+      .number()
+      .integer("Must be a whole number")
+      .min(1, "Must be greater than one")
+      .max(20, "Must be between 1 and 20")
+      .required("Required"),
   });
 
   const { type, quantity } = formData;
@@ -68,13 +70,11 @@ export default function ItemForm(props: FormProps) {
       setFormData((prevData) => ({
         ...prevData,
         type: value?.type || "",
-        // displayName: value?.displayName || "",
       }));
     } else if (reason === "clear") {
       setFormData((prevData) => ({
         ...prevData,
         type: "",
-        // displayName: "",
       }));
     }
   };
@@ -87,87 +87,78 @@ export default function ItemForm(props: FormProps) {
   };
 
   const handleSubmit = (values: AddItemsForm) => {
-    console.log("ItemForm, handleSubmit, values: ", values);
     onFormSubmit(values);
   };
 
+  const getHeadingSize = () => {
+    if (isExtraSmallScreen) {
+      return "h4";
+    } else if (isMediumScreen) {
+      return "h3";
+    } else {
+      return "h2";
+    }
+  };
+
   return (
-    <Box sx={{ backgroundColor: colors.primary[400] }} mr={0.5}>
+    <Box sx={{ backgroundColor: colors.primary[400] }} mr={0.5} pr={2}>
       <ReusableFormContainer>
-        {/* prettier-ignore */}
         <Formik
+          // prettier-ignore
           initialValues={formData}
           enableReinitialize
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
           <Form>
-          <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
-            <Grid container spacing={2}>
-              <Grid container item xs={12}>
-                <Grid item>
-                  <h2>Add Items to Inventory</h2>
+            <Box sx={{ flexGrow: 1 }}>
+              <Grid container spacing={2}>
+                <Grid container item xs={12} sm={12} md={12} lg={12}>
+                  <Grid item component={getHeadingSize()}>
+                    Add Items to Inventory
+                  </Grid>
+                  <Grid item>
+                    <Tooltip title={tooltipText} placement="top">
+                      <InfoOutlined />
+                    </Tooltip>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Tooltip
-                  title={tooltipText}
-                  placement="top"
-                  slotProps={{
-                    popper: {
-                      modifiers: [
-                        {
-                          name: "offset",
-                          options: {
-                            // offset: [0, -24],
-                          },
-                        },
-                      ],
-                    },
-                  }}
-                >
-                  <div>
-                    <InfoOutlined />
-                  </div>
-                </Tooltip>
-              </Grid>    
-            </Grid>
-              <Grid item xs={7}>
-                <Autocomplete
-                  // disablePortal
-                  options={itemTypeList}
-                  onChange={handleAutocompleteChange}
-                  getOptionLabel={(option) => option.displayName || ''}
-                  renderOption={(props, option) => (
-                    <Box component="li" {...props}>
-                      {option.displayName}
-                      <br />
-                      {option.type} 
-                    </Box>
-                  )}
-                  renderInput={(params) => <TextField {...params} label="Item Type" />}
-                />
-                </Grid>
-                <Grid item xs={5}>
-                  <FormControl sx={{ width: 300 }}>
-                  <Field
-                    as={TextField}
-                    name="quantity"
-                    label="Item Quantity"
-                    helperText={<ErrorMessage name="quantity" />}
-                    onChange={handleQuantityChange}
-                    type="number"
-                    value={quantity}
+                <Grid item xs={12} sm={12} md={6} lg={7}>
+                  <Autocomplete
+                    options={itemTypeList}
+                    onChange={handleAutocompleteChange}
+                    getOptionLabel={(option) => option.displayName || ""}
+                    renderOption={(props, option) => (
+                      <Box component="li" {...props}>
+                        {option.displayName}
+                        <br />
+                        {option.type}
+                      </Box>
+                    )}
+                    renderInput={(params) => <TextField {...params} label="Item Type" />}
                   />
-                  <br />
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={5}>
+                  <FormControl sx={{ width: "100%" }}>
+                    <Field
+                      as={TextField}
+                      name="quantity"
+                      label="Item Quantity"
+                      helperText={<ErrorMessage name="quantity" />}
+                      onChange={handleQuantityChange}
+                      type="number"
+                      value={quantity}
+                    />
+                    <br />
                   </FormControl>
                 </Grid>
-            </Grid>
-            <Stack spacing={2} direction="row" justifyContent="flex-end" pr={2}>
-              <Button type="submit" variant="contained">
-                Add Items to Inventory
-              </Button>
-            </Stack>
-            <br />
+              </Grid>
+              <Stack spacing={2} direction="row" justifyContent="flex-end" pr={2}>
+                <Button type="submit" variant="contained">
+                  Add Items to Inventory
+                </Button>
+              </Stack>
+              <br />
             </Box>
           </Form>
         </Formik>
