@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { sharedInfo } from "../helpers/UserContext";
-import { Box, Button, Chip, Divider, Grid, Snackbar, SnackbarContent, Stack, useTheme } from "@mui/material";
+import { Box, Button, Card, CardContent, Chip, Divider, Grid, Snackbar, SnackbarContent, Stack, useTheme } from "@mui/material";
 import styled from "styled-components";
 import { tokens } from "../themes.js";
 import { CheckedOutBySummary, CheckOutFormInput, EditQuantityForm, Item, ItemType } from "../types/index.js";
@@ -402,70 +402,84 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
           <Grid container spacing={2} pt={1}>
             <Grid container xs={7} item pt={1}>
               <Grid xs={8} container item pl={1.5}>
-                <h4>Inventory Entry Detail</h4>
-                <Divider />
-                <br />
-                <Grid xs={12} item>
-                  <DetailsImageContainer>
-                    <Box component="img" sx={{ maxHeight: 180, maxWidth: 180 }} src={imageDictionary[image]} alt="selected image" />
-                  </DetailsImageContainer>
-                </Grid>
-                <Grid xs={6} item>
-                  <StyledItemHeader>Display Name</StyledItemHeader>
-                  <StyledItemValue>{displayName}</StyledItemValue>
-                </Grid>
-                <Grid xs={6} item>
-                  <StyledItemHeader>Type</StyledItemHeader>
-                  <StyledItemValue>{type}</StyledItemValue>
-                </Grid>
-                <Grid xs={12} item>
-                  <StyledItemHeader>Description</StyledItemHeader>
-                  <StyledItemValue>{description}</StyledItemValue>
-                </Grid>
-                <Grid xs={6} item>
-                  <StyledItemHeader>Location</StyledItemHeader>
-                  <StyledItemValue>{location}</StyledItemValue>
-                </Grid>
-                <Grid xs={6} item>
-                  <StyledItemHeader>Total Quantity</StyledItemHeader>
-                  <StyledItemValue>{quantity}</StyledItemValue>
-                </Grid>
-                <Grid xs={12} container item spacing={2}>
-                  <Grid item>
-                    {userProvider?.currentUser?.isAdmin && <ChildModalEditQuant quantTotal={quantity} onFormSubmit={handleUpdateQuantity} />}
-                  </Grid>
-                  <Grid item>{userProvider?.currentUser?.isAdmin && <ChildModalDeleteAll onClickingDelete={handleDeletingAllOfItemType} />}</Grid>
-                </Grid>
+                <Card sx={{ backgroundColor: colors.primary[400] }}>
+                  <CardContent>
+                    <h4>Inventory Entry Detail</h4>
+                    <Divider />
+                    <br />
+                    <Grid xs={12} item>
+                      <DetailsImageContainer>
+                        <Box component="img" sx={{ maxHeight: 180, maxWidth: 180 }} src={imageDictionary[image]} alt="selected image" />
+                      </DetailsImageContainer>
+                    </Grid>
+                    <Grid xs={6} item>
+                      <StyledItemHeader>Display Name</StyledItemHeader>
+                      <StyledItemValue>{displayName}</StyledItemValue>
+                    </Grid>
+                    <Grid xs={6} item>
+                      <StyledItemHeader>Type</StyledItemHeader>
+                      <StyledItemValue>{type}</StyledItemValue>
+                    </Grid>
+                    <Grid xs={12} item>
+                      <StyledItemHeader>Description</StyledItemHeader>
+                      <StyledItemValue>{description}</StyledItemValue>
+                    </Grid>
+                    <Grid xs={6} item>
+                      <StyledItemHeader>Location</StyledItemHeader>
+                      <StyledItemValue>{location}</StyledItemValue>
+                    </Grid>
+                    <Grid xs={6} item>
+                      <StyledItemHeader>Total Quantity</StyledItemHeader>
+                      <StyledItemValue>{quantity}</StyledItemValue>
+                    </Grid>
+                    <Grid xs={12} container item spacing={2}>
+                      <Grid item>
+                        {userProvider?.currentUser?.isAdmin && <ChildModalEditQuant quantTotal={quantity} onFormSubmit={handleUpdateQuantity} />}
+                      </Grid>
+                      <Grid item>{userProvider?.currentUser?.isAdmin && <ChildModalDeleteAll onClickingDelete={handleDeletingAllOfItemType} />}</Grid>
+                    </Grid>
+                  </CardContent>
+                </Card>
               </Grid>
               <Grid xs={4} item>
-                <h4>Categories</h4>
-                <Divider />
-                <br />
-                <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" sx={{ fontSize: 15 }} />)}</StyledStack>
-                {/* <StyledStack>{tags && tags.map((tag, index) => <MuiChipCustom key={index} label={tag} size="medium" />)}</StyledStack> */}
+                <Card sx={{ backgroundColor: colors.primary[400] }}>
+                  <CardContent>
+                    <h4>Categories</h4>
+                    <Divider />
+                    <br />
+                    <StyledStack>
+                      {tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" sx={{ fontSize: 15 }} />)}
+                    </StyledStack>
+                    {/* <StyledStack>{tags && tags.map((tag, index) => <MuiChipCustom key={index} label={tag} size="medium" />)}</StyledStack> */}
+                  </CardContent>
+                </Card>
               </Grid>
             </Grid>
             <Grid xs={5} item>
-              <h4>Availability Status</h4>
-              <Divider />
-              <br />
-              <AvailabilityContainer>
-                <ItemCheckOutTable quantAvail={quantAvail} onFormSubmit={handleCheckoutItems} />
-                <ItemStatusTable summary={checkedOutBySummary} />
-                <Box display="flex" justifyContent="space-between" pt={1}>
-                  <Grid item xs={12} sx={{ direction: "row", textAlign: "right" }}>
-                    {itemList.some((item) => type === item.type && item.checkedOutBy === userProvider?.currentUser?.email) ? (
-                      <Button onClick={handleReturnItems} variant="contained">
-                        Return
-                      </Button>
-                    ) : (
-                      <Button disabled variant="contained">
-                        Return
-                      </Button>
-                    )}
-                  </Grid>
-                </Box>
-              </AvailabilityContainer>
+              <Card sx={{ backgroundColor: colors.primary[400] }}>
+                <CardContent>
+                  <h4>Availability Status</h4>
+                  <Divider />
+                  <br />
+                  <AvailabilityContainer>
+                    <ItemCheckOutTable quantAvail={quantAvail} onFormSubmit={handleCheckoutItems} />
+                    <ItemStatusTable summary={checkedOutBySummary} />
+                    <Box display="flex" justifyContent="space-between" pt={1}>
+                      <Grid item xs={12} sx={{ direction: "row", textAlign: "right" }}>
+                        {itemList.some((item) => type === item.type && item.checkedOutBy === userProvider?.currentUser?.email) ? (
+                          <Button onClick={handleReturnItems} variant="contained">
+                            Return
+                          </Button>
+                        ) : (
+                          <Button disabled variant="contained">
+                            Return
+                          </Button>
+                        )}
+                      </Grid>
+                    </Box>
+                  </AvailabilityContainer>
+                </CardContent>
+              </Card>
             </Grid>
           </Grid>
           <br />
