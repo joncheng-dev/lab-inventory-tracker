@@ -10,12 +10,13 @@ function createData(name: string, quantity: number) {
 
 type ItemCheckOutTableProps = {
   quantAvail: number;
+  quantTotal: number;
   // onFormSubmit: (data: CheckOutFormInput) => Promise<void>;
   onFormSubmit: (data: CheckOutFormInput) => void;
 };
 
 export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
-  const { quantAvail, onFormSubmit } = props;
+  const { quantAvail, quantTotal, onFormSubmit } = props;
   console.log("ItemCheckOutTable, quantAvail: ", quantAvail);
   const rows = [createData("Available", quantAvail)];
   const [formData, setFormData] = useState<CheckOutFormInput>({
@@ -68,13 +69,17 @@ export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
               <Table sx={{ minWidth: 250 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ fontSize: 15 }}>Quantity Available</TableCell>
+                    <TableCell sx={{ fontSize: 15 }}>Total on Hand</TableCell>
+                    <TableCell sx={{ fontSize: 15 }}>Currently Available</TableCell>
                     <TableCell sx={{ fontSize: 15 }}>To Check Out</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {rows.map((row) => (
                     <TableRow key={row.name} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                      <TableCell component="th" scope="row" sx={{ fontSize: 12 }}>
+                        {quantTotal}
+                      </TableCell>
                       <TableCell component="th" scope="row" sx={{ fontSize: 12 }}>
                         {quantAvail}
                       </TableCell>
