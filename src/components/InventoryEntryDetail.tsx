@@ -392,8 +392,23 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
           <SnackbarContent message={notification.message} sx={{ bgcolor: notification.color }} />
         </Snackbar>
       )}
-      <Grid container spacing={2} pt={1}>
-        <Grid container item lg={6} xl={3} pt={3} sx={{ order: { md: 1, lg: 2, xl: 1 } }}>
+      <Grid container spacing={2} pt={1} sx={{ justifyContent: "center", alignItems: { xl: "flex-start", lg: "center" } }}>
+        <Grid
+          container
+          item
+          lg={6}
+          xl={3}
+          pt={3}
+          sx={{
+            order: { md: 1, lg: 2, xl: 1 },
+            flexDirection: {
+              xl: "row",
+              lg: "row",
+              md: "column",
+              sm: "column",
+            },
+          }}
+        >
           <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1 }}>
             <CardContent>
               <Grid xs={12} item>
@@ -416,7 +431,22 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
             </CardContent>
           </Card>
         </Grid>
-        <Grid container item lg={6} xl={4} pt={1} sx={{ order: { md: 2, lg: 1, xl: 2 } }}>
+        <Grid
+          container
+          item
+          lg={6}
+          xl={4}
+          pt={1}
+          sx={{
+            order: { md: 2, lg: 1, xl: 2 },
+            flexDirection: {
+              xl: "row",
+              lg: "row",
+              md: "column",
+              sm: "column",
+            },
+          }}
+        >
           <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1 }}>
             <CardContent>
               <h4>Item Details</h4>
