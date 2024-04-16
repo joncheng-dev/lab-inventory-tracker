@@ -374,6 +374,12 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
           lg: 1100,
           xl: 1100,
         },
+        maxHeight: "80vh",
+        overflowY: "auto",
+        // "@media (max-width: 1280px)": {
+        //   justifyContent: "center", // Center contents horizontally
+        //   alignItems: "center", // Center contents vertically
+        // },
       }}
     >
       {notification.open && (
@@ -387,7 +393,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
         </Snackbar>
       )}
       <Grid container spacing={2} pt={1}>
-        <Grid container item xs={3} pt={3}>
+        <Grid container item lg={6} xl={3} pt={3} sx={{ order: { md: 1, lg: 2, xl: 1 } }}>
           <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1 }}>
             <CardContent>
               <Grid xs={12} item>
@@ -410,7 +416,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
             </CardContent>
           </Card>
         </Grid>
-        <Grid container item xs={4} pt={1}>
+        <Grid container item lg={6} xl={4} pt={1} sx={{ order: { md: 2, lg: 1, xl: 2 } }}>
           <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1 }}>
             <CardContent>
               <h4>Item Details</h4>
@@ -435,7 +441,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
             </CardContent>
           </Card>
         </Grid>
-        <Grid xs={5} item>
+        <Grid lg={12} xl={5} item sx={{ order: { md: 3, lg: 3, xl: 3 } }}>
           <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1 }}>
             <CardContent>
               <h4>Availability</h4>
