@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { sharedInfo } from "../helpers/UserContext";
-import { Box, Button, Chip, Divider, Grid, Snackbar, SnackbarContent, Stack, useTheme } from "@mui/material";
+import SellIcon from "@mui/icons-material/Sell";
+import { Box, Button, Card, CardContent, Chip, Divider, Grid, Paper, Snackbar, SnackbarContent, Stack, useTheme } from "@mui/material";
 import styled from "styled-components";
+import { styled as styledM } from "@mui/material/styles";
 import { tokens } from "../themes.js";
 import { CheckedOutBySummary, CheckOutFormInput, EditQuantityForm, Item, ItemType } from "../types/index.js";
 import ChildModalEditQuant from "./ChildModalEditQuant.js";
@@ -29,18 +31,12 @@ import {
 import ChildModalDeleteAll from "./ChildModalDeleteAll.js";
 
 //#region styles
-const EntryDetailContainer = styled.div`
-  /* padding-left: 10px; */
-  background-color: #282828;
-  /* padding-top: 25px; */
-`;
-
 const DetailsImageContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
 
-const MuiChipCustom = styled(Chip)(() => ({
+const MuiChipCustom = styledM(Chip)(() => ({
   width: 150, //adding custom css styles
   height: 50,
   backgroundColor: "lightblue",
@@ -57,15 +53,6 @@ const MuiChipCustom = styled(Chip)(() => ({
     fontSize: 20,
   },
 }));
-
-// const DetailsContainer = styled.div`
-//   float: left;
-//   width: 100%;
-//   display: grid;
-//   grid-template-columns: auto auto;
-//   column-gap: 1rem;
-//   row-gap: 0.25rem;
-// `;
 
 const DetailsContainer = styled.div`
   width: 100%;
@@ -115,11 +102,6 @@ const AvailabilityContainer = styled.div`
 //   font-size: 1rem;
 //   color: #ffffff;
 // `;
-
-const StyledStack = styled(Stack)`
-  display: block;
-  justify-content: "left";
-`;
 
 const TextAlignLeftContainer = styled.div`
   /* text-align: left; */
@@ -377,80 +359,96 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     }
   };
 
-  // const handleCloseChildModalNotification = () => {
-  //   setChildModalNotification({
-  //     ...childModalNotification,
-  //     open: true,
-  //   });
-  // };
-
   return (
-    <>
-      <h2>{displayName}</h2>
-      <EntryDetailContainer>
-        {notification.open && (
-          <Snackbar
-            anchorOrigin={{ vertical: "top", horizontal: "center" }}
-            open={notification.open}
-            autoHideDuration={3000}
-            onClose={handleCloseSnackbar}
-          >
-            <SnackbarContent message={notification.message} sx={{ bgcolor: notification.color }} />
-          </Snackbar>
-        )}
-        <Box pt={0.2} sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
-          <Grid container spacing={2} pt={1}>
-            <Grid container xs={7} item pt={1}>
-              <Grid xs={8} container item pl={1.5}>
-                <h4>Inventory Entry Detail</h4>
-                <Divider />
-                <br />
-                <Grid xs={12} item>
-                  <DetailsImageContainer>
-                    <Box component="img" sx={{ maxHeight: 180, maxWidth: 180 }} src={imageDictionary[image]} alt="selected image" />
-                  </DetailsImageContainer>
-                </Grid>
-                <Grid xs={6} item>
-                  <StyledItemHeader>Display Name</StyledItemHeader>
-                  <StyledItemValue>{displayName}</StyledItemValue>
-                </Grid>
-                <Grid xs={6} item>
-                  <StyledItemHeader>Type</StyledItemHeader>
-                  <StyledItemValue>{type}</StyledItemValue>
-                </Grid>
-                <Grid xs={12} item>
-                  <StyledItemHeader>Description</StyledItemHeader>
-                  <StyledItemValue>{description}</StyledItemValue>
-                </Grid>
-                <Grid xs={6} item>
-                  <StyledItemHeader>Location</StyledItemHeader>
-                  <StyledItemValue>{location}</StyledItemValue>
-                </Grid>
-                <Grid xs={6} item>
-                  <StyledItemHeader>Total Quantity</StyledItemHeader>
-                  <StyledItemValue>{quantity}</StyledItemValue>
-                </Grid>
-                <Grid xs={12} container item spacing={2}>
-                  <Grid item>
-                    {userProvider?.currentUser?.isAdmin && <ChildModalEditQuant quantTotal={quantity} onFormSubmit={handleUpdateQuantity} />}
-                  </Grid>
-                  <Grid item>{userProvider?.currentUser?.isAdmin && <ChildModalDeleteAll onClickingDelete={handleDeletingAllOfItemType} />}</Grid>
-                </Grid>
+    <Box
+      pt={0.2}
+      sx={{
+        display: "flex",
+        flexGrow: 1,
+        alignContent: "center",
+        backgroundColor: colors.primary[400],
+        width: {
+          xs: 400,
+          sm: 600,
+          md: 800,
+          lg: 1100,
+          xl: 1100,
+        },
+        maxHeight: "80vh",
+        overflowY: "auto",
+        // "@media (max-width: 1280px)": {
+        //   justifyContent: "center", // Center contents horizontally
+        //   alignItems: "center", // Center contents vertically
+        // },
+      }}
+    >
+      {notification.open && (
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={notification.open}
+          autoHideDuration={3000}
+          onClose={handleCloseSnackbar}
+        >
+          <SnackbarContent message={notification.message} sx={{ bgcolor: notification.color }} />
+        </Snackbar>
+      )}
+      <Grid container spacing={2} pt={1}>
+        <Grid container item lg={6} xl={3} pt={3} sx={{ order: { md: 1, lg: 2, xl: 1 } }}>
+          <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1 }}>
+            <CardContent>
+              <Grid xs={12} item>
+                <DetailsImageContainer>
+                  <Box sx={{ width: "100%", height: 300, overflow: "hidden" }}>
+                    <img src={imageDictionary[image]} alt="selected image" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                  </Box>
+                </DetailsImageContainer>
               </Grid>
-              <Grid xs={4} item>
-                <h4>Categories</h4>
+              <br />
+              <Grid item xs={12}>
+                <h5>Categories</h5>
                 <Divider />
-                <br />
-                <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" sx={{ fontSize: 15 }} />)}</StyledStack>
-                {/* <StyledStack>{tags && tags.map((tag, index) => <MuiChipCustom key={index} label={tag} size="medium" />)}</StyledStack> */}
+                <Stack direction="row" sx={{ flexWrap: "wrap" }} spacing={1}>
+                  {!tags && <p>No tags to display</p>}
+                  {tags && tags.map((tag, index) => <Chip key={index} icon={<SellIcon />} label={tag} size="medium" variant="outlined" />)}
+                </Stack>
               </Grid>
-            </Grid>
-            <Grid xs={5} item>
-              <h4>Availability Status</h4>
+              <br />
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid container item lg={6} xl={4} pt={1} sx={{ order: { md: 2, lg: 1, xl: 2 } }}>
+          <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1 }}>
+            <CardContent>
+              <h4>Item Details</h4>
+              <Divider />
+              <br />
+              <Grid xs={12} item>
+                <StyledItemHeader>Display Name</StyledItemHeader>
+                <StyledItemValue>{displayName}</StyledItemValue>
+              </Grid>
+              <Grid xs={12} item>
+                <StyledItemHeader>Type</StyledItemHeader>
+                <StyledItemValue>{type}</StyledItemValue>
+              </Grid>
+              <Grid xs={12} item>
+                <StyledItemHeader>Location</StyledItemHeader>
+                <StyledItemValue>{location}</StyledItemValue>
+              </Grid>
+              <Grid xs={12} item>
+                <StyledItemHeader>Description</StyledItemHeader>
+                <StyledItemValue>{description}</StyledItemValue>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid lg={12} xl={5} item sx={{ order: { md: 3, lg: 3, xl: 3 } }}>
+          <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1 }}>
+            <CardContent>
+              <h4>Availability</h4>
               <Divider />
               <br />
               <AvailabilityContainer>
-                <ItemCheckOutTable quantAvail={quantAvail} onFormSubmit={handleCheckoutItems} />
+                <ItemCheckOutTable quantTotal={quantity} quantAvail={quantAvail} onFormSubmit={handleCheckoutItems} />
                 <ItemStatusTable summary={checkedOutBySummary} />
                 <Box display="flex" justifyContent="space-between" pt={1}>
                   <Grid item xs={12} sx={{ direction: "row", textAlign: "right" }}>
@@ -466,11 +464,20 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                   </Grid>
                 </Box>
               </AvailabilityContainer>
-            </Grid>
-          </Grid>
-          <br />
-        </Box>
-      </EntryDetailContainer>
-    </>
+            </CardContent>
+          </Card>
+          <Card sx={{ backgroundColor: colors.primary[400] }}>
+            <CardContent>
+              <Grid xs={12} container item spacing={2}>
+                <Grid item>
+                  {userProvider?.currentUser?.isAdmin && <ChildModalEditQuant quantTotal={quantity} onFormSubmit={handleUpdateQuantity} />}
+                </Grid>
+                <Grid item>{userProvider?.currentUser?.isAdmin && <ChildModalDeleteAll onClickingDelete={handleDeletingAllOfItemType} />}</Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
