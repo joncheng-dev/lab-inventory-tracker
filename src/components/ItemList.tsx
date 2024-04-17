@@ -51,7 +51,7 @@ const ResponsiveDataGridContainer = styled("div")(({ theme }) => ({
 //#endregion styles
 
 type ItemListProps = {
-  listOfItems: Item[];
+  itemList: Item[];
   listOfItemTypes: ItemType[];
   onEntryClick: (id: string) => void;
   onClickingAddEntry: () => void;
@@ -60,13 +60,13 @@ type ItemListProps = {
 const inventoryTooltipText = `A collection of all items registered to the laboratory.`;
 
 export default function ItemList(props: ItemListProps) {
-  const { listOfItems, listOfItemTypes, onEntryClick, onClickingAddEntry } = props;
+  const { itemList, listOfItemTypes, onEntryClick, onClickingAddEntry } = props;
   const userProvider = sharedInfo();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [selectedView, setSelectedView] = useState<"card" | "table">("card");
 
-  console.log("ItemList, listOfItems: ", listOfItems);
+  console.log("ItemList, itemList: ", itemList);
   console.log("ItemList, listOfItemTypes: ", listOfItemTypes);
 
   const StyledButton = styledMui(Button)(({ theme }) => ({
@@ -85,7 +85,8 @@ export default function ItemList(props: ItemListProps) {
     // },
   }));
 
-  const itemsToRender = itemEntriesToDisplay(listOfItems, listOfItemTypes);
+  const itemsToRender = itemEntriesToDisplay(itemList, listOfItemTypes);
+  console.log("ItemList: itemsToRender: ", itemsToRender);
 
   const activateCardView = () => {
     setSelectedView("card");
@@ -200,219 +201,148 @@ export default function ItemList(props: ItemListProps) {
   );
 }
 
-{
-  /* <ListContainer>
-        <Grid container>
-          <Grid item xs={12}>
-            {userProvider?.currentUser?.isAdmin && (
-              <StyledButton onClick={onClickingAddEntry} variant="contained" startIcon={<Add />}>
-                Add Items
-              </StyledButton>
-            )}
-          </Grid>
-          <br />
-          <Grid item xs={12}>
-            {selectedView === "card" && (
-              <ItemContainer>
-                {itemsToRender.map((entry) => (
-                  <ItemTypeEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
-                ))}
-              </ItemContainer>
-            )}
-            {selectedView === "table" && (
-              <ResponsiveDataGridContainer>
-                <DataTable data={itemsToRender} onEntryClick={onEntryClick} />
-              </ResponsiveDataGridContainer>
-            )}
-          </Grid>
-        </Grid>
-      </ListContainer> */
-}
-
-//   return (
-//     <>
-//       <StyledTextContainer>
-//         <Box
-//           sx={{
-//             gridArea: "text",
-//             // display: "flex",
-//             // alignItems: "left",
-//             position: "relative",
-//             borderRadius: theme.shape.borderRadius,
-//             backgroundColor: colors.primary[400],
-//             // backgroundColor: alpha(theme.palette.common.white, 0.15),
-//             // "&:hover": {
-//             //   backgroundColor: alpha(theme.palette.common.white, 0.25),
-//             // },
-//             marginRight: theme.spacing(2),
-//             marginLeft: 0,
-//             width: "100%",
-//             [theme.breakpoints.up("sm")]: {
-//               marginLeft: theme.spacing(3),
-//               width: "auto",
-//             },
-//           }}
-//         >
-//           <h2>Inventory</h2>
-//           <Tooltip
-//             title={inventoryTooltipText}
-//             placement="top"
-//             slotProps={{
-//               popper: {
-//                 modifiers: [
-//                   {
-//                     name: "offset",
-//                     options: {
-//                       // offset: [0, -24],
-//                     },
-//                   },
-//                 ],
-//               },
-//             }}
-//           >
-//             <InfoOutlined />
-//           </Tooltip>
-//         </Box>
-//         <StyledStackContainer>
-//           <Stack direction="row">
-//             <Tooltip title="Card View">
-//               <StyledIconButton onClick={activateCardView} disableRipple>
-//                 <Apps
-//                   sx={{
-//                     fontSize: 25,
-//                     ml: 1,
-//                     mb: 1,
-//                   }}
-//                 />
-//               </StyledIconButton>
-//             </Tooltip>
-//             <Tooltip title="Table View">
-//               <StyledIconButton onClick={activateTableView} disableRipple>
-//                 <ViewHeadline
-//                   sx={{
-//                     fontSize: 25,
-//                     mr: 1,
-//                     mb: 1,
-//                   }}
-//                 />
-//               </StyledIconButton>
-//             </Tooltip>
-//           </Stack>
-//         </StyledStackContainer>
-//       </StyledTextContainer>
-//       {/* <ListContainer> */}
-//       <Grid container>
-//         <Grid item xs={12}>
-//           {userProvider?.currentUser?.isAdmin && (
-//             <StyledButton onClick={onClickingAddEntry} variant="contained" startIcon={<Add />}>
-//               Add Items
-//             </StyledButton>
-//           )}
-//         </Grid>
-//         <br />
-//         <Grid item xs={12}>
-//           {selectedView === "card" && (
-//             <ItemContainer>
-//               {itemsToRender.map((entry) => (
-//                 <ItemTypeEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
-//               ))}
-//             </ItemContainer>
-//           )}
-//           {selectedView === "table" && (
-//             <ResponsiveDataGridContainer>
-//               <DataTable data={itemsToRender} onEntryClick={onEntryClick} />
-//             </ResponsiveDataGridContainer>
-//           )}
-//         </Grid>
-//       </Grid>
-//       {/* </ListContainer> */}
-//     </>
-//   );
-// }
-
-//   return (
-//     <>
-//       <Grid container item xs={12} pl={2.5} justifyContent="space-between">
-//         <Grid container item xs={10.5} borderRadius="3px" justifyContent="flex-start">
-//           <Grid item>
-//             <h2>Inventory</h2>
-//           </Grid>
-//           <Grid item>
-//             <Tooltip
-//               title={inventoryTooltipText}
-//               placement="top"
-//               slotProps={{
-//                 popper: {
-//                   modifiers: [
-//                     {
-//                       name: "offset",
-//                       options: {
-//                         // offset: [0, -24],
-//                       },
-//                     },
-//                   ],
-//                 },
-//               }}
-//             >
-//               <div>
-//                 <InfoOutlined />
-//               </div>
-//             </Tooltip>
-//           </Grid>
-//         </Grid>
-//         <Grid item xs={1.5} borderRadius="3px">
-//           <Stack direction="row">
-//             <Tooltip title="Card View">
-//               <StyledIconButton onClick={activateCardView} disableRipple>
-//                 <Apps
-//                   sx={{
-//                     fontSize: 25,
-//                     ml: 1,
-//                     mb: 1,
-//                   }}
-//                 />
-//               </StyledIconButton>
-//             </Tooltip>
-//             <Tooltip title="Table View">
-//               <StyledIconButton onClick={activateTableView} disableRipple>
-//                 <ViewHeadline
-//                   sx={{
-//                     fontSize: 25,
-//                     mr: 1,
-//                     mb: 1,
-//                   }}
-//                 />
-//               </StyledIconButton>
-//             </Tooltip>
-//           </Stack>
-//         </Grid>
-//         <Grid item xs={12}>
-//           <ListContainer>
-//             <Grid item xs={12}>
-//               {userProvider?.currentUser?.isAdmin && (
-//                 <StyledButton onClick={onClickingAddEntry} variant="contained" startIcon={<Add />}>
-//                   Add Items
-//                 </StyledButton>
-//               )}
-//             </Grid>
-//             <br />
-//             <Grid item xs={12}>
-//               {selectedView === "card" && (
-//                 <ItemContainer>
-//                   {itemsToRender.map((entry) => (
-//                     <ItemTypeEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
-//                   ))}
-//                 </ItemContainer>
-//               )}
-//               {selectedView === "table" && (
-//                 <ResponsiveDataGridContainer>
-//                   <DataTable data={itemsToRender} onEntryClick={onEntryClick} />
-//                 </ResponsiveDataGridContainer>
-//               )}
-//             </Grid>
-//           </ListContainer>
-//         </Grid>
-//       </Grid>
-//     </>
-//   );
-// }
+// [
+//   {
+//     id: "40ZIk1Mv2TbvxfkaztSu",
+//     displayName: "Luria Broth",
+//     location: "cabinet 5A",
+//     description: "cell culture",
+//     tags: ["Biology", "Chemistry"],
+//     type: "luria-broth",
+//     image: "glassware1",
+//     count: 1,
+//   },
+//   {
+//     id: "41MsOFpLUw3qGeeoAJYN",
+//     displayName: "Ramps",
+//     location: "cabinet 5b",
+//     description: "wood, plywood",
+//     tags: ["Physics", "General", "Equipment"],
+//     type: "physics-ramps-2024",
+//     image: "models2",
+//     count: 3,
+//   },
+//   {
+//     id: "6rsueHHEld3iGACk1bMh",
+//     displayName: "Telescope",
+//     location: "cabinet 5c",
+//     description: "state of the art, 2024 edition from Carolina Supply",
+//     tags: ["General", "Physics", "Equipment"],
+//     type: "telescope-electronic-2024",
+//     image: "equipment2",
+//     count: 2,
+//   },
+//   {
+//     id: "PzFGaDb8gGCTcoSyTRet",
+//     displayName: "Baking Soda",
+//     location: "cabinet 1b",
+//     description: "for demonstrations & classroom use",
+//     tags: ["General", "Materials"],
+//     type: "materials-2022",
+//     image: "glassware1",
+//     count: 5,
+//   },
+//   {
+//     id: "RDJhQszcUt8yHZPw8GAI",
+//     displayName: "Vinegar",
+//     location: "cabinet 2a",
+//     description: "for demonstrations & classroom use",
+//     tags: ["General", "Materials"],
+//     type: "vinegar-bottle-2L-2024",
+//     image: "glassware1",
+//     count: 3,
+//   },
+//   {
+//     id: "RidRtLATKhEUuOJ7JuJA",
+//     displayName: "Beaker",
+//     location: "Cabinet 2A",
+//     description: "50ml Glass",
+//     tags: ["Chemistry", "Glassware"],
+//     type: "beaker-glass-2024",
+//     image: "glassware2",
+//     count: 2,
+//   },
+//   {
+//     id: "Rp3SKLWh9eFVlfC0prvK",
+//     displayName: "Meter Stick",
+//     location: "cabinet 3c",
+//     description: "made of light wood material",
+//     tags: ["General", "Measurement"],
+//     type: "meter-measurement-device-2023",
+//     image: "measurement1",
+//     count: 3,
+//   },
+//   {
+//     id: "bbCnz27euL7WiUinUjpW",
+//     displayName: "Earth Sun Moon Model",
+//     location: "cabinet 3a",
+//     description: "model with earth, sun, moon attached. It rotates",
+//     tags: ["Earth Science", "Models"],
+//     type: "earth-sci-model-2024",
+//     image: "models1",
+//     count: 2,
+//   },
+//   {
+//     id: "caSij2hSjLNzR8TtrfCW",
+//     displayName: "Magnifying Glass",
+//     location: "cabinet 4c",
+//     description: "bought in year 2014 from Carolina Supply Co.",
+//     tags: ["Equipment", "General"],
+//     type: "magnifying-glass-2014",
+//     image: "tools3",
+//     count: 1,
+//   },
+//   {
+//     id: "evOsF9Cm2Bv8CLgOO5Ih",
+//     displayName: "dd",
+//     location: "cabinet 1b",
+//     description: "123456789",
+//     tags: [
+//       "Chemistry",
+//       "Equipment",
+//       "Biology",
+//       "Earth Science",
+//       "Physics",
+//       "General",
+//       "Measurement",
+//       "Materials",
+//       "Glassware",
+//       "Models",
+//       "Safety",
+//       "Tools",
+//     ],
+//     type: "bb",
+//     image: "glassware2",
+//     count: 1,
+//   },
+//   {
+//     id: "kTjAxhzcwvdW78xC1ZkJ",
+//     displayName: "Microscopes",
+//     location: "cabinet 5b",
+//     description: "for seeing microscopic objects",
+//     tags: ["Biology", "Equipment"],
+//     type: "microscope-mirror-2010",
+//     image: "equipment1",
+//     count: 2,
+//   },
+//   {
+//     id: "o8szeDjGMyDTlinRZFsE",
+//     displayName: "Dice",
+//     location: "cabinet 1a",
+//     description: "6-sided; Container of 300 pieces",
+//     tags: ["General", "Materials"],
+//     type: "dice-six-sided-2008",
+//     image: "models4",
+//     count: 2,
+//   },
+//   {
+//     id: "zbW0kftDGJu2POzGbju2",
+//     displayName: "Safety Goggles",
+//     location: "cabinet 7a",
+//     description: "all purpose use",
+//     tags: ["General", "Safety"],
+//     type: "safety-goggles-student-2015",
+//     image: "safety2",
+//     count: 3,
+//   },
+// ];

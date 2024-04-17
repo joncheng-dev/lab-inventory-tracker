@@ -23,6 +23,7 @@ export interface Item {
 }
 
 export interface ItemType {
+  count?: number;
   id?: string | null;
   description: string;
   displayName: string;

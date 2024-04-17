@@ -93,7 +93,7 @@ const imageDictionary: Record<string, string> = {
 
 function ItemTypeEntry(props: ItemTypeEntryProps) {
   const { entry, onEntryClick } = props;
-  const { id, displayName, type, image } = entry;
+  const { id, count, displayName, type, image } = entry;
 
   return (
     <StyledCard
@@ -122,6 +122,9 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {type}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {count}
           </Typography>
         </CardContent>
       </StyledTextBox>

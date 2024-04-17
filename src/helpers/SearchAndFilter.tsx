@@ -6,16 +6,47 @@ export const itemEntriesToDisplay = (listOfItems: Item[], listOfItemTypes: ItemT
   if (listOfItems.length > 0 && listOfItemTypes.length > 0) {
     // Create a SET of item 'type'.
     const setOfTypes = [...new Set(listOfItems.map((entry) => entry.type))];
-    // console.log("itemList - setOfTypes: ", { itemList, setOfTypes, itemTypeList });
+
+    // Count the occurrences of each item type
+    const typeCounts: { [key: string]: number } = {};
+    listOfItems.forEach((item) => {
+      if (item.type in typeCounts) {
+        typeCounts[item.type]++;
+      } else {
+        typeCounts[item.type] = 1;
+      }
+    });
+
+    // Map item types to include count
     const filteredItemTypes = listOfItemTypes
       .filter((entry) => setOfTypes.includes(entry.type || ""))
-      .filter((entry): entry is ItemType => entry !== undefined);
+      .filter((entry): entry is ItemType => entry !== undefined)
+      .map((entry) => ({
+        ...entry,
+        count: typeCounts[entry.type] || 0,
+      }));
+
     // console.log("item type list updated, filteredItemTypes: ", filteredItemTypes);
     return filteredItemTypes;
   } else {
     return listOfItemTypes;
   }
 };
+
+// export const itemEntriesToDisplay = (listOfItems: Item[], listOfItemTypes: ItemType[]) => {
+//   if (listOfItems.length > 0 && listOfItemTypes.length > 0) {
+//     // Create a SET of item 'type'.
+//     const setOfTypes = [...new Set(listOfItems.map((entry) => entry.type))];
+//     // console.log("itemList - setOfTypes: ", { itemList, setOfTypes, itemTypeList });
+//     const filteredItemTypes = listOfItemTypes
+//       .filter((entry) => setOfTypes.includes(entry.type || ""))
+//       .filter((entry): entry is ItemType => entry !== undefined);
+//     // console.log("item type list updated, filteredItemTypes: ", filteredItemTypes);
+//     return filteredItemTypes;
+//   } else {
+//     return listOfItemTypes;
+//   }
+// };
 
 export const useFilterList = () => {
   const { itemList, itemTypeList, itemTypeListForForms, error } = useDBHook();
