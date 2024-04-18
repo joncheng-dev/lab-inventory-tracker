@@ -1,5 +1,7 @@
 import { styled } from "@mui/material/styles";
-import { Box, Card, CardContent, CardMedia, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Card, CardContent, CardMedia, Chip, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
+import MoreVert from "@mui/icons-material/MoreVert";
+import SellIcon from "@mui/icons-material/Sell";
 import { ItemType } from "../types";
 import {
   equipment1,
@@ -93,7 +95,9 @@ const imageDictionary: Record<string, string> = {
 
 function ItemTypeEntry(props: ItemTypeEntryProps) {
   const { entry, onEntryClick } = props;
-  const { id, count, displayName, type, image } = entry;
+  const { id, count, displayName, type, image, tags } = entry;
+
+  console.log("ItemTypeEntry, tags: ", tags);
 
   return (
     <StyledCard
@@ -123,9 +127,23 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
           <Typography variant="body2" color="text.secondary">
             {type}
           </Typography>
+          <br />
           <Typography variant="body2" color="text.secondary">
-            {count}
+            {count} units
           </Typography>
+          <br />
+          <Stack direction="row" sx={{ flexWrap: "wrap", alignItems: "center" }} spacing={1}>
+            {!tags && <p>No tags to display</p>}
+            {tags && tags.slice(0, 2).map((tag, index) => <Chip key={index} icon={<SellIcon />} label={tag} size="small" variant="outlined" />)}
+            <div style={{ marginLeft: "auto" }}>
+              <MoreVert />
+            </div>
+          </Stack>
+
+          {/* <Stack direction="row" sx={{ flexWrap: "wrap" }} spacing={1}>
+            {!tags && <p>No tags to display</p>}
+            {tags && tags.map((tag, index) => <Chip key={index} icon={<SellIcon />} label={tag} size="small" variant="outlined" />)}
+          </Stack> */}
         </CardContent>
       </StyledTextBox>
     </StyledCard>
