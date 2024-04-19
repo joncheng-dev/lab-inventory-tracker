@@ -26,6 +26,7 @@ export default function DataTable(props: DataTableProps) {
     { field: "type", headerName: "Type", flex: 2 },
     { field: "description", headerName: "Description", flex: 3 },
     { field: "location", headerName: "Location", flex: 1.5 },
+    { field: "count", headerName: "Qty on Hand", flex: 1 },
   ];
 
   const tableRows = data.map((entry) => {
@@ -35,6 +36,7 @@ export default function DataTable(props: DataTableProps) {
       description: entry.description,
       location: entry.location,
       type: entry.type,
+      count: entry.count,
     };
   });
 
