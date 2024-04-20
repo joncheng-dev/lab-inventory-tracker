@@ -3,6 +3,7 @@ import { Box, Card, CardContent, CardMedia, Chip, Stack, Typography, useMediaQue
 import MoreVert from "@mui/icons-material/MoreVert";
 import SellIcon from "@mui/icons-material/Sell";
 import { ItemType } from "../types";
+import { useLocation } from "react-router-dom";
 import {
   equipment1,
   equipment2,
@@ -94,6 +95,8 @@ const imageDictionary: Record<string, string> = {
 };
 
 function ItemTypeEntry(props: ItemTypeEntryProps) {
+  const location = useLocation();
+  const currentPath = location.pathname;
   const { entry, onEntryClick } = props;
   const { id, count, displayName, type, image, tags } = entry;
 
@@ -128,9 +131,11 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
             {type}
           </Typography>
           <br />
-          <Typography variant="body2" color="text.secondary">
-            {count} units
-          </Typography>
+          {currentPath === "/inventory" && (
+            <Typography variant="body2" color="text.secondary">
+              {count} units
+            </Typography>
+          )}
           <br />
           <Stack direction="row" sx={{ flexWrap: "wrap", alignItems: "center" }} spacing={1}>
             {!tags && <p>No tags to display</p>}

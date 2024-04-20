@@ -1,6 +1,7 @@
 import { ItemType } from "../types";
 import { DataGrid, GridRowParams } from "@mui/x-data-grid";
 import styled from "styled-components";
+import { useLocation } from "react-router-dom";
 
 type DataTableProps = {
   data: ItemType[];
@@ -19,6 +20,8 @@ const StyledDataGrid = styled(DataGrid)`
 `;
 
 export default function DataTable(props: DataTableProps) {
+  const location = useLocation();
+  const currentPath = location.pathname;
   const { data, onEntryClick } = props;
 
   const tableColumns = [
@@ -26,8 +29,11 @@ export default function DataTable(props: DataTableProps) {
     { field: "type", headerName: "Type", flex: 2 },
     { field: "description", headerName: "Description", flex: 3 },
     { field: "location", headerName: "Location", flex: 1.5 },
-    { field: "count", headerName: "Qty on Hand", flex: 1 },
   ];
+
+  if (currentPath === "/inventory") {
+    tableColumns.push({ field: "count", headerName: "Qty on Hand", flex: 1 });
+  }
 
   const tableRows = data.map((entry) => {
     return {
