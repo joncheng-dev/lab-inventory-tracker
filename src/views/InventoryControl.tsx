@@ -172,7 +172,7 @@ export default function InventoryControl() {
             )}
             <ItemList
               // prettier-ignore
-              listOfItems={itemList}
+              itemList={itemList}
               listOfItemTypes={filteredItemTypeList}
               onEntryClick={handleChangingSelectedEntry}
               onClickingAddEntry={handleAddItemButtonClick}
