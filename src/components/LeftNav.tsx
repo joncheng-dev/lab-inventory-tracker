@@ -102,7 +102,7 @@ export default function LeftNav(props: LeftNavProps) {
 
   return (
     <StyledLeftNavContainer>
-      <StyledIconButton onClick={toggleDrawer(true)}>
+      <StyledIconButton onClick={toggleDrawer(true)} className="menu-button-btwn-inventory-catalog">
         <MenuIcon />
       </StyledIconButton>
       <Drawer open={open} onClose={toggleDrawer(false)}>
