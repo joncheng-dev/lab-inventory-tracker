@@ -63,7 +63,6 @@ const StyledTextBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
     width: "60%",
     height: "100%",
-    padding: "16px",
   },
   [theme.breakpoints.down("lg")]: {},
 }));
