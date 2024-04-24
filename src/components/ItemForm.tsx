@@ -155,7 +155,7 @@ export default function ItemForm(props: FormProps) {
               </Grid>
               <Stack spacing={2} direction="row" justifyContent="flex-end" pr={2}>
                 <Button type="submit" variant="contained">
-                  Add Items to Inventory
+                  Add to Inventory
                 </Button>
               </Stack>
               <br />

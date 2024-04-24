@@ -56,6 +56,7 @@ export default function CategoryPanel(props: CategoryPanelProps) {
               checked={isChecked}
               value={word}
               onChange={handleCheckedboxChange}
+              className="categoryCheckbox"
             />}
         label={word}
       />
