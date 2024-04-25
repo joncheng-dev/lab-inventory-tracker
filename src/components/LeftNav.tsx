@@ -100,6 +100,7 @@ export default function LeftNav(props: LeftNavProps) {
     </Box>
   );
 
+  // to do: try different configurations; see which one shows up on preview mode in GA
   return (
     <StyledLeftNavContainer>
       <StyledIconButton onClick={toggleDrawer(true)} id="menu" className="menu-button-btwn-inventory-catalog">
