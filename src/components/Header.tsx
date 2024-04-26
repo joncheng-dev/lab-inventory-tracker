@@ -125,7 +125,7 @@ export default function Header(props: HeaderProps) {
           </Box>
           <StyledStackContainer>
             <Stack direction="row" spacing={1} alignItems="center">
-              <IconButton onClick={colorMode.toggleColorMode}>
+              <IconButton onClick={colorMode.toggleColorMode} className="dark-mode-toggle">
                 {theme.palette.mode === "dark" ? <DarkModeOutlined /> : <LightModeOutlined />}
               </IconButton>
               {/* <Chip label="Home" component="a" href="/lab-inventory-tracker/inventory" variant="outlined" clickable /> */}

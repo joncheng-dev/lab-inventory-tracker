@@ -45,10 +45,9 @@ export default function CategoryPanel(props: CategoryPanelProps) {
     return wordArray.map((word, index) => {
       const isChecked = tags.includes(word);
       return (
-        // prettier-ignore
         <StyledFormControlLabel
-        key={index}
-        value={word}
+          key={index}
+          value={word}
           control={
             <Checkbox
               // prettier-ignore
@@ -56,10 +55,10 @@ export default function CategoryPanel(props: CategoryPanelProps) {
               checked={isChecked}
               value={word}
               onChange={handleCheckedboxChange}
-              className="categoryCheckbox"
-            />}
-        label={word}
-      />
+            />
+          }
+          label={word}
+        />
       );
     });
   };
