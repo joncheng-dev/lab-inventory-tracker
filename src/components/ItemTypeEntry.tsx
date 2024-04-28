@@ -1,5 +1,6 @@
+import * as React from "react";
 import { styled } from "@mui/material/styles";
-import { Box, Card, CardContent, CardMedia, Chip, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Card, CardContent, CardMedia, Chip, Stack, Popover, Typography, useMediaQuery, useTheme } from "@mui/material";
 import MoreVert from "@mui/icons-material/MoreVert";
 import SellIcon from "@mui/icons-material/Sell";
 import { ItemType } from "../types";
