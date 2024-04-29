@@ -137,7 +137,7 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
             </Typography>
           )}
           <br />
-          <Stack direction="row" sx={{ flexWrap: "wrap", alignItems: "center" }} spacing={1}>
+          <Stack direction="row" sx={{ flexWrap: "nowrap", alignItems: "center" }} spacing={1}>
             {tags &&
               tags
                 .slice(0, 2)
