@@ -41,6 +41,11 @@ export default function MenuLong({ content }: MenuLongProps) {
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
         onClick={handleMoreVertClick}
+        sx={{
+          "&:focus, &:active": {
+            outline: "none",
+          },
+        }}
       >
         <MoreVertIcon />
       </IconButton>
