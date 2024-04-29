@@ -1,5 +1,6 @@
 import React, { useState, ReactNode } from "react";
 import Popover from "@mui/material/Popover";
+import { useTheme } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 
@@ -9,6 +10,7 @@ interface PopoverCustomProps {
 }
 
 const PopoverCustom = (props: PopoverCustomProps) => {
+  const theme = useTheme();
   const { buttonContent, popoverContent } = props;
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -33,7 +35,15 @@ const PopoverCustom = (props: PopoverCustomProps) => {
 
   return (
     <div>
-      <IconButton aria-describedby={id} onClick={handleMoreVertClick}>
+      <IconButton
+        aria-describedby={id}
+        onClick={handleMoreVertClick}
+        sx={{
+          "&:focus, &:active": {
+            outline: "none",
+          },
+        }}
+      >
         {buttonContent}
       </IconButton>
       <Popover
@@ -46,7 +56,9 @@ const PopoverCustom = (props: PopoverCustomProps) => {
           horizontal: "left",
         }}
       >
-        {popoverContent}
+        <div style={{ display: "block", padding: "8px", backgroundColor: theme.palette.mode === "dark" ? "#262b32" : "#141b2d" }}>
+          {popoverContent}
+        </div>
       </Popover>
     </div>
   );

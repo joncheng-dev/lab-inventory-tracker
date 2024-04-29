@@ -97,6 +97,7 @@ const imageDictionary: Record<string, string> = {
 function ItemTypeEntry(props: ItemTypeEntryProps) {
   const location = useLocation();
   const currentPath = location.pathname;
+  const theme = useTheme();
   const { entry, onEntryClick } = props;
   const { id, count, displayName, type, image, tags } = entry;
 
@@ -153,7 +154,16 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
                 ))}
             {tags && tags.length <= 2 && (
               <div style={{ marginLeft: "auto" }}>
-                <IconButton aria-label="empty" disabled sx={{ flex: "1 1 1" }}>
+                <IconButton
+                  aria-label="empty"
+                  disabled
+                  sx={{
+                    flex: "1 1 1",
+                    "&:focus, &:active": {
+                      outline: "none",
+                    },
+                  }}
+                >
                   <MoreVert />
                 </IconButton>
               </div>
@@ -166,7 +176,13 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
                   popoverContent={
                     <Stack direction="row" sx={{ flexWrap: "wrap" }} spacing={1}>
                       {tags.slice(2).map((tag, index) => (
-                        <Chip key={index} icon={<SellIcon />} label={tag} size="small" variant="outlined" />
+                        <Chip
+                          key={index}
+                          icon={<SellIcon />}
+                          label={tag}
+                          size="small"
+                          sx={{ backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff" }}
+                        />
                       ))}
                     </Stack>
                   }
