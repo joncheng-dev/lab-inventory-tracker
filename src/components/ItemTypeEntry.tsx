@@ -1,6 +1,6 @@
-import * as React from "react";
 import { styled } from "@mui/material/styles";
-import { Box, Card, CardContent, CardMedia, Chip, Stack, Popover, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Card, CardContent, CardMedia, Chip, IconButton, Stack, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
+import PopoverCustom from "./PopoverCustom";
 import MoreVert from "@mui/icons-material/MoreVert";
 import SellIcon from "@mui/icons-material/Sell";
 import { ItemType } from "../types";
@@ -138,11 +138,41 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
           )}
           <br />
           <Stack direction="row" sx={{ flexWrap: "wrap", alignItems: "center" }} spacing={1}>
-            {!tags && <p>No tags to display</p>}
-            {tags && tags.slice(0, 2).map((tag, index) => <Chip key={index} icon={<SellIcon />} label={tag} size="small" variant="outlined" />)}
-            <div style={{ marginLeft: "auto" }}>
-              <MoreVert />
-            </div>
+            {tags &&
+              tags
+                .slice(0, 2)
+                .map((tag, index) => (
+                  <Chip
+                    key={index}
+                    icon={<SellIcon />}
+                    label={tag}
+                    size="small"
+                    variant="outlined"
+                    sx={{ flex: "1 1 1", textOverflow: "ellipsis", overflow: "hidden", flexWrap: "nowrap" }}
+                  />
+                ))}
+            {tags && tags.length <= 2 && (
+              <div style={{ marginLeft: "auto" }}>
+                <IconButton aria-label="empty" disabled sx={{ flex: "1 1 1" }}>
+                  <MoreVert />
+                </IconButton>
+              </div>
+            )}
+            {tags && tags.length > 2 && (
+              <div style={{ marginLeft: "auto" }}>
+                <PopoverCustom
+                  // prettier-ignore
+                  buttonContent={<MoreVert />}
+                  popoverContent={
+                    <Stack direction="row" sx={{ flexWrap: "wrap" }} spacing={1}>
+                      {tags.slice(2).map((tag, index) => (
+                        <Chip key={index} icon={<SellIcon />} label={tag} size="small" variant="outlined" />
+                      ))}
+                    </Stack>
+                  }
+                />
+              </div>
+            )}
           </Stack>
 
           {/* <Stack direction="row" sx={{ flexWrap: "wrap" }} spacing={1}>
