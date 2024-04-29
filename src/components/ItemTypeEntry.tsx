@@ -1,6 +1,21 @@
 import { styled } from "@mui/material/styles";
-import { Box, Card, CardContent, CardMedia, Chip, IconButton, Stack, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Chip,
+  IconButton,
+  Menu,
+  MenuItem,
+  Stack,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import PopoverCustom from "./PopoverCustom";
+import MenuLong from "./MenuLong";
 import MoreVert from "@mui/icons-material/MoreVert";
 import SellIcon from "@mui/icons-material/Sell";
 import { ItemType } from "../types";
@@ -170,23 +185,20 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
             )}
             {tags && tags.length > 2 && (
               <div style={{ marginLeft: "auto" }}>
-                <PopoverCustom
+                <MenuLong content={tags.slice(2)} />
+                {/* <PopoverCustom
                   // prettier-ignore
                   buttonContent={<MoreVert />}
-                  popoverContent={
-                    <Stack direction="row" sx={{ flexWrap: "wrap" }} spacing={1}>
-                      {tags.slice(2).map((tag, index) => (
-                        <Chip
-                          key={index}
-                          icon={<SellIcon />}
-                          label={tag}
-                          size="small"
-                          sx={{ backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff" }}
-                        />
-                      ))}
-                    </Stack>
-                  }
-                />
+                  popoverContent={tags.slice(2).map((tag, index) => (
+                    <Chip
+                      key={index}
+                      icon={<SellIcon />}
+                      label={tag}
+                      size="small"
+                      sx={{ backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff" }}
+                    />
+                  ))}
+                /> */}
               </div>
             )}
           </Stack>
