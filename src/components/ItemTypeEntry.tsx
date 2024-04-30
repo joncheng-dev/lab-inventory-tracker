@@ -55,14 +55,16 @@ const StyledCard = styled(Card)(({ theme }) => ({
 
   [theme.breakpoints.down("md")]: {
     minWidth: "450px",
-    height: "150px",
+    height: "170px",
     display: "flex",
     flexDirection: "row",
     overflow: "hidden",
+    // paddingBottom: 0,
   },
 
   [theme.breakpoints.down("lg")]: {
     maxWidth: "345px",
+    // paddingBottom: 16,
   },
 }));
 
@@ -72,15 +74,16 @@ const StyledImgBox = styled(Box)(({ theme }) => ({
     height: "100%",
     overflow: "hidden",
   },
-  [theme.breakpoints.down("lg")]: {},
 }));
 
 const StyledTextBox = styled(Box)(({ theme }) => ({
+  // [theme.breakpoints.up("md")]: {
+  //   paddingBottom: 16,
+  // },
   [theme.breakpoints.down("md")]: {
     width: "60%",
     height: "100%",
   },
-  [theme.breakpoints.down("lg")]: {},
 }));
 
 //#endregion
@@ -113,6 +116,7 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
   const location = useLocation();
   const currentPath = location.pathname;
   const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { entry, onEntryClick } = props;
   const { id, count, displayName, type, image, tags } = entry;
 
@@ -132,14 +136,14 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
             title={image}
             sx={{
               width: "100%",
-              height: "140px",
+              height: isSmallScreen ? "100%" : "140px",
               objectFit: "cover",
             }}
           />
         )}
       </StyledImgBox>
       <StyledTextBox>
-        <CardContent>
+        <CardContent sx={{ marginBottom: -2 }}>
           <Typography gutterBottom variant="h5" component="div">
             {displayName}
           </Typography>
