@@ -83,7 +83,12 @@ const StyledTextBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
     width: "60%",
     height: "100%",
+    // marginBottom: theme.spacing(1), // Default margin for small screens
   },
+  // [theme.breakpoints.down("md")]: {
+  //   width: "60%",
+  //   height: "100%",
+  // },
 }));
 
 //#endregion
@@ -150,13 +155,20 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
           <Typography variant="body2" color="text.secondary">
             {type}
           </Typography>
-          <br />
           {currentPath === "/inventory" && (
-            <Typography variant="body2" color="text.secondary">
-              {count} units
-            </Typography>
+            <div style={{ margin: isSmallScreen ? "1.75em 0 1.5em 0" : "1.25em 0 1em 0" }}>
+              <Typography variant="body2" color="text.secondary">
+                {count} {count === 1 ? "unit" : "units"}
+              </Typography>
+            </div>
           )}
-          <br />
+          {currentPath !== "/inventory" && (
+            <div>
+              <br />
+              <br />
+              <br />
+            </div>
+          )}
           <Stack direction="row" sx={{ flexWrap: "nowrap", alignItems: "center" }} spacing={1}>
             {tags &&
               tags

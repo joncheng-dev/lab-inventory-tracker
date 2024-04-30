@@ -472,7 +472,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
           </Card>
         </Grid>
         <Grid lg={12} xl={5} item sx={{ order: { md: 3, lg: 3, xl: 3 } }}>
-          <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1 }}>
+          <Card sx={{ backgroundColor: colors.primary[400], paddingLeft: 1, paddingRight: 1 }}>
             <CardContent>
               <h4>Availability</h4>
               <Divider />
@@ -496,7 +496,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               </AvailabilityContainer>
             </CardContent>
           </Card>
-          <Card sx={{ backgroundColor: colors.primary[400] }}>
+          <Card sx={{ backgroundColor: colors.primary[400], paddingLeft: 1, paddingRight: 1 }}>
             <CardContent>
               <Grid xs={12} container item spacing={2}>
                 <Grid item>

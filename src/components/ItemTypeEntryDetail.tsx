@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { Box, Button, Chip, Divider, Grid, Stack, useTheme } from "@mui/material";
+import SellIcon from "@mui/icons-material/Sell";
+import { Box, Button, Card, CardContent, Chip, Divider, Grid, Stack, useTheme } from "@mui/material";
 import styled from "styled-components";
 import { tokens } from "../themes.js";
 import { ItemType } from "../types/index.js";
@@ -147,68 +148,124 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   } = entry;
 
   return (
-    <>
-      <h2>{displayName}</h2>
-      <EntryDetailContainer>
-        <Box pt={0.2} sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
-          <Grid container spacing={2} pt={1}>
-            <Grid container item xs={7}>
-              <Grid xs={8} container item pl={1.5}>
-                <h4>Item Type Entry Details</h4>
+    <Box
+      pt={0.2}
+      sx={{
+        display: "flex",
+        flexGrow: 1,
+        alignContent: "center",
+        backgroundColor: colors.primary[400],
+        width: {
+          xs: 400,
+          sm: 600,
+          md: 800,
+          lg: 1100,
+          xl: 1100,
+        },
+        maxHeight: "80vh",
+        overflowY: "auto",
+        // "@media (max-width: 1280px)": {
+        //   justifyContent: "center", // Center contents horizontally
+        //   alignItems: "center", // Center contents vertically
+        // },
+      }}
+    >
+      <Grid container spacing={2} pt={1} sx={{ justifyContent: "center", alignItems: { xl: "flex-start", lg: "center" } }}>
+        <Grid
+          container
+          item
+          lg={6}
+          xl={3}
+          pt={3}
+          sx={{
+            order: { md: 1, lg: 2, xl: 1 },
+            flexDirection: {
+              xl: "row",
+              lg: "row",
+              md: "column",
+              sm: "column",
+            },
+          }}
+        >
+          <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1 }}>
+            <CardContent>
+              <Grid xs={12} item>
+                <DetailsImageContainer>
+                  <Box sx={{ width: "100%", height: 300, overflow: "hidden" }}>
+                    <img src={imageDictionary[image]} alt="selected image" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                  </Box>
+                </DetailsImageContainer>
+              </Grid>
+              <br />
+              <Grid item xs={12}>
+                <h5>Categories</h5>
                 <Divider />
-                <br />
-                <Grid xs={12} item>
-                  <DetailsImageContainer>
-                    <Box component="img" sx={{ maxHeight: 180, maxWidth: 180 }} src={imageDictionary[image]} alt="selected image" />
-                  </DetailsImageContainer>
+                <Stack direction="row" sx={{ flexWrap: "wrap" }} spacing={1}>
+                  {!tags && <p>No tags to display</p>}
+                  {tags && tags.map((tag, index) => <Chip key={index} icon={<SellIcon />} label={tag} size="medium" variant="outlined" />)}
+                </Stack>
+              </Grid>
+              <br />
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid
+          container
+          item
+          lg={6}
+          xl={4}
+          pt={1}
+          sx={{
+            order: { md: 2, lg: 1, xl: 2 },
+            flexDirection: {
+              xl: "row",
+              lg: "row",
+              md: "column",
+              sm: "column",
+            },
+            display: "flex", // Ensure the container is a flex container
+            height: "100%", // Occupy the full height of the parent
+          }}
+        >
+          <Card
+            sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, display: "flex", flexDirection: "column" }}
+          >
+            <CardContent style={{ flex: 1 }}>
+              <h4>Item Details</h4>
+              <Divider />
+              <br />
+              <Grid xs={12} item>
+                <StyledItemHeader>Display Name</StyledItemHeader>
+                <StyledItemValue>{displayName}</StyledItemValue>
+              </Grid>
+              <Grid xs={12} item>
+                <StyledItemHeader>Type</StyledItemHeader>
+                <StyledItemValue>{type}</StyledItemValue>
+              </Grid>
+              <Grid xs={12} item>
+                <StyledItemHeader>Location</StyledItemHeader>
+                <StyledItemValue>{location}</StyledItemValue>
+              </Grid>
+              <Grid xs={12} item>
+                <StyledItemHeader>Description</StyledItemHeader>
+                <StyledItemValue>{description}</StyledItemValue>
+              </Grid>
+            </CardContent>
+            <CardContent>
+              <Grid xs={12} container item spacing={2}>
+                <Grid item>
+                  <Button onClick={onClickingEdit} variant="contained">
+                    Edit entry
+                  </Button>
                 </Grid>
-                <Grid xs={6} item>
-                  <StyledItemHeader>Display Name</StyledItemHeader>
-                  <StyledItemValue>{displayName}</StyledItemValue>
-                </Grid>
-                <Grid xs={6} item>
-                  <StyledItemHeader>Type</StyledItemHeader>
-                  <StyledItemValue>{type}</StyledItemValue>
-                </Grid>
-                <Grid xs={12} item>
-                  <StyledItemHeader>Description</StyledItemHeader>
-                  <StyledItemValue>{description}</StyledItemValue>
-                </Grid>
-                <DetailsContainer></DetailsContainer>
-                <Grid xs={12} item>
-                  <StyledItemHeader>Location</StyledItemHeader>
-                  <StyledItemValue>{location}</StyledItemValue>
+                <Grid item>
+                  <ChildModal entryId={id!} onClickingDelete={onClickingDelete} />
                 </Grid>
               </Grid>
-              <Grid xs={4} item>
-                <h4>Categories</h4>
-                <Divider />
-                <br />
-                <Grid xs={12} item>
-                  <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" sx={{ fontSize: 15 }} />)}</StyledStack>
-                </Grid>
-                {/* <Grid xs={12} item>
-                  <StyledStack>{tags && tags.map((tag, index) => <Chip key={index} label={tag} size="medium" sx={{ fontSize: 15 }} />)}</StyledStack>
-                </Grid> */}
-              </Grid>
-            </Grid>
-          </Grid>
-          <Box display="flex" justifyContent="space-between" p={1}>
-            <Box display="flex" borderRadius="3px" p={2}>
-              <Stack spacing={2} direction="row">
-                <Button onClick={onClickingEdit} variant="contained">
-                  Edit entry
-                </Button>
-                <ChildModal entryId={id!} onClickingDelete={onClickingDelete} />
-                {/* <Button onClick={onClickingExit} variant="contained">
-                  Exit
-                </Button> */}
-              </Stack>
-            </Box>
-          </Box>
-          <br />
-        </Box>
-      </EntryDetailContainer>
-    </>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
