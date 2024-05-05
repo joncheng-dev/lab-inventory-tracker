@@ -1,4 +1,5 @@
-import { styled } from "@mui/material/styles";
+import { styled as styledM } from "@mui/material/styles";
+import styled from "styled-components";
 import {
   Box,
   Card,
@@ -14,6 +15,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import ScienceIcon from "@mui/icons-material/Science";
 import PopoverCustom from "./PopoverCustom";
 import MenuLong from "./MenuLong";
 import MoreVert from "@mui/icons-material/MoreVert";
@@ -34,6 +36,7 @@ import {
   models4,
   safety1,
   safety2,
+  safety3,
   tools1,
   tools2,
   tools3,
@@ -41,7 +44,7 @@ import {
 import { maxWidth } from "@mui/system";
 
 //#region styles
-const StyledCard = styled(Card)(({ theme }) => ({
+const StyledCard = styledM(Card)(({ theme }) => ({
   // display: "flex",
   flex: "0 1 auto",
   width: "250px",
@@ -68,7 +71,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
   },
 }));
 
-const StyledImgBox = styled(Box)(({ theme }) => ({
+const StyledImgBox = styledM(Box)(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
     width: "40%",
     height: "100%",
@@ -76,7 +79,7 @@ const StyledImgBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-const StyledTextBox = styled(Box)(({ theme }) => ({
+const StyledTextBox = styledM(Box)(({ theme }) => ({
   // [theme.breakpoints.up("md")]: {
   //   paddingBottom: 16,
   // },
@@ -91,6 +94,9 @@ const StyledTextBox = styled(Box)(({ theme }) => ({
   // },
 }));
 
+const StyledCardMedia = styled(CardMedia)`
+  filter: invert(1);
+`;
 //#endregion
 
 type ItemTypeEntryProps = {
@@ -112,6 +118,7 @@ const imageDictionary: Record<string, string> = {
   models4,
   safety1,
   safety2,
+  safety3,
   tools1,
   tools2,
   tools3,
@@ -134,6 +141,18 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
       }}
     >
       <StyledImgBox>
+        {/* {image && (
+          <StyledCardMedia
+            component="img"
+            image={imageDictionary[image]}
+            title={image}
+            sx={{
+              width: "100%",
+              height: isSmallScreen ? "100%" : "140px",
+              objectFit: "cover",
+            }}
+          />
+        )} */}
         {image && (
           <CardMedia
             component="img"

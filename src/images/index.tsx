@@ -17,6 +17,8 @@ import tools1 from "./tools-1.png";
 import tools2 from "./tools-2.png";
 import tools3 from "./tools-3.png";
 
+import safety3 from "./flat-icon-safety.png";
+
 enum StockImages {
   equipment1 = "equipment1",
   equipment2 = "equipment2",
@@ -31,6 +33,7 @@ enum StockImages {
   models4 = "models4",
   safety1 = "safety1",
   safety2 = "safety2",
+  safety3 = "safety3",
   tools1 = "tools1",
   tools2 = "tools2",
   tools3 = "tools3",
@@ -50,6 +53,7 @@ const imageDictionary: Record<StockImages, string> = {
   models4,
   safety1,
   safety2,
+  safety3,
   tools1,
   tools2,
   tools3,
@@ -69,6 +73,7 @@ export {
   models4,
   safety1,
   safety2,
+  safety3,
   tools1,
   tools2,
   tools3,
