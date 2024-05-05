@@ -109,12 +109,14 @@ export default function LeftNav(props: LeftNavProps) {
         {DrawerList}
         <Divider />
         {isSmallScreen && (
-          <CategoryPanel
-            tags={tagsToFilter}
-            subjectTagChecklist={subjectTagChecklist}
-            purposeTagChecklist={purposeTagChecklist}
-            onCategorySelection={onFilterByCategory}
-          />
+          <div style={{ paddingLeft: "20px" }}>
+            <CategoryPanel
+              tags={tagsToFilter}
+              subjectTagChecklist={subjectTagChecklist}
+              purposeTagChecklist={purposeTagChecklist}
+              onCategorySelection={onFilterByCategory}
+            />
+          </div>
         )}
       </Drawer>
     </StyledLeftNavContainer>

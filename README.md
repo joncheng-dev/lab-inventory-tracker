@@ -78,7 +78,7 @@ _3. Clone the repository from the GitHub link by entering in this command:_
 
 ### To connect to Firestore database:
 
-- _1. I have a Firestore database running for the application to make requests to. You'll have to contact me for the Firebase config information._
+- _1. I have a Firestore database running for the application to make requests to. Contact me for the Firebase config information._
 - _2. Create a `.env` file at the project's root directory. The config information will have to be entered here._
 
 ## Functionality Overview
@@ -118,7 +118,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-Copyright (c) 2023 Jonathan Cheng
+Copyright (c) 2024 Jonathan Cheng
 ```
 
 <a align=left href="#">Return to Top</a>
