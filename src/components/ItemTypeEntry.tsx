@@ -134,6 +134,7 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
       }}
     >
       <StyledImgBox>
+        {/* image + some new code added */}
         {image && (
           <CardMedia
             component="img"
