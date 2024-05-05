@@ -141,8 +141,7 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
       }}
     >
       <StyledImgBox>
-        {/* comment */}
-        {/* {image && (
+        {image && (
           <StyledCardMedia
             component="img"
             image={imageDictionary[image]}
@@ -153,8 +152,8 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
               objectFit: "cover",
             }}
           />
-        )} */}
-        {image && (
+        )}
+        {/* {image && (
           <CardMedia
             component="img"
             image={imageDictionary[image]}
@@ -165,7 +164,7 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
               objectFit: "cover",
             }}
           />
-        )}
+        )} */}
       </StyledImgBox>
       <StyledTextBox>
         <CardContent sx={{ marginBottom: -2 }}>
