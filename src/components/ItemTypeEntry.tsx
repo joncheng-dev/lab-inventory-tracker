@@ -133,6 +133,7 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
         onEntryClick(id!);
       }}
     >
+      {/* made some edits to the way images are displayed here. */}
       <StyledImgBox>
         {image && (
           <CardMedia
