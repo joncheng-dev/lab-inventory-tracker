@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Box, Paper, Typography } from "@mui/material/";
+import Icon from "@mdi/react";
+import { mdiScale } from "@mdi/js";
 import {
   equipment1,
   equipment2,
@@ -14,10 +16,60 @@ import {
   models4,
   safety1,
   safety2,
+  safety3,
   tools1,
   tools2,
   tools3,
 } from "../images";
+
+const imageUrls = [
+  `equipment1`,
+  `equipment2`,
+  `glassware1`,
+  `glassware2`,
+  `materials1`,
+  `materials2`,
+  `measurement1`,
+  `models1`,
+  `models2`,
+  `models3`,
+  `models4`,
+  `safety1`,
+  `safety2`,
+  `safety3`,
+  `tools1`,
+  `tools2`,
+  `tools3`,
+  "mdiScale",
+];
+
+const example: any = {
+  equipment1,
+  equipment2,
+  glassware1,
+  glassware2,
+  materials1,
+  materials2,
+  measurement1,
+  models1,
+  models2,
+  models3,
+  models4,
+  safety1,
+  safety2,
+  safety3,
+  tools1,
+  tools2,
+  tools3,
+};
+
+const renderImage = (imageUrl, index) => {
+  if (example[imageUrl] !== undefined) {
+    return <img src={example[imageUrl]} alt={`Image ${index}`} style={{ maxWidth: "100%", maxHeight: "100%" }} />;
+  } else {
+    return <Icon path={mdiScale} size={1} />;
+  }
+};
 
 interface ImageSelectorProps {
   onSelect: (imageUrl: string) => void;
@@ -26,44 +78,6 @@ interface ImageSelectorProps {
 
 const ImageSelector: React.FC<ImageSelectorProps> = ({ onSelect, initialSelectedImage }) => {
   const [selectedImageUrl, setSelectedImageUrl] = useState<string | undefined>(initialSelectedImage);
-
-  const imageUrls = [
-    `equipment1`,
-    `equipment2`,
-    `glassware1`,
-    `glassware2`,
-    `materials1`,
-    `materials2`,
-    `measurement1`,
-    `models1`,
-    `models2`,
-    `models3`,
-    `models4`,
-    `safety1`,
-    `safety2`,
-    `tools1`,
-    `tools2`,
-    `tools3`,
-  ];
-
-  const example: any = {
-    equipment1,
-    equipment2,
-    glassware1,
-    glassware2,
-    materials1,
-    materials2,
-    measurement1,
-    models1,
-    models2,
-    models3,
-    models4,
-    safety1,
-    safety2,
-    tools1,
-    tools2,
-    tools3,
-  };
 
   const handleImageClick = (imageUrl: string) => {
     onSelect(imageUrl);
@@ -89,7 +103,8 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ onSelect, initialSelected
             }}
             onClick={() => handleImageClick(`${imageUrl}`)}
           >
-            <img src={example[imageUrl]} alt={`Image ${index}`} style={{ maxWidth: "100%", maxHeight: "100%" }} />
+            {renderImage(imageUrl, index)}
+            {/* <img src={example[imageUrl]} alt={`Image ${index}`} style={{ maxWidth: "100%", maxHeight: "100%" }} /> */}
           </Paper>
         ))}
       </Box>
