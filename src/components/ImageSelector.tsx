@@ -63,7 +63,7 @@ const example: any = {
   tools3,
 };
 
-const renderImage = (imageUrl, index) => {
+const renderImage = (imageUrl: string, index: number) => {
   if (example[imageUrl] !== undefined) {
     return <img src={example[imageUrl]} alt={`Image ${index}`} style={{ maxWidth: "100%", maxHeight: "100%" }} />;
   } else {
