@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Paper, Typography } from "@mui/material/";
 import Icon from "@mdi/react";
 import { mdiScale } from "@mdi/js";
+import { mdiSafetyGoggles } from "@mdi/js";
 import {
   equipment1,
   equipment2,
