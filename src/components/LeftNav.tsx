@@ -62,11 +62,11 @@ export default function LeftNav(props: LeftNavProps) {
             }}
           >
             <ListItem key="Catalog" disablePadding>
-              <ListItemButton component={Link} to="/catalog">
+              <ListItemButton component={Link} to="/catalog" sx={{ "&:hover": { color: "inherit !important" } }} >
                 <ListItemIcon>
                   <DescriptionIcon />
                 </ListItemIcon>
-                <ListItemText primary="Catalog" />
+                <ListItemText primary="Catalog"/>
               </ListItemButton>
             </ListItem>
           </Tooltip>
@@ -88,7 +88,7 @@ export default function LeftNav(props: LeftNavProps) {
           }}
         >
           <ListItem key="Inventory" disablePadding>
-            <ListItemButton component={Link} to="/inventory">
+            <ListItemButton component={Link} to="/inventory" sx={{ "&:hover": { color: "inherit !important" } }}>
               <ListItemIcon>
                 <InventoryIcon />
               </ListItemIcon>
