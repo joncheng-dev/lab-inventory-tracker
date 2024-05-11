@@ -228,31 +228,31 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
           }}
         >
           <Card
-            sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, display: "flex", flexDirection: "column" }}
+            sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, display: "flex", flexDirection: "column", height: "100%" }}
           >
             <CardContent style={{ flex: 1 }}>
               <h4>Item Details</h4>
               <Divider />
               <br />
-              <Grid xs={12} item>
+              <Grid item>
                 <StyledItemHeader>Display Name</StyledItemHeader>
                 <StyledItemValue>{displayName}</StyledItemValue>
               </Grid>
-              <Grid xs={12} item>
+              <Grid item>
                 <StyledItemHeader>Type</StyledItemHeader>
                 <StyledItemValue>{type}</StyledItemValue>
               </Grid>
-              <Grid xs={12} item>
+              <Grid item>
                 <StyledItemHeader>Location</StyledItemHeader>
                 <StyledItemValue>{location}</StyledItemValue>
               </Grid>
-              <Grid xs={12} item>
+              <Grid item>
                 <StyledItemHeader>Description</StyledItemHeader>
                 <StyledItemValue>{description}</StyledItemValue>
               </Grid>
             </CardContent>
             <CardContent>
-              <Grid xs={12} container item spacing={2}>
+              <Grid container item spacing={2}>
                 <Grid item>
                   <Button onClick={onClickingEdit} variant="contained">
                     Edit entry

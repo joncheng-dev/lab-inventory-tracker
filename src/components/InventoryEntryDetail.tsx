@@ -374,7 +374,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
           lg: 1100,
           xl: 1100,
         },
-        maxHeight: "80vh",
+        maxHeight: "60vh",
         overflowY: "auto",
         // "@media (max-width: 1280px)": {
         //   justifyContent: "center", // Center contents horizontally
@@ -407,9 +407,11 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               md: "column",
               sm: "column",
             },
+            height: "100%",
+            width: "100%"
           }}
         >
-          <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1 }}>
+          <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, height: "100%", width: "100%" }}>
             <CardContent>
               <Grid xs={12} item>
                 <DetailsImageContainer>
@@ -445,26 +447,28 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               md: "column",
               sm: "column",
             },
+            height: '100%',
+            width: '100%',
           }}
         >
-          <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1 }}>
+          <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, height: "100%", width: "100%" }}>
             <CardContent>
               <h4>Item Details</h4>
               <Divider />
               <br />
-              <Grid xs={12} item>
+              <Grid item>
                 <StyledItemHeader>Display Name</StyledItemHeader>
                 <StyledItemValue>{displayName}</StyledItemValue>
               </Grid>
-              <Grid xs={12} item>
+              <Grid item>
                 <StyledItemHeader>Type</StyledItemHeader>
                 <StyledItemValue>{type}</StyledItemValue>
               </Grid>
-              <Grid xs={12} item>
+              <Grid item>
                 <StyledItemHeader>Location</StyledItemHeader>
                 <StyledItemValue>{location}</StyledItemValue>
               </Grid>
-              <Grid xs={12} item>
+              <Grid item>
                 <StyledItemHeader>Description</StyledItemHeader>
                 <StyledItemValue>{description}</StyledItemValue>
               </Grid>
