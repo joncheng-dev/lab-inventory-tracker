@@ -14,7 +14,7 @@ export default function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Router basename="/">
+        <Router>
           <Routes>
             <Route path="/signin" element={<SignIn />} />
             <Route path="/" element={<Home />}>
