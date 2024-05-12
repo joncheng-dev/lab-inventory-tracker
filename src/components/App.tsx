@@ -14,7 +14,7 @@ export default function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Router basename="/lab-inventory-tracker">
+        <Router basename="/">
           <Routes>
             <Route path="/signin" element={<SignIn />} />
             <Route path="/" element={<Home />}>
