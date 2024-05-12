@@ -36,7 +36,7 @@
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
     <title>Lab Manager</title>
     <script type="text/javascript">
-      (function (l) {
+      function runURLReplacementForGHPages(l) {
         if (l.search[1] === "/") {
           var decoded = l.search
             .slice(1)
@@ -47,7 +47,10 @@
             .join("?");
           window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
         }
-      })(window.location);
+      }
+      if (window.location.hostname === "joncheng-dev.github.io") {
+        runURLReplacementForGHPages(window.location);
+      }
     </script>
   </head>
   <body>
