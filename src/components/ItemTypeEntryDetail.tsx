@@ -185,9 +185,11 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               md: "column",
               sm: "column",
             },
+            height: "100%",
+            width: "100%",
           }}
         >
-          <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1 }}>
+          <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, height: "100%", width: "100%" }}>
             <CardContent>
               <Grid xs={12} item>
                 <DetailsImageContainer>
@@ -228,7 +230,15 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
           }}
         >
           <Card
-            sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, display: "flex", flexDirection: "column", height: "100%" }}
+            sx={{
+              backgroundColor: colors.primary[400],
+              marginBottom: 3,
+              paddingLeft: 1,
+              paddingRight: 1,
+              display: "flex",
+              flexDirection: "column",
+              height: "100%",
+            }}
           >
             <CardContent style={{ flex: 1 }}>
               <h4>Item Details</h4>
