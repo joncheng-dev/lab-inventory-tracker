@@ -74,6 +74,8 @@ export default function Header(props: HeaderProps) {
   const [signOutSuccess, setSignOutSuccess] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  console.log("Header, this works");
+
   function handleSearchBarChange(e: { target: { value: string } }) {
     onSearchInputChange(e.target.value.toString());
   }
