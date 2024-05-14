@@ -14,6 +14,7 @@ dist-ssr
 
 # Editor directories and files
 .env
+.env.kkfs
 .vscode/*
 !.vscode/extensions.json
 .idea
