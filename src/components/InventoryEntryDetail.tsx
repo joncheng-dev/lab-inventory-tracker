@@ -374,7 +374,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
           lg: 1100,
           xl: 1100,
         },
-        maxHeight: "60vh",
+        maxHeight: "80vh",
         overflowY: "auto",
         // "@media (max-width: 1280px)": {
         //   justifyContent: "center", // Center contents horizontally
