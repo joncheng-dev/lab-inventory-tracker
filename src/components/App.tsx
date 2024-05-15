@@ -9,7 +9,8 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 
 export default function App() {
   const [theme, colorMode] = useMode();
-  console.log("testing gh env var import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY: ", import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY);
+  // console.log("testing gh env var import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY: ", import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY);
+  console.log("testing gh env var import.meta.env.VITE_REACT_APP_TESTHEADER: ", import.meta.env.VITE_REACT_APP_TESTHEADER);
   return (
     <div>
       <h4>test</h4>
