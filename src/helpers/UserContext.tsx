@@ -28,7 +28,6 @@ export const sharedInfo = () => {
 };
 
 export const UserProvider = ({ children }: any) => {
-  console.log("testing gh env var import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY: ", import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY);
   const [currentUser, setCurrentUser] = useState<UserInfo | null>(null);
 
   const signIn = async (email: string, password: string) => {
