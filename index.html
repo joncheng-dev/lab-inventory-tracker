@@ -36,7 +36,7 @@
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
     <title>Lab Manager</title>
     <script type="text/javascript">
-      (function (l) {
+      function runURLReplacementForGHPages(l) {
         if (l.search[1] === "/") {
           var decoded = l.search
             .slice(1)
@@ -47,8 +47,12 @@
             .join("?");
           window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
         }
-      })(window.location);
+      }
+      if (window.location.hostname === "joncheng-dev.github.io") {
+        runURLReplacementForGHPages(window.location);
+      }
     </script>
+    <script type="module" crossorigin src="/assets/index-K704WoTG.js"></script>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -56,8 +60,6 @@
       ><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KMD8484S" height="0" width="0" style="display: none; visibility: hidden"></iframe
     ></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    <div id="root"></div>
-    <!-- <script type="module" src="/dist/main.tsx"></script> -->
-    <script type="module" src="/src/main.tsx"></script>
+    <div id="root"></div>
   </body>
 </html>
