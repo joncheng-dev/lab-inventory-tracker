@@ -10,6 +10,10 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
+      - run: |
+        touch .env
+        echo VITE_REACT_APP_TESTHEADER=${{ secrets.VITE_REACT_APP_TESTHEADER }} >> .env
+        cat .env        
       - uses: actions/checkout@v4
       - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0

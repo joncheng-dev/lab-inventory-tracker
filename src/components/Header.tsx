@@ -74,7 +74,7 @@ export default function Header(props: HeaderProps) {
   const [signOutSuccess, setSignOutSuccess] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  console.log("Header, this works");
+  console.log("testing gh env var import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY: ", import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY);
 
   function handleSearchBarChange(e: { target: { value: string } }) {
     onSearchInputChange(e.target.value.toString());
