@@ -40,8 +40,6 @@ export default function SignIn() {
   // redirects
   const navigate = useNavigate();
 
-  console.log("test, VITE_REACT_APP_TESTHEADER: ", import.meta.env.VITE_REACT_APP_TESTHEADER);
-
   useEffect(() => {
     if (userProvider?.currentUser) {
       navigate("/inventory");
