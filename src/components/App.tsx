@@ -9,32 +9,21 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 
 export default function App() {
   const [theme, colorMode] = useMode();
-  // console.log("testing gh env var import.meta.env.FIREBASE_SERVICE_ACCOUNT_LAB_INVENTORY_TRACKER: ", import.meta.env.FIREBASE_SERVICE_ACCOUNT_LAB_INVENTORY_TRACKER);
-  console.log("testing gh env var import.meta.env.VITE_REACT_APP_TESTHEADER: ", import.meta.env.VITE_REACT_APP_TESTHEADER);
-  console.log("import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY: ", import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY);
-  console.log("import.meta.env.VITE_REACT_APP_FIREBASE_AUTH_DOMAIN: ", import.meta.env.VITE_REACT_APP_FIREBASE_AUTH_DOMAIN);
-  console.log("import.meta.env.VITE_REACT_APP_FIREBASE_PROJECT_ID: ", import.meta.env.VITE_REACT_APP_FIREBASE_PROJECT_ID);
-  console.log("import.meta.env.VITE_REACT_APP_FIREBASE_STORAGE_BUCKET: ", import.meta.env.VITE_REACT_APP_FIREBASE_STORAGE_BUCKET);
-  console.log("import.meta.env.VITE_REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ", import.meta.env.VITE_REACT_APP_FIREBASE_MESSAGING_SENDER_ID);
-  console.log("import.meta.env.VITE_REACT_APP_FIREBASE_APP_ID: ", import.meta.env.VITE_REACT_APP_FIREBASE_APP_ID);
   return (
-    <div>
-      <h4>test</h4>
-    </div>
-    // <ColorModeContext.Provider value={colorMode}>
-    //   <ThemeProvider theme={theme}>
-    //     <CssBaseline />
-    //     <Router>
-    //       <Routes>
-    //         <Route path="/signin" element={<SignIn />} />
-    //         <Route path="/" element={<Home />}>
-    //           <Route path="catalog" element={<ItemTypeControl />} />
-    //           <Route path="inventory" element={<InventoryControl />} />
-    //           <Route path="manageusers" element={<ManageUsers />} />
-    //         </Route>
-    //       </Routes>
-    //     </Router>
-    //   </ThemeProvider>
-    // </ColorModeContext.Provider>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <Routes>
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/" element={<Home />}>
+              <Route path="catalog" element={<ItemTypeControl />} />
+              <Route path="inventory" element={<InventoryControl />} />
+              <Route path="manageusers" element={<ManageUsers />} />
+            </Route>
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
