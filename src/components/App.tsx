@@ -9,7 +9,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 
 export default function App() {
   const [theme, colorMode] = useMode();
-  console.log("testing gh env var import.meta.env.FIREBASE_SERVICE_ACCOUNT_LAB_INVENTORY_TRACKER: ", import.meta.env.FIREBASE_SERVICE_ACCOUNT_LAB_INVENTORY_TRACKER);
+  // console.log("testing gh env var import.meta.env.FIREBASE_SERVICE_ACCOUNT_LAB_INVENTORY_TRACKER: ", import.meta.env.FIREBASE_SERVICE_ACCOUNT_LAB_INVENTORY_TRACKER);
   console.log("testing gh env var import.meta.env.VITE_REACT_APP_TESTHEADER: ", import.meta.env.VITE_REACT_APP_TESTHEADER);
   return (
     <div>
