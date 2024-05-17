@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { sharedInfo } from "../helpers/UserContext";
 import SellIcon from "@mui/icons-material/Sell";
 import { Box, Button, Card, CardContent, Chip, Divider, Grid, Paper, Snackbar, SnackbarContent, Stack, useTheme } from "@mui/material";
 import styled from "styled-components";
 import { styled as styledM } from "@mui/material/styles";
-import { tokens } from "../themes.js";
+import { ColorModeContext, tokens } from "../themes.tsx";
 import { CheckedOutBySummary, CheckOutFormInput, EditQuantityForm, Item, ItemType } from "../types/index.js";
 import ChildModalEditQuant from "./ChildModalEditQuant.js";
 import ItemCheckOutTable from "./ItemCheckOutTable.js";
@@ -71,7 +71,8 @@ const StyledItemHeader = styled.p`
 
 const StyledItemValue = styled.p`
   font-size: 1rem;
-  color: #ffffff;
+  color: ${(props) =>
+      props.theme.palette.mode === "dark" ? "#fff" : "#141b2d"};
   margin-top: 0; /* Add margin to the top of each value for spacing */
 `;
 
@@ -151,6 +152,7 @@ type ItemTypeEntryDetailProps = {
 export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const colorMode = useContext(ColorModeContext);
   const userProvider = sharedInfo();
   const { entry, itemList, onSuccessfulDelete, onCloseModal } = props;
   const [quantity, setQuantity] = useState(0);
@@ -458,19 +460,19 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               <br />
               <Grid item>
                 <StyledItemHeader>Display Name</StyledItemHeader>
-                <StyledItemValue>{displayName}</StyledItemValue>
+                <StyledItemValue theme={theme}>{displayName}</StyledItemValue>
               </Grid>
               <Grid item>
                 <StyledItemHeader>Type</StyledItemHeader>
-                <StyledItemValue>{type}</StyledItemValue>
+                <StyledItemValue theme={theme}>{type}</StyledItemValue>
               </Grid>
               <Grid item>
                 <StyledItemHeader>Location</StyledItemHeader>
-                <StyledItemValue>{location}</StyledItemValue>
+                <StyledItemValue theme={theme}>{location}</StyledItemValue>
               </Grid>
               <Grid item>
                 <StyledItemHeader>Description</StyledItemHeader>
-                <StyledItemValue>{description}</StyledItemValue>
+                <StyledItemValue theme={theme}>{description}</StyledItemValue>
               </Grid>
             </CardContent>
           </Card>

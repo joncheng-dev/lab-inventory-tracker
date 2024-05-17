@@ -2,7 +2,7 @@ import { useContext } from "react";
 import SellIcon from "@mui/icons-material/Sell";
 import { Box, Button, Card, CardContent, Chip, Divider, Grid, Stack, useTheme } from "@mui/material";
 import styled from "styled-components";
-import { tokens } from "../themes.js";
+import { ColorModeContext, tokens } from "../themes.tsx";
 import { ItemType } from "../types/index.js";
 import ChildModal from "./ChildModal.js";
 import BasicTable from "./ItemCheckOutTable.js";
@@ -63,7 +63,8 @@ const StyledItemHeader = styled.p`
 
 const StyledItemValue = styled.p`
   font-size: 1rem;
-  color: #ffffff;
+  color: ${(props) =>
+      props.theme.palette.mode === "dark" ? "#fff" : "#141b2d"};
   margin-top: 0; /* Add margin to the top of each value for spacing */
 `;
 
@@ -246,19 +247,19 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               <br />
               <Grid item>
                 <StyledItemHeader>Display Name</StyledItemHeader>
-                <StyledItemValue>{displayName}</StyledItemValue>
+                <StyledItemValue theme={theme}>{displayName}</StyledItemValue>
               </Grid>
               <Grid item>
                 <StyledItemHeader>Type</StyledItemHeader>
-                <StyledItemValue>{type}</StyledItemValue>
+                <StyledItemValue theme={theme}>{type}</StyledItemValue>
               </Grid>
               <Grid item>
                 <StyledItemHeader>Location</StyledItemHeader>
-                <StyledItemValue>{location}</StyledItemValue>
+                <StyledItemValue theme={theme}>{location}</StyledItemValue>
               </Grid>
               <Grid item>
                 <StyledItemHeader>Description</StyledItemHeader>
-                <StyledItemValue>{description}</StyledItemValue>
+                <StyledItemValue theme={theme}>{description}</StyledItemValue>
               </Grid>
             </CardContent>
             <CardContent>
