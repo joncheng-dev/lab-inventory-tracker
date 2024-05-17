@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "kkfs": "vite build --mode kkfs"
+    "kkfs": "vite build --mode kkfs && firebase deploy --only hosting:kkfs"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^0.38.0",

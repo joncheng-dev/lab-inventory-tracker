@@ -1,5 +1,16 @@
 {
   "projects": {
     "default": "lab-inventory-tracker"
-  }
+  },
+  "targets": {
+    "lab-inventory-tracker": {
+      "hosting": {
+        "kkfs": [
+          "kkfs-lab"
+        ]
+      }
+    }
+  },
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
 }
