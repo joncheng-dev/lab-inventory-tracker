@@ -20,12 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # - run: |
-      #     touch .env
-      #     echo VITE_REACT_APP_TESTHEADER=${{ secrets.VITE_REACT_APP_TESTHEADER }} >> .env
-      #     echo FIREBASE_SERVICE_ACCOUNT_LAB_INVENTORY_TRACKER=${{ secrets.FIREBASE_SERVICE_ACCOUNT_LAB_INVENTORY_TRACKER }} >> .env
-      #     cat .env        
-      #     npm ci && npm run build
       - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
