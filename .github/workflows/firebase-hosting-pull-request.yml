@@ -28,3 +28,4 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LAB_INVENTORY_TRACKER }}
           projectId: lab-inventory-tracker
+          target: portfolio

@@ -27,3 +27,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LAB_INVENTORY_TRACKER }}
           channelId: live
           projectId: lab-inventory-tracker
+          target: portfolio
