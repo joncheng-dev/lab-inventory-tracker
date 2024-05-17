@@ -14,7 +14,6 @@ interface MenuLongProps {
 const ITEM_HEIGHT = 48;
 
 export default function MenuLong({ content }: MenuLongProps) {
-  console.log("MenuLong, content: ", content);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
