@@ -89,7 +89,7 @@ export default function SignIn() {
 
   return (
     <>
-      <Box display="flex" alignItems="center" justifyContent="center" minHeight="100vh" sx={{backgroundColor: "yellow"}}>
+      <Box display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
         <Grid container item xs={10} md={6} lg={5} xl={3.5} justifyContent="center">
           <LoginPaper>
             <Formik
