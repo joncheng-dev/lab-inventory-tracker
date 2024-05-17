@@ -125,7 +125,7 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
   const { entry, onEntryClick } = props;
   const { id, count, displayName, type, image, tags } = entry;
 
-  console.log("ItemTypeEntry, tags: ", tags);
+  // console.log("ItemTypeEntry, tags: ", tags);
 
   return (
     <StyledCard

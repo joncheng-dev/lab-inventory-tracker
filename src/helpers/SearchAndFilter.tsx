@@ -6,7 +6,7 @@ export const itemEntriesToDisplay = (listOfItems: Item[], listOfItemTypes: ItemT
   if (listOfItems.length > 0 && listOfItemTypes.length > 0) {
     // Create a SET of item 'type'.
     const setOfTypes = [...new Set(listOfItems.map((entry) => entry.type))];
-
+    console.log({setOfTypes});
     // Count the occurrences of each item type
     const typeCounts: { [key: string]: number } = {};
     listOfItems.forEach((item) => {
@@ -16,7 +16,7 @@ export const itemEntriesToDisplay = (listOfItems: Item[], listOfItemTypes: ItemT
         typeCounts[item.type] = 1;
       }
     });
-
+    console.log({typeCounts});
     // Map item types to include count
     const filteredItemTypes = listOfItemTypes
       .filter((entry) => setOfTypes.includes(entry.type || ""))
@@ -25,11 +25,11 @@ export const itemEntriesToDisplay = (listOfItems: Item[], listOfItemTypes: ItemT
         ...entry,
         count: typeCounts[entry.type] || 0,
       }));
-
+      console.log({filteredItemTypes});
     // console.log("item type list updated, filteredItemTypes: ", filteredItemTypes);
     return filteredItemTypes;
   } else {
-    return listOfItemTypes;
+    return [];
   }
 };
 
