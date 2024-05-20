@@ -35,6 +35,7 @@ export default function SignIn() {
   const colors = tokens(theme.palette.mode);
   const userProvider = sharedInfo();
   const deploymentType = import.meta.env.VITE_REACT_APP_FIREBASE_DEPLOYMENT;
+  console.log("deploymentType: ", deploymentType);
   // state variables with useState hooks
   const [createAccountSuccess, setCreateAccountSuccess] = useState<string | null>(null);
   // const [signInSuccess, setSignInSuccess] = useState<boolean>(false);
