@@ -103,7 +103,7 @@ export default function SignIn() {
       <Box display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
         <Grid container item xs={10} md={6} lg={5} xl={3.5} justifyContent="center">
           <LoginPaper>
-            {deploymentType === "kkfs" && (
+            {deploymentType === "kkfs" ? (
               <>
                 <Typography component="h1" variant="h3">
                   Log In
@@ -112,8 +112,9 @@ export default function SignIn() {
                   <button onClick={handleGoogleSignIn}>Sign in with Google</button>
                 </Box>            
               </>
-            )}
-            {deploymentType !== "kkfs" && (
+            ) 
+              :
+            (
               <Formik
                 initialValues={{
                   email: "",
@@ -190,7 +191,7 @@ export default function SignIn() {
                     </Grid>
                   </form>
                 )}
-              </Formik>
+            </Formik>
             )}
           </LoginPaper>
         </Grid>
