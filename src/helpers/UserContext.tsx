@@ -1,12 +1,13 @@
 // TSX VERSION
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { db, auth } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { UserCredential, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 interface UserInfo {
-  email: string;
+  email: string | null;
   isAdmin: boolean;
 }
 
@@ -16,6 +17,7 @@ type SignInForm = {
 };
 
 interface AuthContextValue {
+  googleSignIn: () => void;
   signIn: (email: string, password: string) => void;
   signOutUser: () => void;
   currentUser: UserInfo | null;
@@ -29,6 +31,39 @@ export const sharedInfo = () => {
 
 export const UserProvider = ({ children }: any) => {
   const [currentUser, setCurrentUser] = useState<UserInfo | null>(null);
+
+  const googleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log("Google Sign-In success: ", user);
+      // use this info to check in user collection. does user doc 'uid' exist?
+      const userRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(userRef);
+      if (docSnap.exists()) {
+        console.log("User document exists: ", docSnap.data());
+        const relevantUserInfo: UserInfo = {
+          email: user.email,
+          isAdmin: docSnap.data().isAdmin,
+        };
+        setCurrentUser(relevantUserInfo);
+      } else {
+        await setDoc(userRef, {
+          email: user.email,
+          isAdmin: true,
+        });
+        const newUser: UserInfo = {
+          email: user.email,
+          isAdmin: true,
+        };
+        setCurrentUser(newUser);
+        console.log("New user document created.");
+      }
+    } catch (error) {
+      console.log("Google Sign-In error: ", error);
+    }
+  };
 
   const signIn = async (email: string, password: string) => {
     // console.log("1a. SignIn, handleSignIn started, props: ", props);
@@ -62,6 +97,7 @@ export const UserProvider = ({ children }: any) => {
   };
 
   const contextValue: AuthContextValue = {
+    googleSignIn,
     signIn,
     signOutUser,
     currentUser,
