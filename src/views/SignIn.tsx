@@ -113,7 +113,7 @@ export default function SignIn() {
                 </Box>            
               </>
             )}
-            {deploymentType === "portfolio" && (
+            {deploymentType !== "kkfs" && (
               <Formik
                 initialValues={{
                   email: "",
