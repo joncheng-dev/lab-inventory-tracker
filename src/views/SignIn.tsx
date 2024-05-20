@@ -10,6 +10,8 @@ import * as yup from "yup";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { doCreateAccount } from "../hooks/authUtil.tsx";
 import { flexbox } from "@mui/system";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "../firebase.tsx";
 
 //#region style
 const LoginPaper = styled(Paper)(({ theme }) => ({
@@ -29,6 +31,16 @@ type TesterLoginButtonProps = {
   password: string;
 };
 
+// Have this only for the kkfs-lab deployment
+
+// Signing in with Google Auth will..
+// 1. if user does not have an account yet, it will create one by adding doc to collection user.
+//  email: (string)
+//  isAdmin: (bool)
+//  userEmail: (string)
+//  userId: (string)
+// 2. if user already has a doc in collection user, sign in.
+
 export default function SignIn() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -46,20 +58,31 @@ export default function SignIn() {
     }
   }, [userProvider?.currentUser]);
 
-  async function handleCreateAccount(e: React.SyntheticEvent) {
-    e.preventDefault();
+  // async function handleCreateAccount(e: React.SyntheticEvent) {
+  //   e.preventDefault();
 
-    const target = e.target as typeof e.target & eTargetType;
-    const email = target.email.value;
-    const password = target.password.value;
+  //   const target = e.target as typeof e.target & eTargetType;
+  //   const email = target.email.value;
+  //   const password = target.password.value;
 
+  //   try {
+  //     const userCredential = await doCreateAccount(email, password);
+  //     setCreateAccountSuccess(`Account creation successful: ${userCredential.user.email}.`);
+  //   } catch (error: any) {
+  //     setCreateAccountSuccess(`Error creating account: ${error.message}`);
+  //   }
+  // }
+
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
     try {
-      const userCredential = await doCreateAccount(email, password);
-      setCreateAccountSuccess(`Account creation successful: ${userCredential.user.email}.`);
-    } catch (error: any) {
-      setCreateAccountSuccess(`Error creating account: ${error.message}`);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log("Google Sign-In success: ", user);
+    } catch (error) {
+      console.log("Google Sign-In error: ", error);
     }
-  }
+  };
 
   const handleSignIn = async (props: SignInForm) => {
     const { email, password } = props;
@@ -92,6 +115,12 @@ export default function SignIn() {
       <Box display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
         <Grid container item xs={10} md={6} lg={5} xl={3.5} justifyContent="center">
           <LoginPaper>
+            {/* <Typography component="h1" variant="h3">
+              Log In
+            </Typography>
+            <Box mt={3}>
+              <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+            </Box>             */}
             <Formik
               initialValues={{
                 email: "",
