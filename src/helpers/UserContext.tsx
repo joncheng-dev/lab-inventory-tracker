@@ -31,7 +31,7 @@ export const sharedInfo = () => {
 
 export const UserProvider = ({ children }: any) => {
   const [currentUser, setCurrentUser] = useState<UserInfo | null>(null);
-  console.log("UserContext, deploymentType: ", import.meta.env.VITE_REACT_APP_FIREBASE_DEPLOYMENT);
+  // console.log("UserContext, deploymentType: ", import.meta.env.VITE_REACT_APP_FIREBASE_DEPLOYMENT);
   const googleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     try {
