@@ -17,6 +17,7 @@ import { auth } from "../firebase.tsx";
 const LoginPaper = styled(Paper)(({ theme }) => ({
   elevation: "3",
   padding: "3%",
+  border: "1px solid black",
 }));
 //#endregion style
 
@@ -103,31 +104,30 @@ export default function SignIn() {
     <>
       {deploymentType === "kkfs" ? (
         <Box display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
-          <Grid
-            container
-            justifyContent="center"
-            alignItems="center"
-            spacing={2}
-            style={{
-              height: "60vh",
-              width: "40vw",
-              border: "1px solid black",
-              padding: "20px",
-              borderRadius: "8px",
-            }}
-          >
-            <Grid item xs={12}>
-              <Typography variant="h2" mb={5}>
-                Welcome back to KKFS Lab Manager
-              </Typography>
-              <Typography variant="h5" mb={5}>
-                Sign in to continue.
-              </Typography>
-              <Button type="submit" fullWidth color="secondary" variant="outlined" onClick={handleGoogleSignIn} startIcon={<GoogleIcon />}>
-                Sign In with Google
-              </Button>
+          <LoginPaper>
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              spacing={2}
+              style={{
+                height: "50vh",
+                width: "30vw",
+              }}
+            >
+              <Grid item xs={12}>
+                <Typography variant="h2" mb={5}>
+                  Welcome back to KKFS Lab Manager
+                </Typography>
+                <Typography variant="h5" mb={5}>
+                  Sign in to continue.
+                </Typography>
+                <Button type="submit" fullWidth color="secondary" variant="outlined" onClick={handleGoogleSignIn} startIcon={<GoogleIcon />}>
+                  Sign In with Google
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
+          </LoginPaper>
         </Box>
       ) : (
         <Box display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
