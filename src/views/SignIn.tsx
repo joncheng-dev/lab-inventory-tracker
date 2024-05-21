@@ -116,10 +116,10 @@ export default function SignIn() {
               }}
             >
               <Grid item xs={12}>
-                <Typography variant="h2" mb={5}>
-                  Welcome back to KKFS Lab Manager
+                <Typography variant="h1" mb={10}>
+                  Welcome to KKFS Lab Manager
                 </Typography>
-                <Typography variant="h5" mb={5}>
+                <Typography variant="h5" mb={7}>
                   Sign in to continue.
                 </Typography>
                 <Button type="submit" fullWidth color="secondary" variant="outlined" onClick={handleGoogleSignIn} startIcon={<GoogleIcon />}>
