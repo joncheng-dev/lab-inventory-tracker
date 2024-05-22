@@ -488,11 +488,11 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 <Box display="flex" justifyContent="space-between" pt={1}>
                   <Grid item xs={12} sx={{ direction: "row", textAlign: "right" }}>
                     {itemList.some((item) => type === item.type && item.checkedOutBy === userProvider?.currentUser?.email) ? (
-                      <Button onClick={handleReturnItems} variant="contained">
+                      <Button onClick={handleReturnItems} variant="contained" size="medium">
                         Return
                       </Button>
                     ) : (
-                      <Button disabled variant="contained">
+                      <Button disabled variant="contained" size="medium">
                         Return
                       </Button>
                     )}

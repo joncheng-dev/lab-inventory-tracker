@@ -105,11 +105,11 @@ export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
           </Grid>
           <Grid item xs={12} pt={1.5} sx={{ direction: "row", textAlign: "right" }}>
             {quantAvail >= 1 ? (
-              <Button variant="contained" type="submit" sx={{ fontSize: 12 }}>
+              <Button variant="contained" type="submit" size="medium">
                 Check Out
               </Button>
             ) : (
-              <Button variant="contained" type="submit" disabled sx={{ fontSize: 12 }}>
+              <Button variant="contained" type="submit" disabled size="medium">
                 Check Out
               </Button>
             )}
