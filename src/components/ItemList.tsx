@@ -68,24 +68,7 @@ export default function ItemList(props: ItemListProps) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [selectedView, setSelectedView] = useState<"card" | "table">("card");
-
-  // const StyledButton = styledMui(Button)(({ theme }) => ({
-  //   // color: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  //   height: "60%",
-  //   alignContent: "baseline",
-  //   marginLeft: "0.5rem",
-  //   marginTop: "-0.5rem",
-  //   flexShrink: 1,
-  //   // [theme.breakpoints.between("md", "lg")]: {
-  //   //   padding: "0.3rem 0.7rem",
-  //   // },
-  //   // [theme.breakpoints.down("sm")]: {
-  //   //   padding: "0.5rem 1rem",
-  //   // },
-  // }));
-
   const itemsToRender = itemEntriesToDisplay(itemList, listOfItemTypes);
-  console.log("ItemList: itemsToRender: ", itemsToRender);
 
   const activateCardView = () => {
     setSelectedView("card");
@@ -103,10 +86,8 @@ export default function ItemList(props: ItemListProps) {
             display: "flex",
             alignItems: "left",
             position: "relative",
-            // marginRight: theme.spacing(2),
             marginLeft: 0,
             [theme.breakpoints.up("sm")]: {
-              // marginLeft: theme.spacing(3),
               width: "auto",
             },
           }}

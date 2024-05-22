@@ -4,12 +4,27 @@ import { styled as styledMui } from "@mui/material/styles";
 import ItemTypeEntry from "./ItemTypeEntry";
 import { StyledIconButton } from "../style/styles";
 import { ItemType } from "../types";
-import { Button, Grid, Stack, Tooltip, Typography, useTheme } from "@mui/material";
+import { Box, Button, Grid, Stack, Tooltip, Typography, useTheme } from "@mui/material";
 import { Add, Apps, InfoOutlined, ViewHeadline } from "@mui/icons-material";
 import DataTable from "./DataTable";
 import { tokens } from "../themes";
 
 //#region styles
+const StyledTextContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 1em;
+  align-items: center;
+`;
+
+const StyledStackContainer = styled.div`
+  display: flex;
+  align-content: center;
+  justify-content: end;
+`;
+
 const ListContainer = styled.div`
   text-align: left;
 `;
@@ -32,20 +47,6 @@ const ResponsiveDataGridContainer = styled("div")`
   }
 `;
 
-const StyledButton = styledMui(Button)(({ theme }) => ({
-  // color: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  height: "60%",
-  alignContent: "baseline",
-  marginLeft: "0.5rem",
-  marginTop: "-0.5rem",
-  flexShrink: 1,
-  // [theme.breakpoints.between("md", "lg")]: {
-  //   padding: "0.3rem 0.7rem",
-  // },
-  // [theme.breakpoints.down("sm")]: {
-  //   padding: "0.5rem 1rem",
-  // },
-}));
 //#endregion styles
 
 type ItemTypeListProps = {
@@ -72,35 +73,50 @@ export default function ItemTypeList(props: ItemTypeListProps) {
 
   return (
     <>
-      <Grid container item xs={12} pl={2.5} justifyContent="space-between">
-        <Grid container item xs={10.5} borderRadius="3px" justifyContent="flex-start">
-          <Grid item>
-            <Typography variant="h4">Catalog</Typography>
-          </Grid>
-          <Grid item>
-            <Tooltip
-              title={catalogTooltipText}
-              placement="top"
-              slotProps={{
-                popper: {
-                  modifiers: [
-                    {
-                      name: "offset",
-                      options: {
-                        // offset: [0, -24],
-                      },
+      <StyledTextContainer>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "left",
+            position: "relative",
+            marginLeft: 0,
+            [theme.breakpoints.up("sm")]: {
+              width: "auto",
+            },
+          }}
+        >
+          <Typography variant="h4">Catalog</Typography>
+          <Tooltip
+            title={catalogTooltipText}
+            placement="top"
+            sx={{ marginRight: 1 }}
+            slotProps={{
+              popper: {
+                modifiers: [
+                  {
+                    name: "offset",
+                    options: {
+                      // offset: [0, -24],
                     },
-                  ],
-                },
-              }}
-            >
-              <div>
-                <InfoOutlined />
-              </div>
-            </Tooltip>
-          </Grid>
-        </Grid>
-        <Grid item xs={1.5} borderRadius="3px">
+                  },
+                ],
+              },
+            }}
+          >
+            <InfoOutlined />
+          </Tooltip>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Button onClick={onClickingAddEntry} variant="contained" startIcon={<Add />}>
+              Add Entry
+            </Button>
+          </Box>
+        </Box>
+        <StyledStackContainer>
           <Stack direction="row">
             <Tooltip title="Card View">
               <StyledIconButton onClick={activateCardView} disableRipple>
@@ -125,32 +141,26 @@ export default function ItemTypeList(props: ItemTypeListProps) {
               </StyledIconButton>
             </Tooltip>
           </Stack>
+        </StyledStackContainer>
+      </StyledTextContainer>
+      <ListContainer>
+        <Grid container>
+          <Grid item xs={12}>
+            {selectedView === "card" && (
+              <ItemContainer>
+                {listOfEntries.map((entry) => (
+                  <ItemTypeEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
+                ))}
+              </ItemContainer>
+            )}
+            {selectedView === "table" && (
+              <ResponsiveDataGridContainer>
+                <DataTable data={listOfEntries} onEntryClick={onEntryClick} />
+              </ResponsiveDataGridContainer>
+            )}
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <ListContainer>
-            <Grid item xs={12}>
-              <StyledButton onClick={onClickingAddEntry} variant="contained" startIcon={<Add />}>
-                Add Entry
-              </StyledButton>
-            </Grid>
-            <br />
-            <Grid item xs={12}>
-              {selectedView === "card" && (
-                <ItemContainer>
-                  {listOfEntries.map((entry) => (
-                    <ItemTypeEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
-                  ))}
-                </ItemContainer>
-              )}
-              {selectedView === "table" && (
-                <ResponsiveDataGridContainer>
-                  <DataTable data={listOfEntries} onEntryClick={onEntryClick} />
-                </ResponsiveDataGridContainer>
-              )}
-            </Grid>
-          </ListContainer>
-        </Grid>
-      </Grid>
+      </ListContainer>
     </>
   );
 }
