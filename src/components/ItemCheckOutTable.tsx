@@ -17,7 +17,7 @@ type ItemCheckOutTableProps = {
 
 export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
   const { quantAvail, quantTotal, onFormSubmit } = props;
-  console.log("ItemCheckOutTable, quantAvail: ", quantAvail);
+  // console.log("ItemCheckOutTable, quantAvail: ", quantAvail);
   const rows = [createData("Available", quantAvail)];
   const [formData, setFormData] = useState<CheckOutFormInput>({
     quantity: quantAvail > 0 ? 1 : 0,
@@ -48,7 +48,7 @@ export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
   };
 
   const handleSubmit = (values: CheckOutFormInput) => {
-    console.log("ItemCheckOutTable, handleSubmit, quantityToCheckOut: ", values.quantity);
+    // console.log("ItemCheckOutTable, handleSubmit, quantityToCheckOut: ", values.quantity);
     onFormSubmit(values);
 
     setFormData({ quantity: quantAvail > 0 ? 1 : 0 });
@@ -77,10 +77,10 @@ export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
                 <TableBody>
                   {rows.map((row) => (
                     <TableRow key={row.name} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                      <TableCell component="th" scope="row" sx={{ fontSize: 12 }}>
+                      <TableCell component="th" scope="row" sx={{ fontSize: 15 }}>
                         {quantTotal}
                       </TableCell>
-                      <TableCell component="th" scope="row" sx={{ fontSize: 12 }}>
+                      <TableCell component="th" scope="row" sx={{ fontSize: 15 }}>
                         {quantAvail}
                       </TableCell>
                       <TableCell>

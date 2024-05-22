@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Button, Grid, Modal, TextField, Tooltip } from "@mui/material";
+import { Box, Button, Grid, Modal, TextField, Tooltip, Typography, useTheme } from "@mui/material";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { InfoOutlined } from "@mui/icons-material";
 import { EditQuantityForm } from "../types";
@@ -12,7 +12,7 @@ const ChildModalStyle = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  // border: "2px solid #000",
   boxShadow: 24,
   pt: 2,
   px: 4,
@@ -38,6 +38,7 @@ const tooltipText = `Total number or units of this item type in the laboratory.`
 export default function ChildModalEditQuant(props: ChildModalEditQuantProps) {
   const { quantTotal, onFormSubmit } = props;
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
   const [formData, setFormData] = useState({
     quantity: quantTotal,
   });
@@ -90,55 +91,50 @@ export default function ChildModalEditQuant(props: ChildModalEditQuantProps) {
             onSubmit={handleSubmit}
           >
             <Form>
-              <Grid container item xs={10.5} borderRadius="3px" justifyContent="flex-start">
-                <Grid item>
-                  <h4>Update Total Quantity</h4>
-                </Grid>
-                <Grid item>
-                  <Tooltip
-                    title={tooltipText}
-                    placement="top"
-                    slotProps={{
-                      popper: {
-                        modifiers: [
-                          {
-                            name: "offset",
-                            options: {
-                              // offset: [0, -24],
-                            },
+              <div style={{ display: "flex" }}>
+                <Typography variant="h5">Update Total Quantity</Typography>
+                <Tooltip
+                  title={tooltipText}
+                  placement="top"
+                  slotProps={{
+                    popper: {
+                      modifiers: [
+                        {
+                          name: "offset",
+                          options: {
+                            // offset: [0, -24],
                           },
-                        ],
-                      },
-                    }}
-                  >
-                    <div>
-                      <InfoOutlined />
-                    </div>
-                  </Tooltip>
-                </Grid>
-                <Grid item>
-                  <Field
-                    /* // prettier-ignore */
-                    as={TextField}
-                    name="quantity"
-                    label="Total Quantity"
-                    helperText={<ErrorMessage name="quantity" />}
-                    inputProps={{ min: "0" }}
-                    onChange={handleQuantityChange}
-                    type="number"
-                    value={quantity}
-                    sx={{ fontSize: 15 }}
-                  />
-                </Grid>
-                <Grid item xs={12} pt={1} display="flex" justifyContent="space-around">
-                  <Button onClick={handleClose} variant="contained">
-                    Cancel
-                  </Button>
-                  <Button type="submit" variant="contained">
-                    Update
-                  </Button>
-                </Grid>
-              </Grid>
+                        },
+                      ],
+                    },
+                  }}
+                >
+                  <InfoOutlined fontSize="small" />
+                </Tooltip>
+              </div>
+
+              <Field
+                /* // prettier-ignore */
+                as={TextField}
+                name="quantity"
+                label="Total Quantity"
+                fullWidth
+                helperText={<ErrorMessage name="quantity" />}
+                inputProps={{ min: "0" }}
+                onChange={handleQuantityChange}
+                type="number"
+                value={quantity}
+                sx={{ fontSize: 15, marginTop: "15px" }}
+              />
+
+              <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "30px" }}>
+                <Button onClick={handleClose} variant="contained" color="secondary" sx={{ marginRight: "15px" }}>
+                  Cancel
+                </Button>
+                <Button type="submit" variant="contained">
+                  Update
+                </Button>
+              </div>
             </Form>
           </Formik>
         </Box>

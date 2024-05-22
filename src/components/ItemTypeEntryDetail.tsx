@@ -262,16 +262,12 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               </Grid>
             </CardContent>
             <CardContent>
-              <Grid container item spacing={2}>
-                <Grid item>
-                  <Button onClick={onClickingEdit} variant="contained">
-                    Edit entry
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <ChildModal entryId={id!} onClickingDelete={onClickingDelete} />
-                </Grid>
-              </Grid>
+              <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "30px" }}>
+                <Button onClick={onClickingEdit} variant="contained" sx={{ marginRight: "15px" }}>
+                  Edit entry
+                </Button>
+                <ChildModal entryId={id!} onClickingDelete={onClickingDelete} />
+              </div>
             </CardContent>
           </Card>
         </Grid>

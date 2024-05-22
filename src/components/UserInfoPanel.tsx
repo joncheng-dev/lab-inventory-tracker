@@ -60,9 +60,7 @@ export default function UserInfoPanel(props: UserInfoPanelProps) {
                     },
                   }}
                 >
-                  <div>
-                    <InfoOutlined />
-                  </div>
+                  <InfoOutlined fontSize="small" />
                 </Tooltip>
               </Grid>
             </Grid>

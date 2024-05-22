@@ -103,7 +103,7 @@ export default function ItemTypeList(props: ItemTypeListProps) {
               },
             }}
           >
-            <InfoOutlined />
+            <InfoOutlined fontSize="small" />
           </Tooltip>
           <Box
             sx={{

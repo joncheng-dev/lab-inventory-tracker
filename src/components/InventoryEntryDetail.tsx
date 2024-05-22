@@ -138,7 +138,7 @@ interface SnackbarState {
     | "Cannot remove items that are checked out."
     | "Unable to delete items. All items need to be returned first."
     | "All items of type successfully removed from inventory.";
-  color: "#4caf50" | "#FFFF00" | "#ff0f0f";
+  color: string;
 }
 
 type ItemTypeEntryDetailProps = {
@@ -162,14 +162,14 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     vertical: "top",
     horizontal: "center",
     message: "Items checked out successfully!",
-    color: "#4caf50",
+    color: `${theme.palette.primary.main}`,
   });
   const [childModalNotification, setChildModalNotification] = useState<SnackbarState>({
     open: false,
     vertical: "top",
     horizontal: "center",
     message: "Unable to delete items. All items need to be returned first.",
-    color: "#4caf50",
+    color: `${theme.palette.warning.main}`,
   });
   // prettier-ignore
   const {
@@ -254,7 +254,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
         quantity: quantDifference,
       };
       addMultipleDocs("items", itemData);
-      setNotificationOpen({ ...notification, open: true, message: "Total quantity updated successfully.", color: "#4caf50" });
+      setNotificationOpen({ ...notification, open: true, message: "Total quantity updated successfully.", color: `${theme.palette.primary.main}` });
     } else if (data.quantity === quantity) {
       setNotificationOpen({ ...notification, open: true, message: "New quantity is equal to current. No changes made.", color: "#FFFF00" });
     } else {
@@ -287,13 +287,18 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
         console.log("itemsId that are chosen to be deleted: ", itemsId);
         // Make the call to delete these items matching elements in itemsId array
         deleteMultipleDocs("items", itemsId as string[]);
-        setNotificationOpen({ ...notification, open: true, message: "Total quantity updated successfully.", color: "#4caf50" });
+        setNotificationOpen({ ...notification, open: true, message: "Total quantity updated successfully.", color: `${theme.palette.primary.main}` });
       } else {
         // Cannot delete all required. Will only delete ALL quantAvail(specific ids)
         // quantAvail < quantToDelete
         // Thus, delete only all quantAvail
         deleteMultipleDocs("items", itemIdsThatCanBeDeleted as string[]);
-        setNotificationOpen({ ...notification, open: true, message: "Cannot remove items that are checked out.", color: "#ff0f0f" });
+        setNotificationOpen({
+          ...notification,
+          open: true,
+          message: "Cannot remove items that are checked out.",
+          color: `${theme.palette.warning.main}`,
+        });
       }
     }
   };
@@ -310,7 +315,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     // Calls on the mutations to query firebase -- do a batch write edit
     assetTrackUpdateDoc("items", userEmail, itemsId as string[], "checkOut");
     // Report back that items were successfully checked out.
-    setNotificationOpen({ ...notification, open: true, message: "Items checked out successfully!", color: "#4caf50" });
+    setNotificationOpen({ ...notification, open: true, message: "Items checked out successfully!", color: `${theme.palette.primary.main}` });
   };
 
   const handleReturnItems = () => {
@@ -344,7 +349,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
         ...childModalNotification,
         open: true,
         message: "Unable to delete items. All items need to be returned first.",
-        color: "#ff0f0f",
+        color: `${theme.palette.warning.main}`,
       });
       // This is fine now. No need to modify further.
       console.log("Cannot delete all, checkedOutCount > 0, Count is: ", checkedOutCount);
@@ -389,6 +394,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
           open={notification.open}
           autoHideDuration={3000}
           onClose={handleCloseSnackbar}
+          sx={{ zIndex: 99999 }}
         >
           <SnackbarContent message={notification.message} sx={{ bgcolor: notification.color }} />
         </Snackbar>

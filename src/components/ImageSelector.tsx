@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Paper, Typography } from "@mui/material/";
+import { Box, Paper, Typography, useTheme } from "@mui/material/";
 import {
   equipment1,
   equipment2,
@@ -26,6 +26,7 @@ interface ImageSelectorProps {
 
 const ImageSelector: React.FC<ImageSelectorProps> = ({ onSelect, initialSelectedImage }) => {
   const [selectedImageUrl, setSelectedImageUrl] = useState<string | undefined>(initialSelectedImage);
+  const theme = useTheme();
 
   const imageUrls = [
     `equipment1`,
@@ -72,7 +73,6 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ onSelect, initialSelected
 
   return (
     <Box>
-      <Typography variant="h5">Select an Image:</Typography>
       <Box display="flex" flexWrap="wrap">
         {imageUrls.map((imageUrl, index) => (
           <Paper
@@ -85,7 +85,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ onSelect, initialSelected
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
-              border: selectedImageUrl === imageUrl ? "2px solid #1976D2" : "2px solid transparent",
+              border: selectedImageUrl === imageUrl ? `2px solid ${theme.palette.primary.main}` : "2px solid transparent",
             }}
             onClick={() => handleImageClick(`${imageUrl}`)}
           >

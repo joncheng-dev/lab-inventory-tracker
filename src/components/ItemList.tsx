@@ -40,6 +40,10 @@ const ItemContainer = styled.div`
   gap: 1.5em;
 `;
 
+const StyledListContainer = styledMui(Box)`
+  
+`;
+
 const ResponsiveDataGridContainer = styled("div")`
   width: 100%;
 
@@ -110,7 +114,7 @@ export default function ItemList(props: ItemListProps) {
               },
             }}
           >
-            <InfoOutlined />
+            <InfoOutlined fontSize="small" />
           </Tooltip>
           <Box
             sx={{

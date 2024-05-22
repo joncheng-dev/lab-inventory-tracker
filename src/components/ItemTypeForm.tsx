@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import ImageSelector from "../components/ImageSelector";
 import { ItemType } from "../types";
-import { Box, Button, Checkbox, Divider, FormControlLabel, Grid, Stack, TextField, useTheme } from "@mui/material";
+import { Box, Button, Checkbox, Divider, FormControlLabel, Grid, Stack, TextField, Tooltip, Typography, useTheme } from "@mui/material";
+import { InfoOutlined } from "@mui/icons-material";
 import { tokens } from "../themes";
 import { v4 as uuidv4 } from "uuid";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -31,6 +32,7 @@ const PurposeBoxContainer = styled.div`
   width: 50%;
   text-align: left;
 `;
+
 //#endregion styles
 
 type FormProps = {
@@ -39,6 +41,8 @@ type FormProps = {
   purposeTagChecklist: string[];
   onFormSubmit: (data: ItemType) => Promise<void>;
 };
+
+const imageTooltipText = `Select an image to associate with this item type.`;
 
 export default function ItemTypeForm(props: FormProps) {
   const theme = useTheme();
@@ -64,9 +68,9 @@ export default function ItemTypeForm(props: FormProps) {
     type: yup.string().max(100, "Must be less than 100 characters").required("Required"),
   });
 
-  console.log("ItemTypeForm, entry: ", entry);
+  // console.log("ItemTypeForm, entry: ", entry);
   const { displayName, description, location, tags, type } = formData;
-  console.log("ItemTypeForm, formData: ", formData);
+  // console.log("ItemTypeForm, formData: ", formData);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     setFormData((prevData) => ({
@@ -106,7 +110,7 @@ export default function ItemTypeForm(props: FormProps) {
   };
 
   const handleSubmit = (values: ItemType) => {
-    console.log("handleSubmit, values: ", values);
+    // console.log("handleSubmit, values: ", values);
     values.image = selectedImage || "";
     onFormSubmit(values);
   };
@@ -114,29 +118,30 @@ export default function ItemTypeForm(props: FormProps) {
   return (
     <Box sx={{ backgroundColor: colors.primary[400], maxHeight: "80vh", overflowY: "auto" }}>
       <ReusableFormContainer>
-        {/* prettier-ignore */}
         <Formik
+          // prettier-ignore
           initialValues={formData}
           enableReinitialize
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
           <Form>
-          <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
-            <Grid container spacing={2}>
+            <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
+              <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={7}>
-                <Box
-                  component="div"
-                  sx={{
-                    "& .MuiTextField-root": { m: 1.5, width: "50ch" },
-                  }}
-                >
-                  {!entry ? <h2>Add New Item Type</h2> : <h2>Edit Item Type Details</h2>}
-                  <Divider />
-                  <br />
-                  <InputColumnContainer>
-                    {/* prettier-ignore */}
-                    <Field 
+                  <Box
+                    component="div"
+                    sx={{
+                      "& .MuiTextField-root": { m: 1, ml: 0.5, width: "100%" },
+                      width: "calc(100% - 24px)",
+                    }}
+                  >
+                    {!entry ? <Typography variant="h5">Add New Item Type</Typography> : <Typography variant="h5">Edit Item Type Details</Typography>}
+                    <Divider />
+                    <br />
+                    <InputColumnContainer>
+                      {/* prettier-ignore */}
+                      <Field 
                       as={TextField}
                       name="displayName"
                       label="Item Type Display Name"
@@ -144,9 +149,9 @@ export default function ItemTypeForm(props: FormProps) {
                       onChange={handleInputChange}
                       value={displayName}
                     />
-                    <br />
-                    {/* prettier-ignore */}
-                    <Field 
+                      <br />
+                      {/* prettier-ignore */}
+                      <Field 
                       as={TextField}
                       name="type"
                       label="Item Type"
@@ -154,9 +159,9 @@ export default function ItemTypeForm(props: FormProps) {
                       onChange={handleInputChange}
                       value={type}
                     />
-                    <br />
-                    {/* prettier-ignore */}
-                    <Field
+                      <br />
+                      {/* prettier-ignore */}
+                      <Field
                       as={TextField}
                       name="description"
                       label="Item Type Description"
@@ -164,22 +169,22 @@ export default function ItemTypeForm(props: FormProps) {
                       onChange={handleInputChange}
                       value={description}
                     />
-                    <br />
-                    {/* prettier-ignore */}
-                    <Field
+                      <br />
+                      {/* prettier-ignore */}
+                      <Field
                       as={TextField}
                       name="location"
                       label="Item Type Location"
                       helperText={<ErrorMessage name="location" />}
                       onChange={handleInputChange}
                       value={location}
-                    />                    
-                    <br />
+                    />
+                      <br />
                     </InputColumnContainer>
                   </Box>
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={6} xl={5} pt={1}>
-                  <h2>Tags</h2>
+                  <Typography variant="h5">Tags</Typography>
                   <Divider />
                   <br />
                   <div className="row">
@@ -198,16 +203,37 @@ export default function ItemTypeForm(props: FormProps) {
                   </div>
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={6} xl={12}>
-                  <h2>Image</h2>
+                  <div style={{ display: "flex" }}>
+                    <Typography variant="h5">Image</Typography>
+                    <Tooltip
+                      title={imageTooltipText}
+                      placement="top"
+                      sx={{ marginRight: 1 }}
+                      slotProps={{
+                        popper: {
+                          modifiers: [
+                            {
+                              name: "offset",
+                              options: {
+                                // offset: [0, -25],
+                              },
+                            },
+                          ],
+                        },
+                      }}
+                    >
+                      <InfoOutlined fontSize="small" />
+                    </Tooltip>
+                  </div>
                   <ImageSelector onSelect={setSelectedImage} initialSelectedImage={selectedImage} />
                 </Grid>
-            </Grid>
-            <Stack spacing={2} direction="row" justifyContent="flex-end" pr={2}>
-              <Button type="submit" variant="contained">
-                {!entry ? "Add Item Type" : "Update Item Type"}
-              </Button>
-            </Stack>
-            <br />
+              </Grid>
+              <Stack spacing={2} direction="row" justifyContent="flex-end" pr={2}>
+                <Button type="submit" variant="contained">
+                  {!entry ? "Add Item Type" : "Update Item Type"}
+                </Button>
+              </Stack>
+              <br />
             </Box>
           </Form>
         </Formik>

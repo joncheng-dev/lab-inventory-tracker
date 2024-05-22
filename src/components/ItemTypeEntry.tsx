@@ -148,7 +148,7 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
       </StyledImgBox>
       <StyledTextBox>
         <CardContent sx={{ marginBottom: -2 }}>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h6">
             {displayName}
           </Typography>
           <Typography variant="body2" color="text.secondary">

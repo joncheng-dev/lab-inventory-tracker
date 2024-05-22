@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Button, Modal } from "@mui/material";
+import { Box, Button, Modal, Typography, useTheme } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const ChildModalStyle = {
@@ -9,7 +9,6 @@ const ChildModalStyle = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
   pt: 2,
   px: 4,
@@ -38,11 +37,13 @@ export default function ChildModal(props: ChildModalProps) {
       </Button>
       <Modal open={open} onClose={handleClose}>
         <Box sx={{ ...ChildModalStyle, width: 400 }}>
-          <h3>Are you sure you want to Delete?</h3>
+          <Typography variant="h5">Are you sure you want to Delete?</Typography>
           <br />
-          <p>This action cannot be undone.</p>
-          <div style={{ display: "flex", justifyContent: "space-around" }}>
-            <Button onClick={handleClose}>Cancel</Button>
+          <Typography variant="body1">This action cannot be undone.</Typography>
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "30px" }}>
+            <Button onClick={handleClose} variant="contained" color="secondary" sx={{ marginRight: "15px" }}>
+              Cancel
+            </Button>
             <Button onClick={() => onClickingDelete(entryId!)} variant="contained" startIcon={<DeleteIcon />} color="warning">
               Delete
             </Button>

@@ -120,7 +120,7 @@ export default function ItemForm(props: FormProps) {
                   </Grid>
                   <Grid item>
                     <Tooltip title={tooltipText} placement="top">
-                      <InfoOutlined />
+                      <InfoOutlined fontSize="small" />
                     </Tooltip>
                   </Grid>
                 </Grid>

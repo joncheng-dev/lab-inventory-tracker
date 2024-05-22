@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Button, Modal, Snackbar, SnackbarContent } from "@mui/material";
+import { Box, Button, Modal, Snackbar, SnackbarContent, Typography, useTheme } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const ChildModalStyle = {
@@ -9,7 +9,6 @@ const ChildModalStyle = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
   pt: 2,
   px: 4,
@@ -27,7 +26,7 @@ interface SnackbarState {
     | "Cannot remove items that are checked out."
     | "Unable to delete items. All items need to be returned first."
     | "All items of type successfully removed from inventory.";
-  color: "#4caf50" | "#FFFF00" | "#ff0f0f";
+  color: string;
 }
 
 type ChildModalDeleteAllProps = {
@@ -37,12 +36,13 @@ type ChildModalDeleteAllProps = {
 export default function ChildModalDeleteAll(props: ChildModalDeleteAllProps) {
   const { onClickingDelete } = props;
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
   const [notification, setNotification] = useState<SnackbarState>({
     open: false,
     vertical: "top",
     horizontal: "center",
     message: "Unable to delete items. All items need to be returned first.",
-    color: "#ff0f0f",
+    color: `${theme.palette.warning.main}`,
   });
   const handleOpen = () => {
     setOpen(true);
@@ -76,11 +76,15 @@ export default function ChildModalDeleteAll(props: ChildModalDeleteAllProps) {
       </Button>
       <Modal open={open} onClose={handleClose}>
         <Box sx={{ ...ChildModalStyle, width: 400 }}>
-          <h3>Are you sure you want to remove all items of this type?</h3>
+          <Typography variant="h6" fontWeight="bold">
+            Are you sure you want to remove all items of this type?
+          </Typography>
           <br />
-          <p>This action cannot be undone.</p>
-          <div style={{ display: "flex", justifyContent: "space-around" }}>
-            <Button onClick={handleClose}>Cancel</Button>
+          <Typography variant="body1">This action cannot be undone.</Typography>
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "30px" }}>
+            <Button onClick={handleClose} variant="contained" color="secondary" sx={{ marginRight: "15px" }}>
+              Cancel
+            </Button>
             <Button onClick={handleDelete} variant="contained" startIcon={<DeleteIcon />} color="warning">
               Delete
             </Button>
