@@ -112,7 +112,7 @@ export default function ItemTypeForm(props: FormProps) {
   };
 
   return (
-    <Box sx={{ backgroundColor: colors.primary[400] }}>
+    <Box sx={{ backgroundColor: colors.primary[400], maxHeight: "80vh", overflowY: "auto" }}>
       <ReusableFormContainer>
         {/* prettier-ignore */}
         <Formik
@@ -124,7 +124,7 @@ export default function ItemTypeForm(props: FormProps) {
           <Form>
           <Box sx={{ flexGrow: 1, backgroundColor: colors.primary[400] }}>
             <Grid container spacing={2}>
-              <Grid item xs={5}>
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={7}>
                 <Box
                   component="div"
                   sx={{
@@ -178,7 +178,7 @@ export default function ItemTypeForm(props: FormProps) {
                     </InputColumnContainer>
                   </Box>
                 </Grid>
-                <Grid item xs={3.5} pt={1}>
+                <Grid item xs={12} sm={12} md={12} lg={6} xl={5} pt={1}>
                   <h2>Tags</h2>
                   <Divider />
                   <br />
@@ -197,7 +197,7 @@ export default function ItemTypeForm(props: FormProps) {
                     </PurposeBoxContainer>
                   </div>
                 </Grid>
-                <Grid item xs={2.5}>
+                <Grid item xs={12} sm={12} md={12} lg={6} xl={12}>
                   <h2>Image</h2>
                   <ImageSelector onSelect={setSelectedImage} initialSelectedImage={selectedImage} />
                 </Grid>
