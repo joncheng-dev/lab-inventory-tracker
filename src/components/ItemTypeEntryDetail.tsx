@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import SellIcon from "@mui/icons-material/Sell";
-import { Box, Button, Card, CardContent, Chip, Divider, Grid, Stack, useTheme } from "@mui/material";
+import { Box, Button, Card, CardContent, Chip, Divider, Grid, Stack, Typography, useTheme } from "@mui/material";
 import styled from "styled-components";
 import { ColorModeContext, tokens } from "../themes.tsx";
 import { ItemType } from "../types/index.js";
@@ -63,8 +63,7 @@ const StyledItemHeader = styled.p`
 
 const StyledItemValue = styled.p`
   font-size: 1rem;
-  color: ${(props) =>
-      props.theme.palette.mode === "dark" ? "#fff" : "#141b2d"};
+  color: ${(props) => (props.theme.palette.mode === "dark" ? "#fff" : "#141b2d")};
   margin-top: 0; /* Add margin to the top of each value for spacing */
 `;
 
@@ -201,7 +200,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               </Grid>
               <br />
               <Grid item xs={12}>
-                <h5>Categories</h5>
+                <Typography variant="h5">Categories</Typography>
                 <Divider />
                 <Stack direction="row" sx={{ flexWrap: "wrap" }} spacing={1}>
                   {!tags && <p>No tags to display</p>}
@@ -242,7 +241,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
             }}
           >
             <CardContent style={{ flex: 1 }}>
-              <h4>Item Details</h4>
+              <Typography variant="h4">Item Details</Typography>
               <Divider />
               <br />
               <Grid item>

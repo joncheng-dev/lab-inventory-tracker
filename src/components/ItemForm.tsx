@@ -13,6 +13,7 @@ import {
   Stack,
   TextField,
   Tooltip,
+  Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -115,7 +116,7 @@ export default function ItemForm(props: FormProps) {
               <Grid container spacing={2}>
                 <Grid container item xs={12} sm={12} md={12} lg={12}>
                   <Grid item component={getHeadingSize()}>
-                    Add Items to Inventory
+                    <Typography variant="h4">Add Items to Inventory</Typography>
                   </Grid>
                   <Grid item>
                     <Tooltip title={tooltipText} placement="top">

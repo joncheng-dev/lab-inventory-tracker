@@ -33,7 +33,7 @@ export default function ChildModal(props: ChildModalProps) {
 
   return (
     <>
-      <Button variant="contained" startIcon={<DeleteIcon />} onClick={handleOpen} color="error">
+      <Button variant="contained" startIcon={<DeleteIcon />} onClick={handleOpen} color="warning">
         Delete
       </Button>
       <Modal open={open} onClose={handleClose}>
@@ -43,7 +43,7 @@ export default function ChildModal(props: ChildModalProps) {
           <p>This action cannot be undone.</p>
           <div style={{ display: "flex", justifyContent: "space-around" }}>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={() => onClickingDelete(entryId!)} variant="contained" startIcon={<DeleteIcon />} color="error">
+            <Button onClick={() => onClickingDelete(entryId!)} variant="contained" startIcon={<DeleteIcon />} color="warning">
               Delete
             </Button>
           </div>

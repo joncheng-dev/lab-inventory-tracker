@@ -3,10 +3,10 @@ import ItemTypeEntry from "./ItemTypeEntry";
 import DataTable from "./DataTable";
 import { Item, ItemType } from "../types";
 // import styled from "styled-components";
-import { styled } from "@mui/material/styles";
+import styled from "styled-components";
 import { StyledIconButton } from "../style/styles";
 import { styled as styledMui } from "@mui/material/styles";
-import { Box, Button, Grid, Stack, Tooltip, useTheme } from "@mui/material";
+import { Box, Button, Grid, Stack, Tooltip, Typography, useTheme } from "@mui/material";
 import { Add, Apps, InfoOutlined, ViewHeadline } from "@mui/icons-material";
 import { tokens } from "../themes";
 import { sharedInfo } from "../helpers/UserContext.tsx";
@@ -14,39 +14,42 @@ import { itemEntriesToDisplay } from "../helpers/SearchAndFilter.tsx";
 import { fontSize } from "@mui/system";
 
 //#region styles
+const StyledTextContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 1em;
+  align-items: center;
+`;
 
-const StyledTextContainer = styled("div")(({ theme }) => ({
-  width: "100%",
-  display: "flex",
-  justifyContent: "space-between",
-  flexWrap: "wrap",
-  marginBottom: "2em",
-}));
+const StyledStackContainer = styled.div`
+  display: flex;
+  align-content: center;
+  justify-content: end;
+`;
 
-const StyledStackContainer = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignContent: "center",
-  justifyContent: "end",
-}));
+const ListContainer = styled.div`
+  text-align: left;
+`;
 
-const ListContainer = styled("div")(({ theme }) => ({
-  textAlign: "left",
-}));
+const ItemContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 1.5em;
+`;
 
-const ItemContainer = styled("div")(({ theme }) => ({
-  display: "flex",
-  justifyContent: "flex-start",
-  flexWrap: "wrap",
-  gap: "1.5em",
-}));
+const ResponsiveDataGridContainer = styled("div")`
+  width: 100%;
 
-const ResponsiveDataGridContainer = styled("div")(({ theme }) => ({
-  width: "100%",
+  .MuiDataGrid-root {
+    width: 100%;
+    /* .MuiDataGrid-colCell {
 
-  ".MuiDataGrid-root": {
-    width: "100%",
-  },
-}));
+    } */
+  }
+`;
 
 //#endregion styles
 
@@ -66,24 +69,20 @@ export default function ItemList(props: ItemListProps) {
   const colors = tokens(theme.palette.mode);
   const [selectedView, setSelectedView] = useState<"card" | "table">("card");
 
-  console.log("ItemList, itemList: ", itemList);
-  console.log("ItemList, listOfItemTypes: ", listOfItemTypes);
-
-  const StyledButton = styledMui(Button)(({ theme }) => ({
-    // color: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    backgroundColor: theme.palette.mode === "dark" ? colors.grey[500] : "#1A2027",
-    height: "60%",
-    alignContent: "baseline",
-    marginLeft: "0.5rem",
-    marginTop: "-0.5rem",
-    flexShrink: 1,
-    // [theme.breakpoints.between("md", "lg")]: {
-    //   padding: "0.3rem 0.7rem",
-    // },
-    // [theme.breakpoints.down("sm")]: {
-    //   padding: "0.5rem 1rem",
-    // },
-  }));
+  // const StyledButton = styledMui(Button)(({ theme }) => ({
+  //   // color: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  //   height: "60%",
+  //   alignContent: "baseline",
+  //   marginLeft: "0.5rem",
+  //   marginTop: "-0.5rem",
+  //   flexShrink: 1,
+  //   // [theme.breakpoints.between("md", "lg")]: {
+  //   //   padding: "0.3rem 0.7rem",
+  //   // },
+  //   // [theme.breakpoints.down("sm")]: {
+  //   //   padding: "0.5rem 1rem",
+  //   // },
+  // }));
 
   const itemsToRender = itemEntriesToDisplay(itemList, listOfItemTypes);
   console.log("ItemList: itemsToRender: ", itemsToRender);
@@ -112,10 +111,11 @@ export default function ItemList(props: ItemListProps) {
             },
           }}
         >
-          <h2>Inventory</h2>
+          <Typography variant="h4">Inventory</Typography>
           <Tooltip
             title={inventoryTooltipText}
             placement="top"
+            sx={{ marginRight: 1 }}
             slotProps={{
               popper: {
                 modifiers: [
@@ -138,9 +138,9 @@ export default function ItemList(props: ItemListProps) {
             }}
           >
             {userProvider?.currentUser?.isAdmin && (
-              <StyledButton onClick={onClickingAddEntry} variant="contained" startIcon={<Add />}>
+              <Button onClick={onClickingAddEntry} variant="contained" size="medium" startIcon={<Add />}>
                 Items
-              </StyledButton>
+              </Button>
             )}
           </Box>
         </Box>
@@ -173,14 +173,6 @@ export default function ItemList(props: ItemListProps) {
       </StyledTextContainer>
       <ListContainer>
         <Grid container>
-          {/* <Grid item xs={12}>
-            {userProvider?.currentUser?.isAdmin && (
-              <StyledButton onClick={onClickingAddEntry} variant="contained" startIcon={<Add />}>
-                Add Items
-              </StyledButton>
-            )}
-          </Grid> */}
-          <br />
           <Grid item xs={12}>
             {selectedView === "card" && (
               <ItemContainer>

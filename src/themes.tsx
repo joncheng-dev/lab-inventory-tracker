@@ -29,6 +29,17 @@ export const tokens = (mode: string) => ({
           800: "#080b12",
           900: "#040509",
         },
+        secondary: {
+          100: "#d0d1d5",
+          200: "#a1a4ab",
+          300: "#727681",
+          400: "#1F2A40",
+          500: "#141b2d",
+          600: "#101624",
+          700: "#0c101b",
+          800: "#080b12",
+          900: "#040509",
+        },
         greenAccent: {
           100: "#dbf5ee",
           200: "#b7ebde",
@@ -132,10 +143,10 @@ export const themeSettings = (mode: PaletteMode) => {
         ? {
             // palette values for dark mode
             primary: {
-              main: colors.primary[500],
+              main: "#70D2FF",
             },
             secondary: {
-              main: colors.greenAccent[500],
+              main: "#B3A970",
             },
             neutral: {
               dark: colors.grey[700],
@@ -143,16 +154,19 @@ export const themeSettings = (mode: PaletteMode) => {
               light: colors.grey[100],
             },
             background: {
-              default: colors.primary[500],
+              default: "#282828",
+            },
+            warning: {
+              main: "#9E5E57",
             },
           }
         : {
             // palette values for light mode
             primary: {
-              main: colors.primary[100],
+              main: "#798C8C",
             },
             secondary: {
-              main: colors.greenAccent[500],
+              main: "#59554C",
             },
             neutral: {
               dark: colors.grey[700],
@@ -160,37 +174,12 @@ export const themeSettings = (mode: PaletteMode) => {
               light: colors.grey[100],
             },
             background: {
-              default: "#fcfcfc",
+              default: "#efefef",
+            },
+            warning: {
+              main: "#9E5E57",
             },
           }),
-    },
-    typography: {
-      fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-      fontSize: 12,
-      h1: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 40,
-      },
-      h2: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 32,
-      },
-      h3: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 24,
-      },
-      h4: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 20,
-      },
-      h5: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 16,
-      },
-      h6: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        fontSize: 14,
-      },
     },
   };
 };
@@ -201,7 +190,7 @@ export const ColorModeContext = createContext({
 });
 
 export const useMode = (): [theme: Theme, colorMode: { toggleColorMode: () => void }] => {
-  const [mode, setMode] = useState<PaletteMode>("dark");
+  const [mode, setMode] = useState<PaletteMode>("light");
 
   const colorMode = useMemo(
     () => ({

@@ -17,7 +17,6 @@ import { auth } from "../firebase.tsx";
 const LoginPaper = styled(Paper)(({ theme }) => ({
   elevation: "3",
   padding: "3%",
-  border: "1px solid black",
 }));
 //#endregion style
 
@@ -91,8 +90,8 @@ export default function SignIn() {
       <Button
         color="secondary"
         fullWidth
-        size="large"
-        variant="outlined"
+        size="medium"
+        variant="contained"
         onClick={() => handleSignIn(props)}
       >
         {acctType}
@@ -116,13 +115,13 @@ export default function SignIn() {
               }}
             >
               <Grid item xs={12}>
-                <Typography variant="h1" mb={10}>
+                <Typography variant="h2" mb={10}>
                   Welcome to KKFS Lab Manager
                 </Typography>
                 <Typography variant="h5" mb={7}>
                   Sign in to continue.
                 </Typography>
-                <Button type="submit" fullWidth color="secondary" variant="outlined" onClick={handleGoogleSignIn} startIcon={<GoogleIcon />}>
+                <Button type="submit" fullWidth color="primary" variant="contained" onClick={handleGoogleSignIn} startIcon={<GoogleIcon />}>
                   Sign In with Google
                 </Button>
               </Grid>
@@ -154,9 +153,7 @@ export default function SignIn() {
                 {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
                   <form onSubmit={handleSubmit}>
                     <Grid item display="flex" justifyContent="center" pt={3}>
-                      <Typography component="h1" variant="h3">
-                        Log In
-                      </Typography>
+                      <Typography variant="h4">Log In</Typography>
                     </Grid>
                     <Grid container item p={2} pt={0.5} mt={2} mb={2}>
                       <Grid item xs={12} p={2}>
@@ -188,14 +185,14 @@ export default function SignIn() {
                         />
                       </Grid>
                       <Grid container item xs={12} p={2} pt={3}>
-                        <Button type="submit" color="secondary" fullWidth size="large" variant="outlined">
+                        <Button type="submit" color="primary" fullWidth size="large" variant="contained">
                           Log In
                         </Button>
                         <Grid item xs={12} pt={4} pb={2}>
                           <Divider sx={{ height: "2px", width: "100%", marginRight: "16px" }} />
                         </Grid>
                         <Grid item xs={12} p={2} display="flex" justifyContent="center">
-                          <Typography variant="h5">DEMO ACCOUNTS</Typography>
+                          <Typography variant="h6">DEMO ACCOUNTS</Typography>
                         </Grid>
                         <Grid container item xs={12} spacing={2}>
                           <Grid item xs={6} md={6} justifyContent="center" p={0.5}>

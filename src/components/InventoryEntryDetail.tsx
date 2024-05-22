@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { sharedInfo } from "../helpers/UserContext";
 import SellIcon from "@mui/icons-material/Sell";
-import { Box, Button, Card, CardContent, Chip, Divider, Grid, Paper, Snackbar, SnackbarContent, Stack, useTheme } from "@mui/material";
+import { Box, Button, Card, CardContent, Chip, Divider, Grid, Paper, Snackbar, SnackbarContent, Stack, Typography, useTheme } from "@mui/material";
 import styled from "styled-components";
 import { styled as styledM } from "@mui/material/styles";
 import { ColorModeContext, tokens } from "../themes.tsx";
@@ -71,8 +71,7 @@ const StyledItemHeader = styled.p`
 
 const StyledItemValue = styled.p`
   font-size: 1rem;
-  color: ${(props) =>
-      props.theme.palette.mode === "dark" ? "#fff" : "#141b2d"};
+  color: ${(props) => (props.theme.palette.mode === "dark" ? "#fff" : "#141b2d")};
   margin-top: 0; /* Add margin to the top of each value for spacing */
 `;
 
@@ -410,7 +409,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               sm: "column",
             },
             height: "100%",
-            width: "100%"
+            width: "100%",
           }}
         >
           <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, height: "100%", width: "100%" }}>
@@ -424,7 +423,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               </Grid>
               <br />
               <Grid item xs={12}>
-                <h5>Categories</h5>
+                <Typography variant="h5">Categories</Typography>
                 <Divider />
                 <Stack direction="row" sx={{ flexWrap: "wrap" }} spacing={1}>
                   {!tags && <p>No tags to display</p>}
@@ -449,13 +448,13 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               md: "column",
               sm: "column",
             },
-            height: '100%',
-            width: '100%',
+            height: "100%",
+            width: "100%",
           }}
         >
           <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, height: "100%", width: "100%" }}>
             <CardContent>
-              <h4>Item Details</h4>
+              <Typography variant="h4">Item Details</Typography>
               <Divider />
               <br />
               <Grid item>
@@ -480,7 +479,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
         <Grid lg={12} xl={5} item sx={{ order: { md: 3, lg: 3, xl: 3 } }}>
           <Card sx={{ backgroundColor: colors.primary[400], paddingLeft: 1, paddingRight: 1 }}>
             <CardContent>
-              <h4>Availability</h4>
+              <Typography variant="h4">Availability</Typography>
               <Divider />
               <br />
               <AvailabilityContainer>

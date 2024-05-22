@@ -71,7 +71,7 @@ export default function ChildModalDeleteAll(props: ChildModalDeleteAllProps) {
 
   return (
     <>
-      <Button variant="contained" startIcon={<DeleteIcon />} onClick={handleOpen} color="error">
+      <Button variant="contained" startIcon={<DeleteIcon />} onClick={handleOpen} color="warning">
         Remove All
       </Button>
       <Modal open={open} onClose={handleClose}>
@@ -81,7 +81,7 @@ export default function ChildModalDeleteAll(props: ChildModalDeleteAllProps) {
           <p>This action cannot be undone.</p>
           <div style={{ display: "flex", justifyContent: "space-around" }}>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleDelete} variant="contained" startIcon={<DeleteIcon />} color="error">
+            <Button onClick={handleDelete} variant="contained" startIcon={<DeleteIcon />} color="warning">
               Delete
             </Button>
           </div>

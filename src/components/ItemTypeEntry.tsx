@@ -46,7 +46,6 @@ const StyledCard = styled(Card)(({ theme }) => ({
   flex: "0 1 auto",
   width: "250px",
   maxWidth: "100%",
-  border: "1px black solid",
   position: "relative",
 
   "&:hover": {

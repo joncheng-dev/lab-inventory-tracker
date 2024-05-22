@@ -4,7 +4,7 @@ import { styled as styledMui } from "@mui/material/styles";
 import ItemTypeEntry from "./ItemTypeEntry";
 import { StyledIconButton } from "../style/styles";
 import { ItemType } from "../types";
-import { Button, Grid, Stack, Tooltip, useTheme } from "@mui/material";
+import { Button, Grid, Stack, Tooltip, Typography, useTheme } from "@mui/material";
 import { Add, Apps, InfoOutlined, ViewHeadline } from "@mui/icons-material";
 import DataTable from "./DataTable";
 import { tokens } from "../themes";
@@ -31,6 +31,21 @@ const ResponsiveDataGridContainer = styled("div")`
     } */
   }
 `;
+
+const StyledButton = styledMui(Button)(({ theme }) => ({
+  // color: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  height: "60%",
+  alignContent: "baseline",
+  marginLeft: "0.5rem",
+  marginTop: "-0.5rem",
+  flexShrink: 1,
+  // [theme.breakpoints.between("md", "lg")]: {
+  //   padding: "0.3rem 0.7rem",
+  // },
+  // [theme.breakpoints.down("sm")]: {
+  //   padding: "0.5rem 1rem",
+  // },
+}));
 //#endregion styles
 
 type ItemTypeListProps = {
@@ -47,11 +62,6 @@ export default function ItemTypeList(props: ItemTypeListProps) {
   const colors = tokens(theme.palette.mode);
   const [selectedView, setSelectedView] = useState<"card" | "table">("card");
 
-  const StyledButton = styledMui(Button)(({ theme }) => ({
-    // color: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    backgroundColor: theme.palette.mode === "dark" ? colors.grey[500] : "#1A2027",
-  }));
-
   const activateCardView = () => {
     setSelectedView("card");
   };
@@ -65,7 +75,7 @@ export default function ItemTypeList(props: ItemTypeListProps) {
       <Grid container item xs={12} pl={2.5} justifyContent="space-between">
         <Grid container item xs={10.5} borderRadius="3px" justifyContent="flex-start">
           <Grid item>
-            <h2>Catalog</h2>
+            <Typography variant="h4">Catalog</Typography>
           </Grid>
           <Grid item>
             <Tooltip

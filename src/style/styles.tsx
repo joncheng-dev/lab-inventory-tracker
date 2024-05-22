@@ -53,11 +53,11 @@ export const UserInfoColumn = styledMui(Paper)(({ theme }) => ({
 export const StyledIconButton = styledMui(IconButton)(({ theme }) => ({
   color: theme.palette.mode === "dark" ? "#fff" : "#1A2027",
   "&:hover": {
-    color: theme.palette.mode === "dark" ? "#777777" : "#fff",
+    color: theme.palette.mode === "dark" ? "#777777" : "#7E786B",
     backgroundColor: "transparent",
   },
   "&:focus, &:active": {
-    color: theme.palette.mode === "dark" ? "#777777" : "#fff",
+    color: theme.palette.mode === "dark" ? "#777777" : "#7E786B",
     backgroundColor: "transparent",
     outline: "none", // Remove the outline
   },

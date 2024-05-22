@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Item, ItemType } from "../types";
 import UserItem from "./UserItem";
-import { Divider, Grid, Tooltip } from "@mui/material";
+import { Divider, Grid, Tooltip, Typography } from "@mui/material";
 import { InfoOutlined } from "@mui/icons-material";
 import { sharedInfo } from "../helpers/UserContext";
 import { useLocation } from "react-router-dom";
@@ -41,7 +41,7 @@ export default function UserInfoPanel(props: UserInfoPanelProps) {
           <Grid container item xs={12}>
             <Grid container item>
               <Grid item>
-                <h3>User Info Panel</h3>
+                <Typography variant="h4">User Info Panel</Typography>
               </Grid>
               <Grid item>
                 <Tooltip
@@ -69,28 +69,28 @@ export default function UserInfoPanel(props: UserInfoPanelProps) {
           </Grid>
           <Divider />
           <br />
-          <h5>Logged in as:</h5>
-          <h6>{userProvider ? userProvider.currentUser?.email : ""}</h6>
+          <Typography variant="h5">Logged in as:</Typography>
+          <Typography variant="h6">{userProvider ? userProvider.currentUser?.email : ""}</Typography>
           <Divider />
           <Grid container pt={3}>
             <Grid item xs={8}>
-              <p>Item Name</p>
+              <Typography variant="body1">Item Name</Typography>
             </Grid>
             <Grid item xs={4}>
-              Quantity
+              <Typography variant="body1">Quantity</Typography>
             </Grid>
           </Grid>
           {itemsCheckedOutByUser.length > 0 ? (
             filteredItemTypes.map((entry) => <UserItem entry={entry} count={itemCounts[entry.type]} key={entry.id} onEntryClick={onEntryClick} />)
           ) : (
-            <p>No items checked out</p>
+            <Typography variant="body1">No items checked out</Typography>
           )}
         </>
       )}
       {currentPath === "/catalog" && (
         <>
-          <h3>User Info Panel</h3>
-          <p>Not applicable for Item Types</p>
+          <Typography variant="h4">User Info Panel</Typography>
+          <Typography variant="body1">Not applicable for Item Types</Typography>
         </>
       )}
     </>

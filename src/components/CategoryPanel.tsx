@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { styled } from "@mui/material/styles";
 import { ColorModeContext, tokens } from "../themes";
-import { Checkbox, Divider, FormControlLabel, useTheme } from "@mui/material";
+import { Checkbox, Divider, FormControlLabel, Typography, useTheme } from "@mui/material";
 
 const CategoryPanelContainer = styled("div")(({ theme }) => ({
   textAlign: "left",
@@ -11,13 +11,6 @@ const ListContainer = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
 }));
-
-const StyledFormControlLabel = styled(FormControlLabel)`
-  &:hover {
-    background-color: #777777cc;
-    cursor: pointer;
-  }
-`;
 
 interface CategoryPanelProps {
   tags: string[];
@@ -45,7 +38,7 @@ export default function CategoryPanel(props: CategoryPanelProps) {
     return wordArray.map((word, index) => {
       const isChecked = tags.includes(word);
       return (
-        <StyledFormControlLabel
+        <FormControlLabel
           key={index}
           value={word}
           control={
@@ -53,6 +46,7 @@ export default function CategoryPanel(props: CategoryPanelProps) {
               // prettier-ignore
               id={`checkbox-${word}`}
               checked={isChecked}
+              color="primary"
               value={word}
               onChange={handleCheckedboxChange}
             />
@@ -65,19 +59,19 @@ export default function CategoryPanel(props: CategoryPanelProps) {
 
   return (
     <CategoryPanelContainer>
-      <h2>Tags</h2>
+      <Typography variant="h4">Tags</Typography>
       <Divider />
       <br />
       <form>
-        <h4>
+        <Typography variant="h6">
           <strong>Subjects</strong>
-        </h4>
+        </Typography>
         <Divider />
         <ListContainer>{tagChecklistGenerator(subjectTagChecklist)}</ListContainer>
         <br />
-        <h4>
+        <Typography variant="h6">
           <strong>Purpose</strong>
-        </h4>
+        </Typography>
         <Divider />
         <ListContainer>{tagChecklistGenerator(purposeTagChecklist)}</ListContainer>
       </form>
