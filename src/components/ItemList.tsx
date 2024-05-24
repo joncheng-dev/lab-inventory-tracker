@@ -11,7 +11,7 @@ import { tokens } from "../themes";
 import { sharedInfo } from "../helpers/UserContext.tsx";
 import { itemEntriesToDisplay } from "../helpers/SearchAndFilter.tsx";
 import { fontSize } from "@mui/system";
-import { ViewSelectorButtons } from "./Buttons/buttons";
+import { ViewSelectorButtons } from "./Buttons/buttons.tsx";
 
 //#region styles
 const StyledTextContainer = styled.div`
