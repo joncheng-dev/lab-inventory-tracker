@@ -40,10 +40,6 @@ const ItemContainer = styled.div`
   gap: 1.5em;
 `;
 
-const StyledListContainer = styledMui(Box)`
-  
-`;
-
 const ResponsiveDataGridContainer = styled("div")`
   width: 100%;
 
