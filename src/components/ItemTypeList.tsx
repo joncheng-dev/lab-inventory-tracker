@@ -2,12 +2,12 @@ import { useState } from "react";
 import styled from "styled-components";
 import { styled as styledMui } from "@mui/material/styles";
 import ItemTypeEntry from "./ItemTypeEntry";
-import { StyledIconButton } from "../style/styles";
 import { ItemType } from "../types";
-import { Box, Button, Grid, Stack, Tooltip, Typography, useTheme } from "@mui/material";
-import { Add, Apps, InfoOutlined, ViewHeadline } from "@mui/icons-material";
+import { Box, Button, Grid, Tooltip, Typography, useTheme } from "@mui/material";
+import { Add, InfoOutlined } from "@mui/icons-material";
 import DataTable from "./DataTable";
 import { tokens } from "../themes";
+import { ViewSelectorButtons } from "./Buttons/buttons";
 
 //#region styles
 const StyledTextContainer = styled.div`
@@ -80,29 +80,10 @@ export default function ItemTypeList(props: ItemTypeListProps) {
             alignItems: "left",
             position: "relative",
             marginLeft: 0,
-            [theme.breakpoints.up("sm")]: {
-              width: "auto",
-            },
           }}
         >
           <Typography variant="h4">Catalog</Typography>
-          <Tooltip
-            title={catalogTooltipText}
-            placement="top"
-            sx={{ marginRight: 1 }}
-            slotProps={{
-              popper: {
-                modifiers: [
-                  {
-                    name: "offset",
-                    options: {
-                      // offset: [0, -24],
-                    },
-                  },
-                ],
-              },
-            }}
-          >
+          <Tooltip title={catalogTooltipText} placement="top" sx={{ marginRight: 1 }}>
             <InfoOutlined fontSize="small" />
           </Tooltip>
           <Box
@@ -117,30 +98,7 @@ export default function ItemTypeList(props: ItemTypeListProps) {
           </Box>
         </Box>
         <StyledStackContainer>
-          <Stack direction="row">
-            <Tooltip title="Card View">
-              <StyledIconButton onClick={activateCardView} disableRipple>
-                <Apps
-                  sx={{
-                    fontSize: 25,
-                    ml: 1,
-                    mb: 1,
-                  }}
-                />
-              </StyledIconButton>
-            </Tooltip>
-            <Tooltip title="Table View">
-              <StyledIconButton onClick={activateTableView} disableRipple>
-                <ViewHeadline
-                  sx={{
-                    fontSize: 25,
-                    mr: 1,
-                    mb: 1,
-                  }}
-                />
-              </StyledIconButton>
-            </Tooltip>
-          </Stack>
+          <ViewSelectorButtons onCardViewClick={activateCardView} onTableViewClick={activateTableView} />
         </StyledStackContainer>
       </StyledTextContainer>
       <ListContainer>

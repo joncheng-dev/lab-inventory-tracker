@@ -62,7 +62,7 @@ export default function ItemTypeForm(props: FormProps) {
 
   const validationSchema = yup.object().shape({
     displayName: yup.string().required("Required"),
-    description: yup.string().max(300, "Must be less than 300 characters.").required("Required"),
+    description: yup.string().max(600, "Must be less than 600 characters.").required("Required"),
     location: yup.string().max(100, "Must be less than 100 characters").required("Required"),
     tags: yup.array(),
     type: yup.string().max(100, "Must be less than 100 characters").required("Required"),
@@ -110,7 +110,7 @@ export default function ItemTypeForm(props: FormProps) {
   };
 
   const handleSubmit = (values: ItemType) => {
-    // console.log("handleSubmit, values: ", values);
+    console.log("handleSubmit, values: ", values);
     values.image = selectedImage || "";
     onFormSubmit(values);
   };
@@ -142,43 +142,43 @@ export default function ItemTypeForm(props: FormProps) {
                     <InputColumnContainer>
                       {/* prettier-ignore */}
                       <Field 
-                      as={TextField}
-                      name="displayName"
-                      label="Item Type Display Name"
-                      helperText={<ErrorMessage name="displayName" />}
-                      onChange={handleInputChange}
-                      value={displayName}
-                    />
+                        as={TextField}
+                        name="displayName"
+                        label="Item Type Display Name"
+                        helperText={<ErrorMessage name="displayName" />}
+                        onChange={handleInputChange}
+                        value={displayName}
+                      />
                       <br />
                       {/* prettier-ignore */}
                       <Field 
-                      as={TextField}
-                      name="type"
-                      label="Item Type"
-                      helperText={<ErrorMessage name="type" />}
-                      onChange={handleInputChange}
-                      value={type}
-                    />
+                        as={TextField}
+                        name="type"
+                        label="Item Type"
+                        helperText={<ErrorMessage name="type" />}
+                        onChange={handleInputChange}
+                        value={type}
+                      />
                       <br />
                       {/* prettier-ignore */}
                       <Field
-                      as={TextField}
-                      name="description"
-                      label="Item Type Description"
-                      helperText={<ErrorMessage name="description" />}
-                      onChange={handleInputChange}
-                      value={description}
-                    />
+                        as={TextField}
+                        name="description"
+                        label="Item Type Description"
+                        helperText={<ErrorMessage name="description" />}
+                        onChange={handleInputChange}
+                        value={description}
+                      />
                       <br />
                       {/* prettier-ignore */}
                       <Field
-                      as={TextField}
-                      name="location"
-                      label="Item Type Location"
-                      helperText={<ErrorMessage name="location" />}
-                      onChange={handleInputChange}
-                      value={location}
-                    />
+                        as={TextField}
+                        name="location"
+                        label="Item Type Location"
+                        helperText={<ErrorMessage name="location" />}
+                        onChange={handleInputChange}
+                        value={location}
+                      />
                       <br />
                     </InputColumnContainer>
                   </Box>
@@ -189,15 +189,15 @@ export default function ItemTypeForm(props: FormProps) {
                   <br />
                   <div className="row">
                     <SubjectBoxContainer>
-                      <h4>
-                        <strong>Subjects</strong>
-                      </h4>
+                      <Typography variant="h6">
+                        <u>Subjects</u>
+                      </Typography>
                       {tagChecklistGenerator(subjectTagChecklist)}
                     </SubjectBoxContainer>
                     <PurposeBoxContainer>
-                      <h4>
-                        <strong>Purpose</strong>
-                      </h4>
+                      <Typography variant="h6">
+                        <u>Purpose</u>
+                      </Typography>
                       {tagChecklistGenerator(purposeTagChecklist)}
                     </PurposeBoxContainer>
                   </div>

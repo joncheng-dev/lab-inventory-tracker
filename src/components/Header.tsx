@@ -74,7 +74,6 @@ export default function Header(props: HeaderProps) {
   const [signOutSuccess, setSignOutSuccess] = useState<string | null>(null);
   const navigate = useNavigate();
 
-
   function handleSearchBarChange(e: { target: { value: string } }) {
     onSearchInputChange(e.target.value.toString());
   }
@@ -104,15 +103,9 @@ export default function Header(props: HeaderProps) {
           <Box
             sx={{
               gridArea: "search",
-              // display: "flex",
-              // alignItems: "left",
               position: "relative",
               borderRadius: theme.shape.borderRadius,
               backgroundColor: colors.primary[400],
-              // backgroundColor: alpha(theme.palette.common.white, 0.15),
-              // "&:hover": {
-              //   backgroundColor: alpha(theme.palette.common.white, 0.25),
-              // },
               marginRight: theme.spacing(2),
               marginLeft: 0,
               width: "100%",
@@ -120,7 +113,7 @@ export default function Header(props: HeaderProps) {
             }}
           >
             <SearchIconWrapper>
-              <Search style={{ color: theme.palette.mode === "dark" ? "#fff" : "#141b2d" }}/>
+              <Search style={{ color: theme.palette.mode === "dark" ? "#fff" : "#141b2d" }} />
             </SearchIconWrapper>
             <StyledInputBase placeholder="Search" inputProps={{ "aria-label": "search" }} onChange={handleSearchBarChange} />
           </Box>

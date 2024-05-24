@@ -4,14 +4,14 @@ import DataTable from "./DataTable";
 import { Item, ItemType } from "../types";
 // import styled from "styled-components";
 import styled from "styled-components";
-import { StyledIconButton } from "../style/styles";
 import { styled as styledMui } from "@mui/material/styles";
-import { Box, Button, Grid, Stack, Tooltip, Typography, useTheme } from "@mui/material";
-import { Add, Apps, InfoOutlined, ViewHeadline } from "@mui/icons-material";
+import { Box, Button, Grid, Tooltip, Typography, useTheme } from "@mui/material";
+import { Add, InfoOutlined } from "@mui/icons-material";
 import { tokens } from "../themes";
 import { sharedInfo } from "../helpers/UserContext.tsx";
 import { itemEntriesToDisplay } from "../helpers/SearchAndFilter.tsx";
 import { fontSize } from "@mui/system";
+import { ViewSelectorButtons } from "./Buttons/buttons";
 
 //#region styles
 const StyledTextContainer = styled.div`
@@ -91,29 +91,10 @@ export default function ItemList(props: ItemListProps) {
             alignItems: "left",
             position: "relative",
             marginLeft: 0,
-            [theme.breakpoints.up("sm")]: {
-              width: "auto",
-            },
           }}
         >
           <Typography variant="h4">Inventory</Typography>
-          <Tooltip
-            title={inventoryTooltipText}
-            placement="top"
-            sx={{ marginRight: 1 }}
-            slotProps={{
-              popper: {
-                modifiers: [
-                  {
-                    name: "offset",
-                    options: {
-                      // offset: [0, -24],
-                    },
-                  },
-                ],
-              },
-            }}
-          >
+          <Tooltip title={inventoryTooltipText} placement="top" sx={{ marginRight: 1 }}>
             <InfoOutlined fontSize="small" />
           </Tooltip>
           <Box
@@ -130,30 +111,7 @@ export default function ItemList(props: ItemListProps) {
           </Box>
         </Box>
         <StyledStackContainer>
-          <Stack direction="row">
-            <Tooltip title="Card View">
-              <StyledIconButton onClick={activateCardView} disableRipple>
-                <Apps
-                  sx={{
-                    fontSize: 25,
-                    ml: 1,
-                    mb: 1,
-                  }}
-                />
-              </StyledIconButton>
-            </Tooltip>
-            <Tooltip title="Table View">
-              <StyledIconButton onClick={activateTableView} disableRipple>
-                <ViewHeadline
-                  sx={{
-                    fontSize: 25,
-                    mr: 1,
-                    mb: 1,
-                  }}
-                />
-              </StyledIconButton>
-            </Tooltip>
-          </Stack>
+          <ViewSelectorButtons onCardViewClick={activateCardView} onTableViewClick={activateTableView} />
         </StyledStackContainer>
       </StyledTextContainer>
       <ListContainer>

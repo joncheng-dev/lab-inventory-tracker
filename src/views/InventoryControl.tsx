@@ -25,7 +25,7 @@ interface SnackbarState {
   vertical: "top" | "bottom";
   horizontal: "left" | "center" | "right";
   message: string;
-  color: "#4caf50" | "#FFFF00" | "#ff0f0f";
+  color: string;
 }
 
 export default function InventoryControl() {
@@ -43,7 +43,7 @@ export default function InventoryControl() {
     vertical: "top",
     horizontal: "center",
     message: "All items of type successfully removed from inventory.",
-    color: "#4caf50",
+    color: `${theme.palette.primary.main}`,
   });
 
   // For data:
@@ -125,7 +125,7 @@ export default function InventoryControl() {
       ...notification,
       open: true,
       message: message,
-      color: "#4caf50",
+      color: `${theme.palette.primary.main}`,
     });
   };
 
