@@ -164,10 +164,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
         },
         maxHeight: "80vh",
         overflowY: "auto",
-        // "@media (max-width: 1280px)": {
-        //   justifyContent: "center", // Center contents horizontally
-        //   alignItems: "center", // Center contents vertically
-        // },
       }}
     >
       <Grid container spacing={2} pt={1} sx={{ justifyContent: "center", alignItems: { xl: "flex-start", lg: "center" } }}>
@@ -189,27 +185,27 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
             width: "100%",
           }}
         >
-          <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, height: "100%", width: "100%" }}>
-            <CardContent>
-              <Grid xs={12} item>
-                <DetailsImageContainer>
-                  <Box sx={{ width: "100%", height: 300, overflow: "hidden" }}>
-                    <img src={imageDictionary[image]} alt="selected image" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-                  </Box>
-                </DetailsImageContainer>
-              </Grid>
-              <br />
-              <Grid item xs={12}>
-                <Typography variant="h5">Categories</Typography>
-                <Divider />
-                <Stack direction="row" sx={{ flexWrap: "wrap" }} spacing={1}>
-                  {!tags && <p>No tags to display</p>}
-                  {tags && tags.map((tag, index) => <Chip key={index} icon={<SellIcon />} label={tag} size="medium" variant="outlined" />)}
-                </Stack>
-              </Grid>
-              <br />
-            </CardContent>
-          </Card>
+          <Grid sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, height: "100%", width: "100%" }}>
+            {/* <CardContent> */}
+            <Grid xs={12} item>
+              <DetailsImageContainer>
+                <Box sx={{ width: "100%", height: 300, overflow: "hidden" }}>
+                  <img src={imageDictionary[image]} alt="selected image" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                </Box>
+              </DetailsImageContainer>
+            </Grid>
+            <br />
+            <Grid item xs={12}>
+              <Typography variant="h5">Categories</Typography>
+              <Divider />
+              <Stack direction="row" sx={{ flexWrap: "wrap" }} spacing={1}>
+                {!tags && <p>No tags to display</p>}
+                {tags && tags.map((tag, index) => <Chip key={index} icon={<SellIcon />} label={tag} size="medium" variant="outlined" />)}
+              </Stack>
+            </Grid>
+            <br />
+            {/* </CardContent> */}
+          </Grid>
         </Grid>
         <Grid
           container
@@ -229,7 +225,8 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
             height: "100%", // Occupy the full height of the parent
           }}
         >
-          <Card
+          <Grid
+            item
             sx={{
               backgroundColor: colors.primary[400],
               marginBottom: 3,
@@ -240,36 +237,36 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               height: "100%",
             }}
           >
-            <CardContent style={{ flex: 1 }}>
-              <Typography variant="h4">Item Details</Typography>
-              <Divider />
-              <br />
-              <Grid item>
-                <StyledItemHeader>Display Name</StyledItemHeader>
-                <StyledItemValue theme={theme}>{displayName}</StyledItemValue>
-              </Grid>
-              <Grid item>
-                <StyledItemHeader>Type</StyledItemHeader>
-                <StyledItemValue theme={theme}>{type}</StyledItemValue>
-              </Grid>
-              <Grid item>
-                <StyledItemHeader>Location</StyledItemHeader>
-                <StyledItemValue theme={theme}>{location}</StyledItemValue>
-              </Grid>
-              <Grid item>
-                <StyledItemHeader>Description</StyledItemHeader>
-                <StyledItemValue theme={theme}>{description}</StyledItemValue>
-              </Grid>
-            </CardContent>
-            <CardContent>
-              <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "30px" }}>
-                <Button onClick={onClickingEdit} variant="contained" sx={{ marginRight: "15px" }}>
-                  Edit entry
-                </Button>
-                <ChildModal entryId={id!} onClickingDelete={onClickingDelete} />
-              </div>
-            </CardContent>
-          </Card>
+            {/* <CardContent style={{ flex: 1 }}> */}
+            <Typography variant="h4">Item Details</Typography>
+            <Divider />
+            <br />
+            <Grid item>
+              <StyledItemHeader>Display Name</StyledItemHeader>
+              <StyledItemValue theme={theme}>{displayName}</StyledItemValue>
+            </Grid>
+            <Grid item>
+              <StyledItemHeader>Type</StyledItemHeader>
+              <StyledItemValue theme={theme}>{type}</StyledItemValue>
+            </Grid>
+            <Grid item>
+              <StyledItemHeader>Location</StyledItemHeader>
+              <StyledItemValue theme={theme}>{location}</StyledItemValue>
+            </Grid>
+            <Grid item>
+              <StyledItemHeader>Description</StyledItemHeader>
+              <StyledItemValue theme={theme}>{description}</StyledItemValue>
+            </Grid>
+            {/* </CardContent> */}
+            {/* <CardContent> */}
+            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "30px" }}>
+              <Button onClick={onClickingEdit} variant="contained" sx={{ marginRight: "15px" }}>
+                Edit entry
+              </Button>
+              <ChildModal entryId={id!} onClickingDelete={onClickingDelete} />
+            </div>
+            {/* </CardContent> */}
+          </Grid>
         </Grid>
       </Grid>
     </Box>
