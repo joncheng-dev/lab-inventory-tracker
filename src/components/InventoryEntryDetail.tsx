@@ -418,27 +418,30 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
             width: "100%",
           }}
         >
-          <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, height: "100%", width: "100%" }}>
-            <CardContent>
-              <Grid xs={12} item>
-                <DetailsImageContainer>
-                  <Box sx={{ width: "100%", height: 300, overflow: "hidden" }}>
-                    <img src={imageDictionary[image]} alt="selected image" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-                  </Box>
-                </DetailsImageContainer>
-              </Grid>
-              <br />
-              <Grid item xs={12}>
-                <Typography variant="h5">Categories</Typography>
-                <Divider />
-                <Stack direction="row" sx={{ flexWrap: "wrap" }} spacing={1}>
-                  {!tags && <p>No tags to display</p>}
-                  {tags && tags.map((tag, index) => <Chip key={index} icon={<SellIcon />} label={tag} size="medium" variant="outlined" />)}
-                </Stack>
-              </Grid>
-              <br />
-            </CardContent>
-          </Card>
+          <Grid
+            container
+            sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, height: "100%", width: "100%" }}
+          >
+            {/* <CardContent> */}
+            <Grid xs={12} item>
+              <DetailsImageContainer>
+                <Box sx={{ width: "100%", height: 300, overflow: "hidden" }}>
+                  <img src={imageDictionary[image]} alt="selected image" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                </Box>
+              </DetailsImageContainer>
+            </Grid>
+            <br />
+            <Grid item xs={12}>
+              <Typography variant="h5">Categories</Typography>
+              <Divider />
+              <Stack direction="row" sx={{ flexWrap: "wrap" }} spacing={1}>
+                {!tags && <p>No tags to display</p>}
+                {tags && tags.map((tag, index) => <Chip key={index} icon={<SellIcon />} label={tag} size="medium" variant="outlined" />)}
+              </Stack>
+            </Grid>
+            <br />
+            {/* </CardContent> */}
+          </Grid>
         </Grid>
         <Grid
           container
@@ -458,65 +461,63 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
             width: "100%",
           }}
         >
-          <Card sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, height: "100%", width: "100%" }}>
-            <CardContent>
-              <Typography variant="h4">Item Details</Typography>
-              <Divider />
-              <br />
-              <Grid item>
-                <StyledItemHeader>Display Name</StyledItemHeader>
-                <StyledItemValue theme={theme}>{displayName}</StyledItemValue>
-              </Grid>
-              <Grid item>
-                <StyledItemHeader>Type</StyledItemHeader>
-                <StyledItemValue theme={theme}>{type}</StyledItemValue>
-              </Grid>
-              <Grid item>
-                <StyledItemHeader>Location</StyledItemHeader>
-                <StyledItemValue theme={theme}>{location}</StyledItemValue>
-              </Grid>
-              <Grid item>
-                <StyledItemHeader>Description</StyledItemHeader>
-                <StyledItemValue theme={theme}>{description}</StyledItemValue>
-              </Grid>
-            </CardContent>
-          </Card>
+          <Grid sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, height: "100%", width: "100%" }}>
+            {/* <CardContent> */}
+            <Typography variant="h4">Item Details</Typography>
+            <Divider />
+            <br />
+            <Grid item>
+              <StyledItemHeader>Display Name</StyledItemHeader>
+              <StyledItemValue theme={theme}>{displayName}</StyledItemValue>
+            </Grid>
+            <Grid item>
+              <StyledItemHeader>Type</StyledItemHeader>
+              <StyledItemValue theme={theme}>{type}</StyledItemValue>
+            </Grid>
+            <Grid item>
+              <StyledItemHeader>Location</StyledItemHeader>
+              <StyledItemValue theme={theme}>{location}</StyledItemValue>
+            </Grid>
+            <Grid item>
+              <StyledItemHeader>Description</StyledItemHeader>
+              <StyledItemValue theme={theme}>{description}</StyledItemValue>
+            </Grid>
+            {/* </CardContent> */}
+          </Grid>
         </Grid>
         <Grid lg={12} xl={5} item sx={{ order: { md: 3, lg: 3, xl: 3 } }}>
-          <Card sx={{ backgroundColor: colors.primary[400], paddingLeft: 1, paddingRight: 1 }}>
-            <CardContent>
-              <Typography variant="h4">Availability</Typography>
-              <Divider />
-              <br />
-              <AvailabilityContainer>
-                <ItemCheckOutTable quantTotal={quantity} quantAvail={quantAvail} onFormSubmit={handleCheckoutItems} />
-                <ItemStatusTable summary={checkedOutBySummary} />
-                <Box display="flex" justifyContent="space-between" pt={1}>
-                  <Grid item xs={12} sx={{ direction: "row", textAlign: "right" }}>
-                    {itemList.some((item) => type === item.type && item.checkedOutBy === userProvider?.currentUser?.email) ? (
-                      <Button onClick={handleReturnItems} variant="contained" size="medium">
-                        Return
-                      </Button>
-                    ) : (
-                      <Button disabled variant="contained" size="medium">
-                        Return
-                      </Button>
-                    )}
-                  </Grid>
-                </Box>
-              </AvailabilityContainer>
-            </CardContent>
-          </Card>
-          <Card sx={{ backgroundColor: colors.primary[400], paddingLeft: 1, paddingRight: 1 }}>
-            <CardContent>
-              <Grid xs={12} container item spacing={2}>
-                <Grid item>
-                  {userProvider?.currentUser?.isAdmin && <ChildModalEditQuant quantTotal={quantity} onFormSubmit={handleUpdateQuantity} />}
+          <Grid sx={{ backgroundColor: colors.primary[400], paddingLeft: 1, paddingRight: 1 }}>
+            {/* <CardContent> */}
+            <Typography variant="h4">Availability</Typography>
+            <Divider />
+            <br />
+            <AvailabilityContainer>
+              <ItemCheckOutTable quantTotal={quantity} quantAvail={quantAvail} onFormSubmit={handleCheckoutItems} />
+              <ItemStatusTable summary={checkedOutBySummary} />
+              <Box display="flex" justifyContent="space-between" pt={1}>
+                <Grid item xs={12} sx={{ direction: "row", textAlign: "right" }}>
+                  {itemList.some((item) => type === item.type && item.checkedOutBy === userProvider?.currentUser?.email) ? (
+                    <Button onClick={handleReturnItems} variant="contained" size="medium">
+                      Return
+                    </Button>
+                  ) : (
+                    <Button disabled variant="contained" size="medium">
+                      Return
+                    </Button>
+                  )}
                 </Grid>
-                <Grid item>{userProvider?.currentUser?.isAdmin && <ChildModalDeleteAll onClickingDelete={handleDeletingAllOfItemType} />}</Grid>
-              </Grid>
-            </CardContent>
-          </Card>
+              </Box>
+            </AvailabilityContainer>
+            {/* </CardContent> */}
+          </Grid>
+          <Grid sx={{ backgroundColor: colors.primary[400], paddingLeft: 1, paddingRight: 1 }}>
+            {/* <CardContent> */}
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              {userProvider?.currentUser?.isAdmin && <ChildModalEditQuant quantTotal={quantity} onFormSubmit={handleUpdateQuantity} />}
+              {userProvider?.currentUser?.isAdmin && <ChildModalDeleteAll onClickingDelete={handleDeletingAllOfItemType} />}
+            </div>
+            {/* </CardContent> */}
+          </Grid>
         </Grid>
       </Grid>
     </Box>

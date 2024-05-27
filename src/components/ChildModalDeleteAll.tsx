@@ -71,7 +71,13 @@ export default function ChildModalDeleteAll(props: ChildModalDeleteAllProps) {
 
   return (
     <>
-      <Button variant="contained" startIcon={<DeleteIcon />} onClick={handleOpen} color="warning">
+      <Button
+        variant="contained"
+        startIcon={<DeleteIcon />}
+        onClick={handleOpen}
+        color="warning"
+        sx={{ marginTop: "20px", marginRight: "22px", marginBottom: "15px" }}
+      >
         Remove All
       </Button>
       <Modal open={open} onClose={handleClose}>
