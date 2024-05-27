@@ -78,7 +78,7 @@ export default function ChildModalEditQuant(props: ChildModalEditQuantProps) {
 
   return (
     <>
-      <Button variant="contained" onClick={handleOpen}>
+      <Button variant="contained" onClick={handleOpen} sx={{ marginTop: "20px", marginRight: "15px", marginBottom: "15px" }}>
         Modify Total Quantity
       </Button>
       <Modal open={open} onClose={handleClose}>
