@@ -382,10 +382,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
         },
         maxHeight: "80vh",
         overflowY: "auto",
-        // "@media (max-width: 1280px)": {
-        //   justifyContent: "center", // Center contents horizontally
-        //   alignItems: "center", // Center contents vertically
-        // },
       }}
     >
       {notification.open && (
@@ -422,7 +418,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
             container
             sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, height: "100%", width: "100%" }}
           >
-            {/* <CardContent> */}
             <Grid xs={12} item>
               <DetailsImageContainer>
                 <Box sx={{ width: "100%", height: 300, overflow: "hidden" }}>
@@ -440,7 +435,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               </Stack>
             </Grid>
             <br />
-            {/* </CardContent> */}
           </Grid>
         </Grid>
         <Grid
@@ -462,7 +456,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
           }}
         >
           <Grid sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, height: "100%", width: "100%" }}>
-            {/* <CardContent> */}
             <Typography variant="h4">Item Details</Typography>
             <Divider />
             <br />
@@ -482,12 +475,10 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               <StyledItemHeader>Description</StyledItemHeader>
               <StyledItemValue theme={theme}>{description}</StyledItemValue>
             </Grid>
-            {/* </CardContent> */}
           </Grid>
         </Grid>
         <Grid lg={12} xl={5} item sx={{ order: { md: 3, lg: 3, xl: 3 } }}>
           <Grid sx={{ backgroundColor: colors.primary[400], paddingLeft: 1, paddingRight: 1 }}>
-            {/* <CardContent> */}
             <Typography variant="h4">Availability</Typography>
             <Divider />
             <br />
@@ -508,15 +499,12 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
                 </Grid>
               </Box>
             </AvailabilityContainer>
-            {/* </CardContent> */}
           </Grid>
           <Grid sx={{ backgroundColor: colors.primary[400], paddingLeft: 1, paddingRight: 1 }}>
-            {/* <CardContent> */}
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               {userProvider?.currentUser?.isAdmin && <ChildModalEditQuant quantTotal={quantity} onFormSubmit={handleUpdateQuantity} />}
               {userProvider?.currentUser?.isAdmin && <ChildModalDeleteAll onClickingDelete={handleDeletingAllOfItemType} />}
             </div>
-            {/* </CardContent> */}
           </Grid>
         </Grid>
       </Grid>

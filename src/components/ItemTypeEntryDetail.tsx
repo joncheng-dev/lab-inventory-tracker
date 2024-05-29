@@ -186,7 +186,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
           }}
         >
           <Grid sx={{ backgroundColor: colors.primary[400], marginBottom: 3, paddingLeft: 1, paddingRight: 1, height: "100%", width: "100%" }}>
-            {/* <CardContent> */}
             <Grid xs={12} item>
               <DetailsImageContainer>
                 <Box sx={{ width: "100%", height: 300, overflow: "hidden" }}>
@@ -204,7 +203,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               </Stack>
             </Grid>
             <br />
-            {/* </CardContent> */}
           </Grid>
         </Grid>
         <Grid
@@ -237,7 +235,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               height: "100%",
             }}
           >
-            {/* <CardContent style={{ flex: 1 }}> */}
             <Typography variant="h4">Item Details</Typography>
             <Divider />
             <br />
@@ -257,15 +254,12 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               <StyledItemHeader>Description</StyledItemHeader>
               <StyledItemValue theme={theme}>{description}</StyledItemValue>
             </Grid>
-            {/* </CardContent> */}
-            {/* <CardContent> */}
             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "30px" }}>
               <Button onClick={onClickingEdit} variant="contained" sx={{ marginRight: "15px" }}>
                 Edit entry
               </Button>
               <ChildModal entryId={id!} onClickingDelete={onClickingDelete} />
             </div>
-            {/* </CardContent> */}
           </Grid>
         </Grid>
       </Grid>
