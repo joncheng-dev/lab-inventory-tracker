@@ -259,32 +259,24 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
       setNotificationOpen({ ...notification, open: true, message: "New quantity is equal to current. No changes made.", color: "#FFFF00" });
     } else {
       // Here, we will be removing items.
-      console.log("New quantity: specified by user -- data.quantity: ", data.quantity); // data.quantity is new quantity specified by user
-      console.log("Current quantity of items total -- quantity: ", quantity); // quantity is current number of items total
-      console.log("Num of items able to be deleted -- quantAvail: ", quantAvail); // quantAvail is num of items able to be deleted
       // DELETE ITEMS
       const quantToDelete = quantity - data.quantity; // This is how many that will be (attempted to be) deleted.
       const itemsThatCanBeDeleted = itemList
         // prettier-ignore
         .filter((item) => item.type === type)
         .filter((item) => !item.isCheckedOut);
-      console.log("itemsThatCanBeDeleted: ", itemsThatCanBeDeleted);
       const itemIdsThatCanBeDeleted = itemList
         // prettier-ignore
         .filter((item) => item.type === type && !item.isCheckedOut)
         .map((item) => item.id);
-      console.log("itemIdsThatCanBeDeleted: ", itemIdsThatCanBeDeleted);
       // quantAvail --> Number not checked out
       if (quantAvail >= quantToDelete) {
-        console.log("quantAvail >= quantToDelete, quantAvail: ", quantAvail);
-        console.log("quantAvail >= quantToDelete, quantToDelete: ", quantToDelete);
         // Can delete all needed. Delete only if not checked out (specific ids)
         // Randomize the ids being sent to delete.
         const randomNumbers: number[] = randomItemPicker(quantAvail, quantToDelete);
         // randomNumbers = [0, 1, 3];
         // Look through list of deletable items, select the entries matching index positions.
         const itemsId = randomNumbers.map((index) => itemsThatCanBeDeleted[index].id);
-        console.log("itemsId that are chosen to be deleted: ", itemsId);
         // Make the call to delete these items matching elements in itemsId array
         deleteMultipleDocs("items", itemsId as string[]);
         setNotificationOpen({ ...notification, open: true, message: "Total quantity updated successfully.", color: `${theme.palette.primary.main}` });
@@ -320,7 +312,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
 
   const handleReturnItems = () => {
     const userEmail = userProvider?.currentUser?.email || "";
-    // console.log("InventoryEntryDetail, handleReturnItems, button clicked: ");
     // The currently viewed itemType -- being displayed on InventoryEntryDetail
     // If currently viewed itemList has items of itemType,
     const itemsOfTargetTypeCheckedOutByUser = itemList
@@ -328,20 +319,15 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
       .filter((item) => item.checkedOutBy === userProvider?.currentUser?.email);
     // AND checkedOutBy === userEmail,
     const itemIdsToReturn = itemsOfTargetTypeCheckedOutByUser.map((item) => item.id);
-    // console.log("InventoryEntryDetail, handleReturnItems, currentUser.userEmail: ", currentUser?.userEmail);
     assetTrackUpdateDoc("items", userEmail, itemIdsToReturn as string[], "return");
   };
 
   // Delete all of specified item type
   const handleDeletingAllOfItemType = async () => {
-    console.log("delete button clicked");
-    console.log("entry is of type: ", entry?.type);
-    console.log("itemList is: ", itemList);
     const checkedOutCount = itemList
       // prettier-ignore
       .filter((item) => item.type === entry?.type)
       .filter((item) => item.isCheckedOut === true).length;
-    console.log("handleDeletingAllOfItemType, checkedOutCount: ", checkedOutCount);
     //    If > 0, show message that it cannot be done, do not delete anything
     if (checkedOutCount > 0) {
       // Show error notification.

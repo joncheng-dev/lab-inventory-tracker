@@ -17,7 +17,6 @@ type ItemCheckOutTableProps = {
 
 export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
   const { quantAvail, quantTotal, onFormSubmit } = props;
-  // console.log("ItemCheckOutTable, quantAvail: ", quantAvail);
   const rows = [createData("Available", quantAvail)];
   const [formData, setFormData] = useState<CheckOutFormInput>({
     quantity: quantAvail > 0 ? 1 : 0,
@@ -48,9 +47,7 @@ export default function ItemCheckOutTable(props: ItemCheckOutTableProps) {
   };
 
   const handleSubmit = (values: CheckOutFormInput) => {
-    // console.log("ItemCheckOutTable, handleSubmit, quantityToCheckOut: ", values.quantity);
     onFormSubmit(values);
-
     setFormData({ quantity: quantAvail > 0 ? 1 : 0 });
   };
 

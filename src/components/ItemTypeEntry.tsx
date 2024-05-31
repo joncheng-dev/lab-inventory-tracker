@@ -124,8 +124,6 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
   const { entry, onEntryClick } = props;
   const { id, count, displayName, type, image, tags } = entry;
 
-  // console.log("ItemTypeEntry, tags: ", tags);
-
   return (
     <StyledCard
       onClick={() => {
@@ -201,19 +199,6 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
             {tags && tags.length > 2 && (
               <div style={{ marginLeft: "auto" }}>
                 <MenuLong content={tags.slice(2)} />
-                {/* <PopoverCustom
-                  // prettier-ignore
-                  buttonContent={<MoreVert />}
-                  popoverContent={tags.slice(2).map((tag, index) => (
-                    <Chip
-                      key={index}
-                      icon={<SellIcon />}
-                      label={tag}
-                      size="small"
-                      sx={{ backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff" }}
-                    />
-                  ))}
-                /> */}
               </div>
             )}
           </Stack>

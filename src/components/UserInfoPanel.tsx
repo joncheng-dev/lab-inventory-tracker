@@ -18,7 +18,6 @@ export default function UserInfoPanel(props: UserInfoPanelProps) {
   const userProvider = sharedInfo();
   const location = useLocation();
   const currentPath = location.pathname;
-  console.log("currentPath: ", currentPath);
   const { listOfItemTypes, itemsCheckedOutByUser, onEntryClick } = props;
   const [itemCounts, setItemCounts] = useState<Record<string, number>>({});
 

@@ -68,9 +68,7 @@ export default function ItemTypeForm(props: FormProps) {
     type: yup.string().max(100, "Must be less than 100 characters").required("Required"),
   });
 
-  // console.log("ItemTypeForm, entry: ", entry);
   const { displayName, description, location, tags, type } = formData;
-  // console.log("ItemTypeForm, formData: ", formData);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     setFormData((prevData) => ({
