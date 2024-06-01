@@ -6,10 +6,8 @@ import {
   AutocompleteChangeReason,
   Box,
   Button,
-  Divider,
   FormControl,
   Grid,
-  InputLabel,
   Stack,
   TextField,
   Tooltip,
@@ -34,10 +32,6 @@ type FormProps = {
   itemTypeList: ItemType[];
   onFormSubmit: (data: AddItemsForm) => Promise<void>;
 };
-
-// Item type list is sent here via props.
-// Use item type list to populate information in input field.
-// Do not save displayName to item entry in database.
 
 const tooltipText = `Select a catalog entry to add items to inventory.`;
 
