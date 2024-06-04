@@ -64,6 +64,14 @@ const imageDictionary: Record<string, string> = {
   tools3,
 };
 
+const StyledImgBox = styled(Box)(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    width: "40%",
+    height: "100%",
+    overflow: "hidden",
+  },
+}));
+
 export default function CatalogItemTypeEntry(props: CatalogItemTypeEntryProps) {
   const location = useLocation();
   const currentPath = location.pathname;
@@ -78,9 +86,59 @@ export default function CatalogItemTypeEntry(props: CatalogItemTypeEntryProps) {
         onEntryClick(id!);
       }}
     >
+      <StyledImgBox>
+        {image && (
+          <CardMedia
+            component="img"
+            image={imageDictionary[image]}
+            title={image}
+            sx={{
+              width: "100%",
+              height: isSmallScreen ? "100%" : "140px",
+              objectFit: "cover",
+            }}
+          />
+        )}
+      </StyledImgBox>
       <Typography>Item Type: {type}</Typography>
       <Typography>Display Name: {displayName}</Typography>
       <Typography>Count: {count}</Typography>
+      <Stack direction="row" sx={{ flexWrap: "nowrap", alignItems: "center" }} spacing={1}>
+        {tags &&
+          tags
+            .slice(0, 2)
+            .map((tag, index) => (
+              <Chip
+                key={index}
+                icon={<SellIcon />}
+                label={tag}
+                size="small"
+                variant="outlined"
+                sx={{ flex: "1 1 1", textOverflow: "ellipsis", overflow: "hidden", flexWrap: "nowrap" }}
+              />
+            ))}
+        {tags && tags.length <= 2 && (
+          <div style={{ marginLeft: "auto" }}>
+            <IconButton
+              aria-label="empty"
+              disabled
+              sx={{
+                flex: "1 1 1",
+                "&:focus, &:active": {
+                  outline: "none",
+                },
+              }}
+            >
+              <MoreVert />
+            </IconButton>
+          </div>
+        )}
+        {tags && tags.length > 2 && (
+          <div style={{ marginLeft: "auto" }}>
+            <MenuLong content={tags.slice(2)} />
+          </div>
+        )}
+      </Stack>
     </Card>
   );
 }
