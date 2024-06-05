@@ -1,10 +1,13 @@
-import { styled } from "@mui/material/styles";
+import { styled as styledM } from "@mui/material/styles";
+import { ColorModeContext, tokens } from "../themes.tsx";
+import styled from "styled-components";
 import {
   Box,
   Card,
   CardContent,
   CardMedia,
   Chip,
+  Grid,
   IconButton,
   Menu,
   MenuItem,
@@ -64,7 +67,23 @@ const imageDictionary: Record<string, string> = {
   tools3,
 };
 
-const StyledImgBox = styled(Box)(({ theme }) => ({
+const StyledCard = styledM(Card)(({ theme }) => ({
+  display: "flex",
+  flexFlow: "flex-grow",
+  // flex: "1 2 auto",
+  width: "100%",
+  maxWidth: "100%",
+  position: "relative",
+
+  "&:hover": {
+    cursor: "pointer",
+  },
+}));
+
+const StyledImgBox = styledM(Box)(({ theme }) => ({
+  width: "20%",
+  height: "auto",
+  // marginRight: "2em",
   [theme.breakpoints.down("md")]: {
     width: "40%",
     height: "100%",
@@ -72,16 +91,38 @@ const StyledImgBox = styled(Box)(({ theme }) => ({
   },
 }));
 
+const StyledItemHeader = styled.p`
+  font-size: 1rem;
+  color: rgb(83, 167, 235);
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 0;
+`;
+
+const StyledItemValue = styled.p`
+  font-size: 1rem;
+  color: ${(props) => (props.theme.palette.mode === "dark" ? "#fff" : "#141b2d")};
+  margin-top: 0; /* Add margin to the top of each value for spacing */
+`;
+
 export default function CatalogItemTypeEntry(props: CatalogItemTypeEntryProps) {
   const location = useLocation();
   const currentPath = location.pathname;
   const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { entry, onEntryClick } = props;
-  const { id, count, displayName, type, image, tags } = entry;
+  const { id, description, displayName, type, image, tags } = entry;
+
+  const StyledTextBox = styledM(Box)(({ theme }) => ({
+    maxWidth: "80%",
+    // height: "100%",
+    backgroundColor: colors.primary[400],
+    // marginLeft: "2em",
+  }));
 
   return (
-    <Card
+    <StyledCard
       onClick={() => {
         onEntryClick(id!);
       }}
@@ -94,51 +135,73 @@ export default function CatalogItemTypeEntry(props: CatalogItemTypeEntryProps) {
             title={image}
             sx={{
               width: "100%",
-              height: isSmallScreen ? "100%" : "140px",
+              height: "300px",
               objectFit: "cover",
             }}
           />
         )}
       </StyledImgBox>
-      <Typography>Item Type: {type}</Typography>
-      <Typography>Display Name: {displayName}</Typography>
-      <Typography>Count: {count}</Typography>
-      <Stack direction="row" sx={{ flexWrap: "nowrap", alignItems: "center" }} spacing={1}>
-        {tags &&
-          tags
-            .slice(0, 2)
-            .map((tag, index) => (
-              <Chip
-                key={index}
-                icon={<SellIcon />}
-                label={tag}
-                size="small"
-                variant="outlined"
-                sx={{ flex: "1 1 1", textOverflow: "ellipsis", overflow: "hidden", flexWrap: "nowrap" }}
-              />
-            ))}
-        {tags && tags.length <= 2 && (
-          <div style={{ marginLeft: "auto" }}>
-            <IconButton
-              aria-label="empty"
-              disabled
-              sx={{
-                flex: "1 1 1",
-                "&:focus, &:active": {
-                  outline: "none",
-                },
-              }}
-            >
-              <MoreVert />
-            </IconButton>
-          </div>
-        )}
-        {tags && tags.length > 2 && (
-          <div style={{ marginLeft: "auto" }}>
-            <MenuLong content={tags.slice(2)} />
-          </div>
-        )}
-      </Stack>
-    </Card>
+      <Grid
+        item
+        sx={{
+          paddingLeft: 1,
+          paddingRight: 1,
+          display: "flex",
+          flexDirection: "column",
+          maxWidth: "80%",
+          // height: "100%",
+        }}
+      >
+        <Grid item>
+          <StyledItemHeader>Display Name</StyledItemHeader>
+          <StyledItemValue theme={theme}>{displayName}</StyledItemValue>
+        </Grid>
+        <Grid item>
+          <StyledItemHeader>Type</StyledItemHeader>
+          <StyledItemValue theme={theme}>{type}</StyledItemValue>
+        </Grid>
+        <Grid item>
+          <StyledItemHeader>Description</StyledItemHeader>
+          <StyledItemValue theme={theme}>{description}</StyledItemValue>
+        </Grid>
+
+        <Stack direction="row" sx={{ flexWrap: "nowrap", alignItems: "center" }} spacing={1}>
+          {tags &&
+            tags
+              .slice(0, 2)
+              .map((tag, index) => (
+                <Chip
+                  key={index}
+                  icon={<SellIcon />}
+                  label={tag}
+                  size="small"
+                  variant="outlined"
+                  sx={{ flex: "1 1 1", textOverflow: "ellipsis", overflow: "hidden", flexWrap: "nowrap" }}
+                />
+              ))}
+          {tags && tags.length <= 2 && (
+            <div style={{ marginLeft: "auto" }}>
+              <IconButton
+                aria-label="empty"
+                disabled
+                sx={{
+                  flex: "1 1 1",
+                  "&:focus, &:active": {
+                    outline: "none",
+                  },
+                }}
+              >
+                <MoreVert />
+              </IconButton>
+            </div>
+          )}
+          {tags && tags.length > 2 && (
+            <div style={{ marginLeft: "auto" }}>
+              <MenuLong content={tags.slice(2)} />
+            </div>
+          )}
+        </Stack>
+      </Grid>
+    </StyledCard>
   );
 }
