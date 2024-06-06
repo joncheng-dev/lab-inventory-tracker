@@ -1,6 +1,6 @@
 import { styled as styledM } from "@mui/material/styles";
 import { ColorModeContext, tokens } from "../themes.tsx";
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import {
   Box,
   Card,
@@ -41,7 +41,6 @@ import {
   tools2,
   tools3,
 } from "../images";
-import { display } from "@mui/system";
 
 type CatalogItemTypeEntryProps = {
   entry: ItemType;
@@ -67,58 +66,62 @@ const imageDictionary: Record<string, string> = {
   tools3,
 };
 
-const StyledCard = styledM(Card)(({ theme }) => ({
-  display: "flex",
-  flexFlow: "flex-grow",
-  // flex: "1 2 auto",
-  width: "100%",
-  maxWidth: "100%",
-  position: "relative",
+// const StyledItemHeader = styled.p`
+//   font-size: 1rem;
+//   text-transform: uppercase;
+//   font-weight: bold;
+//   margin-top: 0;
+//   margin-bottom: 0;
+// `;
 
-  "&:hover": {
-    cursor: "pointer",
-  },
+// const StyledItemValue = styled.p`
+//   font-size: 1rem;
+//   /* color: ${(props) => (props.theme.palette.mode === "dark" ? "#fff" : "#141b2d")}; */
+//   color: ${(props) => (props.theme.palette.mode === "dark" ? "#fff" : "#59554C")};
+//   margin-top: 0; /* Add margin to the top of each value for spacing */
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   white-space: ${(props) => (props.theme.width <= 2 * props.theme.lineHeight ? "normal" : "nowrap")};
+// `;
+
+const StyledItemHeader = styledM("p")(({ theme }) => ({
+  fontSize: "1rem",
+  textTransform: "uppercase",
+  color: theme.palette.mode === "dark" ? "#fff" : "#141b2d",
+  fontWeight: "bold",
+  marginTop: 0,
+  marginBottom: 0,
 }));
 
-const StyledImgBox = styledM(Box)(({ theme }) => ({
-  width: "20%",
-  height: "auto",
-  // marginRight: "2em",
-  [theme.breakpoints.down("md")]: {
-    width: "40%",
-    height: "100%",
-    overflow: "hidden",
-  },
+const StyledItemValue = styledM("p")(({ theme }) => ({
+  fontSize: "1rem",
+  /* color: ${(props) => (props.theme.palette.mode === "dark" ? "#fff" : "#141b2d")}; */
+  color: theme.palette.mode === "dark" ? "#fff" : "#141b2d",
+  marginTop: 0,
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
 }));
-
-const StyledItemHeader = styled.p`
-  font-size: 1rem;
-  color: rgb(83, 167, 235);
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-bottom: 0;
-`;
-
-const StyledItemValue = styled.p`
-  font-size: 1rem;
-  color: ${(props) => (props.theme.palette.mode === "dark" ? "#fff" : "#141b2d")};
-  margin-top: 0; /* Add margin to the top of each value for spacing */
-`;
 
 export default function CatalogItemTypeEntry(props: CatalogItemTypeEntryProps) {
-  const location = useLocation();
-  const currentPath = location.pathname;
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { entry, onEntryClick } = props;
   const { id, description, displayName, type, image, tags } = entry;
+  const colors = tokens(theme.palette.mode);
 
-  const StyledTextBox = styledM(Box)(({ theme }) => ({
-    maxWidth: "80%",
-    // height: "100%",
-    backgroundColor: colors.primary[400],
-    // marginLeft: "2em",
+  const StyledCard = styledM(Card)(({ theme }) => ({
+    display: "flex",
+    flexFlow: "flex-grow",
+    // flex: "1 2 auto",
+    maxHeight: "200px",
+    width: "100%",
+    maxWidth: "100%",
+    position: "relative",
+    // backgroundColor: colors.primary[400],
+
+    "&:hover": {
+      cursor: "pointer",
+    },
   }));
 
   return (
@@ -127,7 +130,25 @@ export default function CatalogItemTypeEntry(props: CatalogItemTypeEntryProps) {
         onEntryClick(id!);
       }}
     >
-      <StyledImgBox>
+      <Box
+        sx={{
+          height: {
+            xs: "100%",
+            sm: "100%",
+            md: "100%",
+            lg: "auto",
+            xl: "auto",
+          },
+          overflow: "hidden",
+          width: {
+            xs: "40%",
+            sm: "40%",
+            md: "40%",
+            lg: "20%",
+            xl: "20%",
+          },
+        }}
+      >
         {image && (
           <CardMedia
             component="img"
@@ -140,35 +161,37 @@ export default function CatalogItemTypeEntry(props: CatalogItemTypeEntryProps) {
             }}
           />
         )}
-      </StyledImgBox>
+      </Box>
       <Grid
-        item
+        container
         sx={{
           paddingLeft: 1,
           paddingRight: 1,
+          paddingTop: 1,
           display: "flex",
-          flexDirection: "column",
+          // flexDirection: "column",
           maxWidth: "80%",
           // height: "100%",
         }}
       >
-        <Grid item>
-          <StyledItemHeader>Display Name</StyledItemHeader>
-          <StyledItemValue theme={theme}>{displayName}</StyledItemValue>
-        </Grid>
-        <Grid item>
-          <StyledItemHeader>Type</StyledItemHeader>
-          <StyledItemValue theme={theme}>{type}</StyledItemValue>
-        </Grid>
-        <Grid item>
-          <StyledItemHeader>Description</StyledItemHeader>
-          <StyledItemValue theme={theme}>{description}</StyledItemValue>
-        </Grid>
-
+        <ThemeProvider theme={theme}>
+          <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
+            <StyledItemHeader>Display Name</StyledItemHeader>
+            <StyledItemValue theme={theme}>{displayName}</StyledItemValue>
+          </Grid>
+          <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
+            <StyledItemHeader>Type</StyledItemHeader>
+            <StyledItemValue theme={theme}>{type}</StyledItemValue>
+          </Grid>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <StyledItemHeader>Description</StyledItemHeader>
+            <StyledItemValue theme={theme}>{description}</StyledItemValue>
+          </Grid>
+        </ThemeProvider>
         <Stack direction="row" sx={{ flexWrap: "nowrap", alignItems: "center" }} spacing={1}>
           {tags &&
             tags
-              .slice(0, 2)
+              .slice(0, 5)
               .map((tag, index) => (
                 <Chip
                   key={index}
@@ -179,7 +202,7 @@ export default function CatalogItemTypeEntry(props: CatalogItemTypeEntryProps) {
                   sx={{ flex: "1 1 1", textOverflow: "ellipsis", overflow: "hidden", flexWrap: "nowrap" }}
                 />
               ))}
-          {tags && tags.length <= 2 && (
+          {tags && tags.length <= 5 && (
             <div style={{ marginLeft: "auto" }}>
               <IconButton
                 aria-label="empty"
@@ -195,9 +218,9 @@ export default function CatalogItemTypeEntry(props: CatalogItemTypeEntryProps) {
               </IconButton>
             </div>
           )}
-          {tags && tags.length > 2 && (
+          {tags && tags.length >= 5 && (
             <div style={{ marginLeft: "auto" }}>
-              <MenuLong content={tags.slice(2)} />
+              <MenuLong content={tags.slice(5)} />
             </div>
           )}
         </Stack>
