@@ -31,6 +31,7 @@ const StyledStackContainer = styled.div`
 
 const ListContainer = styled.div`
   text-align: left;
+  margin-bottom: 1em;
 `;
 
 const ItemContainer = styled.div`
