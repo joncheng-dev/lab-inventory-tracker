@@ -40,25 +40,3 @@ export default function Home() {
     </Layout>
   );
 }
-
-// return (
-//   <Layout>
-//     <>
-//       {userProvider?.currentUser ? (
-//         <Grid container spacing={1}>
-//           {/* <Grid item xs={sidebarWidth} style={{ transition: "all 0.5s" }}> */}
-//           {/* <Grid item sx={{ display: { xs: "none", sm: "inline-block", md: "inline-block" } }} style={{ transition: "all 0.5s" }}>
-//             <Sidebar onToggle={handleSidebarToggle} />
-//           </Grid> */}
-//           <Grid item>
-//             {/* <Grid item xs={mainContentWidth} sm={mainContentWidth} style={{ transition: "all 0.5s" }}> */}
-//             {/* <Grid item xs={mainContentWidth} style={{ transition: "all 0.5s" }}> */}
-//             <Outlet />
-//           </Grid>
-//         </Grid>
-//       ) : (
-//         <Navigate to="/signin" />
-//       )}
-//     </>
-//   </Layout>
-// );

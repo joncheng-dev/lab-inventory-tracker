@@ -90,19 +90,6 @@ const AvailabilityContainer = styled.div`
   row-gap: 0.25rem;
 `;
 
-// const StyledItemHeader = styled.p`
-//   font-size: 1rem;
-//   color: rgb(83, 167, 235);
-//   text-transform: uppercase;
-//   font-weight: bold;
-//   margin-bottom: 0;
-// `;
-
-// const StyledItemValue = styled.p`
-//   font-size: 1rem;
-//   color: #ffffff;
-// `;
-
 const TextAlignLeftContainer = styled.div`
   /* text-align: left; */
 `;
