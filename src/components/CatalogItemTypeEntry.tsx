@@ -1,28 +1,11 @@
 import { styled as styledM } from "@mui/material/styles";
-import { ColorModeContext, tokens } from "../themes.tsx";
+import { tokens } from "../themes.tsx";
 import styled, { ThemeProvider } from "styled-components";
-import {
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  Chip,
-  Grid,
-  IconButton,
-  Menu,
-  MenuItem,
-  Stack,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
-import PopoverCustom from "./PopoverCustom";
+import { Box, Card, CardMedia, Chip, Grid, IconButton, Stack, useTheme } from "@mui/material";
 import MenuLong from "./MenuLong";
 import MoreVert from "@mui/icons-material/MoreVert";
 import SellIcon from "@mui/icons-material/Sell";
 import { ItemType } from "../types";
-import { useLocation } from "react-router-dom";
 import {
   equipment1,
   equipment2,
@@ -95,7 +78,6 @@ const StyledItemHeader = styledM("p")(({ theme }) => ({
 
 const StyledItemValue = styledM("p")(({ theme }) => ({
   fontSize: "1rem",
-  /* color: ${(props) => (props.theme.palette.mode === "dark" ? "#fff" : "#141b2d")}; */
   color: theme.palette.mode === "dark" ? "#fff" : "#141b2d",
   marginTop: 0,
   overflow: "hidden",
@@ -117,7 +99,6 @@ export default function CatalogItemTypeEntry(props: CatalogItemTypeEntryProps) {
     width: "100%",
     maxWidth: "100%",
     position: "relative",
-    // backgroundColor: colors.primary[400],
 
     "&:hover": {
       cursor: "pointer",
@@ -169,9 +150,7 @@ export default function CatalogItemTypeEntry(props: CatalogItemTypeEntryProps) {
           paddingRight: 1,
           paddingTop: 1,
           display: "flex",
-          // flexDirection: "column",
           maxWidth: "80%",
-          // height: "100%",
         }}
       >
         <ThemeProvider theme={theme}>

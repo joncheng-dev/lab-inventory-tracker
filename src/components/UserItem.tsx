@@ -1,6 +1,6 @@
 import { ItemType } from "../types";
 import styled from "styled-components";
-import { Button, Card, CardContent, Grid, Typography } from "@mui/material/";
+import { Button, Typography } from "@mui/material/";
 
 type UserItemProps = {
   count: number;

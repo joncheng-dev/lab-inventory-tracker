@@ -51,9 +51,6 @@ export default function UserInfoPanel(props: UserInfoPanelProps) {
                       modifiers: [
                         {
                           name: "offset",
-                          options: {
-                            // offset: [0, -24],
-                          },
                         },
                       ],
                     },

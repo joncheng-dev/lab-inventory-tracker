@@ -1,9 +1,8 @@
 // TSX VERSION
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { db, auth } from "../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { UserCredential, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { UserCredential, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 interface UserInfo {
@@ -103,6 +102,5 @@ export const UserProvider = ({ children }: any) => {
     currentUser,
   };
 
-  console.log("UserContext currentUser: ", currentUser);
   return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
 };

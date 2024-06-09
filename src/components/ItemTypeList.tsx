@@ -109,7 +109,7 @@ export default function ItemTypeList(props: ItemTypeListProps) {
             {selectedView === "card" && (
               <ItemContainer>
                 {listOfEntries.map((entry) => (
-                  <ItemTypeEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
+                  <CatalogItemTypeEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
                 ))}
               </ItemContainer>
             )}
