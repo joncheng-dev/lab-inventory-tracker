@@ -94,7 +94,6 @@ export default function CatalogItemTypeEntry(props: CatalogItemTypeEntryProps) {
   const StyledCard = styledM(Card)(({ theme }) => ({
     display: "flex",
     flexFlow: "flex-grow",
-    // flex: "1 2 auto",
     maxHeight: "200px",
     width: "100%",
     maxWidth: "100%",

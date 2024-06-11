@@ -27,9 +27,7 @@ const PopoverCustom = (props: PopoverCustomProps) => {
   const id = open ? "custom-popover" : undefined;
 
   const handleMoreVertClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    // Stop propagation to prevent parent onClick from triggering
     event.stopPropagation();
-    // Open the popover
     handleClick(event);
   };
 
