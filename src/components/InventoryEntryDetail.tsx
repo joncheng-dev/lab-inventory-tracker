@@ -403,7 +403,7 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
               <Typography variant="h5">Categories</Typography>
               <Divider />
               <Stack direction="row" sx={{ flexWrap: "wrap" }} spacing={1}>
-                {!tags && <p>No tags to display</p>}
+                {!tags && <Typography variant="body1">No tags to display</Typography>}
                 {tags && tags.map((tag, index) => <Chip key={index} icon={<SellIcon />} label={tag} size="medium" variant="outlined" />)}
               </Stack>
             </Grid>
