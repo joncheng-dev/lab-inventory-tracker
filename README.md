@@ -14,7 +14,6 @@
 - _Vite_
 - _Firebase / Firestore_
 - _Materials UI_
-- _Bootstrap_
 - _Node.js v18.17.1_
 - _NPM v9.6.7_
 
