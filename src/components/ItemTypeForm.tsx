@@ -42,7 +42,7 @@ type FormProps = {
   onFormSubmit: (data: ItemType) => Promise<void>;
 };
 
-const imageTooltipText = `Select an image to associate with this item type.`;
+const imageTooltipText = `Select an image to represent this item type.`;
 
 export default function ItemTypeForm(props: FormProps) {
   const theme = useTheme();
