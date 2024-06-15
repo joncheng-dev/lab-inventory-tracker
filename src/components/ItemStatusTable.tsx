@@ -1,4 +1,4 @@
-import { Button, FormControl, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Paper } from "@mui/material";
+import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import { CheckedOutBySummary } from "../types/index";
 
 type ItemStatusTableProps = {

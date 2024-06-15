@@ -91,7 +91,6 @@ _3. Clone the repository from the GitHub link by entering in this command:_
 
 ## Known Bugs
 
-- _It is currently possible to have empty input fields when submitting a form -- both new entry or edit entry._
 - _If you happen upon any, please report your find with a descriptive message to joncheng.dev@gmail.com_
 
 ## License
