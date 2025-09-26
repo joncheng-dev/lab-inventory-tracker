@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "deploykkfs": "vite build --mode kkfs && node ./node_modules/firebase-tools/lib/bin/firebase.js deploy --only hosting:kkfs"
+    "deploykkfs": "vite build --mode kkfs && firebase deploy --only hosting:kkfs"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^0.38.0",
