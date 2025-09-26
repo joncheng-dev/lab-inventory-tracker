@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { sharedInfo } from "../helpers/UserContext";
 import SellIcon from "@mui/icons-material/Sell";
-import { Box, Button, Card, CardContent, Chip, Divider, Grid, Paper, Snackbar, SnackbarContent, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Button, Chip, Divider, Grid, Snackbar, SnackbarContent, Stack, Typography, useTheme } from "@mui/material";
 import styled from "styled-components";
 import { styled as styledM } from "@mui/material/styles";
 import { ColorModeContext, tokens } from "../themes.tsx";
@@ -169,10 +169,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
     image,
   } = entry;
 
-  // console.log("InventoryEntryDetail, currentUser.userEmail: ", currentUser?.userEmail);
-
-  // console.log("InventoryEntryDetail, itemList: ", itemList);
-  // console.log("InventoryEntryDetail, type: ", type);
   useEffect(() => {
     const itemCounter = () => {
       const count = itemList.filter((item) => item.type === type).length;
@@ -218,7 +214,6 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
       checkedOutBy,
       quantity,
     }));
-    // console.log("InventoryEntryDetail, currentlyCheckedOutItems, summary: ", summary);
     setCheckedOutBySummary(summary);
   };
 
@@ -325,11 +320,11 @@ export default function ItemTypeEntryDetail(props: ItemTypeEntryDetailProps) {
         color: `${theme.palette.warning.main}`,
       });
       // This is fine now. No need to modify further.
-      console.log("Cannot delete all, checkedOutCount > 0, Count is: ", checkedOutCount);
+      // console.log("Cannot delete all, checkedOutCount > 0, Count is: ", checkedOutCount);
     }
     //    If === 0 checked out, allow deletion, show message success
     if (checkedOutCount === 0) {
-      console.log("Delete all possible, checkedOutCount === 0, Count is: ", checkedOutCount);
+      // console.log("Delete all possible, checkedOutCount === 0, Count is: ", checkedOutCount);
       // setSelectedEntry(null);
       const toBeDeleted = itemList.filter((item) => item.type === entry?.type).map((item) => item.id);
       await deleteMultipleDocs("items", toBeDeleted as string[]);

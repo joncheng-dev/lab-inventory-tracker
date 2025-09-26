@@ -36,12 +36,12 @@ export const UserProvider = ({ children }: any) => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      console.log("Google Sign-In success: ", user);
+      // console.log("Google Sign-In success: ", user);
       // use this info to check in user collection. does user doc 'uid' exist?
       const userRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(userRef);
       if (docSnap.exists()) {
-        console.log("User document exists: ", docSnap.data());
+        // console.log("User document exists: ", docSnap.data());
         const relevantUserInfo: UserInfo = {
           email: user.email,
           isAdmin: docSnap.data().isAdmin,
@@ -57,7 +57,7 @@ export const UserProvider = ({ children }: any) => {
           isAdmin: true,
         };
         setCurrentUser(newUser);
-        console.log("New user document created.");
+        // console.log("New user document created.");
       }
     } catch (error) {
       console.log("Google Sign-In error: ", error);
@@ -68,12 +68,12 @@ export const UserProvider = ({ children }: any) => {
     // console.log("1a. SignIn, handleSignIn started, props: ", props);
     signInWithEmailAndPassword(auth, email, password)
       .then(async (userCredential: UserCredential) => {
-        console.log("User credential: ", userCredential);
-        console.log("signInWithEmailAndPassword, userCredential.user.email: ", userCredential.user.email);
+        // console.log("User credential: ", userCredential);
+        // console.log("signInWithEmailAndPassword, userCredential.user.email: ", userCredential.user.email);
         const userRef = doc(db, "users", userCredential.user.uid);
         const docSnap = await getDoc(userRef);
         if (docSnap.exists()) {
-          console.log("signIn, docSnap.data()", docSnap.data());
+          // console.log("signIn, docSnap.data()", docSnap.data());
           const relevantUserInfo: UserInfo = {
             email: docSnap.data().email,
             isAdmin: docSnap.data().isAdmin,
@@ -91,7 +91,7 @@ export const UserProvider = ({ children }: any) => {
       await signOut(auth);
       setCurrentUser(null);
     } catch (error) {
-      console.log("Unable to log out current user.");
+      // console.log("Unable to log out current user.");
     }
   };
 

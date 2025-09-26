@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Paper, Typography, useTheme } from "@mui/material/";
+import { Box, Paper, useTheme } from "@mui/material/";
 import {
   equipment1,
   equipment2,

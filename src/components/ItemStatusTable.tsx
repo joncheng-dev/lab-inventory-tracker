@@ -8,7 +8,7 @@ type ItemStatusTableProps = {
 export default function ItemStatusTable(props: ItemStatusTableProps) {
   const { summary } = props;
 
-  console.log("ItemStatusTable, summary: ", summary);
+  // console.log("ItemStatusTable, summary: ", summary);
 
   return (
     <Grid container pt={1}>

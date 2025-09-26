@@ -1,7 +1,6 @@
 import React, { useState, ReactNode } from "react";
 import Popover from "@mui/material/Popover";
 import { useTheme } from "@mui/material";
-import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 
 interface PopoverCustomProps {

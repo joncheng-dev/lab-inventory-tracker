@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Button, Modal, Typography, useTheme } from "@mui/material";
+import { Box, Button, Modal, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const ChildModalStyle = {

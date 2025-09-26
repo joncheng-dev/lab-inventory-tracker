@@ -1,14 +1,12 @@
 import { useState, useContext } from "react";
 import { Item, ItemType } from "../types";
-import { AppBar, Box, Chip, Grid, IconButton, InputBase, Stack, Toolbar, useMediaQuery, useTheme } from "@mui/material";
+import { AppBar, Box, Chip, IconButton, InputBase, Stack, Toolbar, useMediaQuery, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from "../themes.tsx";
-import { styled, alpha } from "@mui/material/styles";
-import { DarkModeOutlined, LightModeOutlined, MoreVert, Search } from "@mui/icons-material/";
-import { doSignOut } from "../hooks/authUtil.tsx";
+import { styled } from "@mui/material/styles";
+import { DarkModeOutlined, LightModeOutlined, Search } from "@mui/icons-material/";
 import { useNavigate } from "react-router-dom";
 import { sharedInfo } from "../helpers/UserContext";
 import LeftNav from "./LeftNav.tsx";
-import { StyledIconButton } from "../style/styles.tsx";
 import RightNav from "./RightNav.tsx";
 
 interface HeaderProps {

@@ -108,7 +108,7 @@ export default function ItemTypeForm(props: FormProps) {
   };
 
   const handleSubmit = (values: ItemType) => {
-    console.log("handleSubmit, values: ", values);
+    // console.log("handleSubmit, values: ", values);
     values.image = selectedImage || "";
     onFormSubmit(values);
   };

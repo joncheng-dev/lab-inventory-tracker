@@ -24,7 +24,7 @@ function useLocalStorage({ key, objectToStore }: useLocalStorageProps) {
     }
   }, [key, objectToStore]);
 
-  console.log("useLocalStorage, localState: ", localState);
+  // console.log("useLocalStorage, localState: ", localState);
   return localState;
 }
 

@@ -1,7 +1,6 @@
 import { useField, FieldInputProps } from "formik";
 import "../../style/styles-custom.css";
 import styled from "styled-components";
-import { TextField } from "@mui/material";
 
 const StyledLabel = styled.label`
   margin-top: 1rem;
@@ -35,13 +34,6 @@ const TextInput = ({ label, ...props }: TextInputType) => {
   const [field, meta] = useField(props);
   return (
     <>
-      {/* <TextField
-        fullWidth
-        variant="filled"
-        type={props.type}
-        label={label}
-        value={} */}
-
       <label htmlFor={props.name}>{label}</label>
       <input className="text-input" {...field} {...props} />
       {meta.touched && meta.error ? <div className="error">{meta.error}</div> : null}

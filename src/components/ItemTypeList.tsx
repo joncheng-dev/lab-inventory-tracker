@@ -1,7 +1,5 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { styled as styledMui } from "@mui/material/styles";
-import ItemTypeEntry from "./ItemTypeEntry";
 import CatalogItemTypeEntry from "./CatalogItemTypeEntry.tsx";
 import { ItemType } from "../types";
 import { Box, Button, Grid, Tooltip, Typography, useTheme } from "@mui/material";
@@ -10,7 +8,6 @@ import DataTable from "./DataTable";
 import { tokens } from "../themes";
 import { ViewSelectorButtons } from "./Buttons.tsx";
 
-//#region styles
 const StyledTextContainer = styled.div`
   width: 100%;
   display: flex;
@@ -43,13 +40,8 @@ const ResponsiveDataGridContainer = styled("div")`
 
   .MuiDataGrid-root {
     width: 100%;
-    /* .MuiDataGrid-colCell {
-
-    } */
   }
 `;
-
-//#endregion styles
 
 type ItemTypeListProps = {
   listOfEntries: ItemType[];

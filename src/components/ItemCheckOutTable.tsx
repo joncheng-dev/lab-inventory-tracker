@@ -11,7 +11,6 @@ function createData(name: string, quantity: number) {
 type ItemCheckOutTableProps = {
   quantAvail: number;
   quantTotal: number;
-  // onFormSubmit: (data: CheckOutFormInput) => Promise<void>;
   onFormSubmit: (data: CheckOutFormInput) => void;
 };
 

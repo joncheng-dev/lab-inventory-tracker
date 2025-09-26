@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { styled } from "@mui/material/styles";
-import { Box, Button, Drawer, Tooltip, useMediaQuery, useTheme } from "@mui/material/";
+import { Box, Drawer, Tooltip, useMediaQuery, useTheme } from "@mui/material/";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import { sharedInfo } from "../helpers/UserContext.tsx";
@@ -13,8 +13,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import { StyledIconButton } from "../style/styles.tsx";
 import CategoryPanel from "./CategoryPanel.tsx";
 import { useFilterList } from "../helpers/SearchAndFilter.tsx";

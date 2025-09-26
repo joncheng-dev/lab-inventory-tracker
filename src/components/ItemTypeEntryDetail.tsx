@@ -1,11 +1,9 @@
-import { useContext } from "react";
 import SellIcon from "@mui/icons-material/Sell";
-import { Box, Button, Card, CardContent, Chip, Divider, Grid, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Button, Chip, Divider, Grid, Stack, Typography, useTheme } from "@mui/material";
 import styled from "styled-components";
 import { ColorModeContext, tokens } from "../themes.tsx";
 import { ItemType } from "../types/index.js";
 import ChildModal from "./ChildModal.js";
-import BasicTable from "./ItemCheckOutTable.js";
 import {
   equipment1,
   equipment2,
@@ -27,24 +25,13 @@ import {
 
 //#region styles
 const EntryDetailContainer = styled.div`
-  /* padding-left: 50px; */
   background-color: #282828;
-  /* padding-top: 25px; */
 `;
 
 const DetailsImageContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
-
-// const DetailsContainer = styled.div`
-//   float: left;
-//   width: 100%;
-//   display: grid;
-//   grid-template-columns: auto auto;
-//   column-gap: 1rem;
-//   row-gap: 0.25rem;
-// `;
 
 const DetailsContainer = styled.div`
   width: 100%;
@@ -70,7 +57,6 @@ const StyledItemValue = styled.p`
 const AvailabilityContainer = styled.div`
   width: 95%;
   display: grid;
-  /* grid-template-columns: auto auto; */
   column-gap: 1rem;
   row-gap: 0.25rem;
 `;
@@ -81,19 +67,6 @@ const StyledInfoItem = styled.div`
   font-size: 1rem;
   text-align: left;
 `;
-
-// const StyledItemHeader = styled.p`
-//   font-size: 1rem;
-//   color: rgb(83, 167, 235);
-//   text-transform: uppercase;
-//   font-weight: bold;
-//   margin-bottom: 0;
-// `;
-
-// const StyledItemValue = styled.p`
-//   font-size: 1rem;
-//   color: #ffffff;
-// `;
 
 const StyledStack = styled(Stack)`
   display: block;

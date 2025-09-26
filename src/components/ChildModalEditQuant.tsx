@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Button, Grid, Modal, TextField, Tooltip, Typography, useTheme } from "@mui/material";
+import { Box, Button, Modal, TextField, Tooltip, Typography, useTheme } from "@mui/material";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { InfoOutlined } from "@mui/icons-material";
 import { EditQuantityForm } from "../types";
@@ -12,7 +12,6 @@ const ChildModalStyle = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  // border: "2px solid #000",
   boxShadow: 24,
   pt: 2,
   px: 4,

@@ -1,4 +1,4 @@
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 // Firebase / Firestore
 import { sharedInfo } from "../helpers/UserContext";
 // Components & Style

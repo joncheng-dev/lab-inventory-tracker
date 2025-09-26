@@ -1,6 +1,6 @@
 import { styled as styledM } from "@mui/material/styles";
 import { tokens } from "../themes.tsx";
-import styled, { ThemeProvider } from "styled-components";
+import { ThemeProvider } from "styled-components";
 import { Box, Card, CardMedia, Chip, Grid, IconButton, Stack, useTheme } from "@mui/material";
 import MenuLong from "./MenuLong";
 import MoreVert from "@mui/icons-material/MoreVert";
@@ -48,24 +48,6 @@ const imageDictionary: Record<string, string> = {
   tools2,
   tools3,
 };
-
-// const StyledItemHeader = styled.p`
-//   font-size: 1rem;
-//   text-transform: uppercase;
-//   font-weight: bold;
-//   margin-top: 0;
-//   margin-bottom: 0;
-// `;
-
-// const StyledItemValue = styled.p`
-//   font-size: 1rem;
-//   /* color: ${(props) => (props.theme.palette.mode === "dark" ? "#fff" : "#141b2d")}; */
-//   color: ${(props) => (props.theme.palette.mode === "dark" ? "#fff" : "#59554C")};
-//   margin-top: 0; /* Add margin to the top of each value for spacing */
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-//   white-space: ${(props) => (props.theme.width <= 2 * props.theme.lineHeight ? "normal" : "nowrap")};
-// `;
 
 const StyledItemHeader = styledM("p")(({ theme }) => ({
   fontSize: "1rem",

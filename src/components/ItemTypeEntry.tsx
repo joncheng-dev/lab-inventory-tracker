@@ -6,15 +6,11 @@ import {
   CardMedia,
   Chip,
   IconButton,
-  Menu,
-  MenuItem,
   Stack,
-  Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import PopoverCustom from "./PopoverCustom";
 import MenuLong from "./MenuLong";
 import MoreVert from "@mui/icons-material/MoreVert";
 import SellIcon from "@mui/icons-material/Sell";
@@ -38,7 +34,6 @@ import {
   tools2,
   tools3,
 } from "../images";
-import { maxWidth } from "@mui/system";
 
 //#region styles
 const StyledCard = styled(Card)(({ theme }) => ({
@@ -76,18 +71,10 @@ const StyledImgBox = styled(Box)(({ theme }) => ({
 }));
 
 const StyledTextBox = styled(Box)(({ theme }) => ({
-  // [theme.breakpoints.up("md")]: {
-  //   paddingBottom: 16,
-  // },
   [theme.breakpoints.down("md")]: {
     width: "60%",
     height: "100%",
-    // marginBottom: theme.spacing(1), // Default margin for small screens
   },
-  // [theme.breakpoints.down("md")]: {
-  //   width: "60%",
-  //   height: "100%",
-  // },
 }));
 
 //#endregion
@@ -202,11 +189,6 @@ function ItemTypeEntry(props: ItemTypeEntryProps) {
               </div>
             )}
           </Stack>
-
-          {/* <Stack direction="row" sx={{ flexWrap: "wrap" }} spacing={1}>
-            {!tags && <p>No tags to display</p>}
-            {tags && tags.map((tag, index) => <Chip key={index} icon={<SellIcon />} label={tag} size="small" variant="outlined" />)}
-          </Stack> */}
         </CardContent>
       </StyledTextBox>
     </StyledCard>

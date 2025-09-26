@@ -1,6 +1,5 @@
-import { useContext } from "react";
 import { styled } from "@mui/material/styles";
-import { ColorModeContext, tokens } from "../themes";
+import { tokens } from "../themes";
 import { Checkbox, Divider, FormControlLabel, Typography, useTheme } from "@mui/material";
 
 const CategoryPanelContainer = styled("div")(({ theme }) => ({

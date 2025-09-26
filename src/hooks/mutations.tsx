@@ -4,7 +4,7 @@ import { collection, addDoc, deleteDoc, doc, getDoc, getFirestore, serverTimesta
 
 export const addNewDoc = async (collectionName: string, entry: Item | ItemType) => {
   await addDoc(collection(db, collectionName), entry);
-  console.log("mutations, addNewDoc, entry: ", entry);
+  // console.log("mutations, addNewDoc, entry: ", entry);
 };
 
 export const addMultipleDocs = async (collectionName: string, data: AddItemsForm) => {
@@ -44,7 +44,7 @@ export const deleteMultipleDocs = async (collectionName: string, docIdsToDelete:
 
   try {
     await batch.commit();
-    console.log("Batch delete successful");
+    // console.log("Batch delete successful");
   } catch (error) {
     console.error("Error deleting documents: ", error);
     throw error;

@@ -4,13 +4,11 @@ import DataTable from "./DataTable";
 import { Item, ItemType } from "../types";
 // import styled from "styled-components";
 import styled from "styled-components";
-import { styled as styledMui } from "@mui/material/styles";
 import { Box, Button, Grid, Tooltip, Typography, useTheme } from "@mui/material";
 import { Add, InfoOutlined } from "@mui/icons-material";
 import { tokens } from "../themes";
 import { sharedInfo } from "../helpers/UserContext.tsx";
 import { itemEntriesToDisplay } from "../helpers/SearchAndFilter.tsx";
-import { fontSize } from "@mui/system";
 import { ViewSelectorButtons } from "./Buttons.tsx";
 
 //#region styles
@@ -46,9 +44,6 @@ const ResponsiveDataGridContainer = styled("div")`
 
   .MuiDataGrid-root {
     width: 100%;
-    /* .MuiDataGrid-colCell {
-
-    } */
   }
 `;
 
