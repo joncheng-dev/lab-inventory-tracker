@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { sharedInfo } from "../helpers/UserContext.tsx";
 import { tokens } from "../themes.tsx";
+import Stack from '@mui/material/Stack';
 import { useTheme } from "@mui/material";
 import { Box, Button, Divider, Grid, Paper, TextField, Typography, useMediaQuery } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
@@ -79,118 +80,145 @@ export default function SignIn() {
     );
   };
 
-  return (
-    <>
-      {deploymentType === "kkfs" ? (
-        <Box display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
-          <LoginPaper>
-            <Grid
-              container
-              justifyContent="center"
-              alignItems="center"
-              spacing={2}
-              style={{
-                height: "50vh",
-                width: "30vw",
-              }}
-            >
-              <Grid item xs={12}>
-                <Typography variant="h2" mb={10}>
-                  Welcome to KKFS Lab Manager
-                </Typography>
-                <Typography variant="h5" mb={7}>
-                  Sign in to continue.
-                </Typography>
-                <Button type="submit" fullWidth color="primary" variant="contained" onClick={handleGoogleSignIn} startIcon={<GoogleIcon />}>
-                  Sign In with Google
-                </Button>
-              </Grid>
-            </Grid>
-          </LoginPaper>
-        </Box>
-      ) : (
-        <Box display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
-          <Grid container item xs={10} md={6} lg={5} xl={3.5} justifyContent="center">
-            <LoginPaper>
-              <Formik
-                initialValues={{
-                  email: "",
-                  password: "",
-                }}
-                // prettier-ignore
-                validationSchema={yup.object({
-                email: yup.string()
-                  .email("Invalid email address")
-                  .required("Required"),
-                password: yup.string()
-                  .min(6, "Must be more than 6 characters")
-                  .required("Required"),
-              })}
-                onSubmit={(values) => {
-                  handleSignIn(values);
+  function KkfsDeploymentSignin() {
+    return (
+      <Box display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
+        <LoginPaper>
+          <Box
+            sx={{
+              px: { xs: 4, sm: 6, md: 8 },
+              py: { xs: 4, sm: 6, md: 8, lg: 10 },
+              textAlign: 'center'
+            }}
+          >
+            <Stack spacing={{ xs: 2, sm: 3, md: 4 }} alignItems="center">
+              <Typography
+                variant="h4"
+                component="h1"
+                sx={{
+                  fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' },
+                  fontWeight: 500
                 }}
               >
-                {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
-                  <form onSubmit={handleSubmit}>
-                    <Grid item display="flex" justifyContent="center" pt={3}>
-                      <Typography variant="h4">Log In</Typography>
+                Welcome to KKFS Lab Manager
+              </Typography>
+
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                sx={{
+                  fontSize: { xs: '0.875rem', sm: '1rem', md: '1.125rem' }
+                }}
+              >
+                Sign in to continue.
+              </Typography>
+
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                onClick={handleGoogleSignIn}
+                startIcon={<GoogleIcon />}
+                sx={{ width: '100%', maxWidth: '400px' }}
+              >
+                Sign In with Google
+              </Button>
+            </Stack>
+          </Box>
+        </LoginPaper>
+      </Box>
+    );
+  }
+
+  function StandardSignin() {
+    return (
+      <Box display="flex" alignItems="center" justifyContent="center" minHeight="100vh">
+        <Grid container item xs={10} md={6} lg={5} xl={3.5} justifyContent="center">
+          <LoginPaper>
+            <Formik
+              initialValues={{
+                email: "",
+                password: "",
+              }}
+              // prettier-ignore
+              validationSchema={yup.object({
+              email: yup.string()
+                .email("Invalid email address")
+                .required("Required"),
+              password: yup.string()
+                .min(6, "Must be more than 6 characters")
+                .required("Required"),
+            })}
+              onSubmit={(values) => {
+                handleSignIn(values);
+              }}
+            >
+              {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+                <form onSubmit={handleSubmit}>
+                  <Grid item display="flex" justifyContent="center" pt={3}>
+                    <Typography variant="h4">Log In</Typography>
+                  </Grid>
+                  <Grid container item p={2} pt={0.5} mt={2} mb={2}>
+                    <Grid item xs={12} p={2}>
+                      <TextField
+                        fullWidth
+                        variant="outlined"
+                        type="text"
+                        label="Username"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.email}
+                        name="email"
+                        error={!!touched.email && !!errors.email}
+                        helperText={touched.email && errors.email}
+                      />
                     </Grid>
-                    <Grid container item p={2} pt={0.5} mt={2} mb={2}>
-                      <Grid item xs={12} p={2}>
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          type="text"
-                          label="Username"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.email}
-                          name="email"
-                          error={!!touched.email && !!errors.email}
-                          helperText={touched.email && errors.email}
-                        />
+                    <Grid item xs={12} p={2} pb={1.5}>
+                      <TextField
+                        fullWidth
+                        variant="outlined"
+                        type="text"
+                        label="Password"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.password}
+                        name="password"
+                        error={!!touched.password && !!errors.password}
+                        helperText={touched.password && errors.password}
+                      />
+                    </Grid>
+                    <Grid container item xs={12} p={2} pt={3}>
+                      <Button type="submit" color="primary" fullWidth size="large" variant="contained">
+                        Log In
+                      </Button>
+                      <Grid item xs={12} pt={4} pb={2}>
+                        <Divider sx={{ height: "2px", width: "100%", marginRight: "16px" }} />
                       </Grid>
-                      <Grid item xs={12} p={2} pb={1.5}>
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          type="text"
-                          label="Password"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          value={values.password}
-                          name="password"
-                          error={!!touched.password && !!errors.password}
-                          helperText={touched.password && errors.password}
-                        />
+                      <Grid item xs={12} p={2} display="flex" justifyContent="center">
+                        <Typography variant="h6">DEMO ACCOUNTS</Typography>
                       </Grid>
-                      <Grid container item xs={12} p={2} pt={3}>
-                        <Button type="submit" color="primary" fullWidth size="large" variant="contained">
-                          Log In
-                        </Button>
-                        <Grid item xs={12} pt={4} pb={2}>
-                          <Divider sx={{ height: "2px", width: "100%", marginRight: "16px" }} />
+                      <Grid container item xs={12} spacing={2}>
+                        <Grid item xs={6} md={6} justifyContent="center" p={0.5}>
+                          <TesterLoginButton email="testing@123.com" acctType="admin" password="testing123" />
                         </Grid>
-                        <Grid item xs={12} p={2} display="flex" justifyContent="center">
-                          <Typography variant="h6">DEMO ACCOUNTS</Typography>
-                        </Grid>
-                        <Grid container item xs={12} spacing={2}>
-                          <Grid item xs={6} md={6} justifyContent="center" p={0.5}>
-                            <TesterLoginButton email="testing@123.com" acctType="admin" password="testing123" />
-                          </Grid>
-                          <Grid item xs={6} md={6} justifyContent="center" p={0.5}>
-                            <TesterLoginButton email="testing@456.com" acctType="standard" password="testing456" />
-                          </Grid>
+                        <Grid item xs={6} md={6} justifyContent="center" p={0.5}>
+                          <TesterLoginButton email="testing@456.com" acctType="standard" password="testing456" />
                         </Grid>
                       </Grid>
                     </Grid>
-                  </form>
-                )}
-              </Formik>
-            </LoginPaper>
-          </Grid>
-        </Box>
-      )}
+                  </Grid>
+                </form>
+              )}
+            </Formik>
+          </LoginPaper>
+        </Grid>
+      </Box>
+    );
+  }
+
+  return (
+    <>
+      {deploymentType === "kkfs" ? <KkfsDeploymentSignin /> : <StandardSignin />}
     </>
   );
 }
