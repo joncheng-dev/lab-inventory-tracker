@@ -10,6 +10,8 @@ import { tokens } from "../themes";
 import { sharedInfo } from "../helpers/UserContext.tsx";
 import { itemEntriesToDisplay } from "../helpers/SearchAndFilter.tsx";
 import { ViewSelectorButtons } from "./Buttons.tsx";
+import { usePreferences } from "../helpers/PreferencesContext.tsx";
+import { saveViewPreference } from "../helpers/helpers";
 
 //#region styles
 const StyledTextContainer = styled.div`
@@ -61,17 +63,28 @@ const inventoryTooltipText = `A collection of all items registered to the labora
 export default function ItemList(props: ItemListProps) {
   const { itemList, listOfItemTypes, onEntryClick, onClickingAddEntry } = props;
   const userProvider = sharedInfo();
+  if (!userProvider) {
+    return null;  
+  }
+  const { currentUser } = userProvider;
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [selectedView, setSelectedView] = useState<"card" | "table">("card");
+  const { viewMode, setViewMode } = usePreferences();
   const itemsToRender = itemEntriesToDisplay(itemList, listOfItemTypes);
 
-  const activateCardView = () => {
-    setSelectedView("card");
+  const activateCardView = async () => {
+    setViewMode("card");
+    if (currentUser?.uid) {
+      saveViewPreference(currentUser?.uid, "card");
+    }
   };
 
-  const activateTableView = () => {
-    setSelectedView("table");
+  
+  const activateTableView = async () => {
+    setViewMode("table");
+    if (currentUser?.uid) {
+      saveViewPreference(currentUser?.uid, "table");
+    }
   };
 
   return (
@@ -109,14 +122,14 @@ export default function ItemList(props: ItemListProps) {
       <ListContainer>
         <Grid container>
           <Grid item xs={12}>
-            {selectedView === "card" && (
+            {viewMode === "card" && (
               <ItemContainer>
                 {itemsToRender.map((entry) => (
                   <ItemTypeEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
                 ))}
               </ItemContainer>
             )}
-            {selectedView === "table" && (
+            {viewMode === "table" && (
               <ResponsiveDataGridContainer>
                 <DataTable data={itemsToRender} onEntryClick={onEntryClick} />
               </ResponsiveDataGridContainer>

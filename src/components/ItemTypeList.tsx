@@ -7,6 +7,9 @@ import { Add, InfoOutlined } from "@mui/icons-material";
 import DataTable from "./DataTable";
 import { tokens } from "../themes";
 import { ViewSelectorButtons } from "./Buttons.tsx";
+import { sharedInfo } from "../helpers/UserContext.tsx";
+import { usePreferences } from "../helpers/PreferencesContext.tsx";
+import { saveViewPreference } from "../helpers/helpers";
 
 const StyledTextContainer = styled.div`
   width: 100%;
@@ -53,16 +56,28 @@ const catalogTooltipText = `A list of item types or item templates. These entrie
 
 export default function ItemTypeList(props: ItemTypeListProps) {
   const { listOfEntries, onEntryClick, onClickingAddEntry } = props;
+  const userProvider = sharedInfo();
+    if (!userProvider) {
+    return null;  
+  }
+  const { currentUser } = userProvider;
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [selectedView, setSelectedView] = useState<"card" | "table">("card");
+  const { viewMode, setViewMode } = usePreferences();
 
-  const activateCardView = () => {
-    setSelectedView("card");
+  const activateCardView = async () => {
+    setViewMode("card");
+    if (currentUser?.uid) {
+      saveViewPreference(currentUser?.uid, "card");
+    }
   };
 
-  const activateTableView = () => {
-    setSelectedView("table");
+  
+  const activateTableView = async () => {
+    setViewMode("table");
+    if (currentUser?.uid) {
+      saveViewPreference(currentUser?.uid, "table");
+    }
   };
 
   return (
@@ -98,14 +113,14 @@ export default function ItemTypeList(props: ItemTypeListProps) {
       <ListContainer>
         <Grid container>
           <Grid item xs={12}>
-            {selectedView === "card" && (
+            {viewMode === "card" && (
               <ItemContainer>
                 {listOfEntries.map((entry) => (
                   <CatalogItemTypeEntry entry={entry} onEntryClick={onEntryClick} key={entry.id} />
                 ))}
               </ItemContainer>
             )}
-            {selectedView === "table" && (
+            {viewMode === "table" && (
               <ResponsiveDataGridContainer>
                 <DataTable data={listOfEntries} onEntryClick={onEntryClick} />
               </ResponsiveDataGridContainer>
