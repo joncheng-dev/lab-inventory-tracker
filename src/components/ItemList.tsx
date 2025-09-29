@@ -72,6 +72,10 @@ export default function ItemList(props: ItemListProps) {
   const { viewMode, setViewMode } = usePreferences();
   const itemsToRender = itemEntriesToDisplay(itemList, listOfItemTypes);
 
+  if (viewMode === null) {
+    return null;
+  }
+
   const activateCardView = async () => {
     setViewMode("card");
     if (currentUser?.uid) {
